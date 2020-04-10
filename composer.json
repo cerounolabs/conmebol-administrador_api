@@ -1,0 +1,14 @@
+{
+	"require": {
+		"slim/slim": "^3.0",
+		"monolog/monolog": "^1.21",
+		"slim/php-view": "^2.2",
+		"tuupola/slim-basic-auth": "^3.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"App\\": "src"
+		}
+	}
+
+}
