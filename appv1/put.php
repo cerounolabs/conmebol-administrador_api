@@ -16,7 +16,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00)) {
-            $sql00  = "UPDATE [CSF_PERMISOS].[adm].[DOMSOL] SET DOMSOLEST = ?, DOMSOLORD = ?, DOMSOLDIC = ?, DOMSOLDIO = ?, DOMSOLDIU = ?, DOMSOLADJ = ?, DOMSOLOBS = ?, DOMSOLUSU = ?, DOMSOLAFEC = GETDATE(), DOMSOLDIP = ? WHERE DOMSOLCOD = ?";
+            $sql00  = "UPDATE [CSF_PERMISOS].[adm].[DOMSOL] SET DOMSOLEST = ?, DOMSOLORD = ?, DOMSOLDIC = ?, DOMSOLDIO = ?, DOMSOLDIU = ?, DOMSOLADJ = ?, DOMSOLOBS = ?, DOMSOLUSU = ?, DOMSOLFEC = GETDATE(), DOMSOLDIP = ? WHERE DOMSOLCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
