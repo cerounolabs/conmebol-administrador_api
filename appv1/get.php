@@ -283,28 +283,28 @@
             a.SOLFICCOD         AS          solicitud_codigo,
             a.SOLFICEST         AS          solicitud_estado_codigo,
             a.SOLFICDOC         AS          solicitud_documento,
-            a.SOLFICFE1         AS          solicitud_fecha_desde,
-            a.SOLFICFE2         AS          solicitud_fecha_hasta,
-            a.SOLFICFEC         AS          solicitud_fecha_cantidad,
+            a.SOLFICFH1         AS          solicitud_fecha_desde,
+            a.SOLFICFH2         AS          solicitud_fecha_hasta,
+            a.SOLFICFHC         AS          solicitud_fecha_cantidad,
             a.SOLFICHO1         AS          solicitud_hora_desde,
             a.SOLFICHO2         AS          solicitud_hora_hasta,
             a.SOLFICHOC         AS          solicitud_hora_cantidad,
             a.SOLFICADJ         AS          solicitud_adjunto,
-            a.SOLFICOB1         AS          solicitud_observacion_colaborador,
-            a.SOLFICOB2         AS          solicitud_observacion_aprobador,
-            a.SOLFICOB3         AS          solicitud_observacion_talento,
             a.SOLFICUSC         AS          solicitud_usuario_colaborador,
-            a.SOLFICFHC         AS          solicitud_fecha_hora_colaborador,
-            a.SOLFICIPC         AS          solicitud_ip_colaborador,         
-            a.SOLFICUSA         AS          solicitud_usuario_aprobador,
-            a.SOLFICFHA         AS          solicitud_fecha_hora_aprobador,
-            a.SOLFICIPA         AS          solicitud_ip_aprobador,
+            a.SOLFICFCC         AS          solicitud_fecha_hora_colaborador,
+            a.SOLFICIPC         AS          solicitud_ip_colaborador, 
+            a.SOLFICOBC         AS          solicitud_observacion_colaborador,
+            a.SOLFICUSS         AS          solicitud_usuario_superior,
+            a.SOLFICFCS         AS          solicitud_fecha_hora_superior,
+            a.SOLFICIPS         AS          solicitud_ip_superior,
+            a.SOLFICOBS         AS          solicitud_observacion_superior,
             a.SOLFICUST         AS          solicitud_usuario_talento,
-            a.SOLFICFHT         AS          solicitud_fecha_hora_talento,
+            a.SOLFICFCT         AS          solicitud_fecha_hora_talento,
             a.SOLFICIPT         AS          solicitud_ip_talento,
-            a.SOLFICAUS         AS          auditoria_usuario,
-            a.SOLFICAFH         AS          auditoria_fecha_hora,
-            a.SOLFICAIP         AS          auditoria_ip,
+            a.SOLFICOBT         AS          solicitud_observacion_talento,
+            a.SOLFICUSU         AS          auditoria_usuario,
+            a.SOLFICFEC         AS          auditoria_fecha_hora,
+            a.SOLFICDIP         AS          auditoria_ip,
 
             b.DOMSOLCOD         AS          tipo_permiso_codigo,
             b.DOMSOLEST         AS          tipo_estado_codigo,
@@ -319,7 +319,7 @@
             b.DOMSOLADJ         AS          tipo_archivo_adjunto,
             b.DOMSOLOBS         AS          tipo_observacion
 
-            FROM [CSF_PERMISOS].[adm].[SOLFIC] a
+            FROM [CSF_PERMISOS].[hum].[SOLFIC] a
             INNER JOIN [CSF_PERMISOS].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD";
 
         $sql03  = "SELECT
@@ -408,7 +408,7 @@
                     'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                     'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
                     'solicitud_documento'               => trim(strtoupper($rowMSSQL01['solicitud_documento'])),
-                    'solicitud_persona'                 => trim(strtoupper($rowMSSQL01['solicitud_persona'])),
+                    'solicitud_persona'                 => trim(strtoupper($solicitud_persona)),
                     'solicitud_fecha_desde_1'           => $rowMSSQL01['solicitud_fecha_desde'],
                     'solicitud_fecha_desde_2'           => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_desde'])),
                     'solicitud_fecha_hasta_1'           => $rowMSSQL01['solicitud_fecha_hasta'],
@@ -422,10 +422,10 @@
                     'solicitud_fecha_hora_colaborador'  => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_colaborador'])),
                     'solicitud_ip_colaborador'          => trim(strtoupper($rowMSSQL01['solicitud_ip_colaborador'])),
                     'solicitud_observacion_colaborador' => trim(strtoupper($rowMSSQL01['solicitud_observacion_colaborador'])),
-                    'solicitud_usuario_aprobador'       => trim(strtoupper($rowMSSQL01['solicitud_usuario_aprobador'])),
-                    'solicitud_fecha_hora_aprobador'    => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_aprobador'])),
-                    'solicitud_ip_aprobador'            => trim(strtoupper($rowMSSQL01['solicitud_ip_aprobador'])),
-                    'solicitud_observacion_aprobador'   => trim(strtoupper($rowMSSQL01['solicitud_observacion_aprobador'])),
+                    'solicitud_usuario_superior'        => trim(strtoupper($rowMSSQL01['solicitud_usuario_superior'])),
+                    'solicitud_fecha_hora_superior'     => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_superior'])),
+                    'solicitud_ip_superior'             => trim(strtoupper($rowMSSQL01['solicitud_ip_superior'])),
+                    'solicitud_observacion_superior'    => trim(strtoupper($rowMSSQL01['solicitud_observacion_superior'])),
                     'solicitud_usuario_talento'         => trim(strtoupper($rowMSSQL01['solicitud_usuario_talento'])),
                     'solicitud_fecha_hora_talento'      => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_talento'])),
                     'solicitud_ip_talento'              => trim(strtoupper($rowMSSQL01['solicitud_ip_talento'])),
@@ -462,10 +462,10 @@
                     'solicitud_fecha_hora_colaborador'  => '',
                     'solicitud_ip_colaborador'          => '',
                     'solicitud_observacion_colaborador' => '',
-                    'solicitud_usuario_aprobador'       => '',
-                    'solicitud_fecha_hora_aprobador'    => '',
-                    'solicitud_ip_aprobador'            => '',
-                    'solicitud_observacion_aprobador'   => '',
+                    'solicitud_usuario_superior'        => '',
+                    'solicitud_fecha_hora_superior'     => '',
+                    'solicitud_ip_superior'             => '',
+                    'solicitud_observacion_superior'    => '',
                     'solicitud_usuario_talento'         => '',
                     'solicitud_fecha_hora_talento'      => '',
                     'solicitud_ip_talento'              => '',
@@ -939,10 +939,11 @@
         return $json;
     });
 
-    $app->get('/v1/200/exportar/tipo/{codigo}', function($request) {
+    $app->get('/v1/200/exportar/tipo/{codigo}/{estado}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01      = $request->getAttribute('codigo');
+        $val02      = $request->getAttribute('estado');
         
         if (isset($val01)) {
             $sql00  = "SELECT
@@ -972,13 +973,13 @@
 
                 FROM [CSF_PERMISOS].[hum].[SOLAXI] a
 
-                WHERE a.SOLAXISOL = ?";
+                WHERE a.SOLAXISOL = ? AND a.SOLAXIEST = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01]);
+                $stmtMSSQL00->execute([$val01, $val02]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $detalle    = array(
