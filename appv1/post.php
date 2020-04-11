@@ -212,8 +212,8 @@
             $DOMSOLDIC  = 0;
             $DOMSOLDIO  = '';
             $DOMSOLOBS  = '';
-            $DOMSOLAUS  = $aud01;
-            $DOMSOLAIP  = $aud03;
+            $DOMSOLUSU  = $aud01;
+            $DOMSOLDIP  = $aud03;
 
             $sql00      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] a ORDER BY a.U_CODIGO";
             $sql01      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] a ORDER BY a.U_CODIGO";
@@ -236,7 +236,7 @@
                     $rowMSSQL03 = $stmtMSSQL03->fetch(PDO::FETCH_ASSOC);
 
                     if (!$rowMSSQL03) {
-                        $stmtMSSQL04->execute([$DOMSOLEST, $DOMSOLTST, $DOMSOLORD, $rowMSSQL00['tipo_codigo'], $rowMSSQL00['tipo_codigo_nombre'], $rowMSSQL00['tipo_codigo_referencia'], $DOMSOLDIC, $DOMSOLDIO, $DOMSOLOBS, $DOMSOLAUS, $DOMSOLAIP]);
+                        $stmtMSSQL04->execute([$DOMSOLEST, $DOMSOLTST, $DOMSOLORD, $rowMSSQL00['tipo_codigo'], $rowMSSQL00['tipo_codigo_nombre'], $rowMSSQL00['tipo_codigo_referencia'], $DOMSOLDIC, $DOMSOLDIO, $DOMSOLOBS, $DOMSOLUSU, $DOMSOLDIP]);
                     }
                 }
 
@@ -249,7 +249,7 @@
                     $rowMSSQL03 = $stmtMSSQL03->fetch(PDO::FETCH_ASSOC);
 
                     if (!$rowMSSQL03) {
-                        $stmtMSSQL04->execute([$DOMSOLEST, $DOMSOLTST, $DOMSOLORD, $rowMSSQL01['tipo_codigo'], $rowMSSQL01['tipo_codigo_nombre'], $rowMSSQL01['tipo_codigo_referencia'], $DOMSOLDIC, $DOMSOLDIO, $DOMSOLOBS, $DOMSOLAUS, $DOMSOLAIP]);
+                        $stmtMSSQL04->execute([$DOMSOLEST, $DOMSOLTST, $DOMSOLORD, $rowMSSQL01['tipo_codigo'], $rowMSSQL01['tipo_codigo_nombre'], $rowMSSQL01['tipo_codigo_referencia'], $DOMSOLDIC, $DOMSOLDIO, $DOMSOLOBS, $DOMSOLUSU, $DOMSOLDIP]);
                     }
                 }
 
@@ -262,7 +262,7 @@
                     $rowMSSQL03 = $stmtMSSQL03->fetch(PDO::FETCH_ASSOC);
 
                     if (!$rowMSSQL03) {
-                        $stmtMSSQL04->execute([$DOMSOLEST, $DOMSOLTST, $DOMSOLORD, $rowMSSQL02['tipo_codigo'], $rowMSSQL02['tipo_codigo_nombre'], $rowMSSQL02['tipo_codigo_referencia'], $DOMSOLDIC, $DOMSOLDIO, $DOMSOLOBS, $DOMSOLAUS, $DOMSOLAIP]);
+                        $stmtMSSQL04->execute([$DOMSOLEST, $DOMSOLTST, $DOMSOLORD, $rowMSSQL02['tipo_codigo'], $rowMSSQL02['tipo_codigo_nombre'], $rowMSSQL02['tipo_codigo_referencia'], $DOMSOLDIC, $DOMSOLDIO, $DOMSOLOBS, $DOMSOLUSU, $DOMSOLDIP]);
                     }
                 }
 
