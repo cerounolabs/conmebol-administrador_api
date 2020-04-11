@@ -297,7 +297,7 @@
         return $json;
     });
 
-    $app->post('/v1/200', function($request) {
+    $app->post('/v1/200/solicitudes', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -343,7 +343,7 @@
         return $json;
     });
 
-    $app->post('/v1/200/detalle', function($request) {
+    $app->post('/v1/200/exportar', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['solicitud_codigo'];
@@ -500,11 +500,11 @@
                     
                     $auxFech    = $SOLAXIFEH;
                     $SOLAXICAN  = 1;
+                    $SOLAXISOL  = 'I';
                     $SOLAXITIP  =  trim(strtoupper($rowMSSQL02['tipo_permiso_codigo']));
                     $SOLAXIGRU  = $connMSSQL->lastInsertId();
 
                     if (trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3'])) == 'DSM' && trim(strtoupper($rowMSSQL01['tipo_solicitud_codigo'])) == 'I') {
-                        $SOLAXISOL  = 'I';
                         $SOLAXITIP  = 'DSM';
                         $SOLAXILIN  = '';
                     }

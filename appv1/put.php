@@ -42,7 +42,7 @@
         return $json;
     });
 
-    $app->put('/v1/200/{codigo}', function($request) {
+    $app->put('/v1/200/solicitudes/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -89,7 +89,7 @@
         return $json;
     });
 
-    $app->put('/v1/200/detalle/{codigo}', function($request) {
+    $app->put('/v1/200/exportar/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -104,7 +104,7 @@
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute(['G', $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute(['E', $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
