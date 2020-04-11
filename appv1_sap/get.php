@@ -2124,7 +2124,7 @@
         $val01      = $request->getAttribute('codigo');
         
         if (isset($val01)) {
-            $sql01  = "SELECT
+            $sql00  = "SELECT
                 a.IDEmpleado                AS          codigo,
                 a.Estado                    AS          estado,
                 a.CedulaEmpleado            AS          documento,
@@ -2159,11 +2159,11 @@
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 
-                $stmtMSSQL01= $connMSSQL->prepare($sql01);
-                $stmtMSSQL01->execute([$val01]);
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
 
-                while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
-                    switch ($rowMSSQL01['tipo_sexo_codigo']) {
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    switch ($rowMSSQL00['tipo_sexo_codigo']) {
                         case 'M':
                             $tipo_sexo_nombre = 'MASCULINO';
                             break;
@@ -2173,7 +2173,7 @@
                             break;
                     }
 
-                    switch ($rowMSSQL01['estado_civil_codigo']) {
+                    switch ($rowMSSQL00['estado_civil_codigo']) {
                         case 'S':
                             $estado_civil_nombre = 'SOLTERO/A';
                             break;
@@ -2264,8 +2264,8 @@
                     $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 }
 
-                $stmtMSSQL01->closeCursor();
-                $stmtMSSQL01 = null;
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
