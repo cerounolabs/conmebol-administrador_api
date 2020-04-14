@@ -2279,3 +2279,179 @@
         
         return $json;
     });
+
+    $app->get('/v1/000/marcacion', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+        a.CODE                  AS          marcacion_codigo,
+        a.NAME                  AS          marcacion_codigo_nombre,
+        a.U_CODEMP              AS          marcacion_colaborador_codigo,
+        a.U_CODTAR              AS          marcacion_tarjeta_codigo,
+        a.U_FE                  AS          marcacion_entrada_oficina_fecha,
+        a.U_HE                  AS          marcacion_entrada_oficina_hora,
+        a.U_FS                  AS          marcacion_salida_almuerzo_fecha,
+        a.U_HS                  AS          marcacion_salida_almuerzo_hora,
+        a.U_FEOR                AS          marcacion_entrada_almuerzo_fecha,
+        a.U_HEOR                AS          marcacion_entrada_almuerzo_hora,
+        a.U_FSOR                AS          marcacion_salida_oficina_fecha,
+        a.U_HSOR                AS          marcacion_salida_oficina_hora,
+        a.U_COMENT              AS          marcacion_comentario
+        
+        FROM [CSF_PRUEBA].[dbo].[@A1A_MARCAS] a
+
+        ORDER BY a.U_CODEMP, a.U_FE DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            $stmtMSSQL  = $connMSSQL->prepare($sql00);
+            $stmtMSSQL->execute();
+            
+            while ($rowMSSQL = $stmtMSSQL->fetch()) {
+                $detalle    = array(
+                    'marcacion_codigo'                          => $rowMSSQL['marcacion_codigo'],
+                    'marcacion_codigo_nombre'                   => $rowMSSQL['marcacion_codigo_nombre'],
+                    'marcacion_colaborador_codigo'              => trim(strtoupper($rowMSSQL['marcacion_colaborador_codigo'])),
+                    'marcacion_tarjeta_codigo'                  => trim(strtoupper($rowMSSQL['marcacion_tarjeta_codigo'])),
+                    'marcacion_entrada_oficina_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_oficina_fecha'])),
+                    'marcacion_entrada_oficina_hora'            => $rowMSSQL['marcacion_entrada_oficina_hora'],
+                    'marcacion_salida_almuerzo_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_almuerzo_fecha'])),
+                    'marcacion_salida_almuerzo_hora'            => $rowMSSQL['marcacion_salida_almuerzo_hora'],
+                    'marcacion_entrada_almuerzo_fecha'          => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_almuerzo_fecha'])),
+                    'marcacion_entrada_almuerzo_hora'           => $rowMSSQL['marcacion_entrada_almuerzo_hora'],
+                    'marcacion_salida_oficina_fecha'            => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_oficina_fecha'])),
+                    'marcacion_salida_oficina_hora'             => $rowMSSQL['marcacion_salida_oficina_hora'],
+                    'marcacion_comentario'                      => $rowMSSQL['marcacion_comentario']       
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'marcacion_codigo'                          => '',
+                    'marcacion_codigo_nombre'                   => '',
+                    'marcacion_colaborador_codigo'              => '',
+                    'marcacion_tarjeta_codigo'                  => '',
+                    'marcacion_entrada_oficina_fecha'           => '',
+                    'marcacion_entrada_oficina_hora'            => '',
+                    'marcacion_salida_almuerzo_fecha'           => '',
+                    'marcacion_salida_almuerzo_hora'            => '',
+                    'marcacion_entrada_almuerzo_fecha'          => '',
+                    'marcacion_entrada_almuerzo_hora'           => '',
+                    'marcacion_salida_oficina_fecha'            => '',
+                    'marcacion_salida_oficina_hora'             => '',
+                    'marcacion_comentario'                      => ''  
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL->closeCursor();
+            $stmtMSSQL = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/000/marcacion/colaborador/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getAttribute('codigo');
+            
+        if (isset($val01)) {
+        
+            $sql00  = "SELECT
+            a.CODE                  AS          marcacion_codigo,
+            a.NAME                  AS          marcacion_codigo_nombre,
+            a.U_CODEMP              AS          marcacion_colaborador_codigo,
+            a.U_CODTAR              AS          marcacion_tarjeta_codigo,
+            a.U_FE                  AS          marcacion_entrada_oficina_fecha,
+            a.U_HE                  AS          marcacion_entrada_oficina_hora,
+            a.U_FS                  AS          marcacion_salida_almuerzo_fecha,
+            a.U_HS                  AS          marcacion_salida_almuerzo_hora,
+            a.U_FEOR                AS          marcacion_entrada_almuerzo_fecha,
+            a.U_HEOR                AS          marcacion_entrada_almuerzo_hora,
+            a.U_FSOR                AS          marcacion_salida_oficina_fecha,
+            a.U_HSOR                AS          marcacion_salida_oficina_hora,
+            a.U_COMENT              AS          marcacion_comentario
+            
+            FROM [CSF_PRUEBA].[dbo].[@A1A_MARCAS] a
+
+            WHERE a.U_CODEMP = ?
+
+            ORDER BY a.U_CODEMP, a.U_FE DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL  = $connMSSQL->prepare($sql00);
+                $stmtMSSQL->execute([$val01]);
+                
+                while ($rowMSSQL = $stmtMSSQL->fetch()) {
+                    $detalle    = array(
+                        'marcacion_codigo'                          => $rowMSSQL['marcacion_codigo'],
+                        'marcacion_codigo_nombre'                   => $rowMSSQL['marcacion_codigo_nombre'],
+                        'marcacion_colaborador_codigo'              => trim(strtoupper($rowMSSQL['marcacion_colaborador_codigo'])),
+                        'marcacion_tarjeta_codigo'                  => trim(strtoupper($rowMSSQL['marcacion_tarjeta_codigo'])),
+                        'marcacion_entrada_oficina_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_oficina_fecha'])),
+                        'marcacion_entrada_oficina_hora'            => $rowMSSQL['marcacion_entrada_oficina_hora'],
+                        'marcacion_salida_almuerzo_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_almuerzo_fecha'])),
+                        'marcacion_salida_almuerzo_hora'            => $rowMSSQL['marcacion_salida_almuerzo_hora'],
+                        'marcacion_entrada_almuerzo_fecha'          => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_almuerzo_fecha'])),
+                        'marcacion_entrada_almuerzo_hora'           => $rowMSSQL['marcacion_entrada_almuerzo_hora'],
+                        'marcacion_salida_oficina_fecha'            => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_oficina_fecha'])),
+                        'marcacion_salida_oficina_hora'             => $rowMSSQL['marcacion_salida_oficina_hora'],
+                        'marcacion_comentario'                      => $rowMSSQL['marcacion_comentario']       
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'marcacion_codigo'                          => '',
+                        'marcacion_codigo_nombre'                   => '',
+                        'marcacion_colaborador_codigo'              => '',
+                        'marcacion_tarjeta_codigo'                  => '',
+                        'marcacion_entrada_oficina_fecha'           => '',
+                        'marcacion_entrada_oficina_hora'            => '',
+                        'marcacion_salida_almuerzo_fecha'           => '',
+                        'marcacion_salida_almuerzo_hora'            => '',
+                        'marcacion_entrada_almuerzo_fecha'          => '',
+                        'marcacion_entrada_almuerzo_hora'           => '',
+                        'marcacion_salida_oficina_fecha'            => '',
+                        'marcacion_salida_oficina_hora'             => '',
+                        'marcacion_comentario'                      => ''  
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL->closeCursor();
+                $stmtMSSQL = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
