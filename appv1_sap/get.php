@@ -2321,7 +2321,7 @@
                     'marcacion_entrada_oficina_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_oficina_fecha'])),
                     'marcacion_entrada_oficina_hora'            => date("H:i", strtotime($marcacion_entrada_oficina_hora)),
                     'marcacion_salida_almuerzo_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_almuerzo_fecha'])),
-                    'marcacion_salida_almuerzo_hora'            => date("H:i", strtotime($marcacion_salida_almuerzo_hora)),
+                    'marcacion_salida_almuerzo_hora'            => $marcacion_salida_almuerzo_hora,
                     'marcacion_entrada_almuerzo_fecha'          => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_almuerzo_fecha'])),
                     'marcacion_entrada_almuerzo_hora'           => date("H:i", strtotime($marcacion_entrada_almuerzo_hora)),
                     'marcacion_salida_oficina_fecha'            => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_oficina_fecha'])),
