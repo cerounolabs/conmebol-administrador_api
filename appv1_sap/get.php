@@ -2309,10 +2309,10 @@
             
             while ($rowMSSQL = $stmtMSSQL->fetch()) {
                 $marcacion_entrada_oficina_hora = (strlen(trim($rowMSSQL['marcacion_entrada_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_entrada_oficina_hora']))));
-                $marcacion_salida_almuerzo_hora = (strlen(trim($rowMSSQL['marcacion_salida_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))): date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_almuerzo_hora']))));
-                $marcacion_entrada_almuerzo_hora= (strlen(trim($rowMSSQL['marcacion_entrada_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_entrada_almuerzo_hora']))));
-                $marcacion_salida_oficina_hora  = (strlen(trim($rowMSSQL['marcacion_salida_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_oficina_hora']))));
-                
+                $marcacion_salida_almuerzo_hora = (strlen(trim($rowMSSQL['marcacion_salida_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_salida_almuerzo_hora']))): date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_almuerzo_hora']))));
+                $marcacion_entrada_almuerzo_hora= (strlen(trim($rowMSSQL['marcacion_entrada_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_almuerzo_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_entrada_almuerzo_hora']))));
+                $marcacion_salida_oficina_hora  = (strlen(trim($rowMSSQL['marcacion_salida_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_salida_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_oficina_hora']))));
+
                 $detalle    = array(
                     'marcacion_codigo'                          => $rowMSSQL['marcacion_codigo'],
                     'marcacion_codigo_nombre'                   => $rowMSSQL['marcacion_codigo_nombre'],
@@ -2403,9 +2403,9 @@
                 
                 while ($rowMSSQL = $stmtMSSQL->fetch()) {
                     $marcacion_entrada_oficina_hora = (strlen(trim($rowMSSQL['marcacion_entrada_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_entrada_oficina_hora']))));
-                    $marcacion_salida_almuerzo_hora = (strlen(trim($rowMSSQL['marcacion_salida_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))): date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_almuerzo_hora']))));
-                    $marcacion_entrada_almuerzo_hora= (strlen(trim($rowMSSQL['marcacion_entrada_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_entrada_almuerzo_hora']))));
-                    $marcacion_salida_oficina_hora  = (strlen(trim($rowMSSQL['marcacion_salida_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_oficina_hora']))));
+                    $marcacion_salida_almuerzo_hora = (strlen(trim($rowMSSQL['marcacion_salida_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_salida_almuerzo_hora']))): date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_almuerzo_hora']))));
+                    $marcacion_entrada_almuerzo_hora= (strlen(trim($rowMSSQL['marcacion_entrada_almuerzo_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_entrada_almuerzo_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_entrada_almuerzo_hora']))));
+                    $marcacion_salida_oficina_hora  = (strlen(trim($rowMSSQL['marcacion_salida_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_salida_oficina_hora']))) : date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_oficina_hora']))));
 
                     $detalle    = array(
                         'marcacion_codigo'                          => $rowMSSQL['marcacion_codigo'],
