@@ -8,7 +8,6 @@
         $val04      = $request->getParsedBody()['usuario_var04'];
         $val05      = $request->getParsedBody()['usuario_var05'];
         $val06      = $request->getParsedBody()['usuario_var06'];
-        $val07      = $request->getParsedBody()['usuario_var07'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {
             try {
