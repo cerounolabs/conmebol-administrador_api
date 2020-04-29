@@ -1,4 +1,96 @@
 <?php
+    $app->get('/v1/100/dominio', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+        a.DOMFICCOD         AS          tipo_codigo,
+        a.DOMFICEST         AS          tipo_estado_codigo,
+        a.DOMFICORD         AS          tipo_orden,
+        a.DOMFICNOI         AS          tipo_nombre_ingles,
+        a.DOMFICNOC         AS          tipo_nombre_castellano,
+        a.DOMFICNOP         AS          tipo_nombre_portugues,
+        a.DOMFICPAT         AS          tipo_path,
+        a.DOMFICVAL         AS          tipo_dominio,
+        a.DOMFICOBS         AS          tipo_observacion,
+        a.DOMFICUSU         AS          auditoria_usuario,
+        a.DOMFICFEC         AS          auditoria_fecha_hora,
+        a.DOMFICDIP         AS          auditoria_ip
+        
+        FROM [CSF_PERMISOS].[adm].[DOMFIC] a
+
+        ORDER BY a.DOMFICVAL, a.DOMFICORD";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+            
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                switch ($rowMSSQL00['tipo_estado_codigo']) {
+                    case 'A':
+                        $tipo_estado_nombre = 'ACTIVO';
+                        break;
+                    
+                    case 'I':
+                        $tipo_estado_nombre = 'INACTIVO';
+                        break;
+                }
+
+                $detalle    = array(
+                    'tipo_codigo'                               => $rowMSSQL00['tipo_codigo'],
+                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre'                        => trim(strtoupper(strtolower($tipo_estado_nombre))),
+                    'tipo_orden'                                => $rowMSSQL00['tipo_orden'],
+                    'tipo_nombre_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_ingles']))),
+                    'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
+                    'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
+                    'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                    'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
+                    'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
+                    'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'tipo_codigo'                               => '',
+                    'tipo_estado_codigo'                        => '',
+                    'tipo_estado_nombre'                        => '',
+                    'tipo_orden'                                => '',
+                    'tipo_nombre_ingles'                        => '',
+                    'tipo_nombre_castellano'                    => '',
+                    'tipo_nombre_portugues'                     => '',
+                    'tipo_path'                                 => '',
+                    'tipo_dominio'                              => '',
+                    'tipo_observacion'                          => '',
+                    'auditoria_usuario'                         => '',
+                    'auditoria_fecha_hora'                      => '',
+                    'auditoria_ip'                              => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/100/solicitud', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -631,6 +723,39 @@
                 LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?";
+            } elseif ($val01 == '5') {
+                $sql00  = "SELECT
+                c.IDEmpleado                AS          codigo,
+                c.Estado                    AS          estado,
+                c.CedulaEmpleado            AS          documento,
+                c.ApellidoPaterno           AS          apellido_1,
+                c.ApellidoMaterno           AS          apellido_2,
+                c.PrimerNombre              AS          nombre_1,
+                c.SegundoNombre             AS          nombre_2,
+                c.NombreEmpleado            AS          nombre_completo,
+                c.Sexo                      AS          tipo_sexo_codigo,
+                c.EstadoCivil               AS          estado_civil_codigo,
+                c.Email                     AS          email,
+                c.FechaNacimiento           AS          fecha_nacimiento,
+                c.IDUsuario                 AS          usuario_id,
+                c.UsuarioSAP                AS          usuario_sap,
+                c.IDTarjeta                 AS          tarjeta_id,
+                c.CodigoCargo               AS          cargo_codigo,
+                c.Cargo                     AS          cargo_nombre,
+                c.CodigoGerencia            AS          gerencia_codigo,
+                c.Gerencia                  AS          gerencia_nombre,
+                c.CodigoDepto               AS          departamento_codigo,
+                c.Departamento              AS          departamento_nombre,         
+                c.CodCargoSuperior          AS          superior_cargo_codigo,
+                c.NombreCargoSuperior       AS          superior_cargo_nombre,
+                c.Manager                   AS          superior_manager_nombre,
+                c.EmailManager              AS          superior_manager_email
+
+                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
+                LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
+                LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
+
+                WHERE a.CedulaEmpleado = ?";
             }
 
             if ($val03 == 'I' || $val03 == 'A' || $val03 == 'P' || $val03 == 'C') {
@@ -788,6 +913,8 @@
                     $stmtMSSQL00->execute([]);
                 } elseif ($val01 == '4') {
                     $stmtMSSQL00->execute([$val02, $val02]);
+                } elseif ($val01 == '5') {
+                    $stmtMSSQL00->execute([$val02]);
                 }
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
