@@ -4,7 +4,6 @@
         
         $sql00  = "SELECT
         a.DOMFICCOD         AS          tipo_codigo,
-        a.DOMFICEST         AS          tipo_estado_codigo,
         a.DOMFICORD         AS          tipo_orden,
         a.DOMFICNOI         AS          tipo_nombre_ingles,
         a.DOMFICNOC         AS          tipo_nombre_castellano,
@@ -14,9 +13,15 @@
         a.DOMFICOBS         AS          tipo_observacion,
         a.DOMFICUSU         AS          auditoria_usuario,
         a.DOMFICFEC         AS          auditoria_fecha_hora,
-        a.DOMFICDIP         AS          auditoria_ip
+        a.DOMFICDIP         AS          auditoria_ip,
+
+        b.DOMFICEST         AS          tipo_estado_codigo,
+        b.DOMFICNOI         AS          tipo_estado_ingles,
+        b.DOMFICNOC         AS          tipo_estado_castellano,
+        b.DOMFICNOP         AS          tipo_estado_portugues
         
         FROM [CSF_PERMISOS].[adm].[DOMFIC] a
+        INNER JOIN [CSF_PERMISOS].[adm].[DOMFIC] b ON a.DOMFICCOD = b.DOMFICCOD
 
         ORDER BY a.DOMFICVAL, a.DOMFICORD";
 
@@ -26,20 +31,12 @@
             $stmtMSSQL00->execute();
             
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                switch ($rowMSSQL00['tipo_estado_codigo']) {
-                    case 'A':
-                        $tipo_estado_nombre = 'ACTIVO';
-                        break;
-                    
-                    case 'I':
-                        $tipo_estado_nombre = 'INACTIVO';
-                        break;
-                }
-
                 $detalle    = array(
                     'tipo_codigo'                               => $rowMSSQL00['tipo_codigo'],
                     'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_nombre'                        => trim(strtoupper(strtolower($tipo_estado_nombre))),
+                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
                     'tipo_orden'                                => $rowMSSQL00['tipo_orden'],
                     'tipo_nombre_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_ingles']))),
                     'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
@@ -62,7 +59,9 @@
                 $detalle = array(
                     'tipo_codigo'                               => '',
                     'tipo_estado_codigo'                        => '',
-                    'tipo_estado_nombre'                        => '',
+                    'tipo_estado_ingles'                        => '',
+                    'tipo_estado_castellano'                    => '',
+                    'tipo_estado_portugues'                     => '',
                     'tipo_orden'                                => '',
                     'tipo_nombre_ingles'                        => '',
                     'tipo_nombre_castellano'                    => '',
