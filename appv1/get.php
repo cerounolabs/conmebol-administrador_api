@@ -15,7 +15,7 @@
         a.DOMFICFEC         AS          auditoria_fecha_hora,
         a.DOMFICDIP         AS          auditoria_ip,
 
-        b.DOMFICEST         AS          tipo_estado_codigo,
+        b.DOMFICCOD         AS          tipo_estado_codigo,
         b.DOMFICNOI         AS          tipo_estado_ingles,
         b.DOMFICNOC         AS          tipo_estado_castellano,
         b.DOMFICNOP         AS          tipo_estado_portugues
@@ -111,7 +111,7 @@
             a.DOMFICFEC         AS          auditoria_fecha_hora,
             a.DOMFICDIP         AS          auditoria_ip,
 
-            b.DOMFICEST         AS          tipo_estado_codigo,
+            b.DOMFICCOD         AS          tipo_estado_codigo,
             b.DOMFICNOI         AS          tipo_estado_ingles,
             b.DOMFICNOC         AS          tipo_estado_castellano,
             b.DOMFICNOP         AS          tipo_estado_portugues
