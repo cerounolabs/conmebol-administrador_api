@@ -127,7 +127,7 @@
         return $json;
     });
 
-    $app->post('/v1/100/solicitud', function($request) {
+    $app->post('/v1/100/dominio', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
