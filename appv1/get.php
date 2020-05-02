@@ -21,7 +21,7 @@
         b.DOMFICNOP         AS          tipo_estado_portugues
         
         FROM [CSF_PERMISOS].[adm].[DOMFIC] a
-        INNER JOIN [CSF_PERMISOS].[adm].[DOMFIC] b ON a.DOMFICCOD = b.DOMFICCOD
+        INNER JOIN [CSF_PERMISOS].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
 
         ORDER BY a.DOMFICVAL, a.DOMFICORD";
 
