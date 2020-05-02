@@ -121,7 +121,7 @@
             
             WHERE a.DOMFICVAL = ?
             
-            ORDER BY a.DOMFICIDD";
+            ORDER BY a.DOMFICIDD ASC";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
