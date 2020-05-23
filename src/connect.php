@@ -6,6 +6,12 @@
         $serverUser = "user_permisos";
         $serverPass = "D1pl0d0cus2020";
 
+        $serverName = "172.16.50.19";
+        $serverPort = "1433";
+        $serverDb   = "CSF_SFHOLOX";
+        $serverUser = "user_sfholox";
+        $serverPass = "D1pl0d0cus2020";
+
         try {
             $conn = new PDO("sqlsrv:Server=$serverName,$serverPort;Database=$serverDb;ConnectionPooling=0", $serverUser, $serverPass,
                 array(
@@ -27,6 +33,12 @@
         $serverPort = "1433";
         $serverDb   = "CSF_PERMISOS";
         $serverUser = "user_permisos";
+        $serverPass = "D1pl0d0cus2020";
+
+        $serverName = "172.16.50.19";
+        $serverPort = "1433";
+        $serverDb   = "CSF_SFHOLOX";
+        $serverUser = "user_sfholox";
         $serverPass = "D1pl0d0cus2020";
 
         try {

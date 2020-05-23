@@ -20,8 +20,8 @@
         b.DOMFICNOC         AS          tipo_estado_castellano,
         b.DOMFICNOP         AS          tipo_estado_portugues
         
-        FROM [CSF_PERMISOS].[adm].[DOMFIC] a
-        INNER JOIN [CSF_PERMISOS].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
+        FROM [CSF_SFHOLOX].[adm].[DOMFIC] a
+        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
 
         ORDER BY a.DOMFICVAL, a.DOMFICORD";
 
@@ -116,8 +116,8 @@
             b.DOMFICNOC         AS          tipo_estado_castellano,
             b.DOMFICNOP         AS          tipo_estado_portugues
             
-            FROM [CSF_PERMISOS].[aud].[DOMFIC] a
-            INNER JOIN [CSF_PERMISOS].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
+            FROM [CSF_SFHOLOX].[aud].[DOMFIC] a
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
             
             WHERE a.DOMFICVAL = ?
             
@@ -216,7 +216,7 @@
         a.DOMSOLFEC         AS          auditoria_fecha_hora,
         a.DOMSOLDIP         AS          auditoria_ip
         
-        FROM [CSF_PERMISOS].[adm].[DOMSOL] a
+        FROM [CSF_SFHOLOX].[adm].[DOMSOL] a
 
         ORDER BY a.DOMSOLTST, a.DOMSOLORD";
 
@@ -353,7 +353,7 @@
             a.DOMSOLFEC         AS          auditoria_fecha_hora,
             a.DOMSOLDIP         AS          auditoria_ip
             
-            FROM [CSF_PERMISOS].[adm].[DOMSOL] a
+            FROM [CSF_SFHOLOX].[adm].[DOMSOL] a
 
             WHERE a.DOMSOLCOD = ?
 
@@ -516,8 +516,8 @@
             b.DOMSOLADJ         AS          tipo_archivo_adjunto,
             b.DOMSOLOBS         AS          tipo_observacion
 
-            FROM [CSF_PERMISOS].[hum].[SOLFIC] a
-            INNER JOIN [CSF_PERMISOS].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD";
+            FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD";
 
         $sql03  = "SELECT
             a.CedulaEmpleado            AS          documento,
@@ -904,8 +904,8 @@
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
                     b.DOMSOLOBS         AS          tipo_observacion
 
-                    FROM [CSF_PERMISOS].[hum].[SOLFIC] a
-                    INNER JOIN [CSF_PERMISOS].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                    FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
+                    INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
 
                     WHERE a.SOLFICDOC = ? AND a.SOLFICEST = ?
                     
@@ -952,8 +952,8 @@
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
                     b.DOMSOLOBS         AS          tipo_observacion
 
-                    FROM [CSF_PERMISOS].[hum].[SOLFIC] a
-                    INNER JOIN [CSF_PERMISOS].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                    FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
+                    INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
 
                     WHERE a.SOLFICDOC = ? AND (a.SOLFICEST = 'P' OR a.SOLFICEST = ?) AND a.SOLFICUST <> ''
                     
@@ -999,8 +999,8 @@
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
                     b.DOMSOLOBS         AS          tipo_observacion
 
-                    FROM [CSF_PERMISOS].[hum].[SOLFIC] a
-                    INNER JOIN [CSF_PERMISOS].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                    FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
+                    INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
 
                     WHERE a.SOLFICDOC = ? AND a.SOLFICEST <> ?
                     
@@ -1203,7 +1203,7 @@
                 a.SOLAXIFEC         AS          auditoria_fecha_hora,
                 a.SOLAXIDIP         AS          auditoria_ip
 
-                FROM [CSF_PERMISOS].[hum].[SOLAXI] a
+                FROM [CSF_SFHOLOX].[hum].[SOLAXI] a
 
                 WHERE a.SOLAXISOL = ? AND a.SOLAXIEST = ?";
 
