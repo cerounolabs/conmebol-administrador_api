@@ -257,9 +257,9 @@
             $DOMSOLUSU  = $aud01;
             $DOMSOLDIP  = $aud03;
 
-            $sql00      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] a ORDER BY a.U_CODIGO";
-            $sql01      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] a ORDER BY a.U_CODIGO";
-            $sql02      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] a ORDER BY a.U_CODIGO";
+            $sql00      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF].[dbo].[@A1A_TILC] a ORDER BY a.U_CODIGO";
+            $sql01      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF].[dbo].[@A1A_TIPE] a ORDER BY a.U_CODIGO";
+            $sql02      = "SELECT a.CODE AS tipo_codigo, a.NAME AS tipo_codigo_nombre, a.U_CODIGO AS tipo_codigo_referencia FROM [CSF].[dbo].[@A1A_TIIN] a ORDER BY a.U_CODIGO";
             $sql03      = "SELECT * FROM [adm].[DOMSOL] WHERE DOMSOLTST = ? AND DOMSOLPC1 = ? AND DOMSOLPC2 = ? AND DOMSOLPC3 = ?";
             $sql04      = "INSERT INTO [CSF_SFHOLOX].[adm].[DOMSOL] (DOMSOLEST, DOMSOLTST, DOMSOLORD, DOMSOLPC1, DOMSOLPC2, DOMSOLPC3, DOMSOLDIC, DOMSOLDIO, DOMSOLOBS, DOMSOLUSU, DOMSOLFEC, DOMSOLDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
@@ -463,17 +463,17 @@
                     switch ($rowMSSQL01['tipo_solicitud_codigo']) {
                         case 'L':
                             $tipo_solicitud_nombre  = 'LICENCIA';
-                            $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre,  U_CODINA AS tipo_permiso_codigo, U_TIPO AS tipo_permiso_valor FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
+                            $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre,  U_CODINA AS tipo_permiso_codigo, U_TIPO AS tipo_permiso_valor FROM [CSF].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
                             break;
                         
                         case 'P':
                             $tipo_solicitud_nombre  = 'PERMISO';
-                            $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre, U_CODINA AS tipo_permiso_codigo, U_CALIFICA AS tipo_permiso_valor FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
+                            $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre, U_CODINA AS tipo_permiso_codigo, U_CALIFICA AS tipo_permiso_valor FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
                             break;
         
                         case 'I':
                             $tipo_solicitud_nombre  = 'INASISTENCIA';
-                            $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre, U_CODIGO AS tipo_permiso_codigo, U_IDENT AS tipo_permiso_valor FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
+                            $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre, U_CODIGO AS tipo_permiso_codigo, U_IDENT AS tipo_permiso_valor FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
                             break;
                     }
 
