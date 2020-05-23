@@ -12,7 +12,7 @@
         a.U_PERIODO             AS          tipo_permiso_periodo,
         a.U_CANPER              AS          tipo_permiso_cantidad
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] a
+        FROM [CSF].[dbo].[@A1A_TIPE] a
 
         ORDER BY a.U_CODIGO";
 
@@ -83,7 +83,7 @@
             a.U_PERIODO             AS          tipo_permiso_periodo,
             a.U_CANPER              AS          tipo_permiso_cantidad
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] a
+            FROM [CSF].[dbo].[@A1A_TIPE] a
 
             WHERE a.CODE = ?
 
@@ -160,7 +160,7 @@
             a.U_PERIODO             AS          tipo_permiso_periodo,
             a.U_CANPER              AS          tipo_permiso_cantidad
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] a
+            FROM [CSF].[dbo].[@A1A_TIPE] a
 
             WHERE a.U_CODIGO = ?
 
@@ -237,7 +237,7 @@
             a.U_PERIODO             AS          tipo_permiso_periodo,
             a.U_CANPER              AS          tipo_permiso_cantidad
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] a
+            FROM [CSF].[dbo].[@A1A_TIPE] a
 
             WHERE a.U_CODINA = ?
 
@@ -309,7 +309,7 @@
         a.U_TIPO                AS          tipo_licencia_tipo,
         a.U_CODINA              AS          tipo_licencia_coordina
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] a
+        FROM [CSF].[dbo].[@A1A_TILC] a
 
         ORDER BY a.U_CODIGO";
 
@@ -374,7 +374,7 @@
             a.U_TIPO                AS          tipo_licencia_tipo,
             a.U_CODINA              AS          tipo_licencia_coordina
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] a
+            FROM [CSF].[dbo].[@A1A_TILC] a
 
             WHERE a.CODE = ?
 
@@ -445,7 +445,7 @@
             a.U_TIPO                AS          tipo_licencia_tipo,
             a.U_CODINA              AS          tipo_licencia_coordina
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] a
+            FROM [CSF].[dbo].[@A1A_TILC] a
 
             WHERE a.U_CODIGO = ?
 
@@ -516,7 +516,7 @@
             a.U_TIPO                AS          tipo_licencia_tipo,
             a.U_CODINA              AS          tipo_licencia_coordina
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] a
+            FROM [CSF].[dbo].[@A1A_TILC] a
 
             WHERE a.U_CODINA = ?
 
@@ -585,7 +585,7 @@
         a.U_UNIDAD              AS          tipo_inasistencia_unidad,
         a.U_IDENT               AS          tipo_inasistencia_identidad
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] a
+        FROM [CSF].[dbo].[@A1A_TIIN] a
 
         ORDER BY a.U_CODIGO";
 
@@ -653,7 +653,7 @@
             a.U_UNIDAD              AS          tipo_inasistencia_unidad,
             a.U_IDENT               AS          tipo_inasistencia_identidad
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] a
+            FROM [CSF].[dbo].[@A1A_TIIN] a
 
             WHERE a.CODE = ?
 
@@ -727,7 +727,7 @@
             a.U_UNIDAD              AS          tipo_inasistencia_unidad,
             a.U_IDENT               AS          tipo_inasistencia_identidad
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] a
+            FROM [CSF].[dbo].[@A1A_TIIN] a
 
             WHERE a.U_CODIGO = ?
 
@@ -804,8 +804,8 @@
         b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
         b.U_NOMBRE          AS          tipo_superior_cargo_nombre
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_TICA] a
-        LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
+        FROM [CSF].[dbo].[@A1A_TICA] a
+        LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
         ORDER BY a.U_CODIGO";
 
@@ -889,8 +889,8 @@
             b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_superior_cargo_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TICA] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TICA] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
             WHERE a.CODE = ?
 
@@ -980,8 +980,8 @@
             b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_superior_cargo_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TICA] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TICA] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
             WHERE a.U_CODIGO = ?
 
@@ -1071,8 +1071,8 @@
             b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_superior_cargo_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TICA] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TICA] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
             WHERE b.CODE = ?
 
@@ -1163,8 +1163,8 @@
             b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_superior_cargo_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TICA] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TICA] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
             WHERE b.U_CODIGO = ?
 
@@ -1242,7 +1242,7 @@
         a.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
         a.U_NOMBRE          AS          tipo_gerencia_nombre
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_TIGE] a
+        FROM [CSF].[dbo].[@A1A_TIGE] a
 
         ORDER BY a.U_CODIGO";
 
@@ -1301,7 +1301,7 @@
             a.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
             a.U_NOMBRE          AS          tipo_gerencia_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIGE] a
+            FROM [CSF].[dbo].[@A1A_TIGE] a
 
             WHERE a.CODE = ?
 
@@ -1366,7 +1366,7 @@
             a.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
             a.U_NOMBRE          AS          tipo_gerencia_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIGE] a
+            FROM [CSF].[dbo].[@A1A_TIGE] a
 
             WHERE a.U_CODIGO = ?
 
@@ -1433,8 +1433,8 @@
         b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
         b.U_NOMBRE          AS          tipo_gerencia_nombre
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_TIDE] a
-        LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
+        FROM [CSF].[dbo].[@A1A_TIDE] a
+        LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
 
         ORDER BY a.U_CODIGO";
 
@@ -1506,8 +1506,8 @@
             b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
             b.U_NOMBRE          AS          tipo_gerencia_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIDE] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TIDE] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
 
             WHERE a.CODE = ?
 
@@ -1585,8 +1585,8 @@
             b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
             b.U_NOMBRE          AS          tipo_gerencia_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIDE] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TIDE] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
 
             WHERE a.U_CODIGO = ?
 
@@ -1664,8 +1664,8 @@
             b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
             b.U_NOMBRE          AS          tipo_gerencia_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIDE] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TIDE] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
 
             WHERE b.CODE = ?
 
@@ -1743,8 +1743,8 @@
             b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
             b.U_NOMBRE          AS          tipo_gerencia_nombre
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_TIDE] a
-            LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
+            FROM [CSF].[dbo].[@A1A_TIDE] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.U_CODGER = b.U_CODIGO
 
             WHERE b.U_CODIGO = ?
 
@@ -1835,7 +1835,7 @@
             a.Manager                   AS          superior_manager_nombre,
             a.EmailManager              AS          superior_manager_email
 
-            FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a";
+            FROM [CSF].[dbo].[empleados_AxisONE] a";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
@@ -1990,7 +1990,7 @@
                 a.Manager                   AS          superior_manager_nombre,
                 a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
+                FROM [CSF].[dbo].[empleados_AxisONE] a
 
                 WHERE a.CedulaEmpleado = ?";
 
@@ -2151,8 +2151,8 @@
                 a.Manager                   AS          superior_manager_nombre,
                 a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
-                INNER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE b.CedulaEmpleado = ?";
 
@@ -2298,7 +2298,7 @@
         a.U_HSOR                AS          marcacion_salida_oficina_hora,
         a.U_COMENT              AS          marcacion_comentario
         
-        FROM [CSF_PRUEBA].[dbo].[@A1A_MARCAS] a
+        FROM [CSF].[dbo].[@A1A_MARCAS] a
 
         ORDER BY a.CODE DESC";
 
@@ -2390,7 +2390,7 @@
             a.U_HSOR                AS          marcacion_salida_oficina_hora,
             a.U_COMENT              AS          marcacion_comentario
             
-            FROM [CSF_PRUEBA].[dbo].[@A1A_MARCAS] a
+            FROM [CSF].[dbo].[@A1A_MARCAS] a
 
             WHERE a.U_CODEMP = ?
 

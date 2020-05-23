@@ -242,17 +242,17 @@
                 switch ($rowMSSQL00['tipo_solicitud_codigo']) {
                     case 'L':
                         $tipo_solicitud_nombre  = 'LICENCIA';
-                        $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
+                        $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
                         break;
                     
                     case 'P':
                         $tipo_solicitud_nombre  = 'PERMISO';
-                        $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
+                        $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
                         break;
     
                     case 'I':
                         $tipo_solicitud_nombre  = 'INASISTENCIA';
-                        $sql01                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
+                        $sql01                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
                         break;
                 }
 
@@ -381,17 +381,17 @@
                     switch ($rowMSSQL00['tipo_solicitud_codigo']) {
                         case 'L':
                             $tipo_solicitud_nombre  = 'LICENCIA';
-                            $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
+                            $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
                             break;
                         
                         case 'P':
                             $tipo_solicitud_nombre  = 'PERMISO';
-                            $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
+                            $sql01                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
                             break;
         
                         case 'I':
                             $tipo_solicitud_nombre  = 'INASISTENCIA';
-                            $sql01                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
+                            $sql01                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
                             break;
                     }
 
@@ -541,7 +541,7 @@
             a.Manager                   AS          superior_manager_nombre,
             a.EmailManager              AS          superior_manager_email
 
-            FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
+            FROM [CSF].[dbo].[empleados_AxisONE] a
 
             WHERE a.CedulaEmpleado = ?";
 
@@ -573,17 +573,17 @@
                 switch ($rowMSSQL01['tipo_solicitud_codigo']) {
                     case 'L':
                         $tipo_solicitud_nombre  = 'LICENCIA';
-                        $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
+                        $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
                         break;
                     
                     case 'P':
                         $tipo_solicitud_nombre  = 'PERMISO';
-                        $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
+                        $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
                         break;
     
                     case 'I':
                         $tipo_solicitud_nombre  = 'INASISTENCIA';
-                        $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
+                        $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
                         break;
                 }
 
@@ -730,8 +730,8 @@
                 a.Manager                   AS          superior_manager_nombre,
                 a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
-                LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE a.CedulaEmpleado = ?";
             } elseif ($val01 == '2') {
@@ -762,8 +762,8 @@
                 a.Manager                   AS          superior_manager_nombre,
                 a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
-                INNER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE b.CedulaEmpleado = ?";
             } elseif ($val01 == '3') {
@@ -794,8 +794,8 @@
                 a.Manager                   AS          superior_manager_nombre,
                 a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
-                INNER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
             } elseif ($val01 == '4') {
                 $sql00  = "SELECT
                 a.IDEmpleado                AS          codigo,
@@ -824,8 +824,8 @@
                 a.Manager                   AS          superior_manager_nombre,
                 a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
-                LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?";
             } elseif ($val01 == '5') {
@@ -856,9 +856,9 @@
                 c.Manager                   AS          superior_manager_nombre,
                 c.EmailManager              AS          superior_manager_email
 
-                FROM [CSF_PRUEBA].[dbo].[empleados_AxisONE] a
-                LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
-                LEFT OUTER JOIN [CSF_PRUEBA].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
 
                 WHERE a.CedulaEmpleado = ?";
             }
@@ -1049,17 +1049,17 @@
                         switch ($rowMSSQL01['tipo_solicitud_codigo']) {
                             case 'L':
                                 $tipo_solicitud_nombre  = 'LICENCIA';
-                                $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
+                                $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
                                 break;
                             
                             case 'P':
                                 $tipo_solicitud_nombre  = 'PERMISO';
-                                $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
+                                $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
                                 break;
             
                             case 'I':
                                 $tipo_solicitud_nombre  = 'INASISTENCIA';
-                                $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF_PRUEBA].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
+                                $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
                                 break;
                         }
     
