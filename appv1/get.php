@@ -1171,7 +1171,7 @@
         return $json;
     });
 
-    $app->get('/v1/200/solicitudes/grafico/tipo/{sexo}/{tipo}', function($request) {
+    $app->get('/v1/200/solicitudes/grafico/tipocab/{sexo}/{tipo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('sexo');
@@ -1181,11 +1181,11 @@
         FROM [CSF].[dbo].[empleados_AxisONE] a
         WHERE a.SEXO = ?
         UNION
-        SELECT count(*)  AS solicitud_cantidad, 'TOTAL_CON_REGISTRO' AS solicitud_tipo
+        SELECT count(*)  AS solicitud_cantidad, 'CON_SOLICITUD' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
         WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
         UNION
-        SELECT count(*)  AS solicitud_cantidad, 'TOTAL_SIN_REGISTRO' AS solicitud_tipo
+        SELECT count(*)  AS solicitud_cantidad, 'SIN_SOLICITUD' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
         WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
@@ -1211,6 +1211,62 @@
                 $detalle    = array(
                     'solicitud_tipo'            => '',
                     'solicitud_cantidad'        => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL01->closeCursor();
+            $stmtMSSQL01 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/200/solicitudes/grafico/tipodet/{sexo}/{tipo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('sexo');
+        $val02  = $request->getAttribute('tipo');
+
+        $sql01  = "SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'CON_SOLICITUD' AS solicitud_tipo
+        FROM [CSF].[dbo].[empleados_AxisONE] a
+        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
+        UNION
+        SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'SIN_SOLICITUD' AS solicitud_tipo
+        FROM [CSF].[dbo].[empleados_AxisONE] a
+        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            
+            $stmtMSSQL01= $connMSSQL->prepare($sql01);
+            $stmtMSSQL01->execute([$val01, $val01, $val02, $val01, $val02]);
+
+            while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
+                $detalle    = array(
+                    'solicitud_documento'           => $rowMSSQL01['solicitud_documento'],
+                    'solicitud_persona'             => $rowMSSQL01['solicitud_persona'],
+                    'solicitud_tipo'                => $rowMSSQL01['solicitud_tipo']
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_documento'           => '',
+                    'solicitud_persona'             => '',
+                    'solicitud_tipo'                => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
