@@ -1171,6 +1171,64 @@
         return $json;
     });
 
+    $app->get('/v1/200/solicitudes/grafico/tipo/{sexo}/{tipo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('sexo');
+        $val02  = $request->getAttribute('tipo');
+
+        $sql01  = "SELECT count(*) AS solicitud_cantidad, 'A' AS solicitud_tipo
+        FROM [CSF].[dbo].[empleados_AxisONE] a
+        WHERE a.SEXO = ?
+        UNION
+        SELECT count(*)  AS solicitud_cantidad, 'B' AS solicitud_tipo
+        FROM [CSF].[dbo].[empleados_AxisONE] a
+        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC)
+        UNION
+        SELECT count(*)  AS solicitud_cantidad, 'C' AS solicitud_tipo
+        FROM [CSF].[dbo].[empleados_AxisONE] a
+        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC)";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            
+            $stmtMSSQL01= $connMSSQL->prepare($sql01);
+            $stmtMSSQL01->execute([$val01, $val01, $val02, $val01, $val02]);
+
+            while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
+                $detalle    = array(
+                    'solicitud_tipo'            => $rowMSSQL01['solicitud_tipo'],
+                    'solicitud_cantidad'        => $rowMSSQL01['solicitud_cantidad']
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_tipo'            => '',
+                    'solicitud_cantidad'        => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL01->closeCursor();
+            $stmtMSSQL01 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/200/exportar/tipo/{codigo}/{estado}', function($request) {
         require __DIR__.'/../src/connect.php';
         
