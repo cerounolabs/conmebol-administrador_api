@@ -1177,15 +1177,15 @@
         $val01  = $request->getAttribute('sexo');
         $val02  = $request->getAttribute('tipo');
 
-        $sql01  = "SELECT count(*) AS solicitud_cantidad, 'A' AS solicitud_tipo
+        $sql01  = "SELECT count(*) AS solicitud_cantidad, 'TOTAL_COLABORADOR' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
         WHERE a.SEXO = ?
         UNION
-        SELECT count(*)  AS solicitud_cantidad, 'B' AS solicitud_tipo
+        SELECT count(*)  AS solicitud_cantidad, 'TOTAL_CON_REGISTRO' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
         WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
         UNION
-        SELECT count(*)  AS solicitud_cantidad, 'C' AS solicitud_tipo
+        SELECT count(*)  AS solicitud_cantidad, 'TOTAL_SIN_REGISTRO' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
         WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
