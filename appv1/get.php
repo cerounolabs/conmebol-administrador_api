@@ -634,7 +634,7 @@
                     'gerencia_codigo'                   => $rowMSSQL03['gerencia_codigo'],
                     'gerencia_nombre'                   => trim(strtoupper($rowMSSQL03['gerencia_nombre'])),
                     'tipo_sexo_codigo'                  => trim(strtoupper($rowMSSQL03['tipo_sexo_codigo'])),
-                    'colaborador_edad'                  => date('Y', strtotime($rowMSSQL03['fecha_nacimiento']))
+                    'colaborador_edad'                  => date('Y') - date('Y', strtotime($rowMSSQL03['fecha_nacimiento']))
                 );
 
                 $result[]   = $detalle;
