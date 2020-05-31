@@ -629,7 +629,10 @@
                     'solicitud_observacion_talento'     => trim(strtoupper($rowMSSQL01['solicitud_observacion_talento'])),
                     'auditoria_usuario'                 => trim(strtoupper($rowMSSQL01['auditoria_usuario'])),
                     'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
-                    'auditoria_ip'                      => trim(strtoupper($rowMSSQL01['auditoria_ip']))
+                    'auditoria_ip'                      => trim(strtoupper($rowMSSQL01['auditoria_ip'])),
+
+                    'gerencia_codigo'                   => $rowMSSQL03['gerencia_codigo'],
+                    'gerencia_nombre'                   => trim(strtoupper($rowMSSQL03['gerencia_nombre'])),
                 );
 
                 $result[]   = $detalle;
@@ -669,7 +672,9 @@
                     'solicitud_observacion_talento'     => '',
                     'auditoria_usuario'                 => '',
                     'auditoria_fecha_hora'              => '',
-                    'auditoria_ip'                      => ''
+                    'auditoria_ip'                      => '',
+                    'gerencia_codigo'                   => '',
+                    'gerencia_nombre'                   => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
