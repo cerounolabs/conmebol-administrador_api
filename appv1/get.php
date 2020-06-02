@@ -634,7 +634,9 @@
                     'gerencia_codigo'                   => $rowMSSQL03['gerencia_codigo'],
                     'gerencia_nombre'                   => trim(strtoupper($rowMSSQL03['gerencia_nombre'])),
                     'tipo_sexo_codigo'                  => trim(strtoupper($rowMSSQL03['tipo_sexo_codigo'])),
-                    'colaborador_edad'                  => date('Y') - date('Y', strtotime($rowMSSQL03['fecha_nacimiento']))
+                    'colaborador_edad'                  => date('Y') - date('Y', strtotime($rowMSSQL03['fecha_nacimiento'])),
+                    'departamento_codigo'               => $rowMSSQL03['departamento_codigo'],
+                    'departamento_nombre'               => trim(strtoupper($rowMSSQL03['departamento_nombre']))
                 );
 
                 $result[]   = $detalle;
@@ -678,7 +680,9 @@
                     'gerencia_codigo'                   => '',
                     'gerencia_nombre'                   => '',
                     'tipo_sexo_codigo'                  => '',
-                    'colaborador_edad'                  => ''
+                    'colaborador_edad'                  => '',
+                    'departamento_codigo'               => '',
+                    'departamento_nombre'               => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
