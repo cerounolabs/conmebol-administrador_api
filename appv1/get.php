@@ -1358,11 +1358,12 @@
             $connMSSQL  = getConnectionMSSQLv1();
             
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
             $stmtMSSQL00->execute();
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $stmtMSSQL01= $connMSSQL->prepare($sql03);
-                $stmtMSSQL01->execute([trim(strtoupper($rowMSSQL00['comprobante_documento']))]);
+                $stmtMSSQL01->execute([trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])))]);
                 $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
 
                 $detalle    = array(
