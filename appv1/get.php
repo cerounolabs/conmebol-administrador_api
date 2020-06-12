@@ -1292,3 +1292,141 @@
         
         return $json;
     });
+
+    $app->get('/v1/200/comprobante', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+            a.COMFICCOD         AS          comprobante_codigo,
+            a.COMFICPER         AS          comprobante_periodo,
+            a.COMFICDOC         AS          comprobante_documento,
+            a.COMFICADJ         AS          comprobante_adjunto,
+            a.COMFICOBS         AS          comprobante_observacion,
+            a.COMFICAUS         AS          auditoria_usuario,
+            a.COMFICAFH         AS          auditoria_fecha_hora,
+            a.COMFICAIP         AS          auditoria_ip,
+
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
+
+            c.DOMFICCOD         AS          tipo_comprobante_codigo,
+            c.DOMFICNOI         AS          tipo_comprobante_ingles,
+            c.DOMFICNOC         AS          tipo_comprobante_castellano,
+            c.DOMFICNOP         AS          tipo_comprobante_portugues,
+
+            d.DOMFICCOD         AS          tipo_mes_codigo,
+            d.DOMFICNOI         AS          tipo_mes_ingles,
+            d.DOMFICNOC         AS          tipo_mes_castellano,
+            d.DOMFICNOP         AS          tipo_mes_portugues
+
+            FROM [CSF_SFHOLOX].[hum].[COMFIC] a
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.COMFICTCC = b.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.COMFICTMC = b.DOMFICCOD
+            
+            ORDER BY a.COMFICCOD DESC";
+
+        $sql01  = "SELECT
+            a.CedulaEmpleado            AS          documento,
+            a.ApellidoPaterno           AS          apellido_1,
+            a.ApellidoMaterno           AS          apellido_2,
+            a.PrimerNombre              AS          nombre_1,
+            a.SegundoNombre             AS          nombre_2,
+            a.NombreEmpleado            AS          nombre_completo,
+            a.Sexo                      AS          tipo_sexo_codigo,
+            a.EstadoCivil               AS          estado_civil_codigo,
+            a.Email                     AS          email,
+            a.FechaNacimiento           AS          fecha_nacimiento,
+            a.CodigoCargo               AS          cargo_codigo,
+            a.Cargo                     AS          cargo_nombre,
+            a.CodigoGerencia            AS          gerencia_codigo,
+            a.Gerencia                  AS          gerencia_nombre,
+            a.CodigoDepto               AS          departamento_codigo,
+            a.Departamento              AS          departamento_nombre,         
+            a.CodCargoSuperior          AS          superior_cargo_codigo,
+            a.NombreCargoSuperior       AS          superior_cargo_nombre,
+            a.Manager                   AS          superior_manager_nombre,
+            a.EmailManager              AS          superior_manager_email
+
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+
+            WHERE a.CedulaEmpleado = ?";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $stmtMSSQL01= $connMSSQL->prepare($sql03);
+                $stmtMSSQL01->execute([trim(strtoupper($rowMSSQL00['comprobante_documento']))]);
+                $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+
+                $detalle    = array(
+                    'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
+                    'comprobante_periodo'               => $rowMSSQL00['comprobante_periodo'],
+                    'comprobante_colaborador'           => trim(strtoupper(strtolower($rowMSSQL01['nombre_completo']))),
+                    'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
+                    'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
+                    'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
+
+                    'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL01['auditoria_usuario']))),
+                    'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
+                    'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL01['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+
+                    'tipo_comprobante_codigo'           => $rowMSSQL00['tipo_comprobante_codigo'],
+                    'tipo_comprobante_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_castellano']))),
+
+                    'tipo_mes_codigo'                   => $rowMSSQL00['tipo_mes_codigo'],
+                    'tipo_mes_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'comprobante_codigo'                => '',
+                    'comprobante_periodo'               => '',
+                    'comprobante_colaborador'           => '',
+                    'comprobante_documento'             => '',
+                    'comprobante_adjunto'               => '',
+                    'comprobante_observacion'           => '',
+                    'auditoria_usuario'                 => '',
+                    'auditoria_fecha_hora'              => '',
+                    'auditoria_ip'                      => '',
+                    'tipo_estado_codigo'                => '',
+                    'tipo_estado_nombre'                => '',
+                    'tipo_comprobante_codigo'           => '',
+                    'tipo_comprobante_nombre'           => '',
+                    'tipo_mes_codigo'                   => '',
+                    'tipo_mes_nombre'                   => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL01->closeCursor();
+
+            $stmtMSSQL00 = null;
+            $stmtMSSQL01 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
