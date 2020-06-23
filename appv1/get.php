@@ -1302,9 +1302,9 @@
             a.COMFICDOC         AS          comprobante_documento,
             a.COMFICADJ         AS          comprobante_adjunto,
             a.COMFICOBS         AS          comprobante_observacion,
-            a.COMFICAUS         AS          auditoria_usuario,
-            a.COMFICAFH         AS          auditoria_fecha_hora,
-            a.COMFICAIP         AS          auditoria_ip,
+            a.COMFICUSU         AS          auditoria_usuario,
+            a.COMFICFEC         AS          auditoria_fecha_hora,
+            a.COMFICDIP         AS          auditoria_ip,
 
             b.DOMFICCOD         AS          tipo_estado_codigo,
             b.DOMFICNOI         AS          tipo_estado_ingles,
