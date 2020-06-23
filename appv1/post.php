@@ -620,7 +620,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
-            $sql00  = "INSERT INTO [hum].[COMFIC] (COMFICEST, COMFICTCC, COMFICTMC, COMFICDOC, COMFICPER, COMFICADJ, COMFICOBS, COMFICAUSU, COMFICAFEC, COMFICADIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [hum].[COMFIC] (COMFICEST, COMFICTCC, COMFICTMC, COMFICDOC, COMFICPER, COMFICADJ, COMFICOBS, COMFICUSU, COMFICFEC, COMFICDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
