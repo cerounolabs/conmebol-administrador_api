@@ -1323,8 +1323,8 @@
 
             FROM [CSF_SFHOLOX].[hum].[COMFIC] a
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.COMFICTCC = b.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.COMFICTMC = b.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
             
             ORDER BY a.COMFICCOD DESC";
 
