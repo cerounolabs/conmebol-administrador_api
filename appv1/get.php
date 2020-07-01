@@ -776,7 +776,7 @@
                 a.EmailManager              AS          superior_manager_email
 
                 FROM [CSF].[dbo].[empleados_AxisONE] a
-                INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE b.CedulaEmpleado = ?";
             } elseif ($val01 == '3') {
@@ -808,7 +808,7 @@
                 a.EmailManager              AS          superior_manager_email
 
                 FROM [CSF].[dbo].[empleados_AxisONE] a
-                INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
             } elseif ($val01 == '4') {
                 $sql00  = "SELECT
                 a.IDEmpleado                AS          codigo,
