@@ -196,6 +196,136 @@
         return $json;
     });
 
+    $app->get('/v1/100/dominiosub', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+        a.DOMSUBORD         AS          tipo_orden,
+        a.DOMSUBPAT         AS          tipo_path,
+        a.DOMSUBVAL         AS          tipo_dominio,
+        a.DOMSUBOBS         AS          tipo_observacion,
+
+        a.DOMSUBAUS         AS          auditoria_usuario,
+        a.DOMSUBAFE         AS          auditoria_fecha_hora,
+        a.DOMSUBAIP         AS          auditoria_ip,
+
+        b.DOMFICCOD         AS          tipo_estado_codigo,
+        b.DOMFICNOI         AS          tipo_estado_ingles,
+        b.DOMFICNOC         AS          tipo_estado_castellano,
+        b.DOMFICNOP         AS          tipo_estado_portugues,
+
+        c.DOMFICCOD         AS          tipo_dominio1_codigo,
+        c.DOMFICNOI         AS          tipo_dominio1_nombre_ingles,
+        c.DOMFICNOC         AS          tipo_dominio1_nombre_castellano,
+        c.DOMFICNOP         AS          tipo_dominio1_nombre_portugues,
+        c.DOMFICPAT         AS          tipo_dominio1_path,
+        c.DOMFICVAL         AS          tipo_dominio1_dominio,
+        c.DOMFICOBS         AS          tipo_dominio1_observacion,
+
+        d.DOMFICCOD         AS          tipo_dominio2_codigo,
+        d.DOMFICNOI         AS          tipo_dominio2_nombre_ingles,
+        d.DOMFICNOC         AS          tipo_dominio2_nombre_castellano,
+        d.DOMFICNOP         AS          tipo_dominio2_nombre_portugues,
+        d.DOMFICPAT         AS          tipo_dominio2_path,
+        d.DOMFICVAL         AS          tipo_dominio2_dominio,
+        d.DOMFICOBS         AS          tipo_dominio2_observacion
+        
+        FROM [CSF_SFHOLOX].[adm].[DOMSUB] a
+        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMSUBEST = b.DOMFICCOD
+        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.DOMSUBCO1 = c.DOMFICCOD
+        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.DOMSUBCO2 = d.DOMFICCOD
+
+        ORDER BY a.DOMSUBVAL, a.DOMSUBORD";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+            
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle    = array(
+                    'tipo_orden'                                => $rowMSSQL00['tipo_orden'],
+                    'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                    'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
+                    'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
+
+                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+
+                    'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_dominio1_codigo'                      => $rowMSSQL00['tipo_dominio1_codigo'],
+                    'tipo_dominio1_nombre_ingles'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_nombre_ingles']))),
+                    'tipo_dominio1_nombre_castellano'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_nombre_castellano']))),
+                    'tipo_dominio1_nombre_portugues'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_nombre_portugues']))),
+                    'tipo_dominio1_path'                        => trim(strtolower($rowMSSQL00['tipo_dominio1_path'])),
+                    'tipo_dominio1_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_dominio']))),
+                    'tipo_dominio1_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_observacion']))),
+
+                    'tipo_dominio2_codigo'                      => $rowMSSQL00['tipo_dominio2_codigo'],
+                    'tipo_dominio2_nombre_ingles'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_nombre_ingles']))),
+                    'tipo_dominio2_nombre_castellano'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_nombre_castellano']))),
+                    'tipo_dominio2_nombre_portugues'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_nombre_portugues']))),
+                    'tipo_dominio2_path'                        => trim(strtolower($rowMSSQL00['tipo_dominio2_path'])),
+                    'tipo_dominio2_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_dominio']))),
+                    'tipo_dominio2_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_observacion'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'tipo_orden'                                => '',
+                    'tipo_path'                                 => '',
+                    'tipo_dominio'                              => '',
+                    'tipo_observacion'                          => '',
+                    'tipo_estado_codigo'                        => '',
+                    'tipo_estado_ingles'                        => '',
+                    'tipo_estado_castellano'                    => '',
+                    'tipo_estado_portugues'                     => '',
+                    'auditoria_usuario'                         => '',
+                    'auditoria_fecha_hora'                      => '',
+                    'auditoria_ip'                              => '',
+                    'tipo_dominio1_codigo'                      => '',
+                    'tipo_dominio1_nombre_ingles'               => '',
+                    'tipo_dominio1_nombre_castellano'           => '',
+                    'tipo_dominio1_nombre_portugues'            => '',
+                    'tipo_dominio1_path'                        => '',
+                    'tipo_dominio1_dominio'                     => '',
+                    'tipo_dominio1_observacion'                 => '',
+                    'tipo_dominio2_codigo'                      => '',
+                    'tipo_dominio2_nombre_ingles'               => '',
+                    'tipo_dominio2_nombre_castellano'           => '',
+                    'tipo_dominio2_nombre_portugues'            => '',
+                    'tipo_dominio2_path'                        => '',
+                    'tipo_dominio2_dominio'                     => '',
+                    'tipo_dominio2_observacion'                 => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/100/solicitud', function($request) {
         require __DIR__.'/../src/connect.php';
         
