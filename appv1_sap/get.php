@@ -2465,3 +2465,53 @@
         
         return $json;
     });
+
+    $app->get('/v1/000/vacacion', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "EXEC [dbo].[DiasVacFuncionario] WITH RESULT SETS((vacacion_colaborador_codigo nvarchar(20), vacacion_periodo varchar(20), vacacion_cantidad_dia int, vacacion_cantidad_usuado int, vacacion_cantidad_restante int))";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            $stmtMSSQL  = $connMSSQL->prepare($sql00);
+            $stmtMSSQL->execute();
+            
+            while ($rowMSSQL = $stmtMSSQL->fetch()) {
+                $detalle    = array(
+                    'vacacion_colaborador_codigo'           => trim(strtoupper($rowMSSQL['vacacion_colaborador_codigo'])),
+                    'vacacion_periodo'                      => trim(strtoupper($rowMSSQL['vacacion_periodo'])),
+                    'vacacion_cantidad_dia'                 => $rowMSSQL['vacacion_cantidad_dia'],
+                    'vacacion_cantidad_usuado'              => $rowMSSQL['vacacion_cantidad_usuado'],
+                    'vacacion_cantidad_restante'            => $rowMSSQL['vacacion_cantidad_restante']     
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'vacacion_colaborador_codigo'           => '',
+                    'vacacion_periodo'                      => '',
+                    'vacacion_cantidad_dia'                 => '',
+                    'vacacion_cantidad_usuado'              => '',
+                    'vacacion_cantidad_restante'            => '' 
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL->closeCursor();
+            $stmtMSSQL = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
