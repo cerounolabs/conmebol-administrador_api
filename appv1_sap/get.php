@@ -2469,7 +2469,7 @@
     $app->get('/v1/000/vacacion', function($request) {
         require __DIR__.'/../src/connect.php';
         
-        $sql00  = "EXEC [dbo].[DiasVacFuncionario] WITH RESULT SETS((vacacion_colaborador_codigo nvarchar(20), vacacion_periodo varchar(20), vacacion_cantidad_dia int, vacacion_cantidad_usuado int, vacacion_cantidad_restante int))";
+        $sql00  = "EXEC [CSF].[dbo].[DiasVacFuncionario] WITH RESULT SETS((vacacion_colaborador_codigo nvarchar(20), vacacion_periodo varchar(20), vacacion_cantidad_dia int, vacacion_cantidad_usuado int, vacacion_cantidad_restante int))";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
