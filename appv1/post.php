@@ -707,7 +707,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
-            $sql00  = "INSERT INTO [wrf].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICWAC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [wrf].[WRFFIC] (WRFFICEST, WRFFICTWC, WRFFICTEC, WRFFICTCC, WRFFICWAC, WRFFICORD, WRFFICNOM, WRFFICOBS, WRFFICAUS, WRFFICAFE, WRFFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();

@@ -276,7 +276,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
-            $sql00  = "UPDATE [wrf].[WRKFIC] SET WRKFICEST = ?, WRKFICTEC = ?, WRKFICTCC = ?, WRKFICWAC = ?, WRKFICORD = ?, WRKFICNOM = ?, WRKFICOBS = ?, WRKFICAUS = ?, WRKFICAFE = GETDATE(), WRKFICAIP = ? WHERE WRKFICCOD = ? AND WRKFICTWC = ?";
+            $sql00  = "UPDATE [wrf].[WRFFIC] SET WRFFICEST = ?, WRFFICTEC = ?, WRFFICTCC = ?, WRFFICWAC = ?, WRFFICORD = ?, WRFFICNOM = ?, WRFFICOBS = ?, WRFFICAUS = ?, WRFFICAFE = GETDATE(), WRFFICAIP = ? WHERE WRFFICCOD = ? AND WRFFICTWC = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
