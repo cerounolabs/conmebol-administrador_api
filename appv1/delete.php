@@ -67,15 +67,15 @@
 
         if (isset($val01) && isset($val02) && isset($val06)) {
             $sql00  = "UPDATE [CSF_SFHOLOX].[adm].[DOMSUB] SET DOMSUBAUS = ?, DOMSUBAFE = GETDATE(), DOMSUBAIP = ? WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
-            $sql00  = "DELETE [CSF_SFHOLOX].[adm].[DOMSUB] WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
+            $sql01  = "DELETE [CSF_SFHOLOX].[adm].[DOMSUB] WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$val03, $val04, $val05, $val07, $aud01, $aud03, $val01, $val02, $val06]);
-                $stmtMSSQL01->execute([$aud01, $aud03, $val01, $val02, $val06]);
+                $stmtMSSQL00->execute([$aud01, $aud03, $val01, $val02, $val06]);
+                $stmtMSSQL01->execute([$val01, $val02, $val06]);
 
                 $stmtMSSQL00->closeCursor();
                 $stmtMSSQL01->closeCursor();
