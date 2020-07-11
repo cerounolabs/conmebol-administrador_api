@@ -50,7 +50,7 @@
         return $json;
     });
 
-    $app->put('/v1/100/dominiosub', function($request) {
+    $app->delete('/v1/100/dominiosub', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_dominio1_codigo'];
