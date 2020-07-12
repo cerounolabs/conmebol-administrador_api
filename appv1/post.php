@@ -393,15 +393,17 @@
         $val07      = $request->getParsedBody()['solicitud_hora_desde'];
         $val08      = $request->getParsedBody()['solicitud_hora_hasta'];
         $val09      = $request->getParsedBody()['solicitud_hora_cantidad'];
-        $val10      = $request->getParsedBody()['solicitud_adjunto'];
-        $val11      = $request->getParsedBody()['solicitud_observacion_colaborador'];
+        $val10      = $request->getParsedBody()['solicitud_periodo'];
+        $val11      = $request->getParsedBody()['solicitud_documento_jefe'];
+        $val12      = $request->getParsedBody()['solicitud_adjunto'];
+        $val13      = $request->getParsedBody()['solicitud_observacion_colaborador'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val04)) {        
-            $sql00  = "INSERT INTO [hum].[SOLFIC] (SOLFICEST, SOLFICTST, SOLFICDOC, SOLFICFH1, SOLFICFH2, SOLFICFHC, SOLFICHO1, SOLFICHO2, SOLFICHOC, SOLFICADJ, SOLFICUSC, SOLFICFCC, SOLFICIPC, SOLFICOBC, SOLFICUSU, SOLFICFEC, SOLFICDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val04)) {
+            $sql00  = "INSERT INTO [hum].[SOLFIC] (SOLFICEST, SOLFICTST, SOLFICDOC, SOLFICFH1, SOLFICFH2, SOLFICFHC, SOLFICHO1, SOLFICHO2, SOLFICHOC, SOLFICPER, SOLFICDOJ, SOLFICADJ, SOLFICUSC, SOLFICFCC, SOLFICIPC, SOLFICOBC, SOLFICUSU, SOLFICFEC, SOLFICDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [hum].[SOLFIC] WHERE SOLFICEST = ? AND SOLFICTST = ? AND SOLFICDOC = ?";
             
             try {
@@ -409,7 +411,7 @@
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val11, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $aud01, $aud03, $val13, $aud01, $aud03]);
                 
                 $stmtMSSQL01->execute([$val01, $val02, $val03]);
                 $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
