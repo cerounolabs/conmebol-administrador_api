@@ -1583,7 +1583,7 @@
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
             
-            ORDER BY a.COMFICCOD DESC";
+            ORDER BY a.COMFICPER DESC, a.COMFICTMC DESC";
 
         $sql01  = "SELECT
             a.CedulaEmpleado            AS          documento,
