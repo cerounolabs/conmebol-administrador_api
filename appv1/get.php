@@ -90,6 +90,106 @@
         return $json;
     });
 
+    $app->get('/v1/100/dominio/valor/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01      = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.DOMFICCOD         AS          tipo_codigo,
+                a.DOMFICORD         AS          tipo_orden,
+                a.DOMFICNOI         AS          tipo_nombre_ingles,
+                a.DOMFICNOC         AS          tipo_nombre_castellano,
+                a.DOMFICNOP         AS          tipo_nombre_portugues,
+                a.DOMFICPAT         AS          tipo_path,
+                a.DOMFICVAL         AS          tipo_dominio,
+                a.DOMFICOBS         AS          tipo_observacion,
+                a.DOMFICUSU         AS          auditoria_usuario,
+                a.DOMFICFEC         AS          auditoria_fecha_hora,
+                a.DOMFICDIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues
+                
+                FROM [CSF_SFHOLOX].[adm].[DOMFIC] a
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
+
+                WHERE a.DOMFICVAL = ?
+
+                ORDER BY a.DOMFICVAL, a.DOMFICORD";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'tipo_codigo'                               => $rowMSSQL00['tipo_codigo'],
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_orden'                                => $rowMSSQL00['tipo_orden'],
+                        'tipo_nombre_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_ingles']))),
+                        'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
+                        'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
+                        'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                        'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
+                        'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
+                        'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'tipo_codigo'                               => '',
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_orden'                                => '',
+                        'tipo_nombre_ingles'                        => '',
+                        'tipo_nombre_castellano'                    => '',
+                        'tipo_nombre_portugues'                     => '',
+                        'tipo_path'                                 => '',
+                        'tipo_dominio'                              => '',
+                        'tipo_observacion'                          => '',
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/100/auditoria/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
