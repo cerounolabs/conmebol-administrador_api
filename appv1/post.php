@@ -700,12 +700,12 @@
         $val03      = $request->getParsedBody()['tipo_evento_codigo'];
         $val04      = $request->getParsedBody()['tipo_cargo_codigo'];
         $val05      = $request->getParsedBody()['workflow_orden'];
-        $val06      = $request->getParsedBody()['workflow_tarea'];
-        $val07      = $request->getParsedBody()['workflow_observacion'];
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_tarea'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_observacion'])));
 
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud01      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_usuario'])));
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
+        $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
             $sql00  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
@@ -744,12 +744,12 @@
         $val03      = $request->getParsedBody()['tipo_evento_codigo'];
         $val04      = $request->getParsedBody()['tipo_cargo_codigo'];
         $val05      = $request->getParsedBody()['workflow_orden'];
-        $val06      = $request->getParsedBody()['workflow_tarea'];
-        $val07      = $request->getParsedBody()['workflow_observacion'];
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_tarea'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_observacion'])));
 
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud01      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_usuario'])));
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
+        $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {      
             $sql00  = "SELECT CAST(a.CODE AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.CODE AND b.WRKFICTWC = ?)"; 
