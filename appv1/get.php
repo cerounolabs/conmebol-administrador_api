@@ -1962,7 +1962,7 @@
         return $json;
     });
 
-    $app->get('/v1/300/workflow/codigo/{codigo}', function($request) {
+    $app->get('/v1/300/workflow/cargo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
