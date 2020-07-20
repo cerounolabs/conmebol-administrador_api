@@ -699,23 +699,22 @@
         $val02      = $request->getParsedBody()['tipo_workflow_codigo'];
         $val03      = $request->getParsedBody()['tipo_evento_codigo'];
         $val04      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val05      = $request->getParsedBody()['workflow_anterior_codigo'];
-        $val06      = $request->getParsedBody()['workflow_orden'];
-        $val07      = $request->getParsedBody()['workflow_tarea'];
-        $val08      = $request->getParsedBody()['workflow_observacion'];
+        $val05      = $request->getParsedBody()['workflow_orden'];
+        $val06      = $request->getParsedBody()['workflow_tarea'];
+        $val07      = $request->getParsedBody()['workflow_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
-            $sql00  = "INSERT INTO [wrf].[WRFFIC] (WRFFICEST, WRFFICTWC, WRFFICTEC, WRFFICTCC, WRFFICWAC, WRFFICORD, WRFFICNOM, WRFFICOBS, WRFFICAUS, WRFFICAFE, WRFFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
