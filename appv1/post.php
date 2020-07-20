@@ -735,3 +735,54 @@
         
         return $json;
     });
+
+    $app->post('/v1/300/workflow/sincronizar', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_workflow_codigo'];
+        $val03      = $request->getParsedBody()['tipo_evento_codigo'];
+        $val04      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val05      = $request->getParsedBody()['workflow_orden'];
+        $val06      = $request->getParsedBody()['workflow_tarea'];
+        $val07      = $request->getParsedBody()['workflow_observacion'];
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {      
+            $sql00  = "SELECT CAST(a.CODE AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.CODE AND b.WRKFICTWC = ?)"; 
+            $sql01  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$val02]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $stmtMSSQL01->execute([$val01, $val02, $val03, $rowMSSQL00['tipo_cargo_codigo'], $val05, $val06.' '.trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))), $val07, $aud01, $aud03]);
+                }
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
