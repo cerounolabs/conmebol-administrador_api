@@ -2202,3 +2202,483 @@
         
         return $json;
     });
+
+    $app->get('/v1/300/detalle', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+            a.WRKDETCOD         AS          workflow_detalle_codigo,
+            a.WRKDETORD         AS          workflow_detalle_orden,
+            a.WRKDETNOM         AS          workflow_detalle_tarea,
+            a.WRKDETHOR         AS          workflow_detalle_hora,
+            a.WRKDETNOT         AS          workflow_detalle_notifica,
+            a.WRKDETOBS         AS          workflow_detalle_observacion,
+
+            a.WRKDETAUS         AS          auditoria_usuario,
+            a.WRKDETAFE         AS          auditoria_fecha_hora,
+            a.WRKDETAIP         AS          auditoria_ip,
+
+            b.CODE              AS          tipo_cargo_codigo,
+            b.NAME              AS          tipo_cargo_codigo_nombre,
+            b.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+            b.U_NOMBRE          AS          tipo_cargo_nombre,
+
+            c.DOMFICCOD         AS          estado_anterior_codigo,
+            c.DOMFICNOI         AS          estado_anterior_ingles,
+            c.DOMFICNOC         AS          estado_anterior_castellano,
+            c.DOMFICNOP         AS          estado_anterior_portugues,
+
+            d.DOMFICCOD         AS          estado_siguiente_codigo,
+            d.DOMFICNOI         AS          estado_siguiente_ingles,
+            d.DOMFICNOC         AS          estado_siguiente_castellano,
+            d.DOMFICNOP         AS          estado_siguiente_portugues,
+
+            e.DOMFICCOD         AS          tipo_prioridad_codigo,
+            e.DOMFICNOI         AS          tipo_prioridad_ingles,
+            e.DOMFICNOC         AS          tipo_prioridad_castellano,
+            e.DOMFICNOP         AS          tipo_prioridad_portugues,
+
+            f.WRKFICCOD         AS          workflow_codigo,
+            f.WRKFICORD         AS          workflow_orden,
+            f.WRKFICNOM         AS          workflow_tarea,
+            f.WRKFICOBS         AS          workflow_observacion
+
+            FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
+            INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.CODE
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
+            
+            ORDER BY a.WRKDETORD";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle    = array(
+                    'workflow_detalle_codigo'           => $rowMSSQL00['workflow_detalle_codigo'],
+                    'workflow_detalle_orden'            => $rowMSSQL00['workflow_detalle_orden'],
+                    'workflow_detalle_tarea'            => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
+                    'workflow_detalle_hora'             => $rowMSSQL00['workflow_detalle_hora'],
+                    'workflow_detalle_notifica'         => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_notifica']))),
+                    'workflow_detalle_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_observacion']))),
+
+                    'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_cargo_codigo'                 => $rowMSSQL00['tipo_cargo_codigo'],
+                    'tipo_cargo_codigo_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_nombre']))),
+                    'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
+                    'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
+
+                    'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
+                    'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                    'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                    'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
+                    'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
+                    'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
+                    'estado_siguiente_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_castellano']))),
+                    'estado_siguiente_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_portugues']))),
+
+                    'tipo_prioridad_codigo'             => $rowMSSQL00['tipo_prioridad_codigo'],
+                    'tipo_prioridad_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
+                    'tipo_prioridad_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
+                    'tipo_prioridad_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+
+                    'workflow_codigo'                   => $rowMSSQL00['workflow_codigo'],
+                    'workflow_orden'                    => $rowMSSQL00['workflow_orden'],
+                    'workflow_tarea'                    => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+                    'workflow_observacion'              => trim(strtoupper(strtolower($rowMSSQL00['workflow_observacion'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'workflow_detalle_codigo'           => '',
+                    'workflow_detalle_orden'            => '',
+                    'workflow_detalle_tarea'            => '',
+                    'workflow_detalle_hora'             => '',
+                    'workflow_detalle_notifica'         => '',
+                    'workflow_detalle_observacion'      => '',
+
+                    'auditoria_usuario'                 => '',
+                    'auditoria_fecha_hora'              => '',
+                    'auditoria_ip'                      => '',
+
+                    'tipo_cargo_codigo'                 => '',
+                    'tipo_cargo_codigo_nombre'          => '',
+                    'tipo_cargo_codigo_referencia'      => '',
+                    'tipo_cargo_nombre'                 => '',
+
+                    'estado_anterior_codigo'            => '',
+                    'estado_anterior_ingles'            => '',
+                    'estado_anterior_castellano'        => '',
+                    'estado_anterior_portugues'         => '',
+
+                    'estado_siguiente_codigo'           => '',
+                    'estado_siguiente_ingles'           => '',
+                    'estado_siguiente_castellano'       => '',
+                    'estado_siguiente_portugues'        => '',
+
+                    'tipo_prioridad_codigo'             => '',
+                    'tipo_prioridad_ingles'             => '',
+                    'tipo_prioridad_castellano'         => '',
+                    'tipo_prioridad_portugues'          => '',
+
+                    'workflow_codigo'                   => '',
+                    'workflow_orden'                    => '',
+                    'workflow_tarea'                    => '',
+                    'workflow_observacion'              => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/300/detalle/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.WRKDETCOD         AS          workflow_detalle_codigo,
+                a.WRKDETORD         AS          workflow_detalle_orden,
+                a.WRKDETNOM         AS          workflow_detalle_tarea,
+                a.WRKDETHOR         AS          workflow_detalle_hora,
+                a.WRKDETNOT         AS          workflow_detalle_notifica,
+                a.WRKDETOBS         AS          workflow_detalle_observacion,
+
+                a.WRKDETAUS         AS          auditoria_usuario,
+                a.WRKDETAFE         AS          auditoria_fecha_hora,
+                a.WRKDETAIP         AS          auditoria_ip,
+
+                b.CODE              AS          tipo_cargo_codigo,
+                b.NAME              AS          tipo_cargo_codigo_nombre,
+                b.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+                b.U_NOMBRE          AS          tipo_cargo_nombre,
+
+                c.DOMFICCOD         AS          estado_anterior_codigo,
+                c.DOMFICNOI         AS          estado_anterior_ingles,
+                c.DOMFICNOC         AS          estado_anterior_castellano,
+                c.DOMFICNOP         AS          estado_anterior_portugues,
+
+                d.DOMFICCOD         AS          estado_siguiente_codigo,
+                d.DOMFICNOI         AS          estado_siguiente_ingles,
+                d.DOMFICNOC         AS          estado_siguiente_castellano,
+                d.DOMFICNOP         AS          estado_siguiente_portugues,
+
+                e.DOMFICCOD         AS          tipo_prioridad_codigo,
+                e.DOMFICNOI         AS          tipo_prioridad_ingles,
+                e.DOMFICNOC         AS          tipo_prioridad_castellano,
+                e.DOMFICNOP         AS          tipo_prioridad_portugues,
+
+                f.WRKFICCOD         AS          workflow_codigo,
+                f.WRKFICORD         AS          workflow_orden,
+                f.WRKFICNOM         AS          workflow_tarea,
+                f.WRKFICOBS         AS          workflow_observacion
+
+                FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.CODE
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
+
+                WHERE a.WRKDETCOD = ?
+                
+                ORDER BY a.WRKDETORD";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'workflow_detalle_codigo'           => $rowMSSQL00['workflow_detalle_codigo'],
+                        'workflow_detalle_orden'            => $rowMSSQL00['workflow_detalle_orden'],
+                        'workflow_detalle_tarea'            => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
+                        'workflow_detalle_hora'             => $rowMSSQL00['workflow_detalle_hora'],
+                        'workflow_detalle_notifica'         => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_notifica']))),
+                        'workflow_detalle_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_observacion']))),
+
+                        'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_cargo_codigo'                 => $rowMSSQL00['tipo_cargo_codigo'],
+                        'tipo_cargo_codigo_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_nombre']))),
+                        'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
+                        'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
+
+                        'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
+                        'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
+                        'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
+                        'estado_siguiente_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_castellano']))),
+                        'estado_siguiente_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_portugues']))),
+
+                        'tipo_prioridad_codigo'             => $rowMSSQL00['tipo_prioridad_codigo'],
+                        'tipo_prioridad_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
+                        'tipo_prioridad_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
+                        'tipo_prioridad_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+
+                        'workflow_codigo'                   => $rowMSSQL00['workflow_codigo'],
+                        'workflow_orden'                    => $rowMSSQL00['workflow_orden'],
+                        'workflow_tarea'                    => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+                        'workflow_observacion'              => trim(strtoupper(strtolower($rowMSSQL00['workflow_observacion'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'workflow_detalle_codigo'           => '',
+                        'workflow_detalle_orden'            => '',
+                        'workflow_detalle_tarea'            => '',
+                        'workflow_detalle_hora'             => '',
+                        'workflow_detalle_notifica'         => '',
+                        'workflow_detalle_observacion'      => '',
+
+                        'auditoria_usuario'                 => '',
+                        'auditoria_fecha_hora'              => '',
+                        'auditoria_ip'                      => '',
+
+                        'tipo_cargo_codigo'                 => '',
+                        'tipo_cargo_codigo_nombre'          => '',
+                        'tipo_cargo_codigo_referencia'      => '',
+                        'tipo_cargo_nombre'                 => '',
+
+                        'estado_anterior_codigo'            => '',
+                        'estado_anterior_ingles'            => '',
+                        'estado_anterior_castellano'        => '',
+                        'estado_anterior_portugues'         => '',
+
+                        'estado_siguiente_codigo'           => '',
+                        'estado_siguiente_ingles'           => '',
+                        'estado_siguiente_castellano'       => '',
+                        'estado_siguiente_portugues'        => '',
+
+                        'tipo_prioridad_codigo'             => '',
+                        'tipo_prioridad_ingles'             => '',
+                        'tipo_prioridad_castellano'         => '',
+                        'tipo_prioridad_portugues'          => '',
+
+                        'workflow_codigo'                   => '',
+                        'workflow_orden'                    => '',
+                        'workflow_tarea'                    => '',
+                        'workflow_observacion'              => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/300/detalle/workflow/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.WRKDETCOD         AS          workflow_detalle_codigo,
+                a.WRKDETORD         AS          workflow_detalle_orden,
+                a.WRKDETNOM         AS          workflow_detalle_tarea,
+                a.WRKDETHOR         AS          workflow_detalle_hora,
+                a.WRKDETNOT         AS          workflow_detalle_notifica,
+                a.WRKDETOBS         AS          workflow_detalle_observacion,
+
+                a.WRKDETAUS         AS          auditoria_usuario,
+                a.WRKDETAFE         AS          auditoria_fecha_hora,
+                a.WRKDETAIP         AS          auditoria_ip,
+
+                b.CODE              AS          tipo_cargo_codigo,
+                b.NAME              AS          tipo_cargo_codigo_nombre,
+                b.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+                b.U_NOMBRE          AS          tipo_cargo_nombre,
+
+                c.DOMFICCOD         AS          estado_anterior_codigo,
+                c.DOMFICNOI         AS          estado_anterior_ingles,
+                c.DOMFICNOC         AS          estado_anterior_castellano,
+                c.DOMFICNOP         AS          estado_anterior_portugues,
+
+                d.DOMFICCOD         AS          estado_siguiente_codigo,
+                d.DOMFICNOI         AS          estado_siguiente_ingles,
+                d.DOMFICNOC         AS          estado_siguiente_castellano,
+                d.DOMFICNOP         AS          estado_siguiente_portugues,
+
+                e.DOMFICCOD         AS          tipo_prioridad_codigo,
+                e.DOMFICNOI         AS          tipo_prioridad_ingles,
+                e.DOMFICNOC         AS          tipo_prioridad_castellano,
+                e.DOMFICNOP         AS          tipo_prioridad_portugues,
+
+                f.WRKFICCOD         AS          workflow_codigo,
+                f.WRKFICORD         AS          workflow_orden,
+                f.WRKFICNOM         AS          workflow_tarea,
+                f.WRKFICOBS         AS          workflow_observacion
+
+                FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.CODE
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
+
+                WHERE a.WRKDETWFC = ?
+                
+                ORDER BY a.WRKDETORD";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'workflow_detalle_codigo'           => $rowMSSQL00['workflow_detalle_codigo'],
+                        'workflow_detalle_orden'            => $rowMSSQL00['workflow_detalle_orden'],
+                        'workflow_detalle_tarea'            => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
+                        'workflow_detalle_hora'             => $rowMSSQL00['workflow_detalle_hora'],
+                        'workflow_detalle_notifica'         => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_notifica']))),
+                        'workflow_detalle_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_observacion']))),
+
+                        'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_cargo_codigo'                 => $rowMSSQL00['tipo_cargo_codigo'],
+                        'tipo_cargo_codigo_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_nombre']))),
+                        'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
+                        'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
+
+                        'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
+                        'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
+                        'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
+                        'estado_siguiente_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_castellano']))),
+                        'estado_siguiente_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_portugues']))),
+
+                        'tipo_prioridad_codigo'             => $rowMSSQL00['tipo_prioridad_codigo'],
+                        'tipo_prioridad_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
+                        'tipo_prioridad_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
+                        'tipo_prioridad_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+
+                        'workflow_codigo'                   => $rowMSSQL00['workflow_codigo'],
+                        'workflow_orden'                    => $rowMSSQL00['workflow_orden'],
+                        'workflow_tarea'                    => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+                        'workflow_observacion'              => trim(strtoupper(strtolower($rowMSSQL00['workflow_observacion'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'workflow_detalle_codigo'           => '',
+                        'workflow_detalle_orden'            => '',
+                        'workflow_detalle_tarea'            => '',
+                        'workflow_detalle_hora'             => '',
+                        'workflow_detalle_notifica'         => '',
+                        'workflow_detalle_observacion'      => '',
+
+                        'auditoria_usuario'                 => '',
+                        'auditoria_fecha_hora'              => '',
+                        'auditoria_ip'                      => '',
+
+                        'tipo_cargo_codigo'                 => '',
+                        'tipo_cargo_codigo_nombre'          => '',
+                        'tipo_cargo_codigo_referencia'      => '',
+                        'tipo_cargo_nombre'                 => '',
+
+                        'estado_anterior_codigo'            => '',
+                        'estado_anterior_ingles'            => '',
+                        'estado_anterior_castellano'        => '',
+                        'estado_anterior_portugues'         => '',
+
+                        'estado_siguiente_codigo'           => '',
+                        'estado_siguiente_ingles'           => '',
+                        'estado_siguiente_castellano'       => '',
+                        'estado_siguiente_portugues'        => '',
+
+                        'tipo_prioridad_codigo'             => '',
+                        'tipo_prioridad_ingles'             => '',
+                        'tipo_prioridad_castellano'         => '',
+                        'tipo_prioridad_portugues'          => '',
+
+                        'workflow_codigo'                   => '',
+                        'workflow_orden'                    => '',
+                        'workflow_tarea'                    => '',
+                        'workflow_observacion'              => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
