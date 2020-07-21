@@ -786,3 +786,50 @@
         
         return $json;
     });
+
+    $app->post('/v1/300/detalle', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val02      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val03      = $request->getParsedBody()['estado_siguiente_codigo'];
+        $val04      = $request->getParsedBody()['tipo_prioridad_codigo'];
+        $val05      = $request->getParsedBody()['workflow_codigo'];
+        $val06      = $request->getParsedBody()['workflow_detalle_orden'];
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_detalle_tarea'])));
+        $val08      = $request->getParsedBody()['workflow_detalle_hora'];
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_detalle_notifica'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_detalle_observacion'])));
+
+        $aud01      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_usuario'])));
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05)) {
+            $sql00  = "INSERT INTO [wrk].[WRKDET] (WRKDETTCC, WRKDETEAC, WRKDETESC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
