@@ -790,10 +790,11 @@
         require __DIR__.'/../src/connect.php';
         
         $sql00  = "SELECT
-        a.CODE              AS          tipo_cargo_codigo,
+        a.CODE              AS          tipo_cargo_codigo_referencia,
         a.NAME              AS          tipo_cargo_codigo_nombre,
-        a.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+        a.U_CODIGO          AS          tipo_cargo_codigo,
         a.U_NOMBRE          AS          tipo_cargo_nombre,
+
         a.U_PUESTOS         AS          tipo_cargo_puesto_cantidad,
         a.U_PUEOCU          AS          tipo_cargo_puesto_ocupado,
         a.U_PUELIB          AS          tipo_cargo_libre,
@@ -875,100 +876,9 @@
         
         if (isset($val01)) {
             $sql00  = "SELECT
-            a.CODE              AS          tipo_cargo_codigo,
+            a.CODE              AS          tipo_cargo_codigo_referencia,
             a.NAME              AS          tipo_cargo_codigo_nombre,
-            a.U_CODIGO          AS          tipo_cargo_codigo_referencia,
-            a.U_NOMBRE          AS          tipo_cargo_nombre,
-            a.U_PUESTOS         AS          tipo_cargo_puesto_cantidad,
-            a.U_PUEOCU          AS          tipo_cargo_puesto_ocupado,
-            a.U_PUELIB          AS          tipo_cargo_libre,
-            a.U_GRADO           AS          tipo_cargo_grado,
-
-            b.CODE              AS          tipo_superior_cargo_codigo,
-            b.NAME              AS          tipo_superior_cargo_codigo_nombre,
-            b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
-            b.U_NOMBRE          AS          tipo_superior_cargo_nombre
-            
-            FROM [CSF].[dbo].[@A1A_TICA] a
-            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
-
-            WHERE a.CODE = ?
-
-            ORDER BY a.U_CODIGO";
-
-            try {
-                $connMSSQL  = getConnectionMSSQLv1();
-                $stmtMSSQL  = $connMSSQL->prepare($sql00);
-                $stmtMSSQL->execute([$val01]); 
-
-                while ($rowMSSQL = $stmtMSSQL->fetch()) {
-                    $detalle    = array(
-                        'tipo_cargo_codigo'                             => $rowMSSQL['tipo_cargo_codigo'],
-                        'tipo_cargo_codigo_nombre'                      => $rowMSSQL['tipo_cargo_codigo_nombre'],
-                        'tipo_cargo_codigo_referencia'                  => $rowMSSQL['tipo_cargo_codigo_referencia'],
-                        'tipo_cargo_nombre'                             => trim(strtoupper($rowMSSQL['tipo_cargo_nombre'])),
-                        'tipo_cargo_puesto_cantidad'                    => $rowMSSQL['tipo_cargo_puesto_cantidad'],
-                        'tipo_cargo_puesto_ocupado'                     => $rowMSSQL['tipo_cargo_puesto_ocupado'],
-                        'tipo_cargo_libre'                              => $rowMSSQL['tipo_cargo_libre'],
-                        'tipo_cargo_grado'                              => $rowMSSQL['tipo_cargo_grado'],
-                        'tipo_superior_cargo_codigo'                    => $rowMSSQL['tipo_superior_cargo_codigo'],
-                        'tipo_superior_cargo_codigo_nombre'             => $rowMSSQL['tipo_superior_cargo_codigo_nombre'],
-                        'tipo_superior_cargo_codigo_referencia'         => $rowMSSQL['tipo_superior_cargo_codigo_referencia'],
-                        'tipo_superior_cargo_nombre'                    => trim(strtoupper($rowMSSQL['tipo_superior_cargo_nombre']))
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                if (isset($result)){
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                } else {
-                    $detalle = array(
-                        'tipo_cargo_codigo'                             => '',
-                        'tipo_cargo_codigo_nombre'                      => '',
-                        'tipo_cargo_codigo_referencia'                  => '',
-                        'tipo_cargo_nombre'                             => '',
-                        'tipo_cargo_puesto_cantidad'                    => '',
-                        'tipo_cargo_puesto_ocupado'                     => '',
-                        'tipo_cargo_libre'                              => '',
-                        'tipo_cargo_grado'                              => '',
-                        'tipo_superior_cargo_codigo'                    => '',
-                        'tipo_superior_cargo_codigo_nombre'             => '',
-                        'tipo_superior_cargo_codigo_referencia'         => '',
-                        'tipo_superior_cargo_nombre'                    => ''
-                    );
-
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                }
-
-                $stmtMSSQL->closeCursor();
-                $stmtMSSQL = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        } else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
-
-    $app->get('/v1/000/cargo/referencia/{codigo}', function($request) {
-        require __DIR__.'/../src/connect.php';
-
-        $val01      = $request->getAttribute('codigo');
-        
-        if (isset($val01)) {
-            $sql00  = "SELECT
-            a.CODE              AS          tipo_cargo_codigo,
-            a.NAME              AS          tipo_cargo_codigo_nombre,
-            a.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+            a.U_CODIGO          AS          tipo_cargo_codigo,
             a.U_NOMBRE          AS          tipo_cargo_nombre,
             a.U_PUESTOS         AS          tipo_cargo_puesto_cantidad,
             a.U_PUEOCU          AS          tipo_cargo_puesto_ocupado,
@@ -1050,16 +960,16 @@
         return $json;
     });
 
-    $app->get('/v1/000/cargo/superior/codigo/{codigo}', function($request) {
+    $app->get('/v1/000/cargo/referencia/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getAttribute('codigo');
         
         if (isset($val01)) {
             $sql00  = "SELECT
-            a.CODE              AS          tipo_cargo_codigo,
+            a.CODE              AS          tipo_cargo_codigo_referencia,
             a.NAME              AS          tipo_cargo_codigo_nombre,
-            a.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+            a.U_CODIGO          AS          tipo_cargo_codigo,
             a.U_NOMBRE          AS          tipo_cargo_nombre,
             a.U_PUESTOS         AS          tipo_cargo_puesto_cantidad,
             a.U_PUEOCU          AS          tipo_cargo_puesto_ocupado,
@@ -1074,7 +984,98 @@
             FROM [CSF].[dbo].[@A1A_TICA] a
             LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
-            WHERE b.CODE = ?
+            WHERE a.CODE = ?
+
+            ORDER BY a.U_CODIGO";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL  = $connMSSQL->prepare($sql00);
+                $stmtMSSQL->execute([$val01]); 
+
+                while ($rowMSSQL = $stmtMSSQL->fetch()) {
+                    $detalle    = array(
+                        'tipo_cargo_codigo'                             => $rowMSSQL['tipo_cargo_codigo'],
+                        'tipo_cargo_codigo_nombre'                      => $rowMSSQL['tipo_cargo_codigo_nombre'],
+                        'tipo_cargo_codigo_referencia'                  => $rowMSSQL['tipo_cargo_codigo_referencia'],
+                        'tipo_cargo_nombre'                             => trim(strtoupper($rowMSSQL['tipo_cargo_nombre'])),
+                        'tipo_cargo_puesto_cantidad'                    => $rowMSSQL['tipo_cargo_puesto_cantidad'],
+                        'tipo_cargo_puesto_ocupado'                     => $rowMSSQL['tipo_cargo_puesto_ocupado'],
+                        'tipo_cargo_libre'                              => $rowMSSQL['tipo_cargo_libre'],
+                        'tipo_cargo_grado'                              => $rowMSSQL['tipo_cargo_grado'],
+                        'tipo_superior_cargo_codigo'                    => $rowMSSQL['tipo_superior_cargo_codigo'],
+                        'tipo_superior_cargo_codigo_nombre'             => $rowMSSQL['tipo_superior_cargo_codigo_nombre'],
+                        'tipo_superior_cargo_codigo_referencia'         => $rowMSSQL['tipo_superior_cargo_codigo_referencia'],
+                        'tipo_superior_cargo_nombre'                    => trim(strtoupper($rowMSSQL['tipo_superior_cargo_nombre']))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'tipo_cargo_codigo'                             => '',
+                        'tipo_cargo_codigo_nombre'                      => '',
+                        'tipo_cargo_codigo_referencia'                  => '',
+                        'tipo_cargo_nombre'                             => '',
+                        'tipo_cargo_puesto_cantidad'                    => '',
+                        'tipo_cargo_puesto_ocupado'                     => '',
+                        'tipo_cargo_libre'                              => '',
+                        'tipo_cargo_grado'                              => '',
+                        'tipo_superior_cargo_codigo'                    => '',
+                        'tipo_superior_cargo_codigo_nombre'             => '',
+                        'tipo_superior_cargo_codigo_referencia'         => '',
+                        'tipo_superior_cargo_nombre'                    => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL->closeCursor();
+                $stmtMSSQL = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/000/cargo/superior/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+            a.CODE              AS          tipo_cargo_codigo_referencia,
+            a.NAME              AS          tipo_cargo_codigo_nombre,
+            a.U_CODIGO          AS          tipo_cargo_codigo,
+            a.U_NOMBRE          AS          tipo_cargo_nombre,
+            a.U_PUESTOS         AS          tipo_cargo_puesto_cantidad,
+            a.U_PUEOCU          AS          tipo_cargo_puesto_ocupado,
+            a.U_PUELIB          AS          tipo_cargo_libre,
+            a.U_GRADO           AS          tipo_cargo_grado,
+
+            b.CODE              AS          tipo_superior_cargo_codigo,
+            b.NAME              AS          tipo_superior_cargo_codigo_nombre,
+            b.U_CODIGO          AS          tipo_superior_cargo_codigo_referencia,
+            b.U_NOMBRE          AS          tipo_superior_cargo_nombre
+            
+            FROM [CSF].[dbo].[@A1A_TICA] a
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
+
+            WHERE b.U_CODIGO = ?
 
             ORDER BY a.U_CODIGO";
 
@@ -1149,9 +1150,9 @@
         
         if (isset($val01)) {
             $sql00  = "SELECT
-            a.CODE              AS          tipo_cargo_codigo,
+            a.CODE              AS          tipo_cargo_codigo_referencia,
             a.NAME              AS          tipo_cargo_codigo_nombre,
-            a.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+            a.U_CODIGO          AS          tipo_cargo_codigo,
             a.U_NOMBRE          AS          tipo_cargo_nombre,
             a.U_PUESTOS         AS          tipo_cargo_puesto_cantidad,
             a.U_PUEOCU          AS          tipo_cargo_puesto_ocupado,
@@ -1166,7 +1167,7 @@
             FROM [CSF].[dbo].[@A1A_TICA] a
             LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.U_CARSUP = b.U_CODIGO
 
-            WHERE b.U_CODIGO = ?
+            WHERE b.CODE = ?
 
             ORDER BY a.U_CODIGO";
 
