@@ -1817,16 +1817,16 @@
             d.DOMFICNOC         AS          tipo_evento_castellano,
             d.DOMFICNOP         AS          tipo_evento_portugues,
 
-            e.CODE              AS          tipo_cargo_codigo,
+            e.U_CODIGO          AS          tipo_cargo_codigo,
+            e.CODE              AS          tipo_cargo_codigo_referencia,
             e.NAME              AS          tipo_cargo_codigo_nombre,
-            e.U_CODIGO          AS          tipo_cargo_codigo_referencia,
             e.U_NOMBRE          AS          tipo_cargo_nombre
 
             FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKFICTEC = d.DOMFICCOD
-            INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.CODE
+            INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.U_CODIGO
             
             ORDER BY a.WRKFICORD";
 
@@ -1952,16 +1952,16 @@
                 d.DOMFICNOC         AS          tipo_evento_castellano,
                 d.DOMFICNOP         AS          tipo_evento_portugues,
 
-                e.CODE              AS          tipo_cargo_codigo,
+                e.U_CODIGO          AS          tipo_cargo_codigo,
+                e.CODE              AS          tipo_cargo_codigo_referencia,
                 e.NAME              AS          tipo_cargo_codigo_nombre,
-                e.U_CODIGO          AS          tipo_cargo_codigo_referencia,
                 e.U_NOMBRE          AS          tipo_cargo_nombre
 
                 FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKFICTEC = d.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.CODE
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.U_CODIGO
 
                 WHERE a.WRKFICCOD = ?
                 
@@ -2093,16 +2093,16 @@
                 d.DOMFICNOC         AS          tipo_evento_castellano,
                 d.DOMFICNOP         AS          tipo_evento_portugues,
 
-                e.CODE              AS          tipo_cargo_codigo,
+                e.U_CODIGO          AS          tipo_cargo_codigo,
+                e.CODE              AS          tipo_cargo_codigo_referencia,
                 e.NAME              AS          tipo_cargo_codigo_nombre,
-                e.U_CODIGO          AS          tipo_cargo_codigo_referencia,
                 e.U_NOMBRE          AS          tipo_cargo_nombre
 
                 FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKFICTEC = d.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.CODE
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.U_CODIGO
 
                 WHERE a.WRKFICTCC = ?
                 
@@ -2218,9 +2218,9 @@
             a.WRKDETAFE         AS          auditoria_fecha_hora,
             a.WRKDETAIP         AS          auditoria_ip,
 
-            b.CODE              AS          tipo_cargo_codigo,
+            b.U_CODIGO          AS          tipo_cargo_codigo,
             b.NAME              AS          tipo_cargo_codigo_nombre,
-            b.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+            b.CODE              AS          tipo_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_cargo_nombre,
 
             c.DOMFICCOD         AS          estado_anterior_codigo,
@@ -2244,7 +2244,7 @@
             f.WRKFICOBS         AS          workflow_observacion
 
             FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
-            INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.CODE
+            INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
@@ -2375,9 +2375,9 @@
                 a.WRKDETAFE         AS          auditoria_fecha_hora,
                 a.WRKDETAIP         AS          auditoria_ip,
 
-                b.CODE              AS          tipo_cargo_codigo,
+                b.U_CODIGO          AS          tipo_cargo_codigo,
                 b.NAME              AS          tipo_cargo_codigo_nombre,
-                b.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+                b.CODE              AS          tipo_cargo_codigo_referencia,
                 b.U_NOMBRE          AS          tipo_cargo_nombre,
 
                 c.DOMFICCOD         AS          estado_anterior_codigo,
@@ -2401,7 +2401,7 @@
                 f.WRKFICOBS         AS          workflow_observacion
 
                 FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.CODE
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
@@ -2538,9 +2538,9 @@
                 a.WRKDETAFE         AS          auditoria_fecha_hora,
                 a.WRKDETAIP         AS          auditoria_ip,
 
-                b.CODE              AS          tipo_cargo_codigo,
+                b.U_CODIGO          AS          tipo_cargo_codigo,
                 b.NAME              AS          tipo_cargo_codigo_nombre,
-                b.U_CODIGO          AS          tipo_cargo_codigo_referencia,
+                b.CODE              AS          tipo_cargo_codigo_referencia,
                 b.U_NOMBRE          AS          tipo_cargo_nombre,
 
                 c.DOMFICCOD         AS          estado_anterior_codigo,
@@ -2564,7 +2564,7 @@
                 f.WRKFICOBS         AS          workflow_observacion
 
                 FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.CODE
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD

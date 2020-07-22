@@ -752,9 +752,10 @@
         $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {      
-            $sql00  = "SELECT CAST(a.CODE AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.CODE AND b.WRKFICTWC = ?)"; 
+            $sql00  = "SELECT CAST(a.U_CODIGO AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.U_CODIGO AND b.WRKFICTWC = ?)";
             $sql01  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            
+            $sql02  = "SELECT CAST(a.U_CODIGO AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.U_CODIGO AND b.WRKFICTWC = ?)";
+
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
 
