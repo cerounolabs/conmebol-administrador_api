@@ -761,9 +761,9 @@
             (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
             (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
             
-            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CAST(a.U_CARSUP AS INT) FROM [CSF].[dbo].[@A1A_TICA] a WHERE U_CODIGO = ?)),
-            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CAST(a.U_CARSUP AS INT) FROM [CSF].[dbo].[@A1A_TICA] a WHERE U_CODIGO = ?)),
-            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CAST(a.U_CARSUP AS INT) FROM [CSF].[dbo].[@A1A_TICA] a WHERE U_CODIGO = ?)),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CASE WHEN U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?)),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CASE WHEN U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?)),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CASE WHEN U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?)),
             
             (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
             (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
