@@ -752,15 +752,47 @@
         $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {      
-            $sql00  = "SELECT CAST(a.U_CODIGO AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.U_CODIGO AND b.WRKFICTWC = ?)";
+            $sql00  = "SELECT CAST(a.U_CODIGO AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.U_CODIGO AND b.WRKFICTWC = ?)";
             $sql01  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            $sql02  = "SELECT CAST(a.U_CODIGO AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.U_CODIGO AND b.WRKFICTWC = ?)";
+            $sql02  = "SELECT a.WRKFICCOD AS workflow_codigo, a.WRKFICTCC AS tipo_cargo_codigo, a.WRKFICNOM AS workflow_tarea FROM [wrk].[WRKFIC] a WHERE a.WRKFICTWC = ?"; 
+            $sql03  = "INSERT INTO [wrk].[WRKDET] 
+            ( WRKDETEAC, WRKDETESC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP, WRKDETTCC) VALUES 
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CAST(a.U_CARSUP AS INT) FROM [CSF].[dbo].[@A1A_TICA] a WHERE U_CODIGO = ?)),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CAST(a.U_CARSUP AS INT) FROM [CSF].[dbo].[@A1A_TICA] a WHERE U_CODIGO = ?)),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, (SELECT CAST(a.U_CARSUP AS INT) FROM [CSF].[dbo].[@A1A_TICA] a WHERE U_CODIGO = ?)),
+            
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?),
+            (         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?, ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL02= $connMSSQL->prepare($sql02);
+                $stmtMSSQL03= $connMSSQL->prepare($sql03);
 
                 $stmtMSSQL00->execute([$val02]);
 
@@ -768,12 +800,59 @@
                     $stmtMSSQL01->execute([$val01, $val02, $val03, $rowMSSQL00['tipo_cargo_codigo'], $val05, $val06.' '.trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))), $val07, $aud01, $aud03]);
                 }
 
+                $stmtMSSQL02->execute([$val02]);
+
+                while ($rowMSSQL02 = $stmtMSSQL02->fetch()) {
+                    $codTarea = $rowMSSQL02['workflow_codigo'];
+                    $nomTarea = $rowMSSQL02['workflow_nombre'];
+                    $codCargo = $rowMSSQL02['tipo_cargo_codigo'];
+
+                    $stmtMSSQL03->execute(
+                        [
+                            4, 4, 49, $codTarea, 100, 'TAREA#100', 40, 'S', '', $aud01, $aud03, $codCargo,
+                            4, 5, 49, $codTarea, 101, 'TAREA#101', 40, 'S', '', $aud01, $aud03, $codCargo,
+                            4, 6, 49, $codTarea, 102, 'TAREA#102', 40, 'S', '', $aud01, $aud03, $codCargo,
+
+                            5, 51, 49, $codTarea, 200, 'TAREA#200', 40, 'S', '', $aud01, $aud03, $codCargo,
+                            5, 52, 49, $codTarea, 201, 'TAREA#201', 40, 'S', '', $aud01, $aud03, $codCargo,
+                            5, 4,  49, $codTarea, 202, 'TAREA#202', 40, 'S', '', $aud01, $aud03, $codCargo,
+
+                            51, 53, 49, $codTarea, 300, 'TAREA#300', 40, 'S', '', $aud01, $aud03, 58,
+                            51, 52, 49, $codTarea, 301, 'TAREA#301', 40, 'S', '', $aud01, $aud03, 58,
+                            51, 5,  49, $codTarea, 302, 'TAREA#302', 40, 'S', '', $aud01, $aud03, 58,
+
+                            53, 7,  49, $codTarea, 400, 'TAREA#400', 40, 'S', '', $aud01, $aud03, 56,
+                            53, 52, 49, $codTarea, 401, 'TAREA#401', 40, 'S', '', $aud01, $aud03, 56,
+                            53, 51, 49, $codTarea, 402, 'TAREA#402', 40, 'S', '', $aud01, $aud03, 56,
+
+                            7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03, 24,
+                            7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03, 24,
+                            7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03, 24,
+                            7, 54, 49, $codTarea, 503, 'TAREA#503', 40, 'S', '', $aud01, $aud03, 24,
+
+                            7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03, 6,
+                            7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03, 6,
+                            7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03, 6,
+
+                            54, 8, 49, $codTarea, 600, 'TAREA#600', 40, 'S', '', $aud01, $aud03, 6,
+                            54, 52, 49, $codTarea, 601, 'TAREA#601', 40, 'S', '', $aud01, $aud03, 6,
+                            54, 7, 49, $codTarea, 602, 'TAREA#602', 40, 'S', '', $aud01, $aud03, 6
+                        ]
+                    );
+                }
+
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
+                $stmtMSSQL00->closeCursor();
                 $stmtMSSQL01->closeCursor();
+                $stmtMSSQL02->closeCursor();
+                $stmtMSSQL03->closeCursor();
 
+                $stmtMSSQL00 = null;
                 $stmtMSSQL01 = null;
+                $stmtMSSQL02 = null;
+                $stmtMSSQL03 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
