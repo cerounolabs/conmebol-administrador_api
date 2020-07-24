@@ -761,9 +761,9 @@
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             
-            ((SELECT CASE WHEN U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-            ((SELECT CASE WHEN U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-            ((SELECT CASE WHEN U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+            ((SELECT CASE WHEN a.U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+            ((SELECT CASE WHEN a.U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+            ((SELECT CASE WHEN a.U_CARSUP IS NULL THEN CAST(a.U_CODIGO AS INT) ELSE CAST(a.U_CARSUP AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
@@ -812,28 +812,22 @@
                             $codCargo, 4, 4, 49, $codTarea, 100, 'TAREA#100', 40, 'S', '', $aud01, $aud03,
                             $codCargo, 4, 5, 49, $codTarea, 101, 'TAREA#101', 40, 'S', '', $aud01, $aud03,
                             $codCargo, 4, 6, 49, $codTarea, 102, 'TAREA#102', 40, 'S', '', $aud01, $aud03,
-
                             $codCargo, 5, 51, 49, $codTarea, 200, 'TAREA#200', 40, 'S', '', $aud01, $aud03,
                             $codCargo, 5, 52, 49, $codTarea, 201, 'TAREA#201', 40, 'S', '', $aud01, $aud03,
                             $codCargo, 5, 4,  49, $codTarea, 202, 'TAREA#202', 40, 'S', '', $aud01, $aud03,
-
                             58, 51, 53, 49, $codTarea, 300, 'TAREA#300', 40, 'S', '', $aud01, $aud03,
                             58, 51, 52, 49, $codTarea, 301, 'TAREA#301', 40, 'S', '', $aud01, $aud03,
                             58, 51, 5,  49, $codTarea, 302, 'TAREA#302', 40, 'S', '', $aud01, $aud03,
-
                             56, 53, 7,  49, $codTarea, 400, 'TAREA#400', 40, 'S', '', $aud01, $aud03,
                             56, 53, 52, 49, $codTarea, 401, 'TAREA#401', 40, 'S', '', $aud01, $aud03,
                             56, 53, 51, 49, $codTarea, 402, 'TAREA#402', 40, 'S', '', $aud01, $aud03,
-
                             24, 7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03,
                             24, 7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03,
                             24, 7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03,
                             24, 7, 54, 49, $codTarea, 503, 'TAREA#503', 40, 'S', '', $aud01, $aud03,
-
                             6, 7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03,
                             6, 7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03,
                             6, 7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03,
-
                             6, 54, 8, 49, $codTarea, 600, 'TAREA#600', 40, 'S', '', $aud01, $aud03,
                             6, 54, 52, 49, $codTarea, 601, 'TAREA#601', 40, 'S', '', $aud01, $aud03,
                             6, 54, 7, 49, $codTarea, 602, 'TAREA#602', 40, 'S', '', $aud01, $aud03
