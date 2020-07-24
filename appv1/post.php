@@ -761,9 +761,9 @@
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             
-            ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-            ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-            ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE a.U_CODIGO = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+            ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+            ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+            ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
             (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
