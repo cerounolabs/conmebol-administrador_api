@@ -1811,21 +1811,15 @@
             c.DOMFICNOC         AS          tipo_workflow_castellano,
             c.DOMFICNOP         AS          tipo_workflow_portugues,
 
-            d.DOMFICCOD         AS          tipo_evento_codigo,
-            d.DOMFICNOI         AS          tipo_evento_ingles,
-            d.DOMFICNOC         AS          tipo_evento_castellano,
-            d.DOMFICNOP         AS          tipo_evento_portugues,
-
-            e.U_CODIGO          AS          tipo_cargo_codigo,
-            e.CODE              AS          tipo_cargo_codigo_referencia,
-            e.NAME              AS          tipo_cargo_codigo_nombre,
-            e.U_NOMBRE          AS          tipo_cargo_nombre
+            d.U_CODIGO          AS          tipo_cargo_codigo,
+            d.CODE              AS          tipo_cargo_codigo_referencia,
+            d.NAME              AS          tipo_cargo_codigo_nombre,
+            d.U_NOMBRE          AS          tipo_cargo_nombre
 
             FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKFICTEC = d.DOMFICCOD
-            INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.U_CODIGO
+            INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.WRKFICTCC = d.U_CODIGO
             
             ORDER BY a.WRKFICORD";
 
@@ -1854,11 +1848,6 @@
                     'tipo_workflow_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_ingles']))),
                     'tipo_workflow_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_castellano']))),
                     'tipo_workflow_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_portugues']))),
-
-                    'tipo_evento_codigo'                => $rowMSSQL00['tipo_evento_codigo'],
-                    'tipo_evento_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_ingles']))),
-                    'tipo_evento_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_castellano']))),
-                    'tipo_evento_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_portugues']))),
 
                     'tipo_cargo_codigo'                 => $rowMSSQL00['tipo_cargo_codigo'],
                     'tipo_cargo_codigo_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_nombre']))),
@@ -1892,11 +1881,6 @@
                     'tipo_workflow_ingles'              => '',
                     'tipo_workflow_castellano'          => '',
                     'tipo_workflow_portugues'           => '',
-
-                    'tipo_evento_codigo'                => '',
-                    'tipo_evento_ingles'                => '',
-                    'tipo_evento_castellano'            => '',
-                    'tipo_evento_portugues'             => '',
 
                     'tipo_cargo_codigo'                 => '',
                     'tipo_cargo_codigo_nombre'          => '',
@@ -1946,21 +1930,15 @@
                 c.DOMFICNOC         AS          tipo_workflow_castellano,
                 c.DOMFICNOP         AS          tipo_workflow_portugues,
 
-                d.DOMFICCOD         AS          tipo_evento_codigo,
-                d.DOMFICNOI         AS          tipo_evento_ingles,
-                d.DOMFICNOC         AS          tipo_evento_castellano,
-                d.DOMFICNOP         AS          tipo_evento_portugues,
-
-                e.U_CODIGO          AS          tipo_cargo_codigo,
-                e.CODE              AS          tipo_cargo_codigo_referencia,
-                e.NAME              AS          tipo_cargo_codigo_nombre,
-                e.U_NOMBRE          AS          tipo_cargo_nombre
+                d.U_CODIGO          AS          tipo_cargo_codigo,
+                d.CODE              AS          tipo_cargo_codigo_referencia,
+                d.NAME              AS          tipo_cargo_codigo_nombre,
+                d.U_NOMBRE          AS          tipo_cargo_nombre
 
                 FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKFICTEC = d.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.WRKFICTCC = d.U_CODIGO
 
                 WHERE a.WRKFICCOD = ?
                 
@@ -1991,11 +1969,6 @@
                         'tipo_workflow_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_ingles']))),
                         'tipo_workflow_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_castellano']))),
                         'tipo_workflow_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_portugues']))),
-
-                        'tipo_evento_codigo'                => $rowMSSQL00['tipo_evento_codigo'],
-                        'tipo_evento_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_ingles']))),
-                        'tipo_evento_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_castellano']))),
-                        'tipo_evento_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_portugues']))),
 
                         'tipo_cargo_codigo'                 => $rowMSSQL00['tipo_cargo_codigo'],
                         'tipo_cargo_codigo_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_nombre']))),
@@ -2029,11 +2002,6 @@
                         'tipo_workflow_ingles'              => '',
                         'tipo_workflow_castellano'          => '',
                         'tipo_workflow_portugues'           => '',
-
-                        'tipo_evento_codigo'                => '',
-                        'tipo_evento_ingles'                => '',
-                        'tipo_evento_castellano'            => '',
-                        'tipo_evento_portugues'             => '',
 
                         'tipo_cargo_codigo'                 => '',
                         'tipo_cargo_codigo_nombre'          => '',
@@ -2087,21 +2055,15 @@
                 c.DOMFICNOC         AS          tipo_workflow_castellano,
                 c.DOMFICNOP         AS          tipo_workflow_portugues,
 
-                d.DOMFICCOD         AS          tipo_evento_codigo,
-                d.DOMFICNOI         AS          tipo_evento_ingles,
-                d.DOMFICNOC         AS          tipo_evento_castellano,
-                d.DOMFICNOP         AS          tipo_evento_portugues,
-
-                e.U_CODIGO          AS          tipo_cargo_codigo,
-                e.CODE              AS          tipo_cargo_codigo_referencia,
-                e.NAME              AS          tipo_cargo_codigo_nombre,
-                e.U_NOMBRE          AS          tipo_cargo_nombre
+                d.U_CODIGO          AS          tipo_cargo_codigo,
+                d.CODE              AS          tipo_cargo_codigo_referencia,
+                d.NAME              AS          tipo_cargo_codigo_nombre,
+                d.U_NOMBRE          AS          tipo_cargo_nombre
 
                 FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKFICTEC = d.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.WRKFICTCC = e.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.WRKFICTCC = d.U_CODIGO
 
                 WHERE a.WRKFICTCC = ?
                 
@@ -2132,11 +2094,6 @@
                         'tipo_workflow_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_ingles']))),
                         'tipo_workflow_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_castellano']))),
                         'tipo_workflow_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_workflow_portugues']))),
-
-                        'tipo_evento_codigo'                => $rowMSSQL00['tipo_evento_codigo'],
-                        'tipo_evento_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_ingles']))),
-                        'tipo_evento_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_castellano']))),
-                        'tipo_evento_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_portugues']))),
 
                         'tipo_cargo_codigo'                 => $rowMSSQL00['tipo_cargo_codigo'],
                         'tipo_cargo_codigo_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_nombre']))),
@@ -2170,12 +2127,7 @@
                         'tipo_workflow_ingles'              => '',
                         'tipo_workflow_castellano'          => '',
                         'tipo_workflow_portugues'           => '',
-
-                        'tipo_evento_codigo'                => '',
-                        'tipo_evento_ingles'                => '',
-                        'tipo_evento_castellano'            => '',
-                        'tipo_evento_portugues'             => '',
-
+                        
                         'tipo_cargo_codigo'                 => '',
                         'tipo_cargo_codigo_nombre'          => '',
                         'tipo_cargo_codigo_referencia'      => '',

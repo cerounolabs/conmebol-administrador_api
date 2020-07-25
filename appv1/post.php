@@ -697,24 +697,23 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_workflow_codigo'];
-        $val03      = $request->getParsedBody()['tipo_evento_codigo'];
-        $val04      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val05      = $request->getParsedBody()['workflow_orden'];
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_tarea'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_observacion'])));
+        $val03      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val04      = $request->getParsedBody()['workflow_orden'];
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_tarea'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_observacion'])));
 
         $aud01      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_usuario'])));
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
-            $sql00  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val03)) {        
+            $sql00  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, (SELECT 'WF: ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?), ?, ?, ?, ?, GETDATE(), ?)";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -741,19 +740,18 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_workflow_codigo'];
-        $val03      = $request->getParsedBody()['tipo_evento_codigo'];
-        $val04      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val05      = $request->getParsedBody()['workflow_orden'];
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_tarea'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_observacion'])));
+        $val03      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val04      = $request->getParsedBody()['workflow_orden'];
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_tarea'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['workflow_observacion'])));
 
         $aud01      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_usuario'])));
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {      
+        if (isset($val01) && isset($val02) && isset($val03)) {      
             $sql00  = "SELECT CAST(a.U_CODIGO AS INT) AS tipo_cargo_codigo, a.U_NOMBRE AS tipo_cargo_nombre FROM [CSF].[dbo].[@A1A_TICA] a WHERE NOT EXISTS (SELECT * FROM [wrk].[WRKFIC] b WHERE b.WRKFICTCC = a.U_CODIGO AND b.WRKFICTWC = ?)";
-            $sql01  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTEC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "INSERT INTO [wrk].[WRKFIC] (WRKFICEST, WRKFICTWC, WRKFICTCC, WRKFICORD, WRKFICNOM, WRKFICOBS, WRKFICAUS, WRKFICAFE, WRKFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql02  = "SELECT a.WRKFICCOD AS workflow_codigo, a.WRKFICTCC AS tipo_cargo_codigo, a.WRKFICNOM AS workflow_tarea FROM [wrk].[WRKFIC] a WHERE a.WRKFICTWC = ? AND NOT EXISTS(SELECT * FROM [wrk].[WRKDET] b WHERE a.WRKFICCOD = b.WRKDETWFC)";
 
             switch ($val02) {
@@ -802,14 +800,13 @@
                 $stmtMSSQL00->execute([$val02]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    $stmtMSSQL01->execute([$val01, $val02, $val03, $rowMSSQL00['tipo_cargo_codigo'], $val05, $val06.' '.trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))), $val07, $aud01, $aud03]);
+                    $stmtMSSQL01->execute([$val01, $val02, $rowMSSQL00['tipo_cargo_codigo'], $val04, 'WF: '.trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))), $val06, $aud01, $aud03]);
                 }
 
                 $stmtMSSQL02->execute([$val02]);
 
                 while ($rowMSSQL02 = $stmtMSSQL02->fetch()) {
                     $codTarea = $rowMSSQL02['workflow_codigo'];
-                    $nomTarea = $rowMSSQL02['workflow_nombre'];
                     $codCargo = $rowMSSQL02['tipo_cargo_codigo'];
 
                     switch ($val02) {
