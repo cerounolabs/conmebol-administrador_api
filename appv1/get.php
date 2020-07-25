@@ -2174,15 +2174,15 @@
             b.CODE              AS          tipo_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_cargo_nombre,
 
-            c.DOMFICCOD         AS          estado_actual_codigo,
-            c.DOMFICNOI         AS          estado_actual_ingles,
-            c.DOMFICNOC         AS          estado_actual_castellano,
-            c.DOMFICNOP         AS          estado_actual_portugues,
+            c.DOMFICCOD         AS          estado_anterior_codigo,
+            c.DOMFICNOI         AS          estado_anterior_ingles,
+            c.DOMFICNOC         AS          estado_anterior_castellano,
+            c.DOMFICNOP         AS          estado_anterior_portugues,
 
-            d.DOMFICCOD         AS          estado_siguiente_codigo,
-            d.DOMFICNOI         AS          estado_siguiente_ingles,
-            d.DOMFICNOC         AS          estado_siguiente_castellano,
-            d.DOMFICNOP         AS          estado_siguiente_portugues,
+            d.DOMFICCOD         AS          estado_actual_codigo,
+            d.DOMFICNOI         AS          estado_actual_ingles,
+            d.DOMFICNOC         AS          estado_actual_castellano,
+            d.DOMFICNOP         AS          estado_actual_portugues,
 
             e.DOMFICCOD         AS          tipo_prioridad_codigo,
             e.DOMFICNOI         AS          tipo_prioridad_ingles,
@@ -2197,7 +2197,7 @@
             FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
             INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
+            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
             
@@ -2226,15 +2226,15 @@
                     'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
                     'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
 
+                    'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
+                    'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                    'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                    'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
                     'estado_actual_codigo'              => $rowMSSQL00['estado_actual_codigo'],
                     'estado_actual_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                     'estado_actual_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                     'estado_actual_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
-
-                    'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
-                    'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
-                    'estado_siguiente_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_castellano']))),
-                    'estado_siguiente_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_portugues']))),
 
                     'tipo_prioridad_codigo'             => $rowMSSQL00['tipo_prioridad_codigo'],
                     'tipo_prioridad_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
@@ -2271,15 +2271,15 @@
                     'tipo_cargo_codigo_referencia'      => '',
                     'tipo_cargo_nombre'                 => '',
 
+                    'estado_anterior_codigo'            => '',
+                    'estado_anterior_ingles'            => '',
+                    'estado_anterior_castellano'        => '',
+                    'estado_anterior_portugues'         => '',
+
                     'estado_actual_codigo'              => '',
                     'estado_actual_ingles'              => '',
                     'estado_actual_castellano'          => '',
                     'estado_actual_portugues'           => '',
-
-                    'estado_siguiente_codigo'           => '',
-                    'estado_siguiente_ingles'           => '',
-                    'estado_siguiente_castellano'       => '',
-                    'estado_siguiente_portugues'        => '',
 
                     'tipo_prioridad_codigo'             => '',
                     'tipo_prioridad_ingles'             => '',
@@ -2331,15 +2331,15 @@
                 b.CODE              AS          tipo_cargo_codigo_referencia,
                 b.U_NOMBRE          AS          tipo_cargo_nombre,
 
-                c.DOMFICCOD         AS          estado_actual_codigo,
-                c.DOMFICNOI         AS          estado_actual_ingles,
-                c.DOMFICNOC         AS          estado_actual_castellano,
-                c.DOMFICNOP         AS          estado_actual_portugues,
+                c.DOMFICCOD         AS          estado_anterior_codigo,
+                c.DOMFICNOI         AS          estado_anterior_ingles,
+                c.DOMFICNOC         AS          estado_anterior_castellano,
+                c.DOMFICNOP         AS          estado_anterior_portugues,
 
-                d.DOMFICCOD         AS          estado_siguiente_codigo,
-                d.DOMFICNOI         AS          estado_siguiente_ingles,
-                d.DOMFICNOC         AS          estado_siguiente_castellano,
-                d.DOMFICNOP         AS          estado_siguiente_portugues,
+                d.DOMFICCOD         AS          estado_actual_codigo,
+                d.DOMFICNOI         AS          estado_actual_ingles,
+                d.DOMFICNOC         AS          estado_actual_castellano,
+                d.DOMFICNOP         AS          estado_actual_portugues,
 
                 e.DOMFICCOD         AS          tipo_prioridad_codigo,
                 e.DOMFICNOI         AS          tipo_prioridad_ingles,
@@ -2354,7 +2354,7 @@
                 FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
 
@@ -2385,15 +2385,15 @@
                         'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
                         'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
 
+                        'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
                         'estado_actual_codigo'              => $rowMSSQL00['estado_actual_codigo'],
                         'estado_actual_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                         'estado_actual_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                         'estado_actual_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
-
-                        'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
-                        'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
-                        'estado_siguiente_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_castellano']))),
-                        'estado_siguiente_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_portugues']))),
 
                         'tipo_prioridad_codigo'             => $rowMSSQL00['tipo_prioridad_codigo'],
                         'tipo_prioridad_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
@@ -2430,15 +2430,15 @@
                         'tipo_cargo_codigo_referencia'      => '',
                         'tipo_cargo_nombre'                 => '',
 
+                        'estado_anterior_codigo'            => '',
+                        'estado_anterior_ingles'            => '',
+                        'estado_anterior_castellano'        => '',
+                        'estado_anterior_portugues'         => '',
+
                         'estado_actual_codigo'              => '',
                         'estado_actual_ingles'              => '',
                         'estado_actual_castellano'          => '',
                         'estado_actual_portugues'           => '',
-
-                        'estado_siguiente_codigo'           => '',
-                        'estado_siguiente_ingles'           => '',
-                        'estado_siguiente_castellano'       => '',
-                        'estado_siguiente_portugues'        => '',
 
                         'tipo_prioridad_codigo'             => '',
                         'tipo_prioridad_ingles'             => '',
@@ -2494,15 +2494,15 @@
                 b.CODE              AS          tipo_cargo_codigo_referencia,
                 b.U_NOMBRE          AS          tipo_cargo_nombre,
 
-                c.DOMFICCOD         AS          estado_actual_codigo,
-                c.DOMFICNOI         AS          estado_actual_ingles,
-                c.DOMFICNOC         AS          estado_actual_castellano,
-                c.DOMFICNOP         AS          estado_actual_portugues,
+                c.DOMFICCOD         AS          estado_anterior_codigo,
+                c.DOMFICNOI         AS          estado_anterior_ingles,
+                c.DOMFICNOC         AS          estado_anterior_castellano,
+                c.DOMFICNOP         AS          estado_anterior_portugues,
 
-                d.DOMFICCOD         AS          estado_siguiente_codigo,
-                d.DOMFICNOI         AS          estado_siguiente_ingles,
-                d.DOMFICNOC         AS          estado_siguiente_castellano,
-                d.DOMFICNOP         AS          estado_siguiente_portugues,
+                d.DOMFICCOD         AS          estado_actual_codigo,
+                d.DOMFICNOI         AS          estado_actual_ingles,
+                d.DOMFICNOC         AS          estado_actual_castellano,
+                d.DOMFICNOP         AS          estado_actual_portugues,
 
                 e.DOMFICCOD         AS          tipo_prioridad_codigo,
                 e.DOMFICNOI         AS          tipo_prioridad_ingles,
@@ -2517,7 +2517,7 @@
                 FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETESC = d.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
 
@@ -2548,15 +2548,15 @@
                         'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
                         'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
 
+                        'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
                         'estado_actual_codigo'              => $rowMSSQL00['estado_actual_codigo'],
                         'estado_actual_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                         'estado_actual_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                         'estado_actual_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
-
-                        'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
-                        'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
-                        'estado_siguiente_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_castellano']))),
-                        'estado_siguiente_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_portugues']))),
 
                         'tipo_prioridad_codigo'             => $rowMSSQL00['tipo_prioridad_codigo'],
                         'tipo_prioridad_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
@@ -2593,15 +2593,15 @@
                         'tipo_cargo_codigo_referencia'      => '',
                         'tipo_cargo_nombre'                 => '',
 
+                        'estado_anterior_codigo'            => '',
+                        'estado_anterior_ingles'            => '',
+                        'estado_anterior_castellano'        => '',
+                        'estado_anterior_portugues'         => '',
+
                         'estado_actual_codigo'              => '',
                         'estado_actual_ingles'              => '',
                         'estado_actual_castellano'          => '',
                         'estado_actual_portugues'           => '',
-
-                        'estado_siguiente_codigo'           => '',
-                        'estado_siguiente_ingles'           => '',
-                        'estado_siguiente_castellano'       => '',
-                        'estado_siguiente_portugues'        => '',
 
                         'tipo_prioridad_codigo'             => '',
                         'tipo_prioridad_ingles'             => '',
