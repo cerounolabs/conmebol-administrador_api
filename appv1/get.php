@@ -974,7 +974,6 @@
                     a.EmailManager              AS          superior_manager_email
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
-/*                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo*/
 
                     WHERE a.CedulaEmpleado = ?";
             } elseif ($val01 == '2') {
@@ -2223,10 +2222,10 @@
             b.CODE              AS          tipo_cargo_codigo_referencia,
             b.U_NOMBRE          AS          tipo_cargo_nombre,
 
-            c.DOMFICCOD         AS          estado_anterior_codigo,
-            c.DOMFICNOI         AS          estado_anterior_ingles,
-            c.DOMFICNOC         AS          estado_anterior_castellano,
-            c.DOMFICNOP         AS          estado_anterior_portugues,
+            c.DOMFICCOD         AS          estado_actual_codigo,
+            c.DOMFICNOI         AS          estado_actual_ingles,
+            c.DOMFICNOC         AS          estado_actual_castellano,
+            c.DOMFICNOP         AS          estado_actual_portugues,
 
             d.DOMFICCOD         AS          estado_siguiente_codigo,
             d.DOMFICNOI         AS          estado_siguiente_ingles,
@@ -2275,10 +2274,10 @@
                     'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
                     'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
 
-                    'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
-                    'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
-                    'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
-                    'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                    'estado_actual_codigo'              => $rowMSSQL00['estado_actual_codigo'],
+                    'estado_actual_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
+                    'estado_actual_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
+                    'estado_actual_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
 
                     'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
                     'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
@@ -2320,10 +2319,10 @@
                     'tipo_cargo_codigo_referencia'      => '',
                     'tipo_cargo_nombre'                 => '',
 
-                    'estado_anterior_codigo'            => '',
-                    'estado_anterior_ingles'            => '',
-                    'estado_anterior_castellano'        => '',
-                    'estado_anterior_portugues'         => '',
+                    'estado_actual_codigo'              => '',
+                    'estado_actual_ingles'              => '',
+                    'estado_actual_castellano'          => '',
+                    'estado_actual_portugues'           => '',
 
                     'estado_siguiente_codigo'           => '',
                     'estado_siguiente_ingles'           => '',
@@ -2380,10 +2379,10 @@
                 b.CODE              AS          tipo_cargo_codigo_referencia,
                 b.U_NOMBRE          AS          tipo_cargo_nombre,
 
-                c.DOMFICCOD         AS          estado_anterior_codigo,
-                c.DOMFICNOI         AS          estado_anterior_ingles,
-                c.DOMFICNOC         AS          estado_anterior_castellano,
-                c.DOMFICNOP         AS          estado_anterior_portugues,
+                c.DOMFICCOD         AS          estado_actual_codigo,
+                c.DOMFICNOI         AS          estado_actual_ingles,
+                c.DOMFICNOC         AS          estado_actual_castellano,
+                c.DOMFICNOP         AS          estado_actual_portugues,
 
                 d.DOMFICCOD         AS          estado_siguiente_codigo,
                 d.DOMFICNOI         AS          estado_siguiente_ingles,
@@ -2434,10 +2433,10 @@
                         'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
                         'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
 
-                        'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
-                        'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
-                        'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
-                        'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                        'estado_actual_codigo'              => $rowMSSQL00['estado_actual_codigo'],
+                        'estado_actual_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
+                        'estado_actual_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
+                        'estado_actual_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
 
                         'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
                         'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
@@ -2479,10 +2478,10 @@
                         'tipo_cargo_codigo_referencia'      => '',
                         'tipo_cargo_nombre'                 => '',
 
-                        'estado_anterior_codigo'            => '',
-                        'estado_anterior_ingles'            => '',
-                        'estado_anterior_castellano'        => '',
-                        'estado_anterior_portugues'         => '',
+                        'estado_actual_codigo'              => '',
+                        'estado_actual_ingles'              => '',
+                        'estado_actual_castellano'          => '',
+                        'estado_actual_portugues'           => '',
 
                         'estado_siguiente_codigo'           => '',
                         'estado_siguiente_ingles'           => '',
@@ -2543,10 +2542,10 @@
                 b.CODE              AS          tipo_cargo_codigo_referencia,
                 b.U_NOMBRE          AS          tipo_cargo_nombre,
 
-                c.DOMFICCOD         AS          estado_anterior_codigo,
-                c.DOMFICNOI         AS          estado_anterior_ingles,
-                c.DOMFICNOC         AS          estado_anterior_castellano,
-                c.DOMFICNOP         AS          estado_anterior_portugues,
+                c.DOMFICCOD         AS          estado_actual_codigo,
+                c.DOMFICNOI         AS          estado_actual_ingles,
+                c.DOMFICNOC         AS          estado_actual_castellano,
+                c.DOMFICNOP         AS          estado_actual_portugues,
 
                 d.DOMFICCOD         AS          estado_siguiente_codigo,
                 d.DOMFICNOI         AS          estado_siguiente_ingles,
@@ -2597,10 +2596,10 @@
                         'tipo_cargo_codigo_referencia'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_codigo_referencia']))),
                         'tipo_cargo_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
 
-                        'estado_anterior_codigo'            => $rowMSSQL00['estado_anterior_codigo'],
-                        'estado_anterior_ingles'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
-                        'estado_anterior_castellano'        => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
-                        'estado_anterior_portugues'         => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                        'estado_actual_codigo'              => $rowMSSQL00['estado_actual_codigo'],
+                        'estado_actual_ingles'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
+                        'estado_actual_castellano'          => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
+                        'estado_actual_portugues'           => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
 
                         'estado_siguiente_codigo'           => $rowMSSQL00['estado_siguiente_codigo'],
                         'estado_siguiente_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['estado_siguiente_ingles']))),
@@ -2642,10 +2641,10 @@
                         'tipo_cargo_codigo_referencia'      => '',
                         'tipo_cargo_nombre'                 => '',
 
-                        'estado_anterior_codigo'            => '',
-                        'estado_anterior_ingles'            => '',
-                        'estado_anterior_castellano'        => '',
-                        'estado_anterior_portugues'         => '',
+                        'estado_actual_codigo'              => '',
+                        'estado_actual_ingles'              => '',
+                        'estado_actual_castellano'          => '',
+                        'estado_actual_portugues'           => '',
 
                         'estado_siguiente_codigo'           => '',
                         'estado_siguiente_ingles'           => '',

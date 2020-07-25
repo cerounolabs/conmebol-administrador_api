@@ -878,7 +878,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val02      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['estado_siguiente_codigo'];
         $val04      = $request->getParsedBody()['tipo_prioridad_codigo'];
         $val05      = $request->getParsedBody()['workflow_codigo'];
