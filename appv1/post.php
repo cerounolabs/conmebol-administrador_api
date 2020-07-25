@@ -757,7 +757,7 @@
             switch ($val02) {
                 case 38:
                     $sql03  = "INSERT INTO [wrk].[WRKDET]
-                        (WRKDETTCC, WRKDETEAC, WRKDETESC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP) VALUES 
+                        (WRKDETTCC, WRKDETEAC, WRKDETECC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP) VALUES 
                         (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
@@ -875,8 +875,8 @@
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val02      = $request->getParsedBody()['estado_actual_codigo'];
-        $val03      = $request->getParsedBody()['estado_siguiente_codigo'];
+        $val02      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val03      = $request->getParsedBody()['estado_actual_codigo'];
         $val04      = $request->getParsedBody()['tipo_prioridad_codigo'];
         $val05      = $request->getParsedBody()['workflow_codigo'];
         $val06      = $request->getParsedBody()['workflow_detalle_orden'];
@@ -890,7 +890,7 @@
         $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05)) {
-            $sql00  = "INSERT INTO [wrk].[WRKDET] (WRKDETTCC, WRKDETEAC, WRKDETESC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [wrk].[WRKDET] (WRKDETTCC, WRKDETEAC, WRKDETECC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
