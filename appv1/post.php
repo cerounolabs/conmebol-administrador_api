@@ -764,64 +764,30 @@
                         (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         
+                        ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#200: PENDIENTE EN ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#300: PENDIENTE EN ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#301: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#302: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#400: PENDIENTE EN ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#401: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#402: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?)";
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#500: PENDIENTE EN ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#501: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#502: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#503: APROBADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#600: APROBADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#601: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#602: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?)";
                     
                     break;
                 
                 case 47:
-                    $sql03  = "INSERT INTO [wrk].[WRKDET]
-                        (WRKDETTCC, WRKDETEAC, WRKDETESC, WRKDETTPC, WRKDETWFC, WRKDETORD, WRKDETNOM, WRKDETHOR, WRKDETNOT, WRKDETOBS, WRKDETAUS, WRKDETAFE, WRKDETAIP) VALUES 
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        ((SELECT CASE WHEN a.U_CARSUP IS NOT NULL THEN CAST(a.U_CARSUP AS INT) ELSE CAST(a.U_CODIGO AS INT) END FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?,         ?, GETDATE(),         ?)";
                     break;
             }
 
@@ -849,70 +815,35 @@
                     switch ($val02) {
                         case 38:
                             $stmtMSSQL03->execute([
-                                $codCargo, 4, 4, 49, $codTarea, 100, 'TAREA#100', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 4, 5, 49, $codTarea, 101, 'TAREA#101', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 4, 6, 49, $codTarea, 102, 'TAREA#102', 40, 'S', '', $aud01, $aud03,
+                                $codCargo, 4,  4, 49, $codTarea, 100, 'TAREA#100: NUEVO EN SOLICITANTE',    40, 'S', '', $aud01, $aud03,
+                                $codCargo, 4,  5, 49, $codTarea, 101, 'TAREA#101: PENDIENTE EN JEFE INMEDIATO',    40, 'S', '', $aud01, $aud03,
+                                $codCargo, 4,  6, 49, $codTarea, 102, 'TAREA#102: ANULADO POR SOLICITANTE',      40, 'S', '', $aud01, $aud03,
         
-                                $codCargo, 5, 51, 49, $codTarea, 200, 'TAREA#200', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 5, 52, 49, $codTarea, 201, 'TAREA#201', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 5, 4,  49, $codTarea, 202, 'TAREA#202', 40, 'S', '', $aud01, $aud03,
+                                $codCargo, 5, 51, 49, $codTarea, 200, 58, 40, 'S', '', $aud01, $aud03,
+                                $codCargo, 5, 52, 49, $codTarea, 201, 'TAREA#201: RECHAZADO POR JEFE INMEDIATO', 40, 'S', '', $aud01, $aud03,
+                                $codCargo, 5,  4, 49, $codTarea, 202, 'TAREA#202: VUELVE AL ESTADO ANTERIOR POR JEFE INMEDIATO',              40, 'S', '', $aud01, $aud03,
         
-                                58, 51, 53, 49, $codTarea, 300, 'TAREA#300', 40, 'S', '', $aud01, $aud03,
-                                58, 51, 52, 49, $codTarea, 301, 'TAREA#301', 40, 'S', '', $aud01, $aud03,
-                                58, 51, 5,  49, $codTarea, 302, 'TAREA#302', 40, 'S', '', $aud01, $aud03,
+                                58, 51, 53, 49, $codTarea, 300, 56, 40, 'S', '', $aud01, $aud03,
+                                58, 51, 52, 49, $codTarea, 301, 58, 40, 'S', '', $aud01, $aud03,
+                                58, 51,  5, 49, $codTarea, 302, 58, 40, 'S', '', $aud01, $aud03,
         
-                                56, 53, 7,  49, $codTarea, 400, 'TAREA#400', 40, 'S', '', $aud01, $aud03,
-                                56, 53, 52, 49, $codTarea, 401, 'TAREA#401', 40, 'S', '', $aud01, $aud03,
-                                56, 53, 51, 49, $codTarea, 402, 'TAREA#402', 40, 'S', '', $aud01, $aud03,
+                                56, 53,  7, 49, $codTarea, 400, 24, 40, 'S', '', $aud01, $aud03,
+                                56, 53, 52, 49, $codTarea, 401, 56, 40, 'S', '', $aud01, $aud03,
+                                56, 53, 51, 49, $codTarea, 402, 56, 40, 'S', '', $aud01, $aud03,
         
-                                24, 7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03,
-                                24, 7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03,
-                                24, 7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03,
-                                24, 7, 54, 49, $codTarea, 503, 'TAREA#503', 40, 'S', '', $aud01, $aud03,
-        
-                                6, 7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03,
-                                6, 7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03,
-                                6, 7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03,
-        
-                                6, 54, 8, 49, $codTarea, 600, 'TAREA#600', 40, 'S', '', $aud01, $aud03,
-                                6, 54, 52, 49, $codTarea, 601, 'TAREA#601', 40, 'S', '', $aud01, $aud03,
-                                6, 54, 7, 49, $codTarea, 602, 'TAREA#602', 40, 'S', '', $aud01, $aud03
+                                24,  7, 54, 49, $codTarea, 500,  6, 40, 'S', '', $aud01, $aud03,
+                                24,  7, 52, 49, $codTarea, 501, 24, 40, 'S', '', $aud01, $aud03,
+                                24,  7, 53, 49, $codTarea, 502, 24, 40, 'S', '', $aud01, $aud03,
+                                24,  7,  8, 49, $codTarea, 503, 24, 40, 'S', '', $aud01, $aud03,
+
+                                 6, 54,  8, 49, $codTarea, 600,  6, 40, 'S', '', $aud01, $aud03,
+                                 6, 54, 52, 49, $codTarea, 601,  6, 40, 'S', '', $aud01, $aud03,
+                                 6, 54,  7, 49, $codTarea, 602,  6, 40, 'S', '', $aud01, $aud03
                             ]);
 
                             break;
 
                         case 47:
-                            $stmtMSSQL03->execute([
-                                $codCargo, 4, 4, 49, $codTarea, 100, 'TAREA#100', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 4, 5, 49, $codTarea, 101, 'TAREA#101', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 4, 6, 49, $codTarea, 102, 'TAREA#102', 40, 'S', '', $aud01, $aud03,
-        
-                                $codCargo, 5, 51, 49, $codTarea, 200, 'TAREA#200', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 5, 52, 49, $codTarea, 201, 'TAREA#201', 40, 'S', '', $aud01, $aud03,
-                                $codCargo, 5, 4,  49, $codTarea, 202, 'TAREA#202', 40, 'S', '', $aud01, $aud03,
-        
-                                58, 51, 53, 49, $codTarea, 300, 'TAREA#300', 40, 'S', '', $aud01, $aud03,
-                                58, 51, 52, 49, $codTarea, 301, 'TAREA#301', 40, 'S', '', $aud01, $aud03,
-                                58, 51, 5,  49, $codTarea, 302, 'TAREA#302', 40, 'S', '', $aud01, $aud03,
-        
-                                56, 53, 7,  49, $codTarea, 400, 'TAREA#400', 40, 'S', '', $aud01, $aud03,
-                                56, 53, 52, 49, $codTarea, 401, 'TAREA#401', 40, 'S', '', $aud01, $aud03,
-                                56, 53, 51, 49, $codTarea, 402, 'TAREA#402', 40, 'S', '', $aud01, $aud03,
-        
-                                24, 7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03,
-                                24, 7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03,
-                                24, 7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03,
-                                24, 7, 54, 49, $codTarea, 503, 'TAREA#503', 40, 'S', '', $aud01, $aud03,
-        
-                                6, 7, 8, 49, $codTarea, 500, 'TAREA#500', 40, 'S', '', $aud01, $aud03,
-                                6, 7, 52, 49, $codTarea, 501, 'TAREA#501', 40, 'S', '', $aud01, $aud03,
-                                6, 7, 53, 49, $codTarea, 502, 'TAREA#502', 40, 'S', '', $aud01, $aud03,
-        
-                                6, 54, 8, 49, $codTarea, 600, 'TAREA#600', 40, 'S', '', $aud01, $aud03,
-                                6, 54, 52, 49, $codTarea, 601, 'TAREA#601', 40, 'S', '', $aud01, $aud03,
-                                6, 54, 7, 49, $codTarea, 602, 'TAREA#602', 40, 'S', '', $aud01, $aud03
-                            ]);
-
                             break;
                     }
                 }
