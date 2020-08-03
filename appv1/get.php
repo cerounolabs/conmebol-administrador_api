@@ -2767,3 +2767,147 @@
         
         return $json;
     });
+
+    $app->get('/v1/400/proveedor/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.PROFICCOD         AS          proveedor_codigo,
+                a.PROFICNOM         AS          proveedor_nombre,
+                a.PROFICRAZ         AS          proveedor_razon_social,
+                a.PROFICRUC         AS          proveedor_ruc,
+                a.PROFICPAI         AS          proveedor_pais,
+                a.PROFICDIR         AS          proveedor_direccion,
+                a.PROFICSPC         AS          proveedor_sap_castastrado,
+                a.PROFICSPI         AS          proveedor_sap_codigo,
+                a.PROFICSPU         AS          proveedor_sap_cuenta_contable,
+                a.PROFICOBS         AS          proveedor_observacion,
+
+                a.PROFICAUS         AS          auditoria_usuario,
+                a.PROFICAFH         AS          auditoria_fecha_hora,
+                a.PROFICAIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+
+                c.DOMFICCOD         AS          tipo_proveedor_codigo,
+                c.DOMFICNOI         AS          tipo_proveedor_ingles,
+                c.DOMFICNOC         AS          tipo_proveedor_castellano,
+                c.DOMFICNOP         AS          tipo_proveedor_portugues,
+
+                d.DOMFICCOD         AS          tipo_categoria_codigo,
+                d.DOMFICNOI         AS          tipo_categoria_ingles,
+                d.DOMFICNOC         AS          tipo_categoria_castellano,
+                d.DOMFICNOP         AS          tipo_categoria_portugues
+
+                FROM [CSF_SFHOLOX].[via].[PROFIC] a
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
+                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.PROFICTCC = d.DOMFICCOD
+
+                WHERE a.PROFICCOD = ?
+                
+                ORDER BY a.PROFICTPC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'proveedor_codigo'                  => $rowMSSQL00['proveedor_codigo'],
+                        'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
+                        'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
+                        'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
+                        'proveedor_pais'                    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pais']))),
+                        'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
+                        'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
+                        'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
+                        'proveedor_sap_cuenta_contable'     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_cuenta_contable']))),
+                        'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion']))),
+
+                        'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+
+                        'tipo_proveedor_codigo'             => $rowMSSQL00['tipo_proveedor_codigo'],
+                        'tipo_proveedor_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_ingles']))),
+                        'tipo_proveedor_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_castellano']))),
+                        'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues']))),
+
+                        'tipo_categoria_codigo'             => $rowMSSQL00['tipo_categoria_codigo'],
+                        'tipo_categoria_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_ingles']))),
+                        'tipo_categoria_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_castellano']))),
+                        'tipo_categoria_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_portugues'])))       
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'proveedor_codigo'                  => '',
+                        'proveedor_nombre'                  => '',
+                        'proveedor_razon_social'            => '',
+                        'proveedor_ruc'                     => '',
+                        'proveedor_pais'                    => '',
+                        'proveedor_direccion'               => '',
+                        'proveedor_sap_castastrado'         => '',
+                        'proveedor_sap_codigo'              => '',
+                        'proveedor_sap_cuenta_contable'     => '',
+                        'proveedor_observacion'             => '',
+
+                        'auditoria_usuario'                 => '',
+                        'auditoria_fecha_hora'              => '',
+                        'auditoria_ip'                      => '',
+
+                        'tipo_estado_codigo'                => '',
+                        'tipo_estado_ingles'                => '',
+                        'tipo_estado_castellano'            => '',
+                        'tipo_estado_portugues'             => '',
+
+                        'tipo_proveedor_codigo'             => '',
+                        'tipo_proveedor_ingles'             => '',
+                        'tipo_proveedor_castellano'         => '',
+                        'tipo_proveedor_portugues'          => '',
+
+                        'tipo_categoria_codigo'             => '',
+                        'tipo_categoria_ingles'             => '',
+                        'tipo_categoria_castellano'         => '',
+                        'tipo_categoria_portugues'          => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
