@@ -2646,7 +2646,6 @@
             a.PROFICDIR         AS          proveedor_direccion,
             a.PROFICSPC         AS          proveedor_sap_castastrado,
             a.PROFICSPI         AS          proveedor_sap_codigo,
-            a.PROFICSPU         AS          proveedor_sap_cuenta_contable,
             a.PROFICOBS         AS          proveedor_observacion,
 
             a.PROFICAUS         AS          auditoria_usuario,
@@ -2661,17 +2660,11 @@
             c.DOMFICCOD         AS          tipo_proveedor_codigo,
             c.DOMFICNOI         AS          tipo_proveedor_ingles,
             c.DOMFICNOC         AS          tipo_proveedor_castellano,
-            c.DOMFICNOP         AS          tipo_proveedor_portugues,
-
-            d.DOMFICCOD         AS          tipo_categoria_codigo,
-            d.DOMFICNOI         AS          tipo_categoria_ingles,
-            d.DOMFICNOC         AS          tipo_categoria_castellano,
-            d.DOMFICNOP         AS          tipo_categoria_portugues
+            c.DOMFICNOP         AS          tipo_proveedor_portugues
 
             FROM [CSF_SFHOLOX].[via].[PROFIC] a
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
             INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.PROFICTCC = d.DOMFICCOD
             
             ORDER BY a.PROFICTPC";
 
@@ -2690,7 +2683,6 @@
                     'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                     'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                     'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
-                    'proveedor_sap_cuenta_contable'     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_cuenta_contable']))),
                     'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion']))),
 
                     'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -2705,12 +2697,7 @@
                     'tipo_proveedor_codigo'             => $rowMSSQL00['tipo_proveedor_codigo'],
                     'tipo_proveedor_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_ingles']))),
                     'tipo_proveedor_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_castellano']))),
-                    'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues']))),
-
-                    'tipo_categoria_codigo'             => $rowMSSQL00['tipo_categoria_codigo'],
-                    'tipo_categoria_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_ingles']))),
-                    'tipo_categoria_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_castellano']))),
-                    'tipo_categoria_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_portugues'])))       
+                    'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues'])))     
                 );
 
                 $result[]   = $detalle;
@@ -2729,7 +2716,6 @@
                     'proveedor_direccion'               => '',
                     'proveedor_sap_castastrado'         => '',
                     'proveedor_sap_codigo'              => '',
-                    'proveedor_sap_cuenta_contable'     => '',
                     'proveedor_observacion'             => '',
 
                     'auditoria_usuario'                 => '',
@@ -2744,12 +2730,7 @@
                     'tipo_proveedor_codigo'             => '',
                     'tipo_proveedor_ingles'             => '',
                     'tipo_proveedor_castellano'         => '',
-                    'tipo_proveedor_portugues'          => '',
-
-                    'tipo_categoria_codigo'             => '',
-                    'tipo_categoria_ingles'             => '',
-                    'tipo_categoria_castellano'         => '',
-                    'tipo_categoria_portugues'          => ''
+                    'tipo_proveedor_portugues'          => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -2783,7 +2764,6 @@
                 a.PROFICDIR         AS          proveedor_direccion,
                 a.PROFICSPC         AS          proveedor_sap_castastrado,
                 a.PROFICSPI         AS          proveedor_sap_codigo,
-                a.PROFICSPU         AS          proveedor_sap_cuenta_contable,
                 a.PROFICOBS         AS          proveedor_observacion,
 
                 a.PROFICAUS         AS          auditoria_usuario,
@@ -2798,17 +2778,11 @@
                 c.DOMFICCOD         AS          tipo_proveedor_codigo,
                 c.DOMFICNOI         AS          tipo_proveedor_ingles,
                 c.DOMFICNOC         AS          tipo_proveedor_castellano,
-                c.DOMFICNOP         AS          tipo_proveedor_portugues,
-
-                d.DOMFICCOD         AS          tipo_categoria_codigo,
-                d.DOMFICNOI         AS          tipo_categoria_ingles,
-                d.DOMFICNOC         AS          tipo_categoria_castellano,
-                d.DOMFICNOP         AS          tipo_categoria_portugues
+                c.DOMFICNOP         AS          tipo_proveedor_portugues
 
                 FROM [CSF_SFHOLOX].[via].[PROFIC] a
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
                 INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.PROFICTCC = d.DOMFICCOD
 
                 WHERE a.PROFICCOD = ?
                 
@@ -2829,7 +2803,6 @@
                         'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                         'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                         'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
-                        'proveedor_sap_cuenta_contable'     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_cuenta_contable']))),
                         'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion']))),
 
                         'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -2844,12 +2817,7 @@
                         'tipo_proveedor_codigo'             => $rowMSSQL00['tipo_proveedor_codigo'],
                         'tipo_proveedor_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_ingles']))),
                         'tipo_proveedor_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_castellano']))),
-                        'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues']))),
-
-                        'tipo_categoria_codigo'             => $rowMSSQL00['tipo_categoria_codigo'],
-                        'tipo_categoria_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_ingles']))),
-                        'tipo_categoria_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_castellano']))),
-                        'tipo_categoria_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_categoria_portugues'])))       
+                        'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues'])))     
                     );
 
                     $result[]   = $detalle;
@@ -2868,7 +2836,6 @@
                         'proveedor_direccion'               => '',
                         'proveedor_sap_castastrado'         => '',
                         'proveedor_sap_codigo'              => '',
-                        'proveedor_sap_cuenta_contable'     => '',
                         'proveedor_observacion'             => '',
 
                         'auditoria_usuario'                 => '',
@@ -2883,12 +2850,7 @@
                         'tipo_proveedor_codigo'             => '',
                         'tipo_proveedor_ingles'             => '',
                         'tipo_proveedor_castellano'         => '',
-                        'tipo_proveedor_portugues'          => '',
-
-                        'tipo_categoria_codigo'             => '',
-                        'tipo_categoria_ingles'             => '',
-                        'tipo_categoria_castellano'         => '',
-                        'tipo_categoria_portugues'          => ''
+                        'tipo_proveedor_portugues'          => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -2947,7 +2909,6 @@
                 d.PROFICDIR         AS          proveedor_direccion,
                 d.PROFICSPC         AS          proveedor_sap_castastrado,
                 d.PROFICSPI         AS          proveedor_sap_codigo,
-                d.PROFICSPU         AS          proveedor_sap_cuenta_contable,
                 d.PROFICOBS         AS          proveedor_observacion
 
                 FROM [CSF_SFHOLOX].[via].[PROHAB] a
@@ -2994,7 +2955,6 @@
                         'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                         'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                         'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
-                        'proveedor_sap_cuenta_contable'     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_cuenta_contable']))),
                         'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion'])))
                     );
 
@@ -3034,7 +2994,6 @@
                         'proveedor_direccion'               => '',
                         'proveedor_sap_castastrado'         => '',
                         'proveedor_sap_codigo'              => '',
-                        'proveedor_sap_cuenta_contable'     => '',
                         'proveedor_observacion'             => ''
                     );
 
