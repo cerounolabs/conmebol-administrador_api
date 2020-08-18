@@ -965,19 +965,27 @@
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
             $sql00  = "INSERT INTO [via].[PROFIC] (PROFICEST, PROFICTPC, PROFICCIC, PROFICNOM, PROFICRAZ, PROFICRUC, PROFICPAI, PROFICDIR, PROFICSPC, PROFICSPI, PROFICOBS, PROFICAUS, PROFICAFH, PROFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            
+            $sql01  = "SELECT MAX(PROFICCOD) AS proveedor_codigo FROM [via].[PROFIC]";
+
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03]);
+                
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['proveedor_codigo'];
 
                 header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
 
                 $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
