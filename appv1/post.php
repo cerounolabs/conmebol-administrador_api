@@ -1043,3 +1043,229 @@
         
         return $json;
     });
+
+    $app->post('/v1/500/rendicion', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val02      = $request->getParsedBody()['estado_actual_codigo'];
+        $val03      = $request->getParsedBody()['gerencia_codigo'];
+        $val04      = $request->getParsedBody()['departamento_codigo'];
+        $val05      = $request->getParsedBody()['cargo_superior_codigo'];
+        $val06      = $request->getParsedBody()['cargo_solicitante_codigo'];
+        $val07      = $request->getParsedBody()['ciudad_codigo'];
+        $val08      = $request->getParsedBody()['workflow_codigo'];
+        $val09      = $request->getParsedBody()['rendicion_periodo'];
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_evento_nombre'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_solicitante'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_superior'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_analista'])));
+        $val14      = $request->getParsedBody()['rendicion_carga_fecha'];
+        $val15      = $request->getParsedBody()['rendicion_evento_fecha'];
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
+            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICEVE, RENFICDNS, RENFICDNJ, RENFICDNA, RENFICFEC, RENFICFEE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(RENFICCOD) AS rendicion_codigo FROM [con].[RENFIC]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['rendicion_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v1/500/cabecera', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val02      = $request->getParsedBody()['estado_actual_codigo'];
+        $val03      = $request->getParsedBody()['tipo_moneda_codigo'];
+        $val04      = $request->getParsedBody()['tipo_factura_codigo'];
+        $val05      = $request->getParsedBody()['tipo_condicion_codigo'];
+        $val06      = $request->getParsedBody()['workflow_codigo'];
+        $val07      = $request->getParsedBody()['rendicion_codigo'];
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_timbrado_numero'])));
+        $val09      = $request->getParsedBody()['rendicion_cabecera_timbrado_vencimiento'];
+        $val10      = $request->getParsedBody()['rendicion_cabecera_factura_fecha'];
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_factura_numero'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_factura_razonsocial'])));
+        $val13      = trim(strtolower($request->getParsedBody()['rendicion_cabecera_factura_adjunto']));
+        $val14      = $request->getParsedBody()['rendicion_cabecera_factura_importe'];
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {        
+            $sql00  = "INSERT INTO [con].[RENFCA] (RENFCAEAC, RENFCAECC, RENFCATMC, RENFCATFC, RENFCATCC, RENFCAWFC, RENFCAREC, RENFCATNR, RENFCATVE, RENFCAFFE, RENFCAFNU, RENFCAFRS, RENFCAFAD, RENFCAFTO, RENFCAOBS, RENFCAAUS, RENFCAAFH, RENFCAAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(RENFCACOD) AS rendicion_cabecera_codigo FROM [con].[RENFCA]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['rendicion_cabecera_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v1/500/detalle', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val02      = $request->getParsedBody()['estado_actual_codigo'];
+        $val03      = $request->getParsedBody()['tipo_concepto_codigo'];
+        $val04      = $request->getParsedBody()['tipo_alerta_codigo'];
+        $val05      = $request->getParsedBody()['workflow_codigo'];
+        $val06      = $request->getParsedBody()['rendicion_cabecera_codigo'];
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_descripcion'])));
+        $val08      = $request->getParsedBody()['rendicion_detalle_importe'];
+        $val09      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
+            $sql00  = "INSERT INTO [con].[RENFDE] (RENFDEEAC, RENFDEECC, RENFDETCC, RENFDETAC, RENFDEWFC, RENFDEFCC, RENFDEDES, RENFDEIMP, RENFDECSS, RENFDEOBS, RENFDEAUS, RENFDEAFH, RENFDEAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(RENFDECOD) AS rendicion_detalle_codigo FROM [con].[RENFDE]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['rendicion_detalle_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v1/500/comentario', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val02      = $request->getParsedBody()['estado_actual_codigo'];
+        $val03      = $request->getParsedBody()['workflow_codigo'];
+        $val04      = $request->getParsedBody()['rendicion_detalle_codigo'];
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_comentario_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
+            $sql00  = "INSERT INTO [con].[RENFCO] (RENFCOEAC, RENFCOECC, RENFCOWFC, RENFCOFDC, RENFCOOBS, RENFCOAUS, RENFCOAFH, RENFCOAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(RENFCOCOD) AS rendicion_detalle_codigo FROM [con].[RENFCO]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['rendicion_detalle_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
