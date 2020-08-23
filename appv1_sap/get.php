@@ -1834,9 +1834,11 @@
             a.CodCargoSuperior          AS          superior_cargo_codigo,
             a.NombreCargoSuperior       AS          superior_cargo_nombre,
             a.Manager                   AS          superior_manager_nombre,
-            a.EmailManager              AS          superior_manager_email
+            a.EmailManager              AS          superior_manager_email,
+            b.CedulaEmpleado            AS          superior_manager_documento
 
-            FROM [CSF].[dbo].[empleados_AxisONE] a";
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
@@ -1901,7 +1903,8 @@
                     'superior_cargo_codigo'         => $rowMSSQL00['superior_cargo_codigo'],
                     'superior_cargo_nombre'         => trim(strtoupper($rowMSSQL00['superior_cargo_nombre'])),
                     'superior_manager_nombre'       => trim(strtoupper($rowMSSQL00['superior_manager_nombre'])),
-                    'superior_manager_email'        => trim(strtolower($rowMSSQL00['superior_manager_email']))
+                    'superior_manager_email'        => trim(strtolower($rowMSSQL00['superior_manager_email'])),
+                    'superior_manager_documento'    => trim(strtoupper($rowMSSQL00['superior_manager_documento']))
                 );
 
                 $result[]   = $detalle;
@@ -1939,7 +1942,8 @@
                     'superior_cargo_codigo'         => '',
                     'superior_cargo_nombre'         => '',
                     'superior_manager_nombre'       => '',
-                    'superior_manager_email'        => ''
+                    'superior_manager_email'        => '',
+                    'superior_manager_documento'    => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -1989,9 +1993,11 @@
                 a.CodCargoSuperior          AS          superior_cargo_codigo,
                 a.NombreCargoSuperior       AS          superior_cargo_nombre,
                 a.Manager                   AS          superior_manager_nombre,
-                a.EmailManager              AS          superior_manager_email
+                a.EmailManager              AS          superior_manager_email,
+                b.CedulaEmpleado            AS          superior_manager_documento
 
                 FROM [CSF].[dbo].[empleados_AxisONE] a
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
                 WHERE a.CedulaEmpleado = ?";
 
@@ -2058,7 +2064,8 @@
                         'superior_cargo_codigo'         => $rowMSSQL00['superior_cargo_codigo'],
                         'superior_cargo_nombre'         => trim(strtoupper($rowMSSQL00['superior_cargo_nombre'])),
                         'superior_manager_nombre'       => trim(strtoupper($rowMSSQL00['superior_manager_nombre'])),
-                        'superior_manager_email'        => trim(strtolower($rowMSSQL00['superior_manager_email']))
+                        'superior_manager_email'        => trim(strtolower($rowMSSQL00['superior_manager_email'])),
+                        'superior_manager_documento'    => trim(strtoupper($rowMSSQL00['superior_manager_documento']))
                     );
 
                     $result[]   = $detalle;
@@ -2096,7 +2103,8 @@
                         'superior_cargo_codigo'         => '',
                         'superior_cargo_nombre'         => '',
                         'superior_manager_nombre'       => '',
-                        'superior_manager_email'        => ''
+                        'superior_manager_email'        => '',
+                        'superior_manager_documento'    => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -2146,11 +2154,12 @@
                 a.CodigoGerencia            AS          gerencia_codigo,
                 a.Gerencia                  AS          gerencia_nombre,
                 a.CodigoDepto               AS          departamento_codigo,
-                a.Departamento              AS          departamento_nombre,         
+                a.Departamento              AS          departamento_nombre,   
                 a.CodCargoSuperior          AS          superior_cargo_codigo,
                 a.NombreCargoSuperior       AS          superior_cargo_nombre,
                 a.Manager                   AS          superior_manager_nombre,
-                a.EmailManager              AS          superior_manager_email
+                a.EmailManager              AS          superior_manager_email,
+                b.CedulaEmpleado            AS          superior_manager_documento
 
                 FROM [CSF].[dbo].[empleados_AxisONE] a
                 INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
@@ -2220,7 +2229,8 @@
                         'superior_cargo_codigo'         => $rowMSSQL00['superior_cargo_codigo'],
                         'superior_cargo_nombre'         => trim(strtoupper($rowMSSQL00['superior_cargo_nombre'])),
                         'superior_manager_nombre'       => trim(strtoupper($rowMSSQL00['superior_manager_nombre'])),
-                        'superior_manager_email'        => trim(strtolower($rowMSSQL00['superior_manager_email']))
+                        'superior_manager_email'        => trim(strtolower($rowMSSQL00['superior_manager_email'])),
+                        'superior_manager_documento'    => trim(strtoupper($rowMSSQL00['superior_manager_documento']))
                     );
 
                     $result[]   = $detalle;
@@ -2258,7 +2268,8 @@
                         'superior_cargo_codigo'         => '',
                         'superior_cargo_nombre'         => '',
                         'superior_manager_nombre'       => '',
-                        'superior_manager_email'        => ''
+                        'superior_manager_email'        => '',
+                        'superior_manager_documento'    => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
