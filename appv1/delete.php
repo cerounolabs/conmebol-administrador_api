@@ -17,8 +17,8 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val04) && isset($val07)) {    
-            $sql00  = "UPDATE [CSF_SFHOLOX].[adm].[DOMFIC] SET DOMFICUSU = ?, DOMFICFEC = GETDATE(), DOMFICDIP = ? WHERE DOMFICCOD = ?";
-            $sql01  = "DELETE [CSF_SFHOLOX].[adm].[DOMFIC] WHERE DOMFICCOD = ?";
+            $sql00  = "UPDATE [adm].[DOMFIC] SET DOMFICUSU = ?, DOMFICFEC = GETDATE(), DOMFICDIP = ? WHERE DOMFICCOD = ?";
+            $sql01  = "DELETE [adm].[DOMFIC] WHERE DOMFICCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
@@ -66,8 +66,8 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val06)) {
-            $sql00  = "UPDATE [CSF_SFHOLOX].[adm].[DOMSUB] SET DOMSUBAUS = ?, DOMSUBAFE = GETDATE(), DOMSUBAIP = ? WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
-            $sql01  = "DELETE [CSF_SFHOLOX].[adm].[DOMSUB] WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
+            $sql00  = "UPDATE [adm].[DOMSUB] SET DOMSUBAUS = ?, DOMSUBAFE = GETDATE(), DOMSUBAIP = ? WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
+            $sql01  = "DELETE [adm].[DOMSUB] WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
@@ -122,8 +122,8 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
-            $sql00  = "UPDATE [CSF_SFHOLOX].[via].[PROFIC] SET PROFICUSU = ?, PROFICFEC = GETDATE(), PROFICDIP = ? WHERE PROFICCOD = ?";
-            $sql01  = "DELETE [CSF_SFHOLOX].[via].[PROFIC] WHERE PROFICCOD = ?";
+            $sql00  = "UPDATE [via].[PROFIC] SET PROFICUSU = ?, PROFICFEC = GETDATE(), PROFICDIP = ? WHERE PROFICCOD = ?";
+            $sql01  = "DELETE [via].[PROFIC] WHERE PROFICCOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
