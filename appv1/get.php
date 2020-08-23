@@ -20,8 +20,8 @@
         b.DOMFICNOC         AS          tipo_estado_castellano,
         b.DOMFICNOP         AS          tipo_estado_portugues
         
-        FROM [CSF_SFHOLOX].[adm].[DOMFIC] a
-        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
+        FROM [adm].[DOMFIC] a
+        INNER JOIN [adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
 
         ORDER BY a.DOMFICVAL, a.DOMFICORD";
 
@@ -114,8 +114,8 @@
                 b.DOMFICNOC         AS          tipo_estado_castellano,
                 b.DOMFICNOP         AS          tipo_estado_portugues
                 
-                FROM [CSF_SFHOLOX].[adm].[DOMFIC] a
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
+                FROM [adm].[DOMFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
 
                 WHERE a.DOMFICVAL = ?
 
@@ -216,8 +216,8 @@
             b.DOMFICNOC         AS          tipo_estado_castellano,
             b.DOMFICNOP         AS          tipo_estado_portugues
             
-            FROM [CSF_SFHOLOX].[aud].[DOMFIC] a
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
+            FROM [aud].[DOMFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
             
             WHERE a.DOMFICVAL = ?
             
@@ -330,10 +330,10 @@
         d.DOMFICVAL         AS          tipo_dominio2_dominio,
         d.DOMFICOBS         AS          tipo_dominio2_observacion
         
-        FROM [CSF_SFHOLOX].[adm].[DOMSUB] a
-        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.DOMSUBEST = b.DOMFICCOD
-        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.DOMSUBCO1 = c.DOMFICCOD
-        INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.DOMSUBCO2 = d.DOMFICCOD
+        FROM [adm].[DOMSUB] a
+        INNER JOIN [adm].[DOMFIC] b ON a.DOMSUBEST = b.DOMFICCOD
+        INNER JOIN [adm].[DOMFIC] c ON a.DOMSUBCO1 = c.DOMFICCOD
+        INNER JOIN [adm].[DOMFIC] d ON a.DOMSUBCO2 = d.DOMFICCOD
 
         ORDER BY a.DOMSUBVAL, a.DOMSUBORD";
 
@@ -446,7 +446,7 @@
         a.DOMSOLFEC         AS          auditoria_fecha_hora,
         a.DOMSOLDIP         AS          auditoria_ip
         
-        FROM [CSF_SFHOLOX].[adm].[DOMSOL] a
+        FROM [adm].[DOMSOL] a
 
         ORDER BY a.DOMSOLTST, a.DOMSOLORD";
 
@@ -583,7 +583,7 @@
             a.DOMSOLFEC         AS          auditoria_fecha_hora,
             a.DOMSOLDIP         AS          auditoria_ip
             
-            FROM [CSF_SFHOLOX].[adm].[DOMSOL] a
+            FROM [adm].[DOMSOL] a
 
             WHERE a.DOMSOLCOD = ?
 
@@ -746,8 +746,8 @@
             b.DOMSOLADJ         AS          tipo_archivo_adjunto,
             b.DOMSOLOBS         AS          tipo_observacion
 
-            FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD";
+            FROM [hum].[SOLFIC] a
+            INNER JOIN [adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD";
 
         $sql03  = "SELECT
             a.CedulaEmpleado            AS          documento,
@@ -1146,8 +1146,8 @@
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
                     b.DOMSOLOBS         AS          tipo_observacion
 
-                    FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
-                    INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                    FROM [hum].[SOLFIC] a
+                    INNER JOIN [adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
 
                     WHERE a.SOLFICDOC = ? AND a.SOLFICEST = ?
                     
@@ -1194,8 +1194,8 @@
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
                     b.DOMSOLOBS         AS          tipo_observacion
 
-                    FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
-                    INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                    FROM [hum].[SOLFIC] a
+                    INNER JOIN [adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
 
                     WHERE a.SOLFICDOC = ? AND (a.SOLFICEST = 'P' OR a.SOLFICEST = ?) AND a.SOLFICUST <> ''
                     
@@ -1241,8 +1241,8 @@
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
                     b.DOMSOLOBS         AS          tipo_observacion
 
-                    FROM [CSF_SFHOLOX].[hum].[SOLFIC] a
-                    INNER JOIN [CSF_SFHOLOX].[adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                    FROM [hum].[SOLFIC] a
+                    INNER JOIN [adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
 
                     WHERE a.SOLFICDOC = ? AND a.SOLFICEST <> ?
                     
@@ -1425,11 +1425,11 @@
         UNION
         SELECT count(*)  AS solicitud_cantidad, 'CON_SOLICITUD' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
+        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
         UNION
         SELECT count(*)  AS solicitud_cantidad, 'SIN_SOLICITUD' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
+        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
@@ -1479,11 +1479,11 @@
 
         $sql01  = "SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'CON_SOLICITUD' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
+        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
         UNION
         SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'SIN_SOLICITUD' AS solicitud_tipo
         FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [CSF_SFHOLOX].[hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
+        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
@@ -1559,7 +1559,7 @@
                 a.SOLAXIFEC         AS          auditoria_fecha_hora,
                 a.SOLAXIDIP         AS          auditoria_ip
 
-                FROM [CSF_SFHOLOX].[hum].[SOLAXI] a
+                FROM [hum].[SOLAXI] a
 
                 WHERE a.SOLAXISOL = ? AND a.SOLAXIEST = ?";
 
@@ -1677,10 +1677,10 @@
             d.DOMFICNOC         AS          tipo_mes_castellano,
             d.DOMFICNOP         AS          tipo_mes_portugues
 
-            FROM [CSF_SFHOLOX].[hum].[COMFIC] a
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
+            FROM [hum].[COMFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
             
             ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
 
@@ -1816,9 +1816,9 @@
             d.NAME              AS          tipo_cargo_codigo_nombre,
             d.U_NOMBRE          AS          tipo_cargo_nombre
 
-            FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
+            FROM [wrk].[WRKFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
             INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.WRKFICTCC = d.U_CODIGO
             
             ORDER BY a.WRKFICORD";
@@ -1935,9 +1935,9 @@
                 d.NAME              AS          tipo_cargo_codigo_nombre,
                 d.U_NOMBRE          AS          tipo_cargo_nombre
 
-                FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
+                FROM [wrk].[WRKFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.WRKFICTCC = d.U_CODIGO
 
                 WHERE a.WRKFICCOD = ?
@@ -2060,9 +2060,9 @@
                 d.NAME              AS          tipo_cargo_codigo_nombre,
                 d.U_NOMBRE          AS          tipo_cargo_nombre
 
-                FROM [CSF_SFHOLOX].[wrk].[WRKFIC] a
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
+                FROM [wrk].[WRKFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.WRKFICEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.WRKFICTWC = c.DOMFICCOD
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.WRKFICTCC = d.U_CODIGO
 
                 WHERE a.WRKFICTCC = ?
@@ -2194,12 +2194,12 @@
             f.WRKFICNOM         AS          workflow_tarea,
             f.WRKFICOBS         AS          workflow_observacion
 
-            FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
+            FROM [wrk].[WRKDET] a
             INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
+            INNER JOIN [wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
             
             ORDER BY a.WRKDETORD";
 
@@ -2351,12 +2351,12 @@
                 f.WRKFICNOM         AS          workflow_tarea,
                 f.WRKFICOBS         AS          workflow_observacion
 
-                FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
+                FROM [wrk].[WRKDET] a
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
+                INNER JOIN [wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
 
                 WHERE a.WRKDETCOD = ?
                 
@@ -2514,12 +2514,12 @@
                 f.WRKFICNOM         AS          workflow_tarea,
                 f.WRKFICOBS         AS          workflow_observacion
 
-                FROM [CSF_SFHOLOX].[wrk].[WRKDET] a
+                FROM [wrk].[WRKDET] a
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] b ON a.WRKDETTCC = b.U_CODIGO
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.WRKDETEAC = c.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] d ON a.WRKDETECC = d.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] e ON a.WRKDETTPC = e.DOMFICCOD
+                INNER JOIN [wrk].[WRKFIC] f ON a.WRKDETWFC = f.WRKFICCOD
 
                 WHERE a.WRKDETWFC = ?
                 
@@ -2662,9 +2662,9 @@
             c.DOMFICNOC         AS          tipo_proveedor_castellano,
             c.DOMFICNOP         AS          tipo_proveedor_portugues
 
-            FROM [CSF_SFHOLOX].[via].[PROFIC] a
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
-            INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
+            FROM [via].[PROFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
             
             ORDER BY a.PROFICTPC";
 
@@ -2780,9 +2780,9 @@
                 c.DOMFICNOC         AS          tipo_proveedor_castellano,
                 c.DOMFICNOP         AS          tipo_proveedor_portugues
 
-                FROM [CSF_SFHOLOX].[via].[PROFIC] a
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
+                FROM [via].[PROFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
 
                 WHERE a.PROFICCOD = ?
                 
@@ -2911,10 +2911,10 @@
                 d.PROFICSPI         AS          proveedor_sap_codigo,
                 d.PROFICOBS         AS          proveedor_observacion
 
-                FROM [CSF_SFHOLOX].[via].[PROHAB] a
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] b ON a.PROHABEST = b.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[adm].[DOMFIC] c ON a.PROHABTHC = c.DOMFICCOD
-                INNER JOIN [CSF_SFHOLOX].[via].[PROFIC] d ON a.PROHABPRC = d.PROFICCOD
+                FROM [via].[PROHAB] a
+                INNER JOIN [adm].[DOMFIC] b ON a.PROHABEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.PROHABTHC = c.DOMFICCOD
+                INNER JOIN [via].[PROFIC] d ON a.PROHABPRC = d.PROFICCOD
 
                 WHERE a.PROHABPRC = ?
                 
