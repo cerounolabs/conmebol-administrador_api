@@ -1741,7 +1741,13 @@
                     'tipo_comprobante_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_castellano']))),
 
                     'tipo_mes_codigo'                   => $rowMSSQL00['tipo_mes_codigo'],
-                    'tipo_mes_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano'])))
+                    'tipo_mes_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano']))),
+
+                    'tipo_gerencia_codigo'               => $rowMSSQL01['gerencia_codigo'],
+                    'tipo_gerencia_nombre'               => trim(strtoupper(strtolower($rowMSSQL01['gerencia_nombre']))),
+
+                    'tipo_departamento_codigo'           => $rowMSSQL01['departamento_codigo'],
+                    'tipo_departamento_nombre'           => trim(strtoupper(strtolower($rowMSSQL01['departamento_nombre'])))
                 );
 
                 $result[]   = $detalle;
@@ -1766,7 +1772,11 @@
                     'tipo_comprobante_codigo'           => '',
                     'tipo_comprobante_nombre'           => '',
                     'tipo_mes_codigo'                   => '',
-                    'tipo_mes_nombre'                   => ''
+                    'tipo_mes_nombre'                   => '',
+                    'tipo_gerencia_codigo'              => '',
+                    'tipo_gerencia_nombre'              => '',
+                    'tipo_departamento_codigo'          => '',
+                    'tipo_departamento_nombre'          => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
