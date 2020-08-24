@@ -1719,15 +1719,15 @@
             $stmtMSSQL00->execute();
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $nroDoc     = trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])));
+                $nroDoc     = $rowMSSQL00['comprobante_documento'];
                 $stmtMSSQL01->execute([$nroDoc]);
-                $rowMSSQL01 = $stmtMSSQL01->fetchAll(PDO::FETCH_ASSOC);
+                $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
 
                 $detalle    = array(
                     'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
                     'comprobante_periodo'               => $rowMSSQL00['comprobante_periodo'],
                     'comprobante_colaborador'           => trim(strtoupper(strtolower($rowMSSQL01['nombre_completo']))),
-                    'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
+                    'comprobante_documento'             => $rowMSSQL00['comprobante_documento'],
                     'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
                     'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
 
