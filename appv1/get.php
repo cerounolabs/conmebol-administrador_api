@@ -1719,7 +1719,8 @@
             $stmtMSSQL00->execute();
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $stmtMSSQL01->execute([trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])))]);
+                $nroDoc     = trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])));
+                $stmtMSSQL01->execute([$nroDoc]);
                 $rowMSSQL01 = $stmtMSSQL01->fetchAll(PDO::FETCH_ASSOC);
 
                 $detalle    = array(
