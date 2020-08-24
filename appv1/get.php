@@ -1720,7 +1720,7 @@
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                 $stmtMSSQL01->execute([trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])))]);
-                $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $rowMSSQL01 = $stmtMSSQL01->fetchAll(PDO::FETCH_ASSOC);
 
                 $detalle    = array(
                     'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
