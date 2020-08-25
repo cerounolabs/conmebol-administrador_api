@@ -2885,6 +2885,140 @@
         return $json;
     });
 
+    $app->get('/v1/400/contacto/proveedor/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.PROCONCOD         AS          proveedor_contacto_codigo,
+                a.PROCONNOM         AS          proveedor_contacto_nombre,
+                a.PROCONEMA         AS          proveedor_contacto_email,
+                a.PROCONTEL         AS          proveedor_contacto_telefono,
+                a.PROCONWHA         AS          proveedor_contacto_whatsapp,
+                a.PROCONSKY         AS          proveedor_contacto_skype,
+                a.PROCONOBS         AS          proveedor_contacto_observacion,
+
+                a.PROCONAUS         AS          auditoria_usuario,
+                a.PROCONAFH         AS          auditoria_fecha_hora,
+                a.PROCONAIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+
+                c.PROFICCOD         AS          proveedor_codigo,
+                c.PROFICNOM         AS          proveedor_nombre,
+                c.PROFICRAZ         AS          proveedor_razon_social,
+                c.PROFICRUC         AS          proveedor_ruc,
+                c.PROFICPAI         AS          proveedor_pais,
+                c.PROFICDIR         AS          proveedor_direccion,
+                c.PROFICSPC         AS          proveedor_sap_castastrado,
+                c.PROFICSPI         AS          proveedor_sap_codigo,
+                c.PROFICOBS         AS          proveedor_observacion
+
+                FROM [via].[PROCON] a
+                INNER JOIN [adm].[DOMFIC] b ON a.PROCONEST = b.DOMFICCOD
+                INNER JOIN [via].[PROFIC] c ON a.PROCONPRC = c.PROFICCOD
+
+                WHERE a.PROCONPRC = ?
+                
+                ORDER BY a.PROCONPRC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'proveedor_contacto_codigo'         => $rowMSSQL00['proveedor_contacto_codigo'],
+                        'proveedor_contacto_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_nombre']))),
+                        'proveedor_contacto_email'          => trim(strtolower($rowMSSQL00['proveedor_contacto_email'])),
+                        'proveedor_contacto_telefono'       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_telefono']))),
+                        'proveedor_contacto_whatsapp'       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_whatsapp']))),
+                        'proveedor_contacto_skype'          => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_skype']))),
+                        'proveedor_contacto_observacion'    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_observacion']))),
+
+                        'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+
+                        'proveedor_codigo'                  => $rowMSSQL00['proveedor_codigo'],
+                        'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
+                        'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
+                        'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
+                        'proveedor_pais'                    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pais']))),
+                        'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
+                        'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
+                        'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
+                        'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'proveedor_contacto_codigo'         => '',
+                        'proveedor_contacto_nombre'         => '',
+                        'proveedor_contacto_email'          => '',
+                        'proveedor_contacto_telefono'       => '',
+                        'proveedor_contacto_whatsapp'       => '',
+                        'proveedor_contacto_skype'          => '',
+                        'proveedor_contacto_observacion'    => '',
+
+                        'auditoria_usuario'                 => '',
+                        'auditoria_fecha_hora'              => '',
+                        'auditoria_ip'                      => '',
+
+                        'tipo_estado_codigo'                => '',
+                        'tipo_estado_ingles'                => '',
+                        'tipo_estado_castellano'            => '',
+                        'tipo_estado_portugues'             => '',
+                        
+                        'proveedor_codigo'                  => '',
+                        'proveedor_nombre'                  => '',
+                        'proveedor_razon_social'            => '',
+                        'proveedor_ruc'                     => '',
+                        'proveedor_pais'                    => '',
+                        'proveedor_direccion'               => '',
+                        'proveedor_sap_castastrado'         => '',
+                        'proveedor_sap_codigo'              => '',
+                        'proveedor_observacion'             => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/400/habitacion/proveedor/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
