@@ -1008,21 +1008,22 @@
         $val03      = $request->getParsedBody()['proveedor_codigo'];
         $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_nombre'])));
         $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_precio'])));
-        $val06      = trim(strtolower($request->getParsedBody()['proveedor_habitacion_path']));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_observacion'])));
+        $val06      = $request->getParsedBody()['proveedor_habitacion_cantidad'];
+        $val07      = trim(strtolower($request->getParsedBody()['proveedor_habitacion_path']));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {        
-            $sql00  = "INSERT INTO [via].[PROHAB] (PROHABEST, PROHABTHC, PROHABPRC, PROHABNOM, PROHABPRE, PROHABPAT, PROHABOBS, PROHABAUS, PROHABAFH, PROHABAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[PROHAB] (PROHABEST, PROHABTHC, PROHABPRC, PROHABNOM, PROHABPRE, PROHABCAN, PROHABPAT, PROHABOBS, PROHABAUS, PROHABAFH, PROHABAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
