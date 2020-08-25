@@ -2895,6 +2895,7 @@
                 a.PROHABCOD         AS          proveedor_habitacion_codigo,
                 a.PROHABNOM         AS          proveedor_habitacion_nombre,
                 a.PROHABPRE         AS          proveedor_habitacion_precio,
+                a.PROHABCAN         AS          proveedor_habitacion_cantidad,
                 a.PROHABPAT         AS          proveedor_habitacion_path,
                 a.PROHABOBS         AS          proveedor_habitacion_observacion,
 
@@ -2941,6 +2942,7 @@
                         'proveedor_habitacion_codigo'       => $rowMSSQL00['proveedor_habitacion_codigo'],
                         'proveedor_habitacion_nombre'       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_habitacion_nombre']))),
                         'proveedor_habitacion_precio'       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_habitacion_precio']))),
+                        'proveedor_habitacion_cantidad'     => $rowMSSQL00['proveedor_habitacion_cantidad'],
                         'proveedor_habitacion_path'         => trim(strtolower($rowMSSQL00['proveedor_habitacion_path'])),
                         'proveedor_habitacion_observacion'  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_habitacion_observacion']))),
 
@@ -2980,6 +2982,7 @@
                         'proveedor_habitacion_codigo'       => '',
                         'proveedor_habitacion_nombre'       => '',
                         'proveedor_habitacion_precio'       => '',
+                        'proveedor_habitacion_cantidad'     => '',
                         'proveedor_habitacion_path'         => '',
                         'proveedor_habitacion_observacion'  => '',
 
