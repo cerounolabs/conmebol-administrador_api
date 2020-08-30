@@ -381,6 +381,88 @@
         return $json;
     });
 
+    $app->post('/v1/100/pais', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['pais_orden'];
+        $val03      = $request->getParsedBody()['pais_nombre'];
+        $val04      = $request->getParsedBody()['pais_iso_char2'];
+        $val05      = $request->getParsedBody()['pais_iso_char3'];
+        $val06      = $request->getParsedBody()['pais_iso_num3'];
+        $val07      = $request->getParsedBody()['pais_observacion'];
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val04) && isset($val07)) {    
+            $sql00  = "INSERT INTO [adm].[LOCPAI] (LOCPAIEST, LOCPAIORD, LOCPAINOM, LOCPAIIC2, LOCPAIIC3, LOCPAIIN3, LOCPAIOBS, LOCPAIAUS, LOCPAIAFE, LOCPAIAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v1/100/distrito', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['ciudad_orden'];
+        $val03      = $request->getParsedBody()['pais_codigo'];
+        $val04      = $request->getParsedBody()['ciudad_nombre'];
+        $val05      = $request->getParsedBody()['ciudad_observacion'];
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val04)) {    
+            $sql00  = "INSERT INTO [adm].[LOCDIS] (LOCDISEST, LOCDISORD, LOCDISPAC, LOCDISNOM, LOCDISOBS, LOCDISAUS, LOCDISAFE, LOCDISAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $aud01, $aud03]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->post('/v1/200/solicitudes', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -811,7 +893,19 @@
 
                         (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#600: APROBADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
                         (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#601: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
-                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#602: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?)";
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#602: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#700: APROBADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#701: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#702: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#800: APROBADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#801: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#802: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#900: APROBADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#901: RECHAZADO POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?),
+                        (        ?,         ?,         ?,         ?,         ?,         ?, (SELECT 'TAREA#902: VUELVE AL ESTADO ANTERIOR POR ' + RTRIM(LTRIM(a.U_NOMBRE)) FROM [CSF].[dbo].[@A1A_TICA] a WHERE CAST(a.U_CODIGO AS INT) = ?),         ?,         ?,         ?,         ?, GETDATE(),         ?);";
                     break;
             }
 
@@ -867,6 +961,47 @@
                             break;
 
                         case 47:
+                            $stmtMSSQL03->execute([
+                                $codCargo,  73, 73, 49,     $codTarea,  100,    'TAREA#100: ', 40, 'N', '', $aud01, $aud03,
+                                $codCargo,  73,  5, 49,     $codTarea,  101,    'TAREA#101: ', 40, 'N', '', $aud01, $aud03,
+                                $codCargo,  73, 79, 49,     $codTarea,  102,    'TAREA#102: ', 40, 'N', '', $aud01, $aud03,
+        
+                                $codCargo,   5, 81, 49,     $codTarea,  200,    'TAREA#200: ', 40, 'N', '', $aud01, $aud03,
+                                $codCargo,   5, 80, 49,     $codTarea,  201,    'TAREA#201: ', 40, 'N', '', $aud01, $aud03,
+                                $codCargo,   5, 73, 49,     $codTarea,  202,    'TAREA#202: ', 40, 'N', '', $aud01, $aud03,
+        
+                                60,         81, 74, 49,     $codTarea,  300,    'TAREA#300: ', 40, 'N', '', $aud01, $aud03,
+                                60,         81, 82, 49,     $codTarea,  301,    'TAREA#301: ', 40, 'N', '', $aud01, $aud03,
+                                60,         81,  5, 49,     $codTarea,  302,    'TAREA#302: ', 40, 'N', '', $aud01, $aud03,
+        
+                                56,         53,  7, 49,     $codTarea,  400,    'TAREA#400: ', 40, 'N', '', $aud01, $aud03,
+                                56,         53, 52, 49,     $codTarea,  401,    'TAREA#401: ', 40, 'N', '', $aud01, $aud03,
+                                56,         53, 51, 49,     $codTarea,  402,    'TAREA#402: ', 40, 'N', '', $aud01, $aud03,
+        
+                                24,          7, 54, 49,     $codTarea,  500,    'TAREA#500: ', 40, 'N', '', $aud01, $aud03,
+                                24,          7, 52, 49,     $codTarea,  501,    'TAREA#501: ', 40, 'N', '', $aud01, $aud03,
+                                24,          7, 53, 49,     $codTarea,  502,    'TAREA#502: ', 40, 'N', '', $aud01, $aud03,
+                                24,          7,  8, 49,     $codTarea,  503,    'TAREA#503: ', 40, 'N', '', $aud01, $aud03,
+
+                                 6,         54,  8, 49,     $codTarea,  600,    'TAREA#600: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54, 52, 49,     $codTarea,  601,    'TAREA#601: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  602,    'TAREA#602: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  603,    'TAREA#603: ', 40, 'N', '', $aud01, $aud03,
+
+                                 6,         54,  8, 49,     $codTarea,  700,    'TAREA#700: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54, 52, 49,     $codTarea,  701,    'TAREA#701: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  702,    'TAREA#702: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  703,    'TAREA#703: ', 40, 'N', '', $aud01, $aud03,
+
+                                 6,         54,  8, 49,     $codTarea,  800,    'TAREA#800: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54, 52, 49,     $codTarea,  801,    'TAREA#801: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  802,    'TAREA#802: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  803,    'TAREA#803: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54,  7, 49,     $codTarea,  804,    'TAREA#804: ', 40, 'N', '', $aud01, $aud03,
+
+                                 6,         54,  8, 49,     $codTarea,  900,    'TAREA#900: ', 40, 'N', '', $aud01, $aud03,
+                                 6,         54, 52, 49,     $codTarea,  901,    'TAREA#901: ', 40, 'N', '', $aud01, $aud03,
+                            ]);
                             break;
                     }
                 }
@@ -1000,7 +1135,7 @@
         return $json;
     });
 
-    $app->post('/v1/400/contacto', function($request) {
+    $app->post('/v1/400/contacto', function($request) { 
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
