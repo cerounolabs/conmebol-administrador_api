@@ -744,7 +744,7 @@
                     'pais_path'                 => trim(strtolower($rowMSSQL00['pais_path'])),
                     'pais_iso_char2'            => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char2']))),
                     'pais_iso_char3'            => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char3']))),
-                    'pais_iso_num3'             => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3']))),
+                    'pais_iso_num3'             => sprintf("%03d", trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3'])))),
                     'pais_observacion'          => trim(strtoupper(strtolower($rowMSSQL00['pais_observacion']))),
 
                     'auditoria_usuario'         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
