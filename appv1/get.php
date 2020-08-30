@@ -703,6 +703,103 @@
         return $json;
     });
 
+    $app->get('/v1/100/pais', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+            a.LOCPAICOD         AS          pais_codigo,
+            a.LOCPAIORD         AS          pais_orden,
+            a.LOCPAINOM         AS          pais_nombre,
+            a.LOCPAIPAT         AS          pais_path,
+            a.LOCPAIIC2         AS          pais_iso_char2,
+            a.LOCPAIIC3         AS          pais_iso_char3,
+            a.LOCPAIIN3         AS          pais_iso_num3,
+            a.LOCPAIOBS         AS          pais_observacion,
+
+            a.LOCPAIAUS         AS          auditoria_usuario,
+            a.LOCPAIAFE         AS          auditoria_fecha_hora,
+            a.LOCPAIAIP         AS          auditoria_ip,
+
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues
+            
+            FROM [adm].[LOCPAI] a
+            INNER JOIN [adm].[DOMFIC] b ON a.LOCPAIEST = b.DOMFICCOD
+
+            ORDER BY a.LOCPAIORD, a.LOCPAINOM";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+            
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle    = array(
+                    'pais_codigo'               => $rowMSSQL00['pais_codigo'],
+                    'pais_orden'                => $rowMSSQL00['pais_orden'],
+                    'pais_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['pais_nombre']))),
+                    'pais_path'                 => trim(strtolower($rowMSSQL00['pais_path'])),
+                    'pais_iso_char2'            => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char2']))),
+                    'pais_iso_char3'            => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char3']))),
+                    'pais_iso_num3'             => sprintf("%03d", trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3'])))),
+                    'pais_observacion'          => trim(strtoupper(strtolower($rowMSSQL00['pais_observacion']))),
+
+                    'auditoria_usuario'         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                    'auditoria_fecha_hora'      => $rowMSSQL00['auditoria_fecha_hora'],
+                    'auditoria_ip'              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+
+                    'tipo_estado_codigo'        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_ingles'        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'pais_codigo'               => '',
+                    'pais_orden'                => '',
+                    'pais_nombre'               => '',
+                    'pais_path'                 => '',
+                    'pais_iso_char2'            =>  '',
+                    'pais_iso_char3'            => '',
+                    'pais_iso_num3'             => '',
+                    'pais_observacion'          => '',
+
+                    'auditoria_usuario'         => '',
+                    'auditoria_fecha_hora'      => '',
+                    'auditoria_ip'              => '',
+
+                    'tipo_estado_codigo'        => '',
+                    'tipo_estado_ingles'        => '',
+                    'tipo_estado_castellano'    => '',
+                    'tipo_estado_portugues'     => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/200/solicitudes', function($request) {
         require __DIR__.'/../src/connect.php';
         
