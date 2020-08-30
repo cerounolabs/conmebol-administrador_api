@@ -387,22 +387,23 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['pais_orden'];
         $val03      = $request->getParsedBody()['pais_nombre'];
-        $val04      = $request->getParsedBody()['pais_iso_char2'];
-        $val05      = $request->getParsedBody()['pais_iso_char3'];
-        $val06      = $request->getParsedBody()['pais_iso_num3'];
-        $val07      = $request->getParsedBody()['pais_observacion'];
+        $val04      = $request->getParsedBody()['pais_path'];
+        $val05      = $request->getParsedBody()['pais_iso_char2'];
+        $val06      = $request->getParsedBody()['pais_iso_char3'];
+        $val07      = $request->getParsedBody()['pais_iso_num3'];
+        $val08      = $request->getParsedBody()['pais_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val04) && isset($val07)) {    
-            $sql00  = "INSERT INTO [adm].[LOCPAI] (LOCPAIEST, LOCPAIORD, LOCPAINOM, LOCPAIIC2, LOCPAIIC3, LOCPAIIN3, LOCPAIOBS, LOCPAIAUS, LOCPAIAFE, LOCPAIAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [adm].[LOCPAI] (LOCPAIEST, LOCPAIORD, LOCPAINOM, LOCPAIPAT, LOCPAIIC2, LOCPAIIC3, LOCPAIIN3, LOCPAIOBS, LOCPAIAUS, LOCPAIAFE, LOCPAIAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -423,7 +424,7 @@
         return $json;
     });
 
-    $app->post('/v2/100/distrito', function($request) {
+    $app->post('/v2/100/ciudad', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
