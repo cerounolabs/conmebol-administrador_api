@@ -146,7 +146,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val04) && isset($val07)) {    
-            $sql00  = "UPDATE [adm].[LOCPAI] SET LOCPAIEST = ?, LOCPAIORD = ?, LOCPAINOM = ?, LOCPAIPAT = ?, LOCPAIIC2 = ?, LOCPAIIC3 = ?, LOCPAIIN3 = ?, LOCPAIOBS = ?, LOCPAIAUS = ?, LOCPAIAFE = GETDATE(), LOCPAIAIP  = ? WHERE LOCPAICOD = ?";
+            $sql00  = "UPDATE [adm].[LOCPAI] SET LOCPAIEST = ?, LOCPAIORD = ?, LOCPAINOM = ?, LOCPAIPAT = ?, LOCPAIIC2 = ?, LOCPAIIC3 = ?, LOCPAIIN3 = ?, LOCPAIOBS = ?, LOCPAIAUS = ?, LOCPAIAFH = GETDATE(), LOCPAIAIP  = ? WHERE LOCPAICOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -187,7 +187,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val02) && isset($val04)) {    
-            $sql00  = "UPDATE [adm].[LOCCIU] SET LOCCIUEST = ?, LOCCIUORD = ?, LOCCIUPAC = ?, LOCCIUNOM = ?, LOCCIUOBS = ?, LOCCIUAUS = ?, LOCCIUAFE = GETDATE(), LOCCIUAIP  = ? WHERE LOCCIUCOD = ?";
+            $sql00  = "UPDATE [adm].[LOCCIU] SET LOCCIUEST = ?, LOCCIUORD = ?, LOCCIUPAC = ?, LOCCIUNOM = ?, LOCCIUOBS = ?, LOCCIUAUS = ?, LOCCIUAFH = GETDATE(), LOCCIUAIP  = ? WHERE LOCCIUCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
