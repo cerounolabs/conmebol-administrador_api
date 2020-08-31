@@ -831,7 +831,7 @@
             INNER JOIN [adm].[DOMFIC] b ON a.LOCCIUEST = b.DOMFICCOD
             INNER JOIN [adm].[LOCPAI] c ON a.LOCCIUPAC = c.LOCPAICOD
 
-            ORDER BY a.LOCCIUORD, a.LOCCIUNOM";
+            ORDER BY a.LOCCIUORD, c.LOCPAINOM, a.LOCCIUNOM";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
