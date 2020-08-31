@@ -438,7 +438,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val04)) {    
-            $sql00  = "INSERT INTO [adm].[LOCDIS] (LOCDISEST, LOCDISORD, LOCDISPAC, LOCDISNOM, LOCDISOBS, LOCDISAUS, LOCDISAFE, LOCDISAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [adm].[LOCCIU] (LOCCIUEST, LOCCIUORD, LOCCIUPAC, LOCCIUNOM, LOCCIUOBS, LOCCIUAUS, LOCCIUAFE, LOCCIUAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
