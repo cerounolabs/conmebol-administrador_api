@@ -717,7 +717,7 @@
             a.LOCPAIOBS         AS          pais_observacion,
 
             a.LOCPAIAUS         AS          auditoria_usuario,
-            a.LOCPAIAFE         AS          auditoria_fecha_hora,
+            a.LOCPAIAFH         AS          auditoria_fecha_hora,
             a.LOCPAIAIP         AS          auditoria_ip,
 
             b.DOMFICCOD         AS          tipo_estado_codigo,
@@ -810,7 +810,7 @@
             a.LOCCIUOBS         AS          ciudad_observacion,
 
             a.LOCCIUAUS         AS          auditoria_usuario,
-            a.LOCCIUAFE         AS          auditoria_fecha_hora,
+            a.LOCCIUAFH         AS          auditoria_fecha_hora,
             a.LOCCIUAIP         AS          auditoria_ip,
 
             b.DOMFICCOD         AS          tipo_estado_codigo,

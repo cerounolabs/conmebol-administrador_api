@@ -398,7 +398,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val04) && isset($val07)) {    
-            $sql00  = "INSERT INTO [adm].[LOCPAI] (LOCPAIEST, LOCPAIORD, LOCPAINOM, LOCPAIPAT, LOCPAIIC2, LOCPAIIC3, LOCPAIIN3, LOCPAIOBS, LOCPAIAUS, LOCPAIAFE, LOCPAIAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [adm].[LOCPAI] (LOCPAIEST, LOCPAIORD, LOCPAINOM, LOCPAIPAT, LOCPAIIC2, LOCPAIIC3, LOCPAIIN3, LOCPAIOBS, LOCPAIAUS, LOCPAIAFH, LOCPAIAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -438,7 +438,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val04)) {    
-            $sql00  = "INSERT INTO [adm].[LOCCIU] (LOCCIUEST, LOCCIUORD, LOCCIUPAC, LOCCIUNOM, LOCCIUOBS, LOCCIUAUS, LOCCIUAFE, LOCCIUAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [adm].[LOCCIU] (LOCCIUEST, LOCCIUORD, LOCCIUPAC, LOCCIUNOM, LOCCIUOBS, LOCCIUAUS, LOCCIUAFH, LOCCIUAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();

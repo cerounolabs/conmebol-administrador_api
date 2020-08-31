@@ -117,7 +117,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val04) && isset($val07)) { 
-            $sql00  = "UPDATE [adm].[LOCPAI] SET LOCPAIAUS = ?, LOCPAIAFE = GETDATE(), LOCPAIAIP  = ? WHERE LOCPAICOD = ?";
+            $sql00  = "UPDATE [adm].[LOCPAI] SET LOCPAIAUS = ?, LOCPAIAFH = GETDATE(), LOCPAIAIP  = ? WHERE LOCPAICOD = ?";
             $sql01  = "DELETE FROM [adm].[LOCPAI] WHERE LOCPAICOD = ?";
 
             try {
@@ -165,7 +165,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val02) && isset($val04)) {    
-            $sql00  = "UPDATE [adm].[LOCCIU] SET LOCCIUAUS = ?, LOCCIUAFE = GETDATE(), LOCCIUAIP  = ? WHERE LOCCIUCOD = ?";
+            $sql00  = "UPDATE [adm].[LOCCIU] SET LOCCIUAUS = ?, LOCCIUAFH = GETDATE(), LOCCIUAIP  = ? WHERE LOCCIUCOD = ?";
             $sql01  = "DELETE FROM [adm].[LOCCIU] WHERE LOCCIUCOD = ?";
 
             try {
