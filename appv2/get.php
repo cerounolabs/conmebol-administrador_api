@@ -3469,9 +3469,9 @@
             INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
             LEFT OUTER JOIN [wrk].[WRKDET] k ON h.WRKFICCOD = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
             LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
-            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS = m1.CedulaEmpleado
-            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ = m2.CedulaEmpleado
-            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA = m3.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = m1.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = m2.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA COLLATE SQL_Latin1_General_CP1_CI_AS = m3.CedulaEmpleado
 
             ORDER BY a.RENFICCOD DESC";
 
@@ -3760,9 +3760,9 @@
                 INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] k ON h.WRKFICCOD = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
                 LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS = m1.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ = m2.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA = m3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = m1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = m2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA COLLATE SQL_Latin1_General_CP1_CI_AS = m3.CedulaEmpleado
 
                 WHERE a.RENFICCOD = ?
 
