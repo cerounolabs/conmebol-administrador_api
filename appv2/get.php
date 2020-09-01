@@ -3385,7 +3385,7 @@
             a.RENFICENO         AS          rendicion_evento_nombre,
             a.RENFICEFE         AS          rendicion_evento_fecha,
             a.RENFICDNS         AS          rendicion_documento_solicitante,
-            a.RENFICDNJ         AS          rendicion_documento_superior,
+            a.RENFICDNJ         AS          rendicion_documento_jefatura,
             a.RENFICDNA         AS          rendicion_documento_analista,
             a.RENFICFEC         AS          rendicion_carga_fecha,
             a.RENFICTCA         AS          rendicion_tarea_cantidad,
@@ -3480,7 +3480,7 @@
                     'rendicion_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['rendicion_evento_nombre']))),
                     'rendicion_evento_fecha'                => date("d/m/Y", strtotime($rowMSSQL00['rendicion_evento_fecha'])),
                     'rendicion_documento_solicitante'       => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_solicitante']))),
-                    'rendicion_documento_superior'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_superior']))),
+                    'rendicion_documento_jefatura'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_jefatura']))),
                     'rendicion_documento_analista'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_analista']))),
                     'rendicion_carga_fecha'                 => date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha'])),
                     'rendicion_tarea_cantidad'              => $rowMSSQL00['rendicion_tarea_cantidad'],
@@ -3563,7 +3563,7 @@
                     'rendicion_evento_nombre'               => '',
                     'rendicion_evento_fecha'                => '',
                     'rendicion_documento_solicitante'       => '',
-                    'rendicion_documento_superior'          => '',
+                    'rendicion_documento_jefatura'          => '',
                     'rendicion_documento_analista'          => '',
                     'rendicion_carga_fecha'                 => '',
                     'rendicion_tarea_cantidad'              => '',
@@ -3642,6 +3642,288 @@
         } catch (PDOException $e) {
             header("Content-Type: application/json; charset=utf-8");
             $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/500/rendicion/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.RENFICCOD         AS          rendicion_codigo,
+                a.RENFICPER         AS          rendicion_periodo,
+                a.RENFICENO         AS          rendicion_evento_nombre,
+                a.RENFICEFE         AS          rendicion_evento_fecha,
+                a.RENFICDNS         AS          rendicion_documento_solicitante,
+                a.RENFICDNJ         AS          rendicion_documento_jefatura,
+                a.RENFICDNA         AS          rendicion_documento_analista,
+                a.RENFICFEC         AS          rendicion_carga_fecha,
+                a.RENFICTCA         AS          rendicion_tarea_cantidad,
+                a.RENFICTHE         AS          rendicion_tarea_resuelta,
+                a.RENFICOBS         AS          rendicion_observacion,
+
+                a.RENFICAUS         AS          auditoria_usuario,
+                a.RENFICAFH         AS          auditoria_fecha_hora,
+                a.RENFICAIP         AS          auditoria_ip,
+
+                b.CODE              AS          tipo_gerencia_codigo,
+                b.NAME              AS          tipo_gerencia_codigo_nombre,
+                b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
+                b.U_NOMBRE          AS          tipo_gerencia_nombre,
+
+                c.CODE              AS          tipo_departamento_codigo,
+                c.NAME              AS          tipo_departamento_codigo_nombre,
+                c.U_CODIGO          AS          tipo_departamento_codigo_referencia,
+                c.U_NOMBRE          AS          tipo_departamento_nombre,
+
+                d.CODE              AS          tipo_jefatura_codigo_referencia,
+                d.NAME              AS          tipo_jefatura_codigo_nombre,
+                d.U_CODIGO          AS          tipo_jefatura_codigo,
+                d.U_NOMBRE          AS          tipo_jefatura_nombre,
+
+                e.CODE              AS          tipo_cargo_codigo_referencia,
+                e.NAME              AS          tipo_cargo_codigo_nombre,
+                e.U_CODIGO          AS          tipo_cargo_codigo,
+                e.U_NOMBRE          AS          tipo_cargo_nombre,
+
+                f.LOCCIUCOD         AS          ciudad_codigo,
+                f.LOCCIUORD         AS          ciudad_orden,
+                f.LOCCIUNOM         AS          ciudad_nombre,
+
+                g.LOCPAICOD         AS          pais_codigo,
+                g.LOCPAIORD         AS          pais_orden,
+                g.LOCPAINOM         AS          pais_nombre,
+                g.LOCPAIPAT         AS          pais_path,
+                g.LOCPAIIC2         AS          pais_iso_char2,
+                g.LOCPAIIC3         AS          pais_iso_char3,
+                g.LOCPAIIN3         AS          pais_iso_num3,
+
+                h.WRKFICCOD         AS          workflow_codigo,
+                h.WRKFICORD         AS          workflow_orden,
+                h.WRKFICNOM         AS          workflow_tarea,
+
+                i.DOMFICCOD         AS          estado_anterior_codigo,
+                i.DOMFICNOI         AS          estado_anterior_ingles,
+                i.DOMFICNOC         AS          estado_anterior_castellano,
+                i.DOMFICNOP         AS          estado_anterior_portugues,
+
+                j.DOMFICCOD         AS          estado_actual_codigo,
+                j.DOMFICNOI         AS          estado_actual_ingles,
+                j.DOMFICNOC         AS          estado_actual_castellano,
+                j.DOMFICNOP         AS          estado_actual_portugues,
+
+                k.WRKDETCOD         AS          workflow_detalle_codigo,
+                k.WRKDETORD         AS          workflow_detalle_orden,
+                k.WRKDETTCC         AS          workflow_detalle_cargo,
+                k.WRKDETHOR         AS          workflow_detalle_hora,
+                k.WRKDETNOM         AS          workflow_detalle_tarea,
+
+                l.DOMFICCOD         AS          tipo_prioridad_codigo,
+                l.DOMFICNOI         AS          tipo_prioridad_ingles,
+                l.DOMFICNOC         AS          tipo_prioridad_castellano,
+                l.DOMFICNOP         AS          tipo_prioridad_portugues
+
+                FROM [con].[RENFIC] a
+                INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.RENFICGEC = b.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TIDE] c ON a.RENFICDEC = c.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.RENFICJEC = d.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.RENFICCAC = e.U_CODIGO
+                INNER JOIN [adm].[LOCCIU] f ON a.RENFICCIC = f.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] g ON f.LOCCIUPAC = g.LOCPAICOD
+                INNER JOIN [wrk].[WRKFIC] h ON a.RENFICWFC = h.WRKFICCOD
+                INNER JOIN [adm].[DOMFIC] i ON a.RENFICEAC = i.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
+                LEFT OUTER JOIN [wrk].[WRKDET] k ON h.WRKFICCOD = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
+                LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
+
+                WHERE a.RENFICCOD = ?
+
+                ORDER BY a.RENFICCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'rendicion_codigo'                      => $rowMSSQL00['rendicion_codigo'],
+                        'rendicion_periodo'                     => $rowMSSQL00['rendicion_periodo'],
+                        'rendicion_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['rendicion_evento_nombre']))),
+                        'rendicion_evento_fecha'                => date("d/m/Y", strtotime($rowMSSQL00['rendicion_evento_fecha'])),
+                        'rendicion_documento_solicitante'       => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_solicitante']))),
+                        'rendicion_documento_jefatura'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_jefatura']))),
+                        'rendicion_documento_analista'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_analista']))),
+                        'rendicion_carga_fecha'                 => date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha'])),
+                        'rendicion_tarea_cantidad'              => $rowMSSQL00['rendicion_tarea_cantidad'],
+                        'rendicion_tarea_resuelta'              => $rowMSSQL00['rendicion_tarea_resuelta'],
+                        'rendicion_tarea_porcentaje'            => number_format((($rowMSSQL00['rendicion_tarea_resuelta'] * 100) / $rowMSSQL00['rendicion_tarea_cantidad']), 2, '.', ''),
+                        'rendicion_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['rendicion_observacion']))),
+
+                        'auditoria_usuario'                     => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'                  => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_gerencia_codigo'                  => $rowMSSQL00['tipo_gerencia_codigo'],
+                        'tipo_gerencia_codigo_nombre'           => $rowMSSQL00['tipo_gerencia_codigo_nombre'],
+                        'tipo_gerencia_codigo_referencia'       => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
+                        'tipo_gerencia_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
+
+                        'tipo_departamento_codigo'              => $rowMSSQL00['tipo_departamento_codigo'],
+                        'tipo_departamento_codigo_nombre'       => $rowMSSQL00['tipo_departamento_codigo_nombre'],
+                        'tipo_departamento_codigo_referencia'   => $rowMSSQL00['tipo_departamento_codigo_referencia'],
+                        'tipo_departamento_nombre'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_departamento_nombre']))),
+                        
+                        'tipo_jefatura_codigo'                  => $rowMSSQL00['tipo_jefatura_codigo'],
+                        'tipo_jefatura_codigo_nombre'           => $rowMSSQL00['tipo_jefatura_codigo_nombre'],
+                        'tipo_jefatura_codigo_referencia'       => $rowMSSQL00['tipo_jefatura_codigo_referencia'],
+                        'tipo_jefatura_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_jefatura_nombre']))),
+
+                        'tipo_cargo_codigo'                     => $rowMSSQL00['tipo_cargo_codigo'],
+                        'tipo_cargo_codigo_nombre'              => $rowMSSQL00['tipo_cargo_codigo_nombre'],
+                        'tipo_cargo_codigo_referencia'          => $rowMSSQL00['tipo_cargo_codigo_referencia'],
+                        'tipo_cargo_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
+
+                        'ciudad_codigo'                         => $rowMSSQL00['ciudad_codigo'],
+                        'ciudad_orden'                          => $rowMSSQL00['ciudad_orden'],
+                        'ciudad_nombre'                         => trim(strtoupper(strtolower($rowMSSQL00['ciudad_nombre']))),
+
+                        'pais_codigo'                           => $rowMSSQL00['pais_codigo'],
+                        'pais_orden'                            => $rowMSSQL00['pais_orden'],
+                        'pais_nombre'                           => trim(strtoupper(strtolower($rowMSSQL00['pais_nombre']))),
+                        'pais_path'                             => trim(strtolower($rowMSSQL00['pais_path'])),
+                        'pais_iso_char2'                        => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char2']))),
+                        'pais_iso_char3'                        => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char3']))),
+                        'pais_iso_num3'                         => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3']))),
+
+                        'workflow_codigo'                       => $rowMSSQL00['workflow_codigo'],
+                        'workflow_orden'                        => $rowMSSQL00['workflow_orden'],
+                        'workflow_tarea'                        => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+
+                        'estado_anterior_codigo'                => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
+                        'estado_actual_codigo'                  => $rowMSSQL00['estado_actual_codigo'],
+                        'estado_actual_ingles'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
+                        'estado_actual_castellano'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
+                        'estado_actual_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+
+                        'workflow_detalle_codigo'               => $rowMSSQL00['workflow_detalle_codigo'],
+                        'workflow_detalle_orden'                => $rowMSSQL00['workflow_detalle_orden'],
+                        'workflow_detalle_cargo'                => $rowMSSQL00['workflow_detalle_cargo'],
+                        'workflow_detalle_hora'                 => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_hora']))),
+                        'workflow_detalle_tarea'                => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
+
+                        'tipo_prioridad_codigo'                 => $rowMSSQL00['tipo_prioridad_codigo'],
+                        'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
+                        'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
+                        'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'rendicion_codigo'                      => '',
+                        'rendicion_periodo'                     => '',
+                        'rendicion_evento_nombre'               => '',
+                        'rendicion_evento_fecha'                => '',
+                        'rendicion_documento_solicitante'       => '',
+                        'rendicion_documento_jefatura'          => '',
+                        'rendicion_documento_analista'          => '',
+                        'rendicion_carga_fecha'                 => '',
+                        'rendicion_tarea_cantidad'              => '',
+                        'rendicion_tarea_resuelta'              => '',
+                        'rendicion_tarea_porcentaje'            => '',
+                        'rendicion_observacion'                 => '',
+
+                        'auditoria_usuario'                     => '',
+                        'auditoria_fecha_hora'                  => '',
+                        'auditoria_ip'                          => '',
+
+                        'tipo_gerencia_codigo'                  => '',
+                        'tipo_gerencia_codigo_nombre'           => '',
+                        'tipo_gerencia_codigo_referencia'       => '',
+                        'tipo_gerencia_nombre'                  => '',
+
+                        'tipo_departamento_codigo'              => '',
+                        'tipo_departamento_codigo_nombre'       => '',
+                        'tipo_departamento_codigo_referencia'   => '',
+                        'tipo_departamento_nombre'              => '',
+                        
+                        'tipo_jefatura_codigo'                  => '',
+                        'tipo_jefatura_codigo_nombre'           => '',
+                        'tipo_jefatura_codigo_referencia'       => '',
+                        'tipo_jefatura_nombre'                  => '',
+
+                        'tipo_cargo_codigo'                     => '',
+                        'tipo_cargo_codigo_nombre'              => '',
+                        'tipo_cargo_codigo_referencia'          => '',
+                        'tipo_cargo_nombre'                     => '',
+
+                        'ciudad_codigo'                         => '',
+                        'ciudad_orden'                          => '',
+                        'ciudad_nombre'                         => '',
+
+                        'pais_codigo'                           => '',
+                        'pais_orden'                            => '',
+                        'pais_nombre'                           => '',
+                        'pais_path'                             => '',
+                        'pais_iso_char2'                        => '',
+                        'pais_iso_char3'                        => '',
+                        'pais_iso_num3'                         => '',
+
+                        'workflow_codigo'                       => '',
+                        'workflow_orden'                        => '',
+                        'workflow_tarea'                        => '',
+
+                        'estado_anterior_codigo'                => '',
+                        'estado_anterior_ingles'                => '',
+                        'estado_anterior_castellano'            => '',
+                        'estado_anterior_portugues'             => '',
+
+                        'estado_actual_codigo'                  => '',
+                        'estado_actual_ingles'                  => '',
+                        'estado_actual_castellano'              => '',
+                        'estado_actual_portugues'               => '',
+
+                        'workflow_detalle_codigo'               => '',
+                        'workflow_detalle_orden'                => '',
+                        'workflow_detalle_cargo'                => '',
+                        'workflow_detalle_hora'                 => '',
+                        'workflow_detalle_tarea'                => '',
+
+                        'tipo_prioridad_codigo'                 => '',
+                        'tipo_prioridad_ingles'                 => '',
+                        'tipo_prioridad_castellano'             => '',
+                        'tipo_prioridad_portugues'              => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
 
         $connMSSQL  = null;
