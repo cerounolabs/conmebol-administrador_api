@@ -3485,7 +3485,7 @@
                     'rendicion_carga_fecha'                 => date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha'])),
                     'rendicion_tarea_cantidad'              => $rowMSSQL00['rendicion_tarea_cantidad'],
                     'rendicion_tarea_resuelta'              => $rowMSSQL00['rendicion_tarea_resuelta'],
-                    'rendicion_tarea_porcentaje'            => round((($rowMSSQL00['rendicion_tarea_resuelta'] * 100) / $rowMSSQL00['rendicion_tarea_cantidad']), 2),
+                    'rendicion_tarea_porcentaje'            => number_format((($rowMSSQL00['rendicion_tarea_resuelta'] * 100) / $rowMSSQL00['rendicion_tarea_cantidad']), 2, '.', ''),
                     'rendicion_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['rendicion_observacion']))),
 
                     'auditoria_usuario'                     => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
