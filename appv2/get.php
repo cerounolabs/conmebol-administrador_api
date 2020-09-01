@@ -3451,7 +3451,11 @@
             l.DOMFICCOD         AS          tipo_prioridad_codigo,
             l.DOMFICNOI         AS          tipo_prioridad_ingles,
             l.DOMFICNOC         AS          tipo_prioridad_castellano,
-            l.DOMFICNOP         AS          tipo_prioridad_portugues
+            l.DOMFICNOP         AS          tipo_prioridad_portugues,
+
+            m1.NombreEmpleado   AS          rendicion_nombre_solicitante,
+            m2.NombreEmpleado   AS          rendicion_nombre_jefatura,
+            m3.NombreEmpleado   AS          rendicion_nombre_analista
 
             FROM [con].[RENFIC] a
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.RENFICGEC = b.U_CODIGO
@@ -3465,6 +3469,9 @@
             INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
             LEFT OUTER JOIN [wrk].[WRKDET] k ON h.WRKFICCOD = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
             LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS = m1.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ = m2.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA = m3.CedulaEmpleado
 
             ORDER BY a.RENFICCOD DESC";
 
@@ -3547,7 +3554,11 @@
                     'tipo_prioridad_codigo'                 => $rowMSSQL00['tipo_prioridad_codigo'],
                     'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
                     'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
-                    'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues'])))
+                    'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+
+                    'rendicion_nombre_solicitante'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_solicitante']))),
+                    'rendicion_nombre_jefatura'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_jefatura']))),
+                    'rendicion_nombre_analista'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_analista'])))
                 );
 
                 $result[]   = $detalle;
@@ -3630,7 +3641,11 @@
                     'tipo_prioridad_codigo'                 => '',
                     'tipo_prioridad_ingles'                 => '',
                     'tipo_prioridad_castellano'             => '',
-                    'tipo_prioridad_portugues'              => ''
+                    'tipo_prioridad_portugues'              => '',
+
+                    'rendicion_nombre_solicitante'          => '',
+                    'rendicion_nombre_jefatura'             => '',
+                    'rendicion_nombre_analista'             => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -3727,7 +3742,11 @@
                 l.DOMFICCOD         AS          tipo_prioridad_codigo,
                 l.DOMFICNOI         AS          tipo_prioridad_ingles,
                 l.DOMFICNOC         AS          tipo_prioridad_castellano,
-                l.DOMFICNOP         AS          tipo_prioridad_portugues
+                l.DOMFICNOP         AS          tipo_prioridad_portugues,
+
+                m1.NombreEmpleado   AS          rendicion_nombre_solicitante,
+                m2.NombreEmpleado   AS          rendicion_nombre_jefatura,
+                m3.NombreEmpleado   AS          rendicion_nombre_analista
 
                 FROM [con].[RENFIC] a
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.RENFICGEC = b.U_CODIGO
@@ -3741,6 +3760,9 @@
                 INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] k ON h.WRKFICCOD = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
                 LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS = m1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ = m2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA = m3.CedulaEmpleado
 
                 WHERE a.RENFICCOD = ?
 
@@ -3825,7 +3847,11 @@
                         'tipo_prioridad_codigo'                 => $rowMSSQL00['tipo_prioridad_codigo'],
                         'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
                         'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
-                        'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues'])))
+                        'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+
+                        'rendicion_nombre_solicitante'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_solicitante']))),
+                        'rendicion_nombre_jefatura'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_jefatura']))),
+                        'rendicion_nombre_analista'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_analista'])))
                     );
 
                     $result[]   = $detalle;
@@ -3908,7 +3934,11 @@
                         'tipo_prioridad_codigo'                 => '',
                         'tipo_prioridad_ingles'                 => '',
                         'tipo_prioridad_castellano'             => '',
-                        'tipo_prioridad_portugues'              => ''
+                        'tipo_prioridad_portugues'              => '',
+
+                        'rendicion_nombre_solicitante'          => '',
+                        'rendicion_nombre_jefatura'             => '',
+                        'rendicion_nombre_analista'             => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
