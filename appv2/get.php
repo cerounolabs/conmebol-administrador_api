@@ -3438,7 +3438,18 @@
             j.DOMFICCOD         AS          estado_actual_codigo,
             j.DOMFICNOI         AS          estado_actual_ingles,
             j.DOMFICNOC         AS          estado_actual_castellano,
-            j.DOMFICNOP         AS          estado_actual_portugues
+            j.DOMFICNOP         AS          estado_actual_portugues,
+
+            k.WRKDETCOD         AS          workflow_detalle_codigo,
+            k.WRKDETORD         AS          workflow_detalle_orden,
+            k.WRKDETTCC         AS          workflow_detalle_cargo,
+            k.WRKDETHOR         AS          workflow_detalle_hora,
+            k.WRKDETNOM         AS          workflow_detalle_tarea,
+
+            l.DOMFICCOD         AS          tipo_prioridad_codigo,
+            l.DOMFICNOI         AS          tipo_prioridad_ingles,
+            l.DOMFICNOC         AS          tipo_prioridad_castellano,
+            l.DOMFICNOP         AS          tipo_prioridad_portugues
 
             FROM [con].[RENFIC] a
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.RENFICGEC = b.U_CODIGO
@@ -3450,7 +3461,9 @@
             INNER JOIN [wrk].[WRKFIC] h ON a.RENFICWFC = h.WRKFICCOD
             INNER JOIN [adm].[DOMFIC] i ON a.RENFICEAC = i.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
-            
+            LEFT OUTER JOIN [wrk].[WRKDET] k ON h.WRKFICCOD = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
+            LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
+
             ORDER BY a.RENFICCOD DESC";
 
         try {
@@ -3518,8 +3531,18 @@
                     'estado_actual_codigo'                  => $rowMSSQL00['estado_actual_codigo'],
                     'estado_actual_ingles'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                     'estado_actual_castellano'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
-                    'estado_actual_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))) 
+                    'estado_actual_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
 
+                    'workflow_detalle_codigo'               => $rowMSSQL00['workflow_detalle_codigo'],
+                    'workflow_detalle_orden'                => $rowMSSQL00['workflow_detalle_orden'],
+                    'workflow_detalle_cargo'                => $rowMSSQL00['workflow_detalle_cargo'],
+                    'workflow_detalle_hora'                 => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_hora']))),
+                    'workflow_detalle_tarea'                => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
+
+                    'tipo_prioridad_codigo'                 => $rowMSSQL00['tipo_prioridad_codigo'],
+                    'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
+                    'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
+                    'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues'])))
                 );
 
                 $result[]   = $detalle;
@@ -3588,7 +3611,18 @@
                     'estado_actual_codigo'                  => '',
                     'estado_actual_ingles'                  => '',
                     'estado_actual_castellano'              => '',
-                    'estado_actual_portugues'               => ''
+                    'estado_actual_portugues'               => '',
+
+                    'workflow_detalle_codigo'               => '',
+                    'workflow_detalle_orden'                => '',
+                    'workflow_detalle_cargo'                => '',
+                    'workflow_detalle_hora'                 => '',
+                    'workflow_detalle_tarea'                => '',
+
+                    'tipo_prioridad_codigo'                 => '',
+                    'tipo_prioridad_ingles'                 => '',
+                    'tipo_prioridad_castellano'             => '',
+                    'tipo_prioridad_portugues'              => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
