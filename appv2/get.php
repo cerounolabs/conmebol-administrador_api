@@ -3960,3 +3960,227 @@
         
         return $json;
     });
+
+    $app->get('/v2/500/cabecera/rendicion/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.RENFCACOD         AS          rendicion_cabecera_codigo,
+                a.RENFCATNR         AS          rendicion_cabecera_timbrado_numero,
+                a.RENFCATVE         AS          rendicion_cabecera_timbrado_vencimiento,
+                a.RENFCAFFE         AS          rendicion_cabecera_factura_fecha,
+                a.RENFCAFNU         AS          rendicion_cabecera_factura_numero,
+                a.RENFCAFRS         AS          rendicion_cabecera_factura_razonsocial,
+                a.RENFCAFAD         AS          rendicion_cabecera_factura_adjunto,
+                a.RENFCAFTO         AS          rendicion_cabecera_factura_importe,
+                a.RENFCAOBS         AS          rendicion_cabecera_observacion,
+
+                a.RENFCAAUS         AS          auditoria_usuario,
+                a.RENFCAAFH         AS          auditoria_fecha_hora,
+                a.RENFCAAIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_moneda_codigo,
+                b.DOMFICNOI         AS          tipo_moneda_ingles,
+                b.DOMFICNOC         AS          tipo_moneda_castellano,
+                b.DOMFICNOP         AS          tipo_moneda_portugues,
+
+                c.DOMFICCOD         AS          tipo_factura_codigo,
+                c.DOMFICNOI         AS          tipo_factura_ingles,
+                c.DOMFICNOC         AS          tipo_factura_castellano,
+                c.DOMFICNOP         AS          tipo_factura_portugues,
+
+                d.DOMFICCOD         AS          tipo_condicion_codigo,
+                d.DOMFICNOI         AS          tipo_condicion_ingles,
+                d.DOMFICNOC         AS          tipo_condicion_castellano,
+                d.DOMFICNOP         AS          tipo_condicion_portugues,
+
+                e.WRKFICCOD         AS          workflow_codigo,
+                e.WRKFICORD         AS          workflow_orden,
+                e.WRKFICNOM         AS          workflow_tarea,
+
+                f.DOMFICCOD         AS          estado_anterior_codigo,
+                f.DOMFICNOI         AS          estado_anterior_ingles,
+                f.DOMFICNOC         AS          estado_anterior_castellano,
+                f.DOMFICNOP         AS          estado_anterior_portugues,
+
+                g.DOMFICCOD         AS          estado_actual_codigo,
+                g.DOMFICNOI         AS          estado_actual_ingles,
+                g.DOMFICNOC         AS          estado_actual_castellano,
+                g.DOMFICNOP         AS          estado_actual_portugues,
+
+                h.RENFICCOD         AS          rendicion_codigo,
+                h.RENFICPER         AS          rendicion_periodo,
+                h.RENFICENO         AS          rendicion_evento_nombre,
+                h.RENFICEFE         AS          rendicion_evento_fecha,
+                h.RENFICDNS         AS          rendicion_documento_solicitante,
+                h.RENFICDNJ         AS          rendicion_documento_jefatura,
+                h.RENFICDNA         AS          rendicion_documento_analista,
+                h.RENFICFEC         AS          rendicion_carga_fecha,
+                h.RENFICTCA         AS          rendicion_tarea_cantidad,
+                h.RENFICTHE         AS          rendicion_tarea_resuelta,
+                h.RENFICOBS         AS          rendicion_observacion
+
+                FROM [con].[RENFCA] a
+                INNER JOIN [adm].[DOMFIC] b ON a.RENFCATMC = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.RENFCATFC = c.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] d ON a.RENFCATCC = d.DOMFICCOD
+                INNER JOIN [wrk].[WRKFIC] e ON a.RENFCAWFC = e.WRKFICCOD
+                INNER JOIN [adm].[DOMFIC] f ON a.RENFCAEAC = f.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] g ON a.RENFCAECC = g.DOMFICCOD
+                INNER JOIN [con].[RENFIC] h ON a.RENFCAREC = h.RENFICCOD
+
+                WHERE a.RENFCAREC = ?
+
+                ORDER BY a.RENFCACOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'rendicion_cabecera_codigo'                 => $rowMSSQL00['rendicion_cabecera_codigo'],
+                        'rendicion_cabecera_timbrado_numero'        => trim(strtoupper(strtolower($rowMSSQL00['rendicion_cabecera_timbrado_numero']))),
+                        'rendicion_cabecera_timbrado_vencimiento'   => date("d/m/Y", strtotime($rowMSSQL00['rendicion_cabecera_timbrado_vencimiento'])),
+                        'rendicion_cabecera_factura_fecha'          => date("d/m/Y", strtotime($rowMSSQL00['rendicion_cabecera_factura_fecha'])),
+                        'rendicion_cabecera_factura_numero'         => trim(strtoupper(strtolower($rowMSSQL00['rendicion_cabecera_factura_numero']))),
+                        'rendicion_cabecera_factura_razonsocial'    => trim(strtoupper(strtolower($rowMSSQL00['rendicion_cabecera_factura_razonsocial']))),
+                        'rendicion_cabecera_factura_adjunto'        => trim(strtolower($rowMSSQL00['rendicion_cabecera_factura_adjunto'])),
+                        'rendicion_cabecera_factura_importe'        => $rowMSSQL00['rendicion_cabecera_factura_importe'],
+                        'rendicion_cabecera_observacion'            => trim(strtoupper(strtolower($rowMSSQL00['rendicion_cabecera_observacion']))),
+
+                        'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'                      => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_moneda_codigo'                        => $rowMSSQL00['tipo_moneda_codigo'],
+                        'tipo_moneda_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_moneda_ingles']))),
+                        'tipo_moneda_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_moneda_castellano']))),
+                        'tipo_moneda_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_moneda_portugues']))),
+
+                        'tipo_factura_codigo'                       => $rowMSSQL00['tipo_factura_codigo'],
+                        'tipo_factura_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_factura_ingles']))),
+                        'tipo_factura_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_factura_castellano']))),
+                        'tipo_factura_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_factura_portugues']))),
+
+                        'tipo_condicion_codigo'                     => $rowMSSQL00['tipo_condicion_codigo'],
+                        'tipo_condicion_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_condicion_ingles']))),
+                        'tipo_condicion_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_condicion_castellano']))),
+                        'tipo_condicion_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_condicion_portugues']))),
+
+                        'workflow_codigo'                           => $rowMSSQL00['workflow_codigo'],
+                        'workflow_orden'                            => $rowMSSQL00['workflow_orden'],
+                        'workflow_tarea'                            => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+
+                        'estado_anterior_codigo'                    => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
+                        'estado_actual_codigo'                      => $rowMSSQL00['estado_actual_codigo'],
+                        'estado_actual_ingles'                      => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
+                        'estado_actual_castellano'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
+                        'estado_actual_portugues'                   => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+
+                        'rendicion_codigo'                          => $rowMSSQL00['rendicion_codigo'],
+                        'rendicion_periodo'                         => $rowMSSQL00['rendicion_periodo'],
+                        'rendicion_evento_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['rendicion_evento_nombre']))),
+                        'rendicion_evento_fecha'                    => date("d/m/Y", strtotime($rowMSSQL00['rendicion_evento_fecha'])),
+                        'rendicion_documento_solicitante'           => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_solicitante']))),
+                        'rendicion_documento_jefatura'              => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_jefatura']))),
+                        'rendicion_documento_analista'              => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_analista']))),
+                        'rendicion_carga_fecha'                     => date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha'])),
+                        'rendicion_tarea_cantidad'                  => $rowMSSQL00['rendicion_tarea_cantidad'],
+                        'rendicion_tarea_resuelta'                  => $rowMSSQL00['rendicion_tarea_resuelta'],
+                        'rendicion_tarea_porcentaje'                => number_format((($rowMSSQL00['rendicion_tarea_resuelta'] * 100) / $rowMSSQL00['rendicion_tarea_cantidad']), 2, '.', ''),
+                        'rendicion_observacion'                     => trim(strtoupper(strtolower($rowMSSQL00['rendicion_observacion'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'rendicion_cabecera_codigo'                 => '',
+                        'rendicion_cabecera_timbrado_numero'        => '',
+                        'rendicion_cabecera_timbrado_vencimiento'   => '',
+                        'rendicion_cabecera_factura_fecha'          => '',
+                        'rendicion_cabecera_factura_numero'         => '',
+                        'rendicion_cabecera_factura_razonsocial'    => '',
+                        'rendicion_cabecera_factura_adjunto'        => '',
+                        'rendicion_cabecera_factura_importe'        => '',
+                        'rendicion_cabecera_observacion'            => '',
+
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_moneda_codigo'                        => '',
+                        'tipo_moneda_ingles'                        => '',
+                        'tipo_moneda_castellano'                    => '',
+                        'tipo_moneda_portugues'                     => '',
+
+                        'tipo_factura_codigo'                       => '',
+                        'tipo_factura_ingles'                       => '',
+                        'tipo_factura_castellano'                   => '',
+                        'tipo_factura_portugues'                    => '',
+
+                        'tipo_condicion_codigo'                     => '',
+                        'tipo_condicion_ingles'                     => '',
+                        'tipo_condicion_castellano'                 => '',
+                        'tipo_condicion_portugues'                  => '',
+
+                        'workflow_codigo'                           => '',
+                        'workflow_orden'                            => '',
+                        'workflow_tarea'                            => '',
+
+                        'estado_anterior_codigo'                    => '',
+                        'estado_anterior_ingles'                    => '',
+                        'estado_anterior_castellano'                => '',
+                        'estado_anterior_portugues'                 => '',
+
+                        'estado_actual_codigo'                      => '',
+                        'estado_actual_ingles'                      => '',
+                        'estado_actual_castellano'                  => '',
+                        'estado_actual_portugues'                   => '',
+
+                        'rendicion_codigo'                          => '',
+                        'rendicion_periodo'                         => '',
+                        'rendicion_evento_nombre'                   => '',
+                        'rendicion_evento_fecha'                    => '',
+                        'rendicion_documento_solicitante'           => '',
+                        'rendicion_documento_jefatura'              => '',
+                        'rendicion_documento_analista'              => '',
+                        'rendicion_carga_fecha'                     => '',
+                        'rendicion_tarea_cantidad'                  => '',
+                        'rendicion_tarea_resuelta'                  => '',
+                        'rendicion_tarea_porcentaje'                => '',
+                        'rendicion_observacion'                     => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
