@@ -1185,7 +1185,8 @@
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
 
-                    WHERE a.CedulaEmpleado = ?";
+                    WHERE a.CedulaEmpleado = ? AND a.Estado = 'V'";
+
             } elseif ($val01 == '2') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1217,7 +1218,8 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE b.CedulaEmpleado = ?";
+                    WHERE b.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
+
             } elseif ($val01 == '3') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1247,7 +1249,10 @@
                     a.EmailManager              AS          superior_manager_email
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
-                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                    
+                    WHERE a.Estado = 'V' AND b.Estado = 'V'";
+
             } elseif ($val01 == '4') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1279,7 +1284,8 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?";
+                    WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
+
             } elseif ($val01 == '5') {
                 $sql00  = "SELECT
                     c.IDEmpleado                AS          codigo,
@@ -1312,7 +1318,7 @@
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
 
-                    WHERE a.CedulaEmpleado = ?";
+                    WHERE a.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
             }
 
             if ($val03 == 'I' || $val03 == 'A' || $val03 == 'P' || $val03 == 'C') {
@@ -1362,6 +1368,7 @@
                     WHERE a.SOLFICDOC = ? AND a.SOLFICEST = ?
                     
                     ORDER BY a.SOLFICCOD DESC";
+
             } elseif ($val03 == 'PC') {
                 $val03  = 'C';
                 $sql01  = "SELECT
@@ -1410,6 +1417,7 @@
                     WHERE a.SOLFICDOC = ? AND (a.SOLFICEST = 'P' OR a.SOLFICEST = ?) AND a.SOLFICUST <> ''
                     
                     ORDER BY a.SOLFICCOD DESC";
+
             } elseif ($val03 == 'T') {
                 $sql01  = "SELECT
                     a.SOLFICCOD         AS          solicitud_codigo,
@@ -1630,16 +1638,16 @@
         $val02  = $request->getAttribute('tipo');
 
         $sql01  = "SELECT count(*) AS solicitud_cantidad, 'TOTAL_COLABORADOR' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ?
-        UNION
-        SELECT count(*)  AS solicitud_cantidad, 'CON_SOLICITUD' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
-        UNION
-        SELECT count(*)  AS solicitud_cantidad, 'SIN_SOLICITUD' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND a.Estado = 'V'
+            UNION
+            SELECT count(*)  AS solicitud_cantidad, 'CON_SOLICITUD' AS solicitud_tipo
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND a.Estado = 'V' AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
+            UNION
+            SELECT count(*)  AS solicitud_cantidad, 'SIN_SOLICITUD' AS solicitud_tipo
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND a.Estado = 'V' AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
@@ -1688,12 +1696,12 @@
         $val02  = $request->getAttribute('tipo');
 
         $sql01  = "SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'CON_SOLICITUD' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
-        UNION
-        SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'SIN_SOLICITUD' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND a.Estado = 'V' AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
+            UNION
+            SELECT a.CedulaEmpleado AS solicitud_documento, a.NombreEmpleado AS solicitud_persona, 'SIN_SOLICITUD' AS solicitud_tipo
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND a.Estado = 'V' AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();

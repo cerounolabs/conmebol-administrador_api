@@ -1838,7 +1838,9 @@
             b.CedulaEmpleado            AS          superior_manager_documento
 
             FROM [CSF].[dbo].[empleados_AxisONE] a
-            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+            
+            WHERE a.Estado = 'V' AND b.Estado = 'V'";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
@@ -1999,7 +2001,7 @@
                 FROM [CSF].[dbo].[empleados_AxisONE] a
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                WHERE a.CedulaEmpleado = ?";
+                WHERE a.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
@@ -2164,7 +2166,7 @@
                 FROM [CSF].[dbo].[empleados_AxisONE] a
                 INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                WHERE b.CedulaEmpleado = ?";
+                WHERE b.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
