@@ -4021,7 +4021,13 @@
                 h.RENFICFEC         AS          rendicion_carga_fecha,
                 h.RENFICTCA         AS          rendicion_tarea_cantidad,
                 h.RENFICTHE         AS          rendicion_tarea_resuelta,
-                h.RENFICOBS         AS          rendicion_observacion
+                h.RENFICOBS         AS          rendicion_observacion,
+
+                i.WRKDETCOD         AS          workflow_detalle_codigo,
+                i.WRKDETORD         AS          workflow_detalle_orden,
+                i.WRKDETTCC         AS          workflow_detalle_cargo,
+                i.WRKDETHOR         AS          workflow_detalle_hora,
+                i.WRKDETNOM         AS          workflow_detalle_tarea
 
                 FROM [con].[RENFCA] a
                 INNER JOIN [adm].[DOMFIC] b ON a.RENFCATMC = b.DOMFICCOD
@@ -4031,6 +4037,7 @@
                 INNER JOIN [adm].[DOMFIC] f ON a.RENFCAEAC = f.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] g ON a.RENFCAECC = g.DOMFICCOD
                 INNER JOIN [con].[RENFIC] h ON a.RENFCAREC = h.RENFICCOD
+                LEFT OUTER JOIN [wrk].[WRKDET] i ON e.WRKFICCOD = i.WRKDETWFC AND a.RENFCAEAC = i.WRKDETEAC AND a.RENFCAECC = i.WRKDETECC
 
                 WHERE a.RENFCAREC = ?
 
@@ -4075,6 +4082,12 @@
                         'workflow_codigo'                           => $rowMSSQL00['workflow_codigo'],
                         'workflow_orden'                            => $rowMSSQL00['workflow_orden'],
                         'workflow_tarea'                            => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+
+                        'workflow_detalle_codigo'                   => $rowMSSQL00['workflow_detalle_codigo'],
+                        'workflow_detalle_orden'                    => $rowMSSQL00['workflow_detalle_orden'],
+                        'workflow_detalle_cargo'                    => $rowMSSQL00['workflow_detalle_cargo'],
+                        'workflow_detalle_hora'                     => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_hora']))),
+                        'workflow_detalle_tarea'                    => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
 
                         'estado_anterior_codigo'                    => $rowMSSQL00['estado_anterior_codigo'],
                         'estado_anterior_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
@@ -4140,6 +4153,12 @@
                         'workflow_codigo'                           => '',
                         'workflow_orden'                            => '',
                         'workflow_tarea'                            => '',
+
+                        'workflow_detalle_codigo'                   => '',
+                        'workflow_detalle_orden'                    => '',
+                        'workflow_detalle_cargo'                    => '',
+                        'workflow_detalle_hora'                     => '',
+                        'workflow_detalle_tarea'                    => '',
 
                         'estado_anterior_codigo'                    => '',
                         'estado_anterior_ingles'                    => '',
