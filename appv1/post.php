@@ -1136,7 +1136,7 @@
         return $json;
     });
 
-    $app->post('/v1/400/contacto', function($request) { 
+    $app->post('/v1/400/proveedor/contacto', function($request) { 
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -1181,7 +1181,7 @@
         return $json;
     });
 
-    $app->post('/v1/400/habitacion', function($request) {
+    $app->post('/v1/400/proveedor/habitacion', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];

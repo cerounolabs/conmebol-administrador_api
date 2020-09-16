@@ -3095,7 +3095,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/contacto/proveedor/{codigo}', function($request) {
+    $app->get('/v2/400/proveedor/contacto/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
@@ -3229,7 +3229,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/habitacion/proveedor/{codigo}', function($request) {
+    $app->get('/v2/400/proveedor/habitacion/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');

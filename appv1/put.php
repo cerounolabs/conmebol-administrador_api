@@ -437,7 +437,7 @@
         return $json;
     });
 
-    $app->put('/v1/400/contacto/{codigo}', function($request) {
+    $app->put('/v1/400/proveedor/contacto/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -483,7 +483,7 @@
         return $json;
     });
 
-    $app->put('/v1/400/habitacion/{codigo}', function($request) {
+    $app->put('/v1/400/proveedor/habitacion/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
