@@ -1136,7 +1136,7 @@
         return $json;
     });
 
-    $app->post('/v1/400/contacto', function($request) { 
+    $app->post('/v1/400/proveedor/contacto', function($request) { 
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -1181,7 +1181,7 @@
         return $json;
     });
 
-    $app->post('/v1/400/habitacion', function($request) {
+    $app->post('/v1/400/proveedor/habitacion', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -1231,16 +1231,16 @@
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
-        $val03      = $request->getParsedBody()['gerencia_codigo'];
-        $val04      = $request->getParsedBody()['departamento_codigo'];
-        $val05      = $request->getParsedBody()['cargo_superior_codigo'];
-        $val06      = $request->getParsedBody()['cargo_solicitante_codigo'];
+        $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val05      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
         $val07      = $request->getParsedBody()['ciudad_codigo'];
         $val08      = $request->getParsedBody()['workflow_codigo'];
         $val09      = $request->getParsedBody()['rendicion_periodo'];
         $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_evento_nombre'])));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_solicitante'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_superior'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_jefatura'])));
         $val13      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_analista'])));
         $val14      = $request->getParsedBody()['rendicion_carga_fecha'];
         $val15      = $request->getParsedBody()['rendicion_evento_fecha'];
