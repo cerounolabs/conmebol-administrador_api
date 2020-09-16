@@ -3571,6 +3571,156 @@
         
         return $json;
     });
+
+    $app->get('/v2/400/evento', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+            a.EVEFICCOD         AS          evento_codigo,
+            a.EVEFICORD         AS          evento_orden,
+            a.EVEFICNOM         AS          evento_nombre,
+            a.EVEFICFVI         AS          evento_fecha_inicio,
+            a.EVEFICFVF         AS          evento_fecha_fin,
+            a.EVEFICOBS         AS          evento_observacion,
+
+            a.EVEFICAUS         AS          auditoria_usuario,
+            a.EVEFICAFH         AS          auditoria_fecha_hora,
+            a.EVEFICAIP         AS          auditoria_ip,
+
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
+
+            c.DOMFICCOD         AS          tipo_evento_codigo,
+            c.DOMFICNOI         AS          tipo_evento_ingles,
+            c.DOMFICNOC         AS          tipo_evento_castellano,
+            c.DOMFICNOP         AS          tipo_evento_portugues,
+
+            d.LOCCIUCOD         AS          localidad_ciudad_codigo,
+            d.LOCCIUORD         AS          localidad_ciudad_orden,
+            d.LOCCIUNOM         AS          localidad_ciudad_nombre,
+            d.LOCCIUOBS         AS          localidad_ciudad_observacion,
+
+            e.LOCPAICOD         AS          localidad_pais_codigo,
+            e.LOCPAIORD         AS          localidad_pais_orden,
+            e.LOCPAINOM         AS          localidad_pais_nombre,
+            e.LOCPAIPAT         AS          localidad_pais_path,
+            e.LOCPAIIC2         AS          localidad_pais_iso_char2,
+            e.LOCPAIIC3         AS          localidad_pais_iso_char3,
+            e.LOCPAIIN3         AS          localidad_pais_iso_num3,
+            e.LOCPAIOBS         AS          localidad_pais_observacion
+
+            FROM [via].[EVEFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
+            INNER JOIN [adm].[LOCCIU] d ON a.EVEFICCIC = d.LOCCIUCOD
+            INNER JOIN [adm].[LOCPAI] e ON d.LOCCIUPAC = e.LOCPAICOD
+            
+            ORDER BY a.EVEFICORD";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle    = array(
+                    'evento_codigo'                     => $rowMSSQL00['evento_codigo'],
+                    'evento_orden'                      => $rowMSSQL00['evento_orden'],
+                    'evento_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['evento_nombre']))),
+                    'evento_fecha_inicio'               => date("d/m/Y", strtotime($rowMSSQL00['evento_fecha_inicio'])),
+                    'evento_fecha_fin'                  => date("d/m/Y", strtotime($rowMSSQL00['evento_fecha_fin'])),
+                    'evento_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['evento_observacion']))),
+
+                    'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+
+                    'tipo_evento_codigo'                => $rowMSSQL00['tipo_evento_codigo'],
+                    'tipo_evento_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_ingles']))),
+                    'tipo_evento_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_castellano']))),
+                    'tipo_evento_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_portugues']))),
+                    
+                    'localidad_ciudad_codigo'           => $rowMSSQL00['localidad_ciudad_codigo'],
+                    'localidad_ciudad_orden'            => $rowMSSQL00['localidad_ciudad_orden'],
+                    'localidad_ciudad_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                    'localidad_ciudad_observacion'      => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
+
+                    'localidad_pais_codigo'             => $rowMSSQL00['localidad_pais_codigo'],
+                    'localidad_pais_orden'              => $rowMSSQL00['localidad_pais_orden'],
+                    'localidad_pais_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                    'localidad_pais_path'               => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                    'localidad_pais_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                    'localidad_pais_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                    'localidad_pais_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                    'localidad_pais_observacion'        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'evento_codigo'                     => '',
+                    'evento_orden'                      => '',
+                    'evento_nombre'                     => '',
+                    'evento_fecha_inicio'               => '',
+                    'evento_fecha_fin'                  => '',
+                    'evento_observacion'                => '',
+
+                    'auditoria_usuario'                 => '',
+                    'auditoria_fecha_hora'              => '',
+                    'auditoria_ip'                      => '',
+
+                    'tipo_estado_codigo'                => '',
+                    'tipo_estado_ingles'                => '',
+                    'tipo_estado_castellano'            => '',
+                    'tipo_estado_portugues'             => '',
+
+                    'tipo_evento_codigo'                => '',
+                    'tipo_evento_ingles'                => '',
+                    'tipo_evento_castellano'            => '',
+                    'tipo_evento_portugues'             => '',
+                    
+                    'localidad_ciudad_codigo'           => '',
+                    'localidad_ciudad_orden'            => '',
+                    'localidad_ciudad_nombre'           => '',
+                    'localidad_ciudad_observacion'      => '',
+
+                    'localidad_pais_codigo'             => '',
+                    'localidad_pais_orden'              => '',
+                    'localidad_pais_nombre'             => '',
+                    'localidad_pais_path'               => '',
+                    'localidad_pais_iso_char2'          => '',
+                    'localidad_pais_iso_char3'          => '',
+                    'localidad_pais_iso_num3'           => '',
+                    'localidad_pais_observacion'        => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
