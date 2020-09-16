@@ -195,6 +195,7 @@
         return $json;
     });
 
+/*MODULO VIAJE*/
     $app->delete('/v2/400/proveedor/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -399,3 +400,4 @@
         
         return $json;
     });
+/*MODULO VIAJE*/

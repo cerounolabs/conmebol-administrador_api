@@ -2855,6 +2855,7 @@
         return $json;
     });
 
+/*MODULO VIAJE*/
     $app->get('/v2/400/proveedor', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -3539,7 +3540,7 @@
                         'tipo_estado_ingles'                => '',
                         'tipo_estado_castellano'            => '',
                         'tipo_estado_portugues'             => '',
-                        
+
                         'proveedor_codigo'                  => '',
                         'proveedor_nombre'                  => '',
                         'proveedor_razon_social'            => '',
@@ -3570,7 +3571,9 @@
         
         return $json;
     });
+/*MODULO VIAJE*/
 
+/*MODULO RENDICION*/
     $app->get('/v2/500/rendicion', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -4644,3 +4647,4 @@
         
         return $json;
     });
+/*MODULO RENDICION*/

@@ -1079,7 +1079,8 @@
         
         return $json;
     });
-    
+
+/*MODULO VIAJE*/
     $app->post('/v2/400/proveedor', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -1342,7 +1343,9 @@
         
         return $json;
     });
+/*MODULO VIAJE*/
 
+/*MODULO RENDICION*/
     $app->post('/v2/500/rendicion', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -1568,3 +1571,4 @@
         
         return $json;
     });
+/*MODULO RENDICION*/

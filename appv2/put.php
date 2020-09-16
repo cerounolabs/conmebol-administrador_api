@@ -389,6 +389,7 @@
         return $json;
     });
 
+/*MODULO VIAJE*/
     $app->put('/v2/400/proveedor/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -567,7 +568,9 @@
         
         return $json;
     });
+/*MODULO VIAJE*/
 
+/*MODULO RENDICION*/
     $app->put('/v2/500/rendicion/asignar/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -606,3 +609,4 @@
         
         return $json;
     });
+/*MODULO RENDICION*/
