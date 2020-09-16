@@ -1089,25 +1089,24 @@
         $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_nombre'])));
         $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_razon_social'])));
         $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_ruc'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_pais'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_direccion'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_castastrado'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_codigo'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_observacion'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_direccion'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_castastrado'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_codigo'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
-            $sql00  = "INSERT INTO [via].[PROFIC] (PROFICEST, PROFICTPC, PROFICCIC, PROFICNOM, PROFICRAZ, PROFICRUC, PROFICPAI, PROFICDIR, PROFICSPC, PROFICSPI, PROFICOBS, PROFICAUS, PROFICAFH, PROFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[PROFIC] (PROFICEST, PROFICTPC, PROFICCIC, PROFICNOM, PROFICRAZ, PROFICRUC, PROFICDIR, PROFICSPC, PROFICSPI, PROFICOBS, PROFICAUS, PROFICAFH, PROFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(PROFICCOD) AS proveedor_codigo FROM [via].[PROFIC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03]);
                 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
@@ -1145,7 +1144,7 @@
         $val04      = trim(strtolower($request->getParsedBody()['proveedor_contacto_email']));
         $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_telefono'])));
         $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_whatsapp'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_skype'])));
+        $val07      = trim(strtolower($request->getParsedBody()['proveedor_contacto_skype']));
         $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
@@ -1154,19 +1153,27 @@
 
         if (isset($val01) && isset($val02) && isset($val03)) {        
             $sql00  = "INSERT INTO [via].[PROCON] (PROCONEST, PROCONPRC, PROCONNOM, PROCONEMA, PROCONTEL, PROCONWHA, PROCONSKY, PROCONOBS, PROCONAUS, PROCONAFH, PROCONAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            
+            $sql01  = "SELECT MAX(PROCONCOD) AS proveedor_contacto_codigo FROM [via].[PROCON]";
+
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03]);
 
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['proveedor_contacto_codigo'];
+
                 header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
 
                 $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -1199,19 +1206,76 @@
 
         if (isset($val01) && isset($val02) && isset($val03)) {        
             $sql00  = "INSERT INTO [via].[PROHAB] (PROHABEST, PROHABTHC, PROHABPRC, PROHABNOM, PROHABPRE, PROHABCAN, PROHABPAT, PROHABOBS, PROHABAUS, PROHABAFH, PROHABAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            
+            $sql01  = "SELECT MAX(PROHABCOD) AS proveedor_habitacion_codigo FROM [via].[PROHAB]";
+
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03]);
 
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['proveedor_habitacion_codigo'];
+
                 header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
 
                 $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v2/400/proveedor/imagen', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['proveedor_codigo'];
+        $val03      = trim(strtolower($request->getParsedBody()['proveedor_imagen_path']));
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_imagen_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03)) {        
+            $sql00  = "INSERT INTO [via].[PROIMA] (PROIMAEST, PROIMAPRC, PROIMAPAT, PROIMAOBS, PROIMAAUS, PROIMAAFH, PROIMAAIP) VALUES (?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(PROIMACOD) AS proveedor_imagen_codigo FROM [via].[PROIMA]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['proveedor_imagen_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);

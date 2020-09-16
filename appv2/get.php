@@ -2863,7 +2863,6 @@
             a.PROFICNOM         AS          proveedor_nombre,
             a.PROFICRAZ         AS          proveedor_razon_social,
             a.PROFICRUC         AS          proveedor_ruc,
-            a.PROFICPAI         AS          proveedor_pais,
             a.PROFICDIR         AS          proveedor_direccion,
             a.PROFICSPC         AS          proveedor_sap_castastrado,
             a.PROFICSPI         AS          proveedor_sap_codigo,
@@ -2881,11 +2880,27 @@
             c.DOMFICCOD         AS          tipo_proveedor_codigo,
             c.DOMFICNOI         AS          tipo_proveedor_ingles,
             c.DOMFICNOC         AS          tipo_proveedor_castellano,
-            c.DOMFICNOP         AS          tipo_proveedor_portugues
+            c.DOMFICNOP         AS          tipo_proveedor_portugues,
+
+            d.LOCCIUCOD         AS          ciudad_codigo,
+            d.LOCCIUORD         AS          ciudad_orden,
+            d.LOCCIUNOM         AS          ciudad_nombre,
+            d.LOCCIUOBS         AS          ciudad_observacion,
+
+            e.LOCPAICOD         AS          pais_codigo,
+            e.LOCPAIORD         AS          pais_orden,
+            e.LOCPAINOM         AS          pais_nombre,
+            e.LOCPAIPAT         AS          pais_path,
+            e.LOCPAIIC2         AS          pais_iso_char2,
+            e.LOCPAIIC3         AS          pais_iso_char3,
+            e.LOCPAIIN3         AS          pais_iso_num3,
+            e.LOCPAIOBS         AS          pais_observacion
 
             FROM [via].[PROFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
+            INNER JOIN [adm].[LOCCIU] d ON a.PROFICCIC = d.LOCCIUCOD
+            INNER JOIN [adm].[LOCPAI] e ON d.LOCCIUPAC = e.LOCPAICOD
             
             ORDER BY a.PROFICTPC";
 
@@ -2900,7 +2915,6 @@
                     'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
                     'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
                     'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
-                    'proveedor_pais'                    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pais']))),
                     'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                     'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                     'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
@@ -2918,7 +2932,21 @@
                     'tipo_proveedor_codigo'             => $rowMSSQL00['tipo_proveedor_codigo'],
                     'tipo_proveedor_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_ingles']))),
                     'tipo_proveedor_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_castellano']))),
-                    'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues'])))     
+                    'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues']))),
+                    
+                    'ciudad_codigo'                     => $rowMSSQL00['ciudad_codigo'],
+                    'ciudad_orden'                      => $rowMSSQL00['ciudad_orden'],
+                    'ciudad_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['ciudad_nombre']))),
+                    'ciudad_observacion'                => trim(strtolower($rowMSSQL00['ciudad_observacion'])),
+
+                    'pais_codigo'                       => $rowMSSQL00['pais_codigo'],
+                    'pais_orden'                        => $rowMSSQL00['pais_orden'],
+                    'pais_nombre'                       => trim(strtoupper(strtolower($rowMSSQL00['pais_nombre']))),
+                    'pais_path'                         => trim(strtolower($rowMSSQL00['pais_path'])),
+                    'pais_iso_char2'                    => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char2']))),
+                    'pais_iso_char3'                    => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char3']))),
+                    'pais_iso_num3'                     => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3']))),
+                    'pais_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['pais_observacion'])))
                 );
 
                 $result[]   = $detalle;
@@ -2933,7 +2961,6 @@
                     'proveedor_nombre'                  => '',
                     'proveedor_razon_social'            => '',
                     'proveedor_ruc'                     => '',
-                    'proveedor_pais'                    => '',
                     'proveedor_direccion'               => '',
                     'proveedor_sap_castastrado'         => '',
                     'proveedor_sap_codigo'              => '',
@@ -2951,7 +2978,21 @@
                     'tipo_proveedor_codigo'             => '',
                     'tipo_proveedor_ingles'             => '',
                     'tipo_proveedor_castellano'         => '',
-                    'tipo_proveedor_portugues'          => ''
+                    'tipo_proveedor_portugues'          => '',
+
+                    'ciudad_codigo'                     => '',
+                    'ciudad_orden'                      => '',
+                    'ciudad_nombre'                     => '',
+                    'ciudad_observacion'                => '',
+
+                    'pais_codigo'                       => '',
+                    'pais_orden'                        => '',
+                    'pais_nombre'                       => '',
+                    'pais_path'                         => '',
+                    'pais_iso_char2'                    => '',
+                    'pais_iso_char3'                    => '',
+                    'pais_iso_num3'                     => '',
+                    'pais_observacion'                  => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -2981,7 +3022,6 @@
                 a.PROFICNOM         AS          proveedor_nombre,
                 a.PROFICRAZ         AS          proveedor_razon_social,
                 a.PROFICRUC         AS          proveedor_ruc,
-                a.PROFICPAI         AS          proveedor_pais,
                 a.PROFICDIR         AS          proveedor_direccion,
                 a.PROFICSPC         AS          proveedor_sap_castastrado,
                 a.PROFICSPI         AS          proveedor_sap_codigo,
@@ -2999,11 +3039,27 @@
                 c.DOMFICCOD         AS          tipo_proveedor_codigo,
                 c.DOMFICNOI         AS          tipo_proveedor_ingles,
                 c.DOMFICNOC         AS          tipo_proveedor_castellano,
-                c.DOMFICNOP         AS          tipo_proveedor_portugues
+                c.DOMFICNOP         AS          tipo_proveedor_portugues,
+
+                d.LOCCIUCOD         AS          ciudad_codigo,
+                d.LOCCIUORD         AS          ciudad_orden,
+                d.LOCCIUNOM         AS          ciudad_nombre,
+                d.LOCCIUOBS         AS          ciudad_observacion,
+
+                e.LOCPAICOD         AS          pais_codigo,
+                e.LOCPAIORD         AS          pais_orden,
+                e.LOCPAINOM         AS          pais_nombre,
+                e.LOCPAIPAT         AS          pais_path,
+                e.LOCPAIIC2         AS          pais_iso_char2,
+                e.LOCPAIIC3         AS          pais_iso_char3,
+                e.LOCPAIIN3         AS          pais_iso_num3,
+                e.LOCPAIOBS         AS          pais_observacion
 
                 FROM [via].[PROFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] c ON a.PROFICTPC = c.DOMFICCOD
+                INNER JOIN [adm].[LOCCIU] d ON a.PROFICCIC = d.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] e ON d.LOCCIUPAC = e.LOCPAICOD
 
                 WHERE a.PROFICCOD = ?
                 
@@ -3020,25 +3076,38 @@
                         'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
                         'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
                         'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
-                        'proveedor_pais'                    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pais']))),
                         'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                         'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                         'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
                         'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion']))),
-
+    
                         'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
-
+    
                         'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
                         'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
                         'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
-
+    
                         'tipo_proveedor_codigo'             => $rowMSSQL00['tipo_proveedor_codigo'],
                         'tipo_proveedor_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_ingles']))),
                         'tipo_proveedor_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_castellano']))),
-                        'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues'])))     
+                        'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues']))),
+                        
+                        'ciudad_codigo'                     => $rowMSSQL00['ciudad_codigo'],
+                        'ciudad_orden'                      => $rowMSSQL00['ciudad_orden'],
+                        'ciudad_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['ciudad_nombre']))),
+                        'ciudad_observacion'                => trim(strtolower($rowMSSQL00['ciudad_observacion'])),
+    
+                        'pais_codigo'                       => $rowMSSQL00['pais_codigo'],
+                        'pais_orden'                        => $rowMSSQL00['pais_orden'],
+                        'pais_nombre'                       => trim(strtoupper(strtolower($rowMSSQL00['pais_nombre']))),
+                        'pais_path'                         => trim(strtolower($rowMSSQL00['pais_path'])),
+                        'pais_iso_char2'                    => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char2']))),
+                        'pais_iso_char3'                    => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char3']))),
+                        'pais_iso_num3'                     => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3']))),
+                        'pais_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['pais_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -3053,25 +3122,38 @@
                         'proveedor_nombre'                  => '',
                         'proveedor_razon_social'            => '',
                         'proveedor_ruc'                     => '',
-                        'proveedor_pais'                    => '',
                         'proveedor_direccion'               => '',
                         'proveedor_sap_castastrado'         => '',
                         'proveedor_sap_codigo'              => '',
                         'proveedor_observacion'             => '',
-
+    
                         'auditoria_usuario'                 => '',
                         'auditoria_fecha_hora'              => '',
                         'auditoria_ip'                      => '',
-
+    
                         'tipo_estado_codigo'                => '',
                         'tipo_estado_ingles'                => '',
                         'tipo_estado_castellano'            => '',
                         'tipo_estado_portugues'             => '',
-
+    
                         'tipo_proveedor_codigo'             => '',
                         'tipo_proveedor_ingles'             => '',
                         'tipo_proveedor_castellano'         => '',
-                        'tipo_proveedor_portugues'          => ''
+                        'tipo_proveedor_portugues'          => '',
+    
+                        'ciudad_codigo'                     => '',
+                        'ciudad_orden'                      => '',
+                        'ciudad_nombre'                     => '',
+                        'ciudad_observacion'                => '',
+    
+                        'pais_codigo'                       => '',
+                        'pais_orden'                        => '',
+                        'pais_nombre'                       => '',
+                        'pais_path'                         => '',
+                        'pais_iso_char2'                    => '',
+                        'pais_iso_char3'                    => '',
+                        'pais_iso_num3'                     => '',
+                        'pais_observacion'                  => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -3123,7 +3205,6 @@
                 c.PROFICNOM         AS          proveedor_nombre,
                 c.PROFICRAZ         AS          proveedor_razon_social,
                 c.PROFICRUC         AS          proveedor_ruc,
-                c.PROFICPAI         AS          proveedor_pais,
                 c.PROFICDIR         AS          proveedor_direccion,
                 c.PROFICSPC         AS          proveedor_sap_castastrado,
                 c.PROFICSPI         AS          proveedor_sap_codigo,
@@ -3149,7 +3230,7 @@
                         'proveedor_contacto_email'          => trim(strtolower($rowMSSQL00['proveedor_contacto_email'])),
                         'proveedor_contacto_telefono'       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_telefono']))),
                         'proveedor_contacto_whatsapp'       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_whatsapp']))),
-                        'proveedor_contacto_skype'          => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_skype']))),
+                        'proveedor_contacto_skype'          => trim(strtolower($rowMSSQL00['proveedor_contacto_skype'])),
                         'proveedor_contacto_observacion'    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_contacto_observacion']))),
 
                         'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -3165,7 +3246,6 @@
                         'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
                         'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
                         'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
-                        'proveedor_pais'                    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pais']))),
                         'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                         'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                         'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
@@ -3201,7 +3281,6 @@
                         'proveedor_nombre'                  => '',
                         'proveedor_razon_social'            => '',
                         'proveedor_ruc'                     => '',
-                        'proveedor_pais'                    => '',
                         'proveedor_direccion'               => '',
                         'proveedor_sap_castastrado'         => '',
                         'proveedor_sap_codigo'              => '',
@@ -3261,7 +3340,6 @@
                 d.PROFICNOM         AS          proveedor_nombre,
                 d.PROFICRAZ         AS          proveedor_razon_social,
                 d.PROFICRUC         AS          proveedor_ruc,
-                d.PROFICPAI         AS          proveedor_pais,
                 d.PROFICDIR         AS          proveedor_direccion,
                 d.PROFICSPC         AS          proveedor_sap_castastrado,
                 d.PROFICSPI         AS          proveedor_sap_codigo,
@@ -3308,7 +3386,6 @@
                         'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
                         'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
                         'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
-                        'proveedor_pais'                    => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pais']))),
                         'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
                         'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                         'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
@@ -3348,7 +3425,125 @@
                         'proveedor_nombre'                  => '',
                         'proveedor_razon_social'            => '',
                         'proveedor_ruc'                     => '',
-                        'proveedor_pais'                    => '',
+                        'proveedor_direccion'               => '',
+                        'proveedor_sap_castastrado'         => '',
+                        'proveedor_sap_codigo'              => '',
+                        'proveedor_observacion'             => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/proveedor/imagen/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.PROIMACOD         AS          proveedor_imagen_codigo,
+                a.PROIMAPAT         AS          proveedor_imagen_path,
+                a.PROIMAOBS         AS          proveedor_imagen_observacion,
+
+                a.PROIMAAUS         AS          auditoria_usuario,
+                a.PROIMAAFH         AS          auditoria_fecha_hora,
+                a.PROIMAAIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+
+                c.PROFICCOD         AS          proveedor_codigo,
+                c.PROFICNOM         AS          proveedor_nombre,
+                c.PROFICRAZ         AS          proveedor_razon_social,
+                c.PROFICRUC         AS          proveedor_ruc,
+                c.PROFICDIR         AS          proveedor_direccion,
+                c.PROFICSPC         AS          proveedor_sap_castastrado,
+                c.PROFICSPI         AS          proveedor_sap_codigo,
+                c.PROFICOBS         AS          proveedor_observacion
+
+                FROM [via].[PROIMA] a
+                INNER JOIN [adm].[DOMFIC] b ON a.PROIMAEST = b.DOMFICCOD
+                INNER JOIN [via].[PROFIC] c ON a.PROIMAPRC = c.PROFICCOD
+
+                WHERE a.PROIMAPRC = ?
+                
+                ORDER BY a.PROIMAPRC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'proveedor_imagen_codigo'           => $rowMSSQL00['proveedor_imagen_codigo'],
+                        'proveedor_imagen_path'             => trim(strtolower($rowMSSQL00['proveedor_imagen_path'])),
+                        'proveedor_imagen_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['proveedor_imagen_observacion']))),
+
+                        'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+
+                        'proveedor_codigo'                  => $rowMSSQL00['proveedor_codigo'],
+                        'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
+                        'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
+                        'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
+                        'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
+                        'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
+                        'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
+                        'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'proveedor_imagen_codigo'           => '',
+                        'proveedor_imagen_path'             => '',
+                        'proveedor_imagen_observacion'      => '',
+
+                        'auditoria_usuario'                 => '',
+                        'auditoria_fecha_hora'              => '',
+                        'auditoria_ip'                      => '',
+
+                        'tipo_estado_codigo'                => '',
+                        'tipo_estado_ingles'                => '',
+                        'tipo_estado_castellano'            => '',
+                        'tipo_estado_portugues'             => '',
+                        
+                        'proveedor_codigo'                  => '',
+                        'proveedor_nombre'                  => '',
+                        'proveedor_razon_social'            => '',
+                        'proveedor_ruc'                     => '',
                         'proveedor_direccion'               => '',
                         'proveedor_sap_castastrado'         => '',
                         'proveedor_sap_codigo'              => '',

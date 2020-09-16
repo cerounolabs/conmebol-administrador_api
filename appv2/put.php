@@ -395,34 +395,31 @@
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_proveedor_codigo'];
-        $val03      = $request->getParsedBody()['tipo_categoria_codigo'];
-        $val04      = $request->getParsedBody()['localidad_ciudad_codigo'];
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_nombre'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_razon_social'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_ruc'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_pais'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_direccion'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_castastrado'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_codigo'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_cuenta_contable'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_observacion'])));
+        $val03      = $request->getParsedBody()['localidad_ciudad_codigo'];
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_nombre'])));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_razon_social'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_ruc'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_direccion'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_castastrado'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_codigo'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
-            $sql00  = "UPDATE [via].[PROFIC] SET PROFICEST = ?, PROFICTPC = ?, PROFICTCC = ?, PROFICCIC = ?, PROFICNOM = ?, PROFICRAZ = ?, PROFICRUC = ?, PROFICPAI = ?, PROFICDIR = ?, PROFICSPC = ?, PROFICSPI = ?, PROFICSPU = ?, PROFICOBS = ?, PROFICAUS = ?, PROFICAFH = GETDATE(), PROFICAIP = ? WHERE PROFICCOD = ?";
+            $sql00  = "UPDATE [via].[PROFIC] SET PROFICEST = ?, PROFICTPC = ?, PROFICCIC = ?, PROFICNOM = ?, PROFICRAZ = ?, PROFICRUC = ?, PROFICDIR = ?, PROFICSPC = ?, PROFICSPI = ?, PROFICOBS = ?, PROFICAUS = ?, PROFICAFH = GETDATE(), PROFICAIP = ? WHERE PROFICCOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
                 $stmtMSSQL00->closeCursor();
                 $stmtMSSQL00= null;
 
                 header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -445,8 +442,8 @@
         $val02      = $request->getParsedBody()['proveedor_codigo'];
         $val03      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_nombre'])));
         $val04      = trim(strtolower($request->getParsedBody()['proveedor_contacto_email']));
-        $val05      = trim(strtolower($request->getParsedBody()['proveedor_contacto_telefono']));
-        $val06      = trim(strtolower($request->getParsedBody()['proveedor_contacto_whatsapp']));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_telefono'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_whatsapp'])));
         $val07      = trim(strtolower($request->getParsedBody()['proveedor_contacto_skype']));
         $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_observacion'])));
 
@@ -464,7 +461,7 @@
                 $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
 
@@ -492,24 +489,67 @@
         $val03      = $request->getParsedBody()['proveedor_codigo'];
         $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_nombre'])));
         $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_precio'])));
-        $val06      = trim(strtolower($request->getParsedBody()['proveedor_habitacion_path']));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_observacion'])));
+        $val06      = $request->getParsedBody()['proveedor_habitacion_cantidad'];
+        $val07      = trim(strtolower($request->getParsedBody()['proveedor_habitacion_path']));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {        
-            $sql00  = "UPDATE [via].[PROHAB] SET PROHABEST = ?, PROHABTHC = ?, PROHABNOM = ?, PROHABPRE = ?, PROHABPAT = ?, PROHABOBS = ?, PROHABAUS = ?, PROHABAFH = GETDATE(), PROHABAIP = ? WHERE PROHABCOD = ?";
+            $sql00  = "UPDATE [via].[PROHAB] SET PROHABEST = ?, PROHABTHC = ?, PROHABNOM = ?, PROHABPRE = ?, PROHABCAN = ?, PROHABPAT = ?, PROHABOBS = ?, PROHABAUS = ?, PROHABAFH = GETDATE(), PROHABAIP = ? WHERE PROHABCOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val07, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->put('/v2/400/proveedor/imagen/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['proveedor_codigo'];
+        $val03      = trim(strtolower($request->getParsedBody()['proveedor_imagen_path']));
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_imagen_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {        
+            $sql00  = "UPDATE [via].[PROIMA] SET PROIMAEST = ?, PROIMAPAT = ?, PROIMAOBS = ?, PROIMAAUS = ?, PROIMAAFH = GETDATE(), PROIMAAIP = ? WHERE PROIMACOD = ?";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                $stmtMSSQL00->execute([$val01, $val03, $val04, $aud01, $aud03, $val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
 
