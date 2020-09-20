@@ -133,13 +133,13 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['pais_orden'];
-        $val03      = $request->getParsedBody()['pais_nombre'];
-        $val04      = $request->getParsedBody()['pais_path'];
-        $val05      = $request->getParsedBody()['pais_iso_char2'];
-        $val06      = $request->getParsedBody()['pais_iso_char3'];
-        $val07      = $request->getParsedBody()['pais_iso_num3'];
-        $val08      = $request->getParsedBody()['pais_observacion'];
+        $val02      = $request->getParsedBody()['localidad_pais_orden'];
+        $val03      = $request->getParsedBody()['localidad_pais_nombre'];
+        $val04      = $request->getParsedBody()['localidad_pais_path'];
+        $val05      = $request->getParsedBody()['localidad_pais_iso_char2'];
+        $val06      = $request->getParsedBody()['localidad_pais_iso_char3'];
+        $val07      = $request->getParsedBody()['localidad_pais_iso_num3'];
+        $val08      = $request->getParsedBody()['localidad_pais_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -177,10 +177,10 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['ciudad_orden'];
-        $val03      = $request->getParsedBody()['pais_codigo'];
-        $val04      = $request->getParsedBody()['ciudad_nombre'];
-        $val05      = $request->getParsedBody()['ciudad_observacion'];
+        $val02      = $request->getParsedBody()['localidad_ciudad_orden'];
+        $val03      = $request->getParsedBody()['localidad_pais_codigo'];
+        $val04      = $request->getParsedBody()['localidad_ciudad_nombre'];
+        $val05      = $request->getParsedBody()['localidad_ciudad_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -188,6 +188,47 @@
 
         if (isset($val00) && isset($val02) && isset($val04)) {    
             $sql00  = "UPDATE [adm].[LOCCIU] SET LOCCIUEST = ?, LOCCIUORD = ?, LOCCIUPAC = ?, LOCCIUNOM = ?, LOCCIUOBS = ?, LOCCIUAUS = ?, LOCCIUAFH = GETDATE(), LOCCIUAIP  = ? WHERE LOCCIUCOD = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $aud01, $aud03, $val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->put('/v2/100/aeropuerto/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['localidad_aeropuerto_orden'];
+        $val03      = $request->getParsedBody()['localidad_pais_codigo'];
+        $val04      = $request->getParsedBody()['ocalidad_aeropuerto_nombre'];
+        $val05      = $request->getParsedBody()['ocalidad_aeropuerto_observacion'];
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val03) && isset($val04)) {  
+            $sql00  = "UPDATE [adm].[LOCAER] SET LOCAEREST = ?, LOCAERORD = ?, LOCAERPAC = ?, LOCAERNOM = ?, LOCAEROBS = ?, LOCAERAUS = ?, LOCAERAFH = GETDATE(), LOCAERAIP  = ? WHERE LOCAERCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
