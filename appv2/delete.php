@@ -497,4 +497,128 @@
         
         return $json;
     });
+
+    $app->delete('/v2/400/solicitud/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
+        $val02      = $request->getParsedBody()['estado_actual_codigo'];
+        $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val05      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val07      = $request->getParsedBody()['evento_codigo'];
+        $val08      = $request->getParsedBody()['localidad_ciudad_codigo'];
+        $val09      = $request->getParsedBody()['workflow_codigo'];
+        $val10      = $request->getParsedBody()['solicitud_periodo'];
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_evento_nombre'])));
+        $val12      = $request->getParsedBody()['solicitud_evento_fecha'];
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val17      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val19      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val20      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
+            $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+            $sql01  = "DELETE FROM [via].[SOLFIC] WHERE SOLFICCOD = ?";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$aud01, $aud03, $val00]);
+                $stmtMSSQL01->execute([$val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success DELETE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error DELETE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->delete('/v2/400/solicitud/detalle/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['localidad_ciudad_origen_codigo'];
+        $val03      = $request->getParsedBody()['localidad_ciudad_destino_codigo'];
+        $val04      = $request->getParsedBody()['localidad_aeropuerto_codigo'];
+        $val05      = $request->getParsedBody()['solicitud_codigo'];
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_preferencia'])));
+        $val07      = $request->getParsedBody()['solicitud_detalle_fecha_llegada'];
+        $val08      = $request->getParsedBody()['solicitud_detalle_fecha_retorno'];
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hora_llegada'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hora_retorno'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_consumo'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_sala'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_vehiculo'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_sap_centro_costo'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val05)) {
+            $sql00  = "UPDATE [via].[SOLDET] SET SOLDETAUS = ?, SOLDETAFH = GETDATE(), SOLDETAIP = ? WHERE SOLDETCOD = ?";
+            $sql01  = "DELETE FROM [via].[SOLDET] WHERE SOLDETCOD = ?";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$aud01, $aud03, $val00]);
+                $stmtMSSQL01->execute([$val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success DELETE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error DELETE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO VIAJE*/
