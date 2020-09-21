@@ -470,8 +470,8 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['localidad_aeropuerto_orden'];
         $val03      = $request->getParsedBody()['localidad_pais_codigo'];
-        $val04      = $request->getParsedBody()['ocalidad_aeropuerto_nombre'];
-        $val05      = $request->getParsedBody()['ocalidad_aeropuerto_observacion'];
+        $val04      = $request->getParsedBody()['localidad_aeropuerto_nombre'];
+        $val05      = $request->getParsedBody()['localidad_aeropuerto_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
