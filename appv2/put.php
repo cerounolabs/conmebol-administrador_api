@@ -660,6 +660,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
@@ -687,13 +688,21 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
-            $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICCIC = ?, SOLFICENO = ?, SOLFICEFE = ?, SOLFICSCC = ?, SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+            switch ($val00_1) {
+                case 1:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICCIC = ?, SOLFICENO = ?, SOLFICEFE = ?, SOLFICSCC = ?, SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
+            }
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val07, $val08, $val11, $val12, $val18, $val21, $aud01, $aud03, $val00]);
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val07, $val08, $val11, $val12, $val18, $val21, $aud01, $aud03, $val00]);
+                        break;
+                }
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
