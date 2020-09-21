@@ -4180,6 +4180,357 @@
         
         return $json;
     });
+
+    $app->get('/v2/400/solicitud/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.SOLFICCOD         AS          solicitud_codigo,
+                a.SOLFICPER         AS          solicitud_periodo,
+                a.SOLFICENO         AS          solicitud_evento_nombre,
+                a.SOLFICEFE         AS          solicitud_evento_fecha,
+                a.SOLFICFEC         AS          solicitud_fecha_carga,
+                a.SOLFICSCC         AS          solicitud_sap_centro_costo,
+                a.SOLFICTCA         AS          solicitud_tarea_cantidad,
+                a.SOLFICTRE         AS          solicitud_tarea_resulta,
+                a.SOLFICOBS         AS          solicitud_observacion,
+
+                a.SOLFICAUS         AS          auditoria_usuario,
+                a.SOLFICAFH         AS          auditoria_fecha_hora,
+                a.SOLFICAIP         AS          auditoria_ip,
+
+                b.CODE              AS          tipo_gerencia_codigo,
+                b.NAME              AS          tipo_gerencia_codigo_nombre,
+                b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
+                b.U_NOMBRE          AS          tipo_gerencia_nombre,
+
+                c.CODE              AS          tipo_departamento_codigo,
+                c.NAME              AS          tipo_departamento_codigo_nombre,
+                c.U_CODIGO          AS          tipo_departamento_codigo_referencia,
+                c.U_NOMBRE          AS          tipo_departamento_nombre,
+
+                d.CODE              AS          tipo_jefatura_codigo_referencia,
+                d.NAME              AS          tipo_jefatura_codigo_nombre,
+                d.U_CODIGO          AS          tipo_jefatura_codigo,
+                d.U_NOMBRE          AS          tipo_jefatura_nombre,
+
+                e.CODE              AS          tipo_cargo_codigo_referencia,
+                e.NAME              AS          tipo_cargo_codigo_nombre,
+                e.U_CODIGO          AS          tipo_cargo_codigo,
+                e.U_NOMBRE          AS          tipo_cargo_nombre,
+
+                f.EVEFICCOD         AS          evento_codigo,
+                f.EVEFICORD         AS          evento_orden,
+                f.EVEFICNOM         AS          evento_nombre,
+                f.EVEFICFVI         AS          evento_fecha_inicio,
+                f.EVEFICFVF         AS          evento_fecha_fin,
+                f.EVEFICOBS         AS          evento_observacion,
+
+                g.LOCCIUCOD         AS          localidad_ciudad_codigo,
+                g.LOCCIUORD         AS          localidad_ciudad_orden,
+                g.LOCCIUNOM         AS          localidad_ciudad_nombre,
+                g.LOCCIUOBS         AS          localidad_ciudad_observacion,
+
+                h.LOCPAICOD         AS          localidad_pais_codigo,
+                h.LOCPAIORD         AS          localidad_pais_orden,
+                h.LOCPAINOM         AS          localidad_pais_nombre,
+                h.LOCPAIPAT         AS          localidad_pais_path,
+                h.LOCPAIIC2         AS          localidad_pais_iso_char2,
+                h.LOCPAIIC3         AS          localidad_pais_iso_char3,
+                h.LOCPAIIN3         AS          localidad_pais_iso_num3,
+                h.LOCPAIOBS         AS          localidad_pais_observacion,
+
+                i.WRKFICCOD         AS          workflow_codigo,
+                i.WRKFICORD         AS          workflow_orden,
+                i.WRKFICNOM         AS          workflow_tarea,
+
+                j.DOMFICCOD         AS          estado_anterior_codigo,
+                j.DOMFICNOI         AS          estado_anterior_ingles,
+                j.DOMFICNOC         AS          estado_anterior_castellano,
+                j.DOMFICNOP         AS          estado_anterior_portugues,
+
+                k.DOMFICCOD         AS          estado_actual_codigo,
+                k.DOMFICNOI         AS          estado_actual_ingles,
+                k.DOMFICNOC         AS          estado_actual_castellano,
+                k.DOMFICNOP         AS          estado_actual_portugues,
+
+                l.WRKDETCOD         AS          workflow_detalle_codigo,
+                l.WRKDETORD         AS          workflow_detalle_orden,
+                l.WRKDETTCC         AS          workflow_detalle_cargo,
+                l.WRKDETHOR         AS          workflow_detalle_hora,
+                l.WRKDETNOM         AS          workflow_detalle_tarea,
+
+                m.DOMFICCOD         AS          tipo_prioridad_codigo,
+                m.DOMFICNOI         AS          tipo_prioridad_ingles,
+                m.DOMFICNOC         AS          tipo_prioridad_castellano,
+                m.DOMFICNOP         AS          tipo_prioridad_portugues,
+
+                n1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                a.SOLFICDNS         AS          solicitud_solicitante_documento,
+                n2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                a.SOLFICDNJ         AS          solicitud_jefatura_documento,
+                n3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+                n4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                a.SOLFICDNP         AS          solicitud_proveedor_documento
+
+                FROM [via].[SOLFIC] a
+                INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TIDE] c ON a.SOLFICDEC = c.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.SOLFICJEC = d.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.SOLFICCAC = e.U_CODIGO
+                INNER JOIN [via].[EVEFIC] f ON a.SOLFICEVC = f.EVEFICCOD
+                INNER JOIN [adm].[LOCCIU] g ON a.SOLFICCIC = g.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] h ON g.LOCCIUPAC = h.LOCPAICOD
+                INNER JOIN [wrk].[WRKFIC] i ON a.SOLFICWFC = i.WRKFICCOD
+                INNER JOIN [adm].[DOMFIC] j ON a.SOLFICEAC = j.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] k ON a.SOLFICECC = k.DOMFICCOD
+                LEFT OUTER JOIN [wrk].[WRKDET] l ON i.WRKFICCOD = l.WRKDETWFC AND a.SOLFICEAC = l.WRKDETEAC AND a.SOLFICECC = l.WRKDETECC
+                LEFT OUTER JOIN [adm].[DOMFIC] m ON l.WRKDETTPC = m.DOMFICCOD
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] n1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = n1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] n2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = n2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] n3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = n3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] n4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = n4.CedulaEmpleado
+
+                WHERE a.SOLFICCOD = ?
+
+                ORDER BY a.SOLFICCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if(!empty($rowMSSQL00['solicitud_evento_fecha'])){
+                        $solicitud_evento_fecha_2   = date("d/m/Y", strtotime($rowMSSQL00['solicitud_evento_fecha']));
+                    } else {
+                        $solicitud_evento_fecha_2   = '';
+                    }
+
+                    if(!empty($rowMSSQL00['rendicion_carga_fecha'])){
+                        $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha']));
+                    } else {
+                        $solicitud_fecha_carga_2    = '';
+                    }
+
+                    $detalle = array(                    
+                        'solicitud_codigo'                      => $rowMSSQL00['solicitud_codigo'],
+                        'solicitud_periodo'                     => $rowMSSQL00['solicitud_periodo'],
+                        'solicitud_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_evento_nombre']))),
+                        'solicitud_evento_fecha_1'              => $rowMSSQL00['solicitud_evento_fecha'],
+                        'solicitud_evento_fecha_2'              => $solicitud_evento_fecha_2,
+                        'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
+                        'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
+                        'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
+                        'solicitud_tarea_cantidad'              => $rowMSSQL00['solicitud_tarea_cantidad'],
+                        'solicitud_tarea_resulta'               => $rowMSSQL00['solicitud_tarea_resulta'],
+                        'solicitud_solicitante_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_nombre']))),
+                        'solicitud_solicitante_documento'       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_documento']))),
+                        'solicitud_jefatura_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_nombre']))),
+                        'solicitud_jefatura_documento'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_documento']))),
+                        'solicitud_ejecutivo_nombre'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_nombre']))),
+                        'solicitud_ejecutivo_documento'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
+                        'solicitud_proveedor_nombre'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
+                        'solicitud_proveedor_documento'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
+                        'solicitud_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
+
+                        'auditoria_usuario'                     => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'                  => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_gerencia_codigo'                  => $rowMSSQL00['tipo_gerencia_codigo'],
+                        'tipo_gerencia_codigo_nombre'           => $rowMSSQL00['tipo_gerencia_codigo_nombre'],
+                        'tipo_gerencia_codigo_referencia'       => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
+                        'tipo_gerencia_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
+
+                        'tipo_departamento_codigo'              => $rowMSSQL00['tipo_departamento_codigo'],
+                        'tipo_departamento_codigo_nombre'       => $rowMSSQL00['tipo_departamento_codigo_nombre'],
+                        'tipo_departamento_codigo_referencia'   => $rowMSSQL00['tipo_departamento_codigo_referencia'],
+                        'tipo_departamento_nombre'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_departamento_nombre']))),
+                        
+                        'tipo_jefatura_codigo'                  => $rowMSSQL00['tipo_jefatura_codigo'],
+                        'tipo_jefatura_codigo_nombre'           => $rowMSSQL00['tipo_jefatura_codigo_nombre'],
+                        'tipo_jefatura_codigo_referencia'       => $rowMSSQL00['tipo_jefatura_codigo_referencia'],
+                        'tipo_jefatura_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_jefatura_nombre']))),
+
+                        'tipo_cargo_codigo'                     => $rowMSSQL00['tipo_cargo_codigo'],
+                        'tipo_cargo_codigo_nombre'              => $rowMSSQL00['tipo_cargo_codigo_nombre'],
+                        'tipo_cargo_codigo_referencia'          => $rowMSSQL00['tipo_cargo_codigo_referencia'],
+                        'tipo_cargo_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre']))),
+
+                        'evento_codigo'                         => $rowMSSQL00['evento_codigo'],
+                        'evento_orden'                          => $rowMSSQL00['evento_orden'],
+                        'evento_nombre'                         => trim(strtoupper(strtolower($rowMSSQL00['evento_nombre']))),
+                        'evento_fecha_inicio_1'                 => $rowMSSQL00['evento_fecha_inicio'],
+                        'evento_fecha_inicio_2'                 => date("d/m/Y", strtotime($rowMSSQL00['evento_fecha_inicio'])),
+                        'evento_fecha_fin_1'                    => $rowMSSQL00['evento_fecha_fin'],
+                        'evento_fecha_fin_2'                    => date("d/m/Y", strtotime($rowMSSQL00['evento_fecha_fin'])),
+                        'evento_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['evento_observacion']))),
+
+                        'localidad_ciudad_codigo'               => $rowMSSQL00['localidad_ciudad_codigo'],
+                        'localidad_ciudad_orden'                => $rowMSSQL00['localidad_ciudad_orden'],
+                        'localidad_ciudad_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                        'localidad_ciudad_observacion'          => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
+
+                        'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
+                        'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
+                        'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                        'localidad_pais_path'                   => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                        'localidad_pais_iso_char2'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                        'localidad_pais_iso_char3'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                        'localidad_pais_iso_num3'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                        'localidad_pais_observacion'            => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
+
+                        'workflow_codigo'                       => $rowMSSQL00['workflow_codigo'],
+                        'workflow_orden'                        => $rowMSSQL00['workflow_orden'],
+                        'workflow_tarea'                        => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
+
+                        'estado_anterior_codigo'                => $rowMSSQL00['estado_anterior_codigo'],
+                        'estado_anterior_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
+                        'estado_anterior_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
+                        'estado_anterior_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+
+                        'estado_actual_codigo'                  => $rowMSSQL00['estado_actual_codigo'],
+                        'estado_actual_ingles'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
+                        'estado_actual_castellano'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
+                        'estado_actual_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+
+                        'workflow_detalle_codigo'               => $rowMSSQL00['workflow_detalle_codigo'],
+                        'workflow_detalle_orden'                => $rowMSSQL00['workflow_detalle_orden'],
+                        'workflow_detalle_cargo'                => $rowMSSQL00['workflow_detalle_cargo'],
+                        'workflow_detalle_hora'                 => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_hora']))),
+                        'workflow_detalle_tarea'                => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
+
+                        'tipo_prioridad_codigo'                 => $rowMSSQL00['tipo_prioridad_codigo'],
+                        'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
+                        'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
+                        'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'solicitud_codigo'                      => '',
+                        'solicitud_periodo'                     => '',
+                        'solicitud_evento_nombre'               => '',
+                        'solicitud_evento_fecha_1'              => '',
+                        'solicitud_evento_fecha_2'              => '',
+                        'solicitud_fecha_carga_1'               => '',
+                        'solicitud_fecha_carga_2'               => '',
+                        'solicitud_sap_centro_costo'            => '',
+                        'solicitud_tarea_cantidad'              => '',
+                        'solicitud_tarea_resulta'               => '',
+                        'solicitud_solicitante_nombre'          => '',
+                        'solicitud_solicitante_documento'       => '',
+                        'solicitud_jefatura_nombre'             => '',
+                        'solicitud_jefatura_documento'          => '',
+                        'solicitud_ejecutivo_nombre'            => '',
+                        'solicitud_ejecutivo_documento'         => '',
+                        'solicitud_proveedor_nombre'            => '',
+                        'solicitud_proveedor_documento'         => '',
+                        'solicitud_observacion'                 => '',
+
+                        'auditoria_usuario'                     => '',
+                        'auditoria_fecha_hora'                  => '',
+                        'auditoria_ip'                          => '',
+
+                        'tipo_gerencia_codigo'                  => '',
+                        'tipo_gerencia_codigo_nombre'           => '',
+                        'tipo_gerencia_codigo_referencia'       => '',
+                        'tipo_gerencia_nombre'                  => '',
+
+                        'tipo_departamento_codigo'              => '',
+                        'tipo_departamento_codigo_nombre'       => '',
+                        'tipo_departamento_codigo_referencia'   => '',
+                        'tipo_departamento_nombre'              => '',
+                        
+                        'tipo_jefatura_codigo'                  => '',
+                        'tipo_jefatura_codigo_nombre'           => '',
+                        'tipo_jefatura_codigo_referencia'       => '',
+                        'tipo_jefatura_nombre'                  => '',
+
+                        'tipo_cargo_codigo'                     => '',
+                        'tipo_cargo_codigo_nombre'              => '',
+                        'tipo_cargo_codigo_referencia'          => '',
+                        'tipo_cargo_nombre'                     => '',
+
+                        'evento_codigo'                         => '',
+                        'evento_orden'                          => '',
+                        'evento_nombre'                         => '',
+                        'evento_fecha_inicio_1'                 => '',
+                        'evento_fecha_inicio_2'                 => '',
+                        'evento_fecha_fin_1'                    => '',
+                        'evento_fecha_fin_2'                    => '',
+                        'evento_observacion'                    => '',
+
+                        'localidad_ciudad_codigo'               => '',
+                        'localidad_ciudad_orden'                => '',
+                        'localidad_ciudad_nombre'               => '',
+                        'localidad_ciudad_observacion'          => '',
+
+                        'localidad_pais_codigo'                 => '',
+                        'localidad_pais_orden'                  => '',
+                        'localidad_pais_nombre'                 => '',
+                        'localidad_pais_path'                   => '',
+                        'localidad_pais_iso_char2'              => '',
+                        'localidad_pais_iso_char3'              => '',
+                        'localidad_pais_iso_num3'               => '',
+                        'localidad_pais_observacion'            => '',
+
+                        'workflow_codigo'                       => '',
+                        'workflow_orden'                        => '',
+                        'workflow_tarea'                        => '',
+
+                        'estado_anterior_codigo'                => '',
+                        'estado_anterior_ingles'                => '',
+                        'estado_anterior_castellano'            => '',
+                        'estado_anterior_portugues'             => '',
+
+                        'estado_actual_codigo'                  => '',
+                        'estado_actual_ingles'                  => '',
+                        'estado_actual_castellano'              => '',
+                        'estado_actual_portugues'               => '',
+
+                        'workflow_detalle_codigo'               => '',
+                        'workflow_detalle_orden'                => '',
+                        'workflow_detalle_cargo'                => '',
+                        'workflow_detalle_hora'                 => '',
+                        'workflow_detalle_tarea'                => '',
+
+                        'tipo_prioridad_codigo'                 => '',
+                        'tipo_prioridad_ingles'                 => '',
+                        'tipo_prioridad_castellano'             => '',
+                        'tipo_prioridad_portugues'              => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
