@@ -688,12 +688,14 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
+            $sql00  = "";
+
             switch ($val00_1) {
                 case 1:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICCIC = ?, SOLFICENO = ?, SOLFICEFE = ?, SOLFICSCC = ?, SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
             }
-            
+
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
