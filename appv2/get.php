@@ -3958,12 +3958,26 @@
             $stmtMSSQL00->execute();
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $detalle    = array(                    
+                if(!empty($rowMSSQL00['solicitud_evento_fecha'])){
+                    $solicitud_evento_fecha_2   = date("d/m/Y", strtotime($rowMSSQL00['solicitud_evento_fecha']));
+                } else {
+                    $solicitud_evento_fecha_2   = '';
+                }
+
+                if(!empty($rowMSSQL00['rendicion_carga_fecha'])){
+                    $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha']));
+                } else {
+                    $solicitud_fecha_carga_2    = '';
+                }
+
+                $detalle = array(                    
                     'solicitud_codigo'                      => $rowMSSQL00['solicitud_codigo'],
                     'solicitud_periodo'                     => $rowMSSQL00['solicitud_periodo'],
                     'solicitud_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_evento_nombre']))),
-                    'solicitud_evento_fecha'                => $rowMSSQL00['solicitud_evento_fecha'],
-                    'solicitud_fecha_carga'                 => $rowMSSQL00['solicitud_fecha_carga'],
+                    'solicitud_evento_fecha_1'              => $rowMSSQL00['solicitud_evento_fecha'],
+                    'solicitud_evento_fecha_2'              => $solicitud_evento_fecha_2,
+                    'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
+                    'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                     'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
                     'solicitud_tarea_cantidad'              => $rowMSSQL00['solicitud_tarea_cantidad'],
                     'solicitud_tarea_resulta'               => $rowMSSQL00['solicitud_tarea_resulta'],
@@ -4061,8 +4075,10 @@
                     'solicitud_codigo'                      => '',
                     'solicitud_periodo'                     => '',
                     'solicitud_evento_nombre'               => '',
-                    'solicitud_evento_fecha'                => '',
-                    'solicitud_fecha_carga'                 => '',
+                    'solicitud_evento_fecha_1'              => '',
+                    'solicitud_evento_fecha_2'              => '',
+                    'solicitud_fecha_carga_1'               => '',
+                    'solicitud_fecha_carga_2'               => '',
                     'solicitud_sap_centro_costo'            => '',
                     'solicitud_tarea_cantidad'              => '',
                     'solicitud_tarea_resulta'               => '',
