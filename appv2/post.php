@@ -1394,34 +1394,35 @@
         $val05      = $request->getParsedBody()['tipo_jefatura_codigo'];
         $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
         $val07      = $request->getParsedBody()['evento_codigo'];
-        $val08      = $request->getParsedBody()['localidad_ciudad_codigo'];
-        $val09      = $request->getParsedBody()['workflow_codigo'];
-        $val10      = $request->getParsedBody()['solicitud_periodo'];
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_evento_nombre'])));
-        $val12      = $request->getParsedBody()['solicitud_evento_fecha'];
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
-        $val17      = $request->getParsedBody()['solicitud_fecha_carga'];
-        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
-        $val19      = $request->getParsedBody()['solicitud_tarea_cantidad'];
-        $val20      = $request->getParsedBody()['solicitud_tarea_resuelta'];
-        $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val08      = $request->getParsedBody()['workflow_codigo'];
+        $val09      = $request->getParsedBody()['solicitud_periodo'];
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_evento_nombre'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val18      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val20      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val21      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
-            $sql00  = "INSERT INTO [via].[SOLFIC] (SOLFICEAC, SOLFICECC, SOLFICGEC, SOLFICDEC, SOLFICJEC, SOLFICCAC, SOLFICEVC, SOLFICCIC, SOLFICWFC, SOLFICPER, SOLFICENO, SOLFICEFE, SOLFICDNS, SOLFICDNJ, SOLFICDNE, SOLFICDNP, SOLFICFEC, SOLFICSCC, SOLFICTCA, SOLFICTRE, SOLFICOBS, SOLFICAUS, SOLFICAFH, SOLFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLFIC] (SOLFICEAC, SOLFICECC, SOLFICGEC, SOLFICDEC, SOLFICJEC, SOLFICCAC, SOLFICEVC, SOLFICWFC, SOLFICPER, SOLFICENO, SOLFICPAS, SOLFICHOS, SOLFICTRA, SOLFICDNS, SOLFICDNJ, SOLFICFEC, SOLFICSCC, SOLFICTCA, SOLFICTRE, SOLFICOBS, SOLFICAUS, SOLFICAFH, SOLFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [via].[SOLFIC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val18, $val19, $val20, $val21, $val22, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
