@@ -3846,7 +3846,9 @@
             a.SOLFICCOD         AS          solicitud_codigo,
             a.SOLFICPER         AS          solicitud_periodo,
             a.SOLFICENO         AS          solicitud_evento_nombre,
-            a.SOLFICEFE         AS          solicitud_evento_fecha,
+            a.SOLFICPAS         AS          solicitud_pasaje,
+            a.SOLFICHOS         AS          solicitud_hospedaje,
+            a.SOLFICTRA         AS          solicitud_traslado,
             a.SOLFICFEC         AS          solicitud_fecha_carga,
             a.SOLFICSCC         AS          solicitud_sap_centro_costo,
             a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -3883,20 +3885,6 @@
             f.EVEFICFVI         AS          evento_fecha_inicio,
             f.EVEFICFVF         AS          evento_fecha_fin,
             f.EVEFICOBS         AS          evento_observacion,
-
-            g.LOCCIUCOD         AS          localidad_ciudad_codigo,
-            g.LOCCIUORD         AS          localidad_ciudad_orden,
-            g.LOCCIUNOM         AS          localidad_ciudad_nombre,
-            g.LOCCIUOBS         AS          localidad_ciudad_observacion,
-
-            h.LOCPAICOD         AS          localidad_pais_codigo,
-            h.LOCPAIORD         AS          localidad_pais_orden,
-            h.LOCPAINOM         AS          localidad_pais_nombre,
-            h.LOCPAIPAT         AS          localidad_pais_path,
-            h.LOCPAIIC2         AS          localidad_pais_iso_char2,
-            h.LOCPAIIC3         AS          localidad_pais_iso_char3,
-            h.LOCPAIIN3         AS          localidad_pais_iso_num3,
-            h.LOCPAIOBS         AS          localidad_pais_observacion,
 
             i.WRKFICCOD         AS          workflow_codigo,
             i.WRKFICORD         AS          workflow_orden,
@@ -3938,8 +3926,6 @@
             INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.SOLFICJEC = d.U_CODIGO
             INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.SOLFICCAC = e.U_CODIGO
             INNER JOIN [via].[EVEFIC] f ON a.SOLFICEVC = f.EVEFICCOD
-            INNER JOIN [adm].[LOCCIU] g ON a.SOLFICCIC = g.LOCCIUCOD
-            INNER JOIN [adm].[LOCPAI] h ON g.LOCCIUPAC = h.LOCPAICOD
             INNER JOIN [wrk].[WRKFIC] i ON a.SOLFICWFC = i.WRKFICCOD
             INNER JOIN [adm].[DOMFIC] j ON a.SOLFICEAC = j.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] k ON a.SOLFICECC = k.DOMFICCOD
@@ -3958,12 +3944,6 @@
             $stmtMSSQL00->execute();
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                if(!empty($rowMSSQL00['solicitud_evento_fecha'])){
-                    $solicitud_evento_fecha_2   = date("d/m/Y", strtotime($rowMSSQL00['solicitud_evento_fecha']));
-                } else {
-                    $solicitud_evento_fecha_2   = '';
-                }
-
                 if(!empty($rowMSSQL00['rendicion_carga_fecha'])){
                     $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha']));
                 } else {
@@ -3974,8 +3954,9 @@
                     'solicitud_codigo'                      => $rowMSSQL00['solicitud_codigo'],
                     'solicitud_periodo'                     => $rowMSSQL00['solicitud_periodo'],
                     'solicitud_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_evento_nombre']))),
-                    'solicitud_evento_fecha_1'              => $rowMSSQL00['solicitud_evento_fecha'],
-                    'solicitud_evento_fecha_2'              => $solicitud_evento_fecha_2,
+                    'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
+                    'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
+                    'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
                     'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                     'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                     'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -4024,20 +4005,6 @@
                     'evento_fecha_fin_2'                    => date("d/m/Y", strtotime($rowMSSQL00['evento_fecha_fin'])),
                     'evento_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['evento_observacion']))),
 
-                    'localidad_ciudad_codigo'               => $rowMSSQL00['localidad_ciudad_codigo'],
-                    'localidad_ciudad_orden'                => $rowMSSQL00['localidad_ciudad_orden'],
-                    'localidad_ciudad_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
-                    'localidad_ciudad_observacion'          => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
-
-                    'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
-                    'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
-                    'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
-                    'localidad_pais_path'                   => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
-                    'localidad_pais_iso_char2'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
-                    'localidad_pais_iso_char3'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
-                    'localidad_pais_iso_num3'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
-                    'localidad_pais_observacion'            => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
-
                     'workflow_codigo'                       => $rowMSSQL00['workflow_codigo'],
                     'workflow_orden'                        => $rowMSSQL00['workflow_orden'],
                     'workflow_tarea'                        => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
@@ -4075,8 +4042,9 @@
                     'solicitud_codigo'                      => '',
                     'solicitud_periodo'                     => '',
                     'solicitud_evento_nombre'               => '',
-                    'solicitud_evento_fecha_1'              => '',
-                    'solicitud_evento_fecha_2'              => '',
+                    'solicitud_pasaje'                      => '',
+                    'solicitud_hospedaje'                   => '',
+                    'solicitud_traslado'                    => '',
                     'solicitud_fecha_carga_1'               => '',
                     'solicitud_fecha_carga_2'               => '',
                     'solicitud_sap_centro_costo'            => '',
@@ -4124,20 +4092,6 @@
                     'evento_fecha_fin_1'                    => '',
                     'evento_fecha_fin_2'                    => '',
                     'evento_observacion'                    => '',
-
-                    'localidad_ciudad_codigo'               => '',
-                    'localidad_ciudad_orden'                => '',
-                    'localidad_ciudad_nombre'               => '',
-                    'localidad_ciudad_observacion'          => '',
-
-                    'localidad_pais_codigo'                 => '',
-                    'localidad_pais_orden'                  => '',
-                    'localidad_pais_nombre'                 => '',
-                    'localidad_pais_path'                   => '',
-                    'localidad_pais_iso_char2'              => '',
-                    'localidad_pais_iso_char3'              => '',
-                    'localidad_pais_iso_num3'               => '',
-                    'localidad_pais_observacion'            => '',
 
                     'workflow_codigo'                       => '',
                     'workflow_orden'                        => '',
@@ -4191,7 +4145,9 @@
                 a.SOLFICCOD         AS          solicitud_codigo,
                 a.SOLFICPER         AS          solicitud_periodo,
                 a.SOLFICENO         AS          solicitud_evento_nombre,
-                a.SOLFICEFE         AS          solicitud_evento_fecha,
+                a.SOLFICPAS         AS          solicitud_pasaje,
+                a.SOLFICHOS         AS          solicitud_hospedaje,
+                a.SOLFICTRA         AS          solicitud_traslado,
                 a.SOLFICFEC         AS          solicitud_fecha_carga,
                 a.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -4228,20 +4184,6 @@
                 f.EVEFICFVI         AS          evento_fecha_inicio,
                 f.EVEFICFVF         AS          evento_fecha_fin,
                 f.EVEFICOBS         AS          evento_observacion,
-
-                g.LOCCIUCOD         AS          localidad_ciudad_codigo,
-                g.LOCCIUORD         AS          localidad_ciudad_orden,
-                g.LOCCIUNOM         AS          localidad_ciudad_nombre,
-                g.LOCCIUOBS         AS          localidad_ciudad_observacion,
-
-                h.LOCPAICOD         AS          localidad_pais_codigo,
-                h.LOCPAIORD         AS          localidad_pais_orden,
-                h.LOCPAINOM         AS          localidad_pais_nombre,
-                h.LOCPAIPAT         AS          localidad_pais_path,
-                h.LOCPAIIC2         AS          localidad_pais_iso_char2,
-                h.LOCPAIIC3         AS          localidad_pais_iso_char3,
-                h.LOCPAIIN3         AS          localidad_pais_iso_num3,
-                h.LOCPAIOBS         AS          localidad_pais_observacion,
 
                 i.WRKFICCOD         AS          workflow_codigo,
                 i.WRKFICORD         AS          workflow_orden,
@@ -4283,8 +4225,6 @@
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.SOLFICJEC = d.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.SOLFICCAC = e.U_CODIGO
                 INNER JOIN [via].[EVEFIC] f ON a.SOLFICEVC = f.EVEFICCOD
-                INNER JOIN [adm].[LOCCIU] g ON a.SOLFICCIC = g.LOCCIUCOD
-                INNER JOIN [adm].[LOCPAI] h ON g.LOCCIUPAC = h.LOCPAICOD
                 INNER JOIN [wrk].[WRKFIC] i ON a.SOLFICWFC = i.WRKFICCOD
                 INNER JOIN [adm].[DOMFIC] j ON a.SOLFICEAC = j.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] k ON a.SOLFICECC = k.DOMFICCOD
@@ -4305,12 +4245,6 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['solicitud_evento_fecha'])){
-                        $solicitud_evento_fecha_2   = date("d/m/Y", strtotime($rowMSSQL00['solicitud_evento_fecha']));
-                    } else {
-                        $solicitud_evento_fecha_2   = '';
-                    }
-
                     if(!empty($rowMSSQL00['rendicion_carga_fecha'])){
                         $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha']));
                     } else {
@@ -4321,8 +4255,9 @@
                         'solicitud_codigo'                      => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                     => $rowMSSQL00['solicitud_periodo'],
                         'solicitud_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_evento_nombre']))),
-                        'solicitud_evento_fecha_1'              => $rowMSSQL00['solicitud_evento_fecha'],
-                        'solicitud_evento_fecha_2'              => $solicitud_evento_fecha_2,
+                        'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
+                        'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
+                        'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
                         'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                         'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -4371,20 +4306,6 @@
                         'evento_fecha_fin_2'                    => date("d/m/Y", strtotime($rowMSSQL00['evento_fecha_fin'])),
                         'evento_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['evento_observacion']))),
 
-                        'localidad_ciudad_codigo'               => $rowMSSQL00['localidad_ciudad_codigo'],
-                        'localidad_ciudad_orden'                => $rowMSSQL00['localidad_ciudad_orden'],
-                        'localidad_ciudad_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
-                        'localidad_ciudad_observacion'          => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
-
-                        'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
-                        'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
-                        'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
-                        'localidad_pais_path'                   => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
-                        'localidad_pais_iso_char2'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
-                        'localidad_pais_iso_char3'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
-                        'localidad_pais_iso_num3'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
-                        'localidad_pais_observacion'            => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
-
                         'workflow_codigo'                       => $rowMSSQL00['workflow_codigo'],
                         'workflow_orden'                        => $rowMSSQL00['workflow_orden'],
                         'workflow_tarea'                        => trim(strtoupper(strtolower($rowMSSQL00['workflow_tarea']))),
@@ -4422,8 +4343,9 @@
                         'solicitud_codigo'                      => '',
                         'solicitud_periodo'                     => '',
                         'solicitud_evento_nombre'               => '',
-                        'solicitud_evento_fecha_1'              => '',
-                        'solicitud_evento_fecha_2'              => '',
+                        'solicitud_pasaje'                      => '',
+                        'solicitud_hospedaje'                   => '',
+                        'solicitud_traslado'                    => '',
                         'solicitud_fecha_carga_1'               => '',
                         'solicitud_fecha_carga_2'               => '',
                         'solicitud_sap_centro_costo'            => '',
@@ -4471,20 +4393,6 @@
                         'evento_fecha_fin_1'                    => '',
                         'evento_fecha_fin_2'                    => '',
                         'evento_observacion'                    => '',
-
-                        'localidad_ciudad_codigo'               => '',
-                        'localidad_ciudad_orden'                => '',
-                        'localidad_ciudad_nombre'               => '',
-                        'localidad_ciudad_observacion'          => '',
-
-                        'localidad_pais_codigo'                 => '',
-                        'localidad_pais_orden'                  => '',
-                        'localidad_pais_nombre'                 => '',
-                        'localidad_pais_path'                   => '',
-                        'localidad_pais_iso_char2'              => '',
-                        'localidad_pais_iso_char3'              => '',
-                        'localidad_pais_iso_num3'               => '',
-                        'localidad_pais_observacion'            => '',
 
                         'workflow_codigo'                       => '',
                         'workflow_orden'                        => '',
