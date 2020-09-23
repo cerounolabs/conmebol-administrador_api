@@ -5027,7 +5027,7 @@
         return $json;
     });
 
-    $app->get('/v2/500/cabecera/rendicion/{codigo}', function($request) {
+    $app->get('/v2/500/rendicion/cabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
@@ -5270,7 +5270,7 @@
         return $json;
     });
 
-    $app->get('/v2/500/detalle/rendicion/{codigo}', function($request) {
+    $app->get('/v2/500/rendicion/detalle/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
