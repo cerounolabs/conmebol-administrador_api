@@ -1574,7 +1574,7 @@
         return $json;
     });
 
-    $app->post('/v2/500/cabecera', function($request) {
+    $app->post('/v2/500/rendicion/cabecera', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
@@ -1634,7 +1634,7 @@
         return $json;
     });
 
-    $app->post('/v2/500/detalle', function($request) {
+    $app->post('/v2/500/rendicion/detalle', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
@@ -1689,7 +1689,7 @@
         return $json;
     });
 
-    $app->post('/v2/500/comentario', function($request) {
+    $app->post('/v2/500/rendicion/comentario', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
