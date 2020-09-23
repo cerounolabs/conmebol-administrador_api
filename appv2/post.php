@@ -1522,7 +1522,7 @@
         $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
         $val05      = $request->getParsedBody()['tipo_jefatura_codigo'];
         $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val07      = $request->getParsedBody()['ciudad_codigo'];
+        $val07      = $request->getParsedBody()['localidad_ciudad_codigo'];
         $val08      = $request->getParsedBody()['workflow_codigo'];
         $val09      = $request->getParsedBody()['rendicion_periodo'];
         $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_evento_nombre'])));
@@ -1538,7 +1538,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
-            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICEVE, RENFICDNS, RENFICDNJ, RENFICDNA, RENFICFEC, RENFICFEE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICDNA, RENFICFEC, RENFICEFE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(RENFICCOD) AS rendicion_codigo FROM [con].[RENFIC]";
 
             try {
