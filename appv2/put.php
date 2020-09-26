@@ -384,7 +384,8 @@
         return $json;
     });
 
-    $app->put('/v2/300/workflow/{codigo}', function($request) {
+/*MODULO WORKFLOW*/
+    $app->put('/v2/300/workflow/cabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -429,6 +430,7 @@
         
         return $json;
     });
+/*MODULO WORKFLOW*/
 
 /*MODULO VIAJE*/
     $app->put('/v2/400/proveedor/{codigo}', function($request) {

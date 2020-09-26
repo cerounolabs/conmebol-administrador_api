@@ -2123,7 +2123,7 @@
     });
     
 /*MODULO WORKFLOW*/
-    $app->get('/v2/300/workflow', function($request) {
+    $app->get('/v2/300/workflow/cabecera', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $sql00  = "SELECT
@@ -2239,7 +2239,7 @@
         return $json;
     });
 
-    $app->get('/v2/300/workflow/codigo/{codigo}', function($request) {
+    $app->get('/v2/300/workflow/cabecera/codigo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
@@ -2364,7 +2364,7 @@
         return $json;
     });
 
-    $app->get('/v2/300/workflow/cargo/{codigo}', function($request) {
+    $app->get('/v2/300/workflow/cabecera/cargo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
@@ -2489,7 +2489,7 @@
         return $json;
     });
 
-    $app->get('/v2/300/detalle', function($request) {
+    $app->get('/v2/300/workflow/detalle', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $sql00  = "SELECT
@@ -2643,7 +2643,7 @@
         return $json;
     });
 
-    $app->get('/v2/300/detalle/codigo/{codigo}', function($request) {
+    $app->get('/v2/300/workflow/detalle/codigo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
@@ -2806,7 +2806,7 @@
         return $json;
     });
 
-    $app->get('/v2/300/detalle/workflow/{codigo}', function($request) {
+    $app->get('/v2/300/workflow/detalle/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
