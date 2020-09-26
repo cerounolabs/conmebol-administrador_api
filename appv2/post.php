@@ -815,7 +815,8 @@
         return $json;
     });
 
-    $app->post('/v2/300/workflow', function($request) {
+/*MODULO WORKFLOW*/
+    $app->post('/v2/300/workflow/cabecera', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -1073,7 +1074,7 @@
         return $json;
     });
 
-    $app->post('/v2/300/detalle', function($request) {
+    $app->post('/v2/300/workflow/detalle', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_cargo_codigo'];
@@ -1119,6 +1120,7 @@
         
         return $json;
     });
+/*MODULO WORKFLOW*/
 
 /*MODULO VIAJE*/
     $app->post('/v2/400/proveedor', function($request) {
