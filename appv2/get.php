@@ -4791,7 +4791,7 @@
             a.RENFICDNA         AS          rendicion_documento_analista,
             a.RENFICFEC         AS          rendicion_carga_fecha,
             a.RENFICTCA         AS          rendicion_tarea_cantidad,
-            a.RENFICTHE         AS          rendicion_tarea_resuelta,
+            a.RENFICTRE         AS          rendicion_tarea_resuelta,
             a.RENFICOBS         AS          rendicion_observacion,
 
             a.RENFICAUS         AS          auditoria_usuario,
@@ -5082,7 +5082,7 @@
                 a.RENFICDNA         AS          rendicion_documento_analista,
                 a.RENFICFEC         AS          rendicion_carga_fecha,
                 a.RENFICTCA         AS          rendicion_tarea_cantidad,
-                a.RENFICTHE         AS          rendicion_tarea_resuelta,
+                a.RENFICTRE         AS          rendicion_tarea_resuelta,
                 a.RENFICOBS         AS          rendicion_observacion,
 
                 a.RENFICAUS         AS          auditoria_usuario,
@@ -5422,7 +5422,7 @@
                 h.RENFICDNA         AS          rendicion_documento_analista,
                 h.RENFICFEC         AS          rendicion_carga_fecha,
                 h.RENFICTCA         AS          rendicion_tarea_cantidad,
-                h.RENFICTHE         AS          rendicion_tarea_resuelta,
+                h.RENFICTRE         AS          rendicion_tarea_resuelta,
                 h.RENFICOBS         AS          rendicion_observacion,
 
                 i.WRKDETCOD         AS          workflow_detalle_codigo,
@@ -5642,7 +5642,7 @@
                 c.RENFICDNA         AS          rendicion_documento_analista,
                 c.RENFICFEC         AS          rendicion_carga_fecha,
                 c.RENFICTCA         AS          rendicion_tarea_cantidad,
-                c.RENFICTHE         AS          rendicion_tarea_resuelta,
+                c.RENFICTRE         AS          rendicion_tarea_resuelta,
                 c.RENFICOBS         AS          rendicion_observacion,
 
                 d.DOMFICCOD         AS          tipo_concepto_codigo,
