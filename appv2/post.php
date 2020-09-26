@@ -1542,7 +1542,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
-            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTWC = ? AND WRKFICTCC = ?), ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = ?), ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(RENFICCOD) AS rendicion_codigo FROM [con].[RENFIC]";
 
             try {
