@@ -2121,7 +2121,8 @@
         
         return $json;
     });
-
+    
+/*MODULO WORKFLOW*/
     $app->get('/v2/300/workflow', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -2967,6 +2968,7 @@
         
         return $json;
     });
+/*MODULO WORKFLOW*/
 
 /*MODULO VIAJE*/
     $app->get('/v2/400/proveedor', function($request) {
@@ -4439,6 +4441,340 @@
         
         return $json;
     });
+/*
+    $app->get('/v2/400/solicitud/detalle/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.SOLDETCOD         AS          solicitud_detalle_codigo,
+                a.SOLDETPRE         AS          solicitud_detalle_preferencia,
+                a.SOLDETFSL         AS          solicitud_detalle_fecha_salida,
+                a.SOLDETHSL         AS          solicitud_detalle_hora_salida,
+                a.SOLDETFRE         AS          solicitud_detalle_fecha_retorno,
+                a.SOLDETHRE         AS          solicitud_detalle_hora_retorno,
+                a.SOLDETCON         AS          solicitud_detalle_consumo,
+                a.SOLDETSAL         AS          solicitud_detalle_sala,
+                a.SOLDETVEH         AS          solicitud_detalle_vehiculo,
+                a.SOLDETSCC         AS          solicitud_detalle_sap_centro_costo,
+                a.SOLDETOBS         AS          solicitud_detalle_observacion,
+
+                a.SOLDETAUS         AS          auditoria_usuario,
+                a.SOLDETAFH         AS          auditoria_fecha_hora,
+                a.SOLDETAIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+
+                c.DOMFICCOD         AS          tipo_solicitud_codigo,
+                c.DOMFICNOI         AS          tipo_solicitud_ingles,
+                c.DOMFICNOC         AS          tipo_solicitud_castellano,
+                c.DOMFICNOP         AS          tipo_solicitud_portugues,
+
+                d1.LOCCIUCOD        AS          localidad_ciudad_codigo,
+                d1.LOCCIUORD        AS          localidad_ciudad_orden,
+                d1.LOCCIUNOM        AS          localidad_ciudad_nombre,
+                d1.LOCCIUOBS        AS          localidad_ciudad_observacion,
+
+                e1.LOCPAICOD        AS          localidad_pais_codigo,
+                e1.LOCPAIORD        AS          localidad_pais_orden,
+                e1.LOCPAINOM        AS          localidad_pais_nombre,
+                e1.LOCPAIPAT        AS          localidad_pais_path,
+                e1.LOCPAIIC2        AS          localidad_pais_iso_char2,
+                e1.LOCPAIIC3        AS          localidad_pais_iso_char3,
+                e1.LOCPAIIN3        AS          localidad_pais_iso_num3,
+                e1.LOCPAIOBS        AS          localidad_pais_observacion,
+
+                d2.LOCCIUCOD        AS          localidad_ciudad_codigo,
+                d2.LOCCIUORD        AS          localidad_ciudad_orden,
+                d2.LOCCIUNOM        AS          localidad_ciudad_nombre,
+                d2.LOCCIUOBS        AS          localidad_ciudad_observacion,
+
+                e2.LOCPAICOD        AS          localidad_pais_codigo,
+                e2.LOCPAIORD        AS          localidad_pais_orden,
+                e2.LOCPAINOM        AS          localidad_pais_nombre,
+                e2.LOCPAIPAT        AS          localidad_pais_path,
+                e2.LOCPAIIC2        AS          localidad_pais_iso_char2,
+                e2.LOCPAIIC3        AS          localidad_pais_iso_char3,
+                e2.LOCPAIIN3        AS          localidad_pais_iso_num3,
+                e2.LOCPAIOBS        AS          localidad_pais_observacion,
+
+                d3.LOCCIUCOD        AS          localidad_ciudad_codigo,
+                d3.LOCCIUORD        AS          localidad_ciudad_orden,
+                d3.LOCCIUNOM        AS          localidad_ciudad_nombre,
+                d3.LOCCIUOBS        AS          localidad_ciudad_observacion,
+
+                e3.LOCPAICOD        AS          localidad_pais_codigo,
+                e3.LOCPAIORD        AS          localidad_pais_orden,
+                e3.LOCPAINOM        AS          localidad_pais_nombre,
+                e3.LOCPAIPAT        AS          localidad_pais_path,
+                e3.LOCPAIIC2        AS          localidad_pais_iso_char2,
+                e3.LOCPAIIC3        AS          localidad_pais_iso_char3,
+                e3.LOCPAIIN3        AS          localidad_pais_iso_num3,
+                e3.LOCPAIOBS        AS          localidad_pais_observacion,
+
+                d4.LOCCIUCOD        AS          localidad_ciudad_codigo,
+                d4.LOCCIUORD        AS          localidad_ciudad_orden,
+                d4.LOCCIUNOM        AS          localidad_ciudad_nombre,
+                d4.LOCCIUOBS        AS          localidad_ciudad_observacion,
+
+                e4.LOCPAICOD        AS          localidad_pais_codigo,
+                e4.LOCPAIORD        AS          localidad_pais_orden,
+                e4.LOCPAINOM        AS          localidad_pais_nombre,
+                e4.LOCPAIPAT        AS          localidad_pais_path,
+                e4.LOCPAIIC2        AS          localidad_pais_iso_char2,
+                e4.LOCPAIIC3        AS          localidad_pais_iso_char3,
+                e4.LOCPAIIN3        AS          localidad_pais_iso_num3,
+                e4.LOCPAIOBS        AS          localidad_pais_observacion,
+
+                f.LOCAERCOD         AS          localidad_aeropuerto_codigo,
+                f.LOCAERORD         AS          localidad_aeropuerto_orden,
+                f.LOCAERNOM         AS          localidad_aeropuerto_nombre,
+                f.LOCAEROBS         AS          localidad_aeropuerto_observacion,
+
+                g.SOLFICCOD         AS          solicitud_codigo,
+                g.SOLFICPER         AS          solicitud_periodo,
+                g.SOLFICENO         AS          solicitud_evento_nombre,
+                g.SOLFICPAS         AS          solicitud_pasaje,
+                g.SOLFICHOS         AS          solicitud_hospedaje,
+                g.SOLFICTRA         AS          solicitud_traslado,
+                g.SOLFICFEC         AS          solicitud_fecha_carga,
+                g.SOLFICSCC         AS          solicitud_sap_centro_costo,
+                g.SOLFICTCA         AS          solicitud_tarea_cantidad,
+                g.SOLFICTRE         AS          solicitud_tarea_resulta,
+                g.SOLFICOBS         AS          solicitud_observacion
+
+                FROM [via].[SOLDET] a
+                INNER JOIN [adm].[DOMFIC] b ON a.SOLDETEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.SOLDETTSC = c.DOMFICCOD
+                INNER JOIN [adm].[LOCCIU] d1 ON a.SOLDETC1C = d1.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] e1 ON d1.LOCCIUPAC = e1.LOCPAICOD
+                INNER JOIN [adm].[LOCCIU] d2 ON a.SOLDETC2C = d2.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] e2 ON d1.LOCCIUPAC = e2.LOCPAICOD
+                INNER JOIN [adm].[LOCCIU] d3 ON a.SOLDETC3C = d3.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] e3 ON d1.LOCCIUPAC = e3.LOCPAICOD
+                INNER JOIN [adm].[LOCCIU] d4 ON a.SOLDETC4C = d4.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] e4 ON d1.LOCCIUPAC = e4.LOCPAICOD
+                INNER JOIN [adm].[LOCAER] f ON a.SOLDETAEC = f.LOCAERCOD
+                INNER JOIN [via].[SOLFIC] g ON a.SOLDETSOC = g.SOLFICCOD
+
+                WHERE g.SOLFICCOD = ?
+
+                ORDER BY g.SOLFICCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if(!empty($rowMSSQL00['rendicion_carga_fecha'])){
+                        $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['rendicion_carga_fecha']));
+                    } else {
+                        $solicitud_fecha_carga_2    = '';
+                    }
+    
+                    $detalle = array(                    
+
+                        'auditoria_usuario'                     => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'                  => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'localidad_ciudad_codigo'           => $rowMSSQL00['localidad_ciudad_codigo'],
+                        'localidad_ciudad_orden'            => $rowMSSQL00['localidad_ciudad_orden'],
+                        'localidad_ciudad_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                        'localidad_ciudad_observacion'      => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
+    
+                        'localidad_pais_codigo'             => $rowMSSQL00['localidad_pais_codigo'],
+                        'localidad_pais_orden'              => $rowMSSQL00['localidad_pais_orden'],
+                        'localidad_pais_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                        'localidad_pais_path'               => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                        'localidad_pais_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                        'localidad_pais_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                        'localidad_pais_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                        'localidad_pais_observacion'        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
+
+                        'localidad_ciudad_codigo'           => $rowMSSQL00['localidad_ciudad_codigo'],
+                        'localidad_ciudad_orden'            => $rowMSSQL00['localidad_ciudad_orden'],
+                        'localidad_ciudad_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                        'localidad_ciudad_observacion'      => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
+    
+                        'localidad_pais_codigo'             => $rowMSSQL00['localidad_pais_codigo'],
+                        'localidad_pais_orden'              => $rowMSSQL00['localidad_pais_orden'],
+                        'localidad_pais_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                        'localidad_pais_path'               => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                        'localidad_pais_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                        'localidad_pais_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                        'localidad_pais_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                        'localidad_pais_observacion'        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
+
+                        'localidad_ciudad_codigo'           => $rowMSSQL00['localidad_ciudad_codigo'],
+                        'localidad_ciudad_orden'            => $rowMSSQL00['localidad_ciudad_orden'],
+                        'localidad_ciudad_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                        'localidad_ciudad_observacion'      => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
+    
+                        'localidad_pais_codigo'             => $rowMSSQL00['localidad_pais_codigo'],
+                        'localidad_pais_orden'              => $rowMSSQL00['localidad_pais_orden'],
+                        'localidad_pais_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                        'localidad_pais_path'               => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                        'localidad_pais_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                        'localidad_pais_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                        'localidad_pais_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                        'localidad_pais_observacion'        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
+
+                        'localidad_ciudad_codigo'           => $rowMSSQL00['localidad_ciudad_codigo'],
+                        'localidad_ciudad_orden'            => $rowMSSQL00['localidad_ciudad_orden'],
+                        'localidad_ciudad_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                        'localidad_ciudad_observacion'      => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
+    
+                        'localidad_pais_codigo'             => $rowMSSQL00['localidad_pais_codigo'],
+                        'localidad_pais_orden'              => $rowMSSQL00['localidad_pais_orden'],
+                        'localidad_pais_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                        'localidad_pais_path'               => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                        'localidad_pais_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                        'localidad_pais_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                        'localidad_pais_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                        'localidad_pais_observacion'        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion']))),
+
+                        'localidad_aeropuerto_codigo'           => $rowMSSQL00['localidad_aeropuerto_codigo'],
+                        'localidad_aeropuerto_orden'            => $rowMSSQL00['localidad_aeropuerto_orden'],
+                        'localidad_aeropuerto_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_aeropuerto_nombre']))),
+                        'localidad_aeropuerto_observacion'      => trim(strtolower($rowMSSQL00['localidad_aeropuerto_observacion'])),
+
+                        'solicitud_codigo'                      => $rowMSSQL00['solicitud_codigo'],
+                        'solicitud_periodo'                     => $rowMSSQL00['solicitud_periodo'],
+                        'solicitud_evento_nombre'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_evento_nombre']))),
+                        'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
+                        'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
+                        'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                        'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
+                        'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
+                        'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
+                        'solicitud_tarea_cantidad'              => $rowMSSQL00['solicitud_tarea_cantidad'],
+                        'solicitud_tarea_resulta'               => $rowMSSQL00['solicitud_tarea_resulta'],
+                        'solicitud_solicitante_nombre'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_nombre']))),
+                        'solicitud_solicitante_documento'       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_documento']))),
+                        'solicitud_jefatura_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_nombre']))),
+                        'solicitud_jefatura_documento'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_documento']))),
+                        'solicitud_ejecutivo_nombre'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_nombre']))),
+                        'solicitud_ejecutivo_documento'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
+                        'solicitud_proveedor_nombre'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
+                        'solicitud_proveedor_documento'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
+                        'solicitud_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'solicitud_codigo'                      => '',
+                        'solicitud_periodo'                     => '',
+                        'solicitud_evento_nombre'               => '',
+                        'solicitud_pasaje'                      => '',
+                        'solicitud_hospedaje'                   => '',
+                        'solicitud_traslado'                    => '',
+                        'solicitud_fecha_carga_1'               => '',
+                        'solicitud_fecha_carga_2'               => '',
+                        'solicitud_sap_centro_costo'            => '',
+                        'solicitud_tarea_cantidad'              => '',
+                        'solicitud_tarea_resulta'               => '',
+                        'solicitud_solicitante_nombre'          => '',
+                        'solicitud_solicitante_documento'       => '',
+                        'solicitud_jefatura_nombre'             => '',
+                        'solicitud_jefatura_documento'          => '',
+                        'solicitud_ejecutivo_nombre'            => '',
+                        'solicitud_ejecutivo_documento'         => '',
+                        'solicitud_proveedor_nombre'            => '',
+                        'solicitud_proveedor_documento'         => '',
+                        'solicitud_observacion'                 => '',
+
+                        'auditoria_usuario'                     => '',
+                        'auditoria_fecha_hora'                  => '',
+                        'auditoria_ip'                          => '',
+
+                        'tipo_gerencia_codigo'                  => '',
+                        'tipo_gerencia_codigo_nombre'           => '',
+                        'tipo_gerencia_codigo_referencia'       => '',
+                        'tipo_gerencia_nombre'                  => '',
+
+                        'tipo_departamento_codigo'              => '',
+                        'tipo_departamento_codigo_nombre'       => '',
+                        'tipo_departamento_codigo_referencia'   => '',
+                        'tipo_departamento_nombre'              => '',
+                        
+                        'tipo_jefatura_codigo'                  => '',
+                        'tipo_jefatura_codigo_nombre'           => '',
+                        'tipo_jefatura_codigo_referencia'       => '',
+                        'tipo_jefatura_nombre'                  => '',
+
+                        'tipo_cargo_codigo'                     => '',
+                        'tipo_cargo_codigo_nombre'              => '',
+                        'tipo_cargo_codigo_referencia'          => '',
+                        'tipo_cargo_nombre'                     => '',
+
+                        'evento_codigo'                         => '',
+                        'evento_orden'                          => '',
+                        'evento_nombre'                         => '',
+                        'evento_fecha_inicio_1'                 => '',
+                        'evento_fecha_inicio_2'                 => '',
+                        'evento_fecha_fin_1'                    => '',
+                        'evento_fecha_fin_2'                    => '',
+                        'evento_observacion'                    => '',
+
+                        'workflow_codigo'                       => '',
+                        'workflow_orden'                        => '',
+                        'workflow_tarea'                        => '',
+
+                        'estado_anterior_codigo'                => '',
+                        'estado_anterior_ingles'                => '',
+                        'estado_anterior_castellano'            => '',
+                        'estado_anterior_portugues'             => '',
+
+                        'estado_actual_codigo'                  => '',
+                        'estado_actual_ingles'                  => '',
+                        'estado_actual_castellano'              => '',
+                        'estado_actual_portugues'               => '',
+
+                        'workflow_detalle_codigo'               => '',
+                        'workflow_detalle_orden'                => '',
+                        'workflow_detalle_cargo'                => '',
+                        'workflow_detalle_hora'                 => '',
+                        'workflow_detalle_tarea'                => '',
+
+                        'tipo_prioridad_codigo'                 => '',
+                        'tipo_prioridad_ingles'                 => '',
+                        'tipo_prioridad_castellano'             => '',
+                        'tipo_prioridad_portugues'              => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+*/
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
