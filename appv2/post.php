@@ -1535,21 +1535,23 @@
         $val14      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_analista'])));
         $val15      = $request->getParsedBody()['rendicion_carga_fecha'];
         $val16      = $request->getParsedBody()['rendicion_evento_fecha'];
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_observacion'])));
+        $val17      = $request->getParsedBody()['rendicion_tarea_cantidad'];
+        $val18      = $request->getParsedBody()['rendicion_tarea_resuelta'];
+        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
-            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = ?), ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICTCA, RENFICTRE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = ?), ?, ?, ?, ?, ?, ?, (SELECT COUNT(DISTINCT(WRKDETTCC)) FROM wrk.WRKDET WHERE WRKDETWFC = (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTWC = ? AND WRKFICTCC = ?)), ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(RENFICCOD) AS rendicion_codigo FROM [con].[RENFIC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val08, $val06, $val07, $val10, $val11, $val12, $val13, $val15, $val16, $val17, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val08, $val06, $val07, $val10, $val11, $val12, $val13, $val15, $val16, $val06, $val07, $val18, $val19, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
