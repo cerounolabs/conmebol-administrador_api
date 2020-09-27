@@ -9,6 +9,7 @@
         a.DOMFICNOC         AS          tipo_nombre_castellano,
         a.DOMFICNOP         AS          tipo_nombre_portugues,
         a.DOMFICPAT         AS          tipo_path,
+        a.DOMFICCSS         AS          tipo_css,
         a.DOMFICVAL         AS          tipo_dominio,
         a.DOMFICOBS         AS          tipo_observacion,
         a.DOMFICUSU         AS          auditoria_usuario,
@@ -42,6 +43,7 @@
                     'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
                     'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
                     'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                    'tipo_css'                                  => trim(strtolower($rowMSSQL00['tipo_css'])),
                     'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
                     'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
                     'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -67,6 +69,7 @@
                     'tipo_nombre_castellano'                    => '',
                     'tipo_nombre_portugues'                     => '',
                     'tipo_path'                                 => '',
+                    'tipo_css'                                  => '',
                     'tipo_dominio'                              => '',
                     'tipo_observacion'                          => '',
                     'auditoria_usuario'                         => '',
@@ -103,6 +106,7 @@
                 a.DOMFICNOC         AS          tipo_nombre_castellano,
                 a.DOMFICNOP         AS          tipo_nombre_portugues,
                 a.DOMFICPAT         AS          tipo_path,
+                a.DOMFICCSS         AS          tipo_css,
                 a.DOMFICVAL         AS          tipo_dominio,
                 a.DOMFICOBS         AS          tipo_observacion,
                 a.DOMFICUSU         AS          auditoria_usuario,
@@ -138,6 +142,7 @@
                         'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
                         'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
                         'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                        'tipo_css'                                  => trim(strtolower($rowMSSQL00['tipo_css'])),
                         'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
                         'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
                         'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -163,6 +168,7 @@
                         'tipo_nombre_castellano'                    => '',
                         'tipo_nombre_portugues'                     => '',
                         'tipo_path'                                 => '',
+                        'tipo_css'                                  => '',
                         'tipo_dominio'                              => '',
                         'tipo_observacion'                          => '',
                         'auditoria_usuario'                         => '',
@@ -203,6 +209,7 @@
             a.DOMFICNOC         AS          tipo_nombre_castellano,
             a.DOMFICNOP         AS          tipo_nombre_portugues,
             a.DOMFICPAT         AS          tipo_path,
+            a.DOMFICCSS         AS          tipo_css,
             a.DOMFICVAL         AS          tipo_dominio,
             a.DOMFICOBS         AS          tipo_observacion,
             a.DOMFICIDD         AS          auditoria_codigo,
@@ -240,6 +247,7 @@
                         'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
                         'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
                         'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                        'tipo_css'                                  => trim(strtolower($rowMSSQL00['tipo_css'])),
                         'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
                         'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
                         'auditoria_codigo'                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_codigo']))),
@@ -267,6 +275,7 @@
                         'tipo_nombre_castellano'                    => '',
                         'tipo_nombre_portugues'                     => '',
                         'tipo_path'                                 => '',
+                        'tipo_css'                                  => '',
                         'tipo_dominio'                              => '',
                         'tipo_observacion'                          => '',
                         'auditoria_codigo'                          => '',
@@ -313,12 +322,14 @@
         b.DOMFICNOI         AS          tipo_estado_ingles,
         b.DOMFICNOC         AS          tipo_estado_castellano,
         b.DOMFICNOP         AS          tipo_estado_portugues,
+        b.DOMFICCSS         AS          tipo_estado_css,
 
         c.DOMFICCOD         AS          tipo_dominio1_codigo,
         c.DOMFICNOI         AS          tipo_dominio1_nombre_ingles,
         c.DOMFICNOC         AS          tipo_dominio1_nombre_castellano,
         c.DOMFICNOP         AS          tipo_dominio1_nombre_portugues,
         c.DOMFICPAT         AS          tipo_dominio1_path,
+        c.DOMFICCSS         AS          tipo_dominio1_css,
         c.DOMFICVAL         AS          tipo_dominio1_dominio,
         c.DOMFICOBS         AS          tipo_dominio1_observacion,
 
@@ -327,6 +338,7 @@
         d.DOMFICNOC         AS          tipo_dominio2_nombre_castellano,
         d.DOMFICNOP         AS          tipo_dominio2_nombre_portugues,
         d.DOMFICPAT         AS          tipo_dominio2_path,
+        d.DOMFICCSS         AS          tipo_dominio2_css,
         d.DOMFICVAL         AS          tipo_dominio2_dominio,
         d.DOMFICOBS         AS          tipo_dominio2_observacion
         
@@ -353,6 +365,7 @@
                     'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
                     'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
                     'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
 
                     'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -363,6 +376,7 @@
                     'tipo_dominio1_nombre_castellano'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_nombre_castellano']))),
                     'tipo_dominio1_nombre_portugues'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_nombre_portugues']))),
                     'tipo_dominio1_path'                        => trim(strtolower($rowMSSQL00['tipo_dominio1_path'])),
+                    'tipo_dominio1_css'                         => trim(strtolower($rowMSSQL00['tipo_dominio1_css'])),
                     'tipo_dominio1_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_dominio']))),
                     'tipo_dominio1_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_observacion']))),
 
@@ -371,6 +385,7 @@
                     'tipo_dominio2_nombre_castellano'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_nombre_castellano']))),
                     'tipo_dominio2_nombre_portugues'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_nombre_portugues']))),
                     'tipo_dominio2_path'                        => trim(strtolower($rowMSSQL00['tipo_dominio2_path'])),
+                    'tipo_dominio2_css'                         => trim(strtolower($rowMSSQL00['tipo_dominio2_css'])),
                     'tipo_dominio2_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_dominio']))),
                     'tipo_dominio2_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_observacion'])))
                 );
@@ -391,6 +406,7 @@
                     'tipo_estado_ingles'                        => '',
                     'tipo_estado_castellano'                    => '',
                     'tipo_estado_portugues'                     => '',
+                    'tipo_estado_css'                           => '',
                     'auditoria_usuario'                         => '',
                     'auditoria_fecha_hora'                      => '',
                     'auditoria_ip'                              => '',
@@ -399,6 +415,7 @@
                     'tipo_dominio1_nombre_castellano'           => '',
                     'tipo_dominio1_nombre_portugues'            => '',
                     'tipo_dominio1_path'                        => '',
+                    'tipo_dominio1_css'                         => '',
                     'tipo_dominio1_dominio'                     => '',
                     'tipo_dominio1_observacion'                 => '',
                     'tipo_dominio2_codigo'                      => '',
@@ -406,6 +423,7 @@
                     'tipo_dominio2_nombre_castellano'           => '',
                     'tipo_dominio2_nombre_portugues'            => '',
                     'tipo_dominio2_path'                        => '',
+                    'tipo_dominio2_css'                         => '',
                     'tipo_dominio2_dominio'                     => '',
                     'tipo_dominio2_observacion'                 => ''
                 );
@@ -4838,11 +4856,13 @@
             i.DOMFICNOI         AS          estado_anterior_ingles,
             i.DOMFICNOC         AS          estado_anterior_castellano,
             i.DOMFICNOP         AS          estado_anterior_portugues,
+            i.DOMFICCSS         AS          estado_anterior_css,
 
             j.DOMFICCOD         AS          estado_actual_codigo,
             j.DOMFICNOI         AS          estado_actual_ingles,
             j.DOMFICNOC         AS          estado_actual_castellano,
             j.DOMFICNOP         AS          estado_actual_portugues,
+            j.DOMFICCSS         AS          estado_actual_css,
 
             k.WRKDETCOD         AS          workflow_detalle_codigo,
             k.WRKDETORD         AS          workflow_detalle_orden,
@@ -4854,6 +4874,7 @@
             l.DOMFICNOI         AS          tipo_prioridad_ingles,
             l.DOMFICNOC         AS          tipo_prioridad_castellano,
             l.DOMFICNOP         AS          tipo_prioridad_portugues,
+            l.DOMFICCSS         AS          tipo_prioridad_css,
 
             m1.NombreEmpleado   AS          rendicion_nombre_solicitante,
             m2.NombreEmpleado   AS          rendicion_nombre_jefatura,
@@ -4941,11 +4962,13 @@
                     'estado_anterior_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
                     'estado_anterior_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
                     'estado_anterior_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                    'estado_anterior_css'                   => trim(strtolower($rowMSSQL00['estado_anterior_css'])),
 
                     'estado_actual_codigo'                  => $rowMSSQL00['estado_actual_codigo'],
                     'estado_actual_ingles'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                     'estado_actual_castellano'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                     'estado_actual_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+                    'estado_actual_css'                     => trim(strtolower($rowMSSQL00['estado_actual_css'])),
 
                     'workflow_detalle_codigo'               => $rowMSSQL00['workflow_detalle_codigo'],
                     'workflow_detalle_orden'                => $rowMSSQL00['workflow_detalle_orden'],
@@ -4957,6 +4980,7 @@
                     'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
                     'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
                     'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
 
                     'rendicion_nombre_solicitante'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_solicitante']))),
                     'rendicion_nombre_jefatura'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_jefatura']))),
@@ -5028,11 +5052,13 @@
                     'estado_anterior_ingles'                => '',
                     'estado_anterior_castellano'            => '',
                     'estado_anterior_portugues'             => '',
+                    'estado_anterior_css'                   => '',
 
                     'estado_actual_codigo'                  => '',
                     'estado_actual_ingles'                  => '',
                     'estado_actual_castellano'              => '',
                     'estado_actual_portugues'               => '',
+                    'estado_actual_css'                     => '',
 
                     'workflow_detalle_codigo'               => '',
                     'workflow_detalle_orden'                => '',
@@ -5044,6 +5070,7 @@
                     'tipo_prioridad_ingles'                 => '',
                     'tipo_prioridad_castellano'             => '',
                     'tipo_prioridad_portugues'              => '',
+                    'tipo_prioridad_css'                    => '',
 
                     'rendicion_nombre_solicitante'          => '',
                     'rendicion_nombre_jefatura'             => '',
@@ -5129,11 +5156,13 @@
                 i.DOMFICNOI         AS          estado_anterior_ingles,
                 i.DOMFICNOC         AS          estado_anterior_castellano,
                 i.DOMFICNOP         AS          estado_anterior_portugues,
+                i.DOMFICCSS         AS          estado_anterior_css,
 
                 j.DOMFICCOD         AS          estado_actual_codigo,
                 j.DOMFICNOI         AS          estado_actual_ingles,
                 j.DOMFICNOC         AS          estado_actual_castellano,
                 j.DOMFICNOP         AS          estado_actual_portugues,
+                j.DOMFICCSS         AS          estado_actual_css,
 
                 k.WRKDETCOD         AS          workflow_detalle_codigo,
                 k.WRKDETORD         AS          workflow_detalle_orden,
@@ -5145,6 +5174,7 @@
                 l.DOMFICNOI         AS          tipo_prioridad_ingles,
                 l.DOMFICNOC         AS          tipo_prioridad_castellano,
                 l.DOMFICNOP         AS          tipo_prioridad_portugues,
+                l.DOMFICCSS         AS          tipo_prioridad_css,
 
                 m1.NombreEmpleado   AS          rendicion_nombre_solicitante,
                 m2.NombreEmpleado   AS          rendicion_nombre_jefatura,
@@ -5234,11 +5264,13 @@
                         'estado_anterior_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
                         'estado_anterior_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
                         'estado_anterior_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                        'estado_anterior_css'                   => trim(strtolower($rowMSSQL00['estado_anterior_css'])),
 
                         'estado_actual_codigo'                  => $rowMSSQL00['estado_actual_codigo'],
                         'estado_actual_ingles'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                         'estado_actual_castellano'              => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                         'estado_actual_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+                        'estado_actual_css'                     => trim(strtolower($rowMSSQL00['estado_actual_css'])),
 
                         'workflow_detalle_codigo'               => $rowMSSQL00['workflow_detalle_codigo'],
                         'workflow_detalle_orden'                => $rowMSSQL00['workflow_detalle_orden'],
@@ -5250,6 +5282,7 @@
                         'tipo_prioridad_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_ingles']))),
                         'tipo_prioridad_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_castellano']))),
                         'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
+                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
 
                         'rendicion_nombre_solicitante'          => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_solicitante']))),
                         'rendicion_nombre_jefatura'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_nombre_jefatura']))),
@@ -5321,11 +5354,13 @@
                         'estado_anterior_ingles'                => '',
                         'estado_anterior_castellano'            => '',
                         'estado_anterior_portugues'             => '',
+                        'estado_anterior_css'                   => '',
 
                         'estado_actual_codigo'                  => '',
                         'estado_actual_ingles'                  => '',
                         'estado_actual_castellano'              => '',
                         'estado_actual_portugues'               => '',
+                        'estado_actual_css'                     => '',
 
                         'workflow_detalle_codigo'               => '',
                         'workflow_detalle_orden'                => '',
@@ -5337,6 +5372,7 @@
                         'tipo_prioridad_ingles'                 => '',
                         'tipo_prioridad_castellano'             => '',
                         'tipo_prioridad_portugues'              => '',
+                        'tipo_prioridad_css'                    => '',
 
                         'rendicion_nombre_solicitante'          => '',
                         'rendicion_nombre_jefatura'             => '',
@@ -5407,11 +5443,13 @@
                 f.DOMFICNOI         AS          estado_anterior_ingles,
                 f.DOMFICNOC         AS          estado_anterior_castellano,
                 f.DOMFICNOP         AS          estado_anterior_portugues,
+                f.DOMFICCSS         AS          estado_anterior_css,
 
                 g.DOMFICCOD         AS          estado_actual_codigo,
                 g.DOMFICNOI         AS          estado_actual_ingles,
                 g.DOMFICNOC         AS          estado_actual_castellano,
                 g.DOMFICNOP         AS          estado_actual_portugues,
+                g.DOMFICCSS         AS          estado_actual_css,
 
                 h.RENFICCOD         AS          rendicion_codigo,
                 h.RENFICPER         AS          rendicion_periodo,
@@ -5495,11 +5533,13 @@
                         'estado_anterior_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
                         'estado_anterior_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
                         'estado_anterior_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                        'estado_anterior_css'                       => trim(strtolower($rowMSSQL00['estado_anterior_css'])),
 
                         'estado_actual_codigo'                      => $rowMSSQL00['estado_actual_codigo'],
                         'estado_actual_ingles'                      => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                         'estado_actual_castellano'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                         'estado_actual_portugues'                   => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+                        'estado_actual_css'                         => trim(strtolower($rowMSSQL00['estado_actual_css'])),
 
                         'rendicion_codigo'                          => $rowMSSQL00['rendicion_codigo'],
                         'rendicion_periodo'                         => $rowMSSQL00['rendicion_periodo'],
@@ -5566,11 +5606,13 @@
                         'estado_anterior_ingles'                    => '',
                         'estado_anterior_castellano'                => '',
                         'estado_anterior_portugues'                 => '',
+                        'estado_anterior_css'                       => '',
 
                         'estado_actual_codigo'                      => '',
                         'estado_actual_ingles'                      => '',
                         'estado_actual_castellano'                  => '',
                         'estado_actual_portugues'                   => '',
+                        'estado_actual_css'                         => '',
 
                         'rendicion_codigo'                          => '',
                         'rendicion_periodo'                         => '',
@@ -5663,11 +5705,13 @@
                 g.DOMFICNOI         AS          estado_anterior_ingles,
                 g.DOMFICNOC         AS          estado_anterior_castellano,
                 g.DOMFICNOP         AS          estado_anterior_portugues,
+                g.DOMFICCSS         AS          estado_anterior_css,
 
                 h.DOMFICCOD         AS          estado_actual_codigo,
                 h.DOMFICNOI         AS          estado_actual_ingles,
                 h.DOMFICNOC         AS          estado_actual_castellano,
                 h.DOMFICNOP         AS          estado_actual_portugues,
+                h.DOMFICCSS         AS          estado_actual_css,
 
                 i.WRKDETCOD         AS          workflow_detalle_codigo,
                 i.WRKDETORD         AS          workflow_detalle_orden,
@@ -5753,11 +5797,13 @@
                         'estado_anterior_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_ingles']))),
                         'estado_anterior_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_castellano']))),
                         'estado_anterior_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['estado_anterior_portugues']))),
+                        'estado_anterior_css'                       => trim(strtolower($rowMSSQL00['estado_anterior_css'])),
 
                         'estado_actual_codigo'                      => $rowMSSQL00['estado_actual_codigo'],
                         'estado_actual_ingles'                      => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                         'estado_actual_castellano'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
-                        'estado_actual_portugues'                   => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues'])))
+                        'estado_actual_portugues'                   => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
+                        'estado_actual_css'                         => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_css'])))
                     );
 
                     $result[]   = $detalle;
@@ -5825,11 +5871,13 @@
                         'estado_anterior_ingles'                    => '',
                         'estado_anterior_castellano'                => '',
                         'estado_anterior_portugues'                 => '',
+                        'estado_anterior_css'                       => '',
 
                         'estado_actual_codigo'                      => '',
                         'estado_actual_ingles'                      => '',
                         'estado_actual_castellano'                  => '',
-                        'estado_actual_portugues'                   => ''
+                        'estado_actual_portugues'                   => '',
+                        'estado_actual_css'                         => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
