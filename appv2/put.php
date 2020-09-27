@@ -944,7 +944,7 @@
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {   
             $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = ?, RENFDEECC = ?, RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ? AND RENFDEWFC = ?";
             $sql01  = "SELECT * FROM [con].[RENFCA] a WHERE a.RENFCACOD = ? AND a.RENFCAWFC = ? AND EXISTS (SELECT * FROM con.RENFDE b WHERE b.RENFDEFCC = a.RENFCACOD AND b.RENFDEWFC = a.RENFCAWFC AND b.RENFDEEAC = a.RENFCAEAC AND RENFDEECC = a.RENFCAECC)";
-            $sql02  = "UPDATE [con].[RENFDE] SET RENFCAEAC = ?, RENFCAECC = ?, RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
+            $sql02  = "UPDATE [con].[RENFCA] SET RENFCAEAC = ?, RENFCAECC = ?, RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -965,7 +965,12 @@
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+                $stmtMSSQL02->closeCursor();
+
                 $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+                $stmtMSSQL02 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
