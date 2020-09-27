@@ -10,14 +10,15 @@
         $val05      = $request->getParsedBody()['tipo_nombre_portugues'];
         $val06      = $request->getParsedBody()['tipo_path'];
         $val07      = $request->getParsedBody()['tipo_css'];
-        $val08      = $request->getParsedBody()['tipo_dominio'];
-        $val09      = $request->getParsedBody()['tipo_observacion'];
+        $val08      = $request->getParsedBody()['tipo_parametro'];
+        $val09      = $request->getParsedBody()['tipo_dominio'];
+        $val10      = $request->getParsedBody()['tipo_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val04) && isset($val08)) {    
+        if (isset($val00) && isset($val01) && isset($val04) && isset($val09)) {     
             $sql00  = "UPDATE [adm].[DOMFIC] SET DOMFICUSU = ?, DOMFICFEC = GETDATE(), DOMFICDIP = ? WHERE DOMFICCOD = ?";
             $sql01  = "DELETE [adm].[DOMFIC] WHERE DOMFICCOD = ?";
 
@@ -59,14 +60,16 @@
         $val03      = $request->getParsedBody()['tipo_estado_codigo'];
         $val04      = $request->getParsedBody()['tipo_orden'];
         $val05      = $request->getParsedBody()['tipo_path'];
-        $val06      = $request->getParsedBody()['tipo_dominio'];
-        $val07      = $request->getParsedBody()['tipo_observacion'];
+        $val06      = $request->getParsedBody()['tipo_css'];
+        $val07      = $request->getParsedBody()['tipo_parametro'];
+        $val08      = $request->getParsedBody()['tipo_dominio'];
+        $val09      = $request->getParsedBody()['tipo_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val06)) {
+        if (isset($val01) && isset($val02) && isset($val08)) {
             $sql00  = "UPDATE [adm].[DOMSUB] SET DOMSUBAUS = ?, DOMSUBAFE = GETDATE(), DOMSUBAIP = ? WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
             $sql01  = "DELETE [adm].[DOMSUB] WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
 
@@ -75,8 +78,8 @@
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$aud01, $aud03, $val01, $val02, $val06]);
-                $stmtMSSQL01->execute([$val01, $val02, $val06]);
+                $stmtMSSQL00->execute([$aud01, $aud03, $val01, $val02, $val08]);
+                $stmtMSSQL01->execute([$val01, $val02, $val08]);
 
                 $stmtMSSQL00->closeCursor();
                 $stmtMSSQL01->closeCursor();
