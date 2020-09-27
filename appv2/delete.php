@@ -9,14 +9,15 @@
         $val04      = $request->getParsedBody()['tipo_nombre_castellano'];
         $val05      = $request->getParsedBody()['tipo_nombre_portugues'];
         $val06      = $request->getParsedBody()['tipo_path'];
-        $val07      = $request->getParsedBody()['tipo_dominio'];
-        $val08      = $request->getParsedBody()['tipo_observacion'];
+        $val07      = $request->getParsedBody()['tipo_css'];
+        $val08      = $request->getParsedBody()['tipo_dominio'];
+        $val09      = $request->getParsedBody()['tipo_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val04) && isset($val07)) {    
+        if (isset($val00) && isset($val01) && isset($val04) && isset($val08)) {    
             $sql00  = "UPDATE [adm].[DOMFIC] SET DOMFICUSU = ?, DOMFICFEC = GETDATE(), DOMFICDIP = ? WHERE DOMFICCOD = ?";
             $sql01  = "DELETE [adm].[DOMFIC] WHERE DOMFICCOD = ?";
 
