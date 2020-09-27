@@ -895,18 +895,34 @@
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {   
             $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = ?, RENFDEECC = ?, RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ? AND RENFDEWFC = ?";
+            $sql01  = "SELECT * FROM [con].[RENFCA] a WHERE a.RENFCACOD = ? AND a.RENFCAWFC = ? AND EXISTS (SELECT * FROM con.RENFDE b WHERE b.RENFDEFCC = a.RENFCACOD AND b.RENFDEWFC = a.RENFCAWFC AND b.RENFDEEAC = a.RENFCAEAC AND RENFDEECC = a.RENFCAECC)";
+            $sql02  = "UPDATE [con].[RENFCA] SET RENFCAEAC = ?, RENFCAECC = ?, RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL02= $connMSSQL->prepare($sql02);
+
                 $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00, $val05]);
+                $stmtMSSQL01->execute([$val06, $val05]);
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+
+                if(empty($row_mssql01)){
+                    $stmtMSSQL02->execute([$val01, $val02, $aud01, $aud03, $val06, $val05]);
+                }
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
                 $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+                $stmtMSSQL02->closeCursor();
+
                 $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+                $stmtMSSQL02 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
