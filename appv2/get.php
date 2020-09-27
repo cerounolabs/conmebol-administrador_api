@@ -5973,7 +5973,7 @@
                         'estado_actual_ingles'                      => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_ingles']))),
                         'estado_actual_castellano'                  => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_castellano']))),
                         'estado_actual_portugues'                   => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_portugues']))),
-                        'estado_actual_css'                         => trim(strtoupper(strtolower($rowMSSQL00['estado_actual_css']))),
+                        'estado_actual_css'                         => trim(strtolower($rowMSSQL00['estado_actual_css'])),
                         'estado_actual_parametro'                   => $rowMSSQL00['estado_actual_parametro']
                     );
 
