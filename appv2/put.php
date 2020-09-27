@@ -5,14 +5,14 @@
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_orden'];
-        $val03      = $request->getParsedBody()['tipo_nombre_ingles'];
-        $val04      = $request->getParsedBody()['tipo_nombre_castellano'];
-        $val05      = $request->getParsedBody()['tipo_nombre_portugues'];
-        $val06      = $request->getParsedBody()['tipo_path'];
-        $val07      = $request->getParsedBody()['tipo_css'];
+        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_nombre_ingles'])));
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_nombre_castellano'])));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_nombre_portugues'])));
+        $val06      = trim(strtolower($request->getParsedBody()['tipo_path']));
+        $val07      = trim(strtolower($request->getParsedBody()['tipo_css']));
         $val08      = $request->getParsedBody()['tipo_parametro'];
-        $val09      = $request->getParsedBody()['tipo_dominio'];
-        $val10      = $request->getParsedBody()['tipo_observacion'];
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_dominio'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
