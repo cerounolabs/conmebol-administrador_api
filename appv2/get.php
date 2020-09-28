@@ -4759,6 +4759,24 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if(!empty($rowMSSQL00['solicitud_detalle_salida_fecha'])){
+                        $solicitud_detalle_salida_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_salida_fecha']));
+                    } else {
+                        $solicitud_detalle_salida_fecha_2    = '';
+                    }
+
+                    if(!empty($rowMSSQL00['solicitud_detalle_retorno_fecha'])){
+                        $solicitud_detalle_retorno_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_retorno_fecha']));
+                    } else {
+                        $solicitud_detalle_retorno_fecha_2    = '';
+                    }
+
+                    if(!empty($rowMSSQL00['solicitud_detalle_auditorio_fecha'])){
+                        $solicitud_detalle_auditorio_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_auditorio_fecha']));
+                    } else {
+                        $solicitud_detalle_auditorio_fecha_2    = '';
+                    }
+
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
                         $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     } else {
@@ -4769,13 +4787,16 @@
                         'solicitud_detalle_codigo'                          => $rowMSSQL00['solicitud_detalle_codigo'],
                         'solicitud_detalle_preferencia'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_preferencia']))),
                         'solicitud_detalle_salida_lugar'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_salida_lugar']))),
-                        'solicitud_detalle_salida_fecha'                    => $rowMSSQL00['solicitud_detalle_salida_fecha'],
+                        'solicitud_detalle_salida_fecha_1'                  => $rowMSSQL00['solicitud_detalle_salida_fecha'],
+                        'solicitud_detalle_salida_fecha_2'                  => $solicitud_detalle_salida_fecha_2,
                         'solicitud_detalle_salida_hora'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_salida_hora']))),
                         'solicitud_detalle_retorno_lugar'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_retorno_lugar']))),
-                        'solicitud_detalle_retorno_fecha'                   => $rowMSSQL00['solicitud_detalle_retorno_fecha'],
+                        'solicitud_detalle_retorno_fecha_1'                 => $rowMSSQL00['solicitud_detalle_retorno_fecha'],
+                        'solicitud_detalle_retorno_fecha_2'                 => $solicitud_detalle_retorno_fecha_2,
                         'solicitud_detalle_retorno_hora'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_retorno_hora']))),
                         'solicitud_detalle_auditorio_lugar'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_auditorio_lugar']))),
-                        'solicitud_detalle_auditorio_fecha'                 => $rowMSSQL00['solicitud_detalle_auditorio_fecha'],
+                        'solicitud_detalle_auditorio_fecha_1'               => $rowMSSQL00['solicitud_detalle_auditorio_fecha'],
+                        'solicitud_detalle_auditorio_fecha_2'               => $solicitud_detalle_auditorio_fecha_2,
                         'solicitud_detalle_auditorio_hora'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_auditorio_hora']))),
                         'solicitud_detalle_auditorio_cantidad'              => $rowMSSQL00['solicitud_detalle_auditorio_cantidad'],
                         'solicitud_detalle_observacion'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_observacion']))),
@@ -4879,13 +4900,16 @@
                         'solicitud_detalle_codigo'                          => '',
                         'solicitud_detalle_preferencia'                     => '',
                         'solicitud_detalle_salida_lugar'                    => '',
-                        'solicitud_detalle_salida_fecha'                    => '',
+                        'solicitud_detalle_salida_fecha_1'                  => '',
+                        'solicitud_detalle_salida_fecha_2'                  => '',
                         'solicitud_detalle_salida_hora'                     => '',
                         'solicitud_detalle_retorno_lugar'                   => '',
-                        'solicitud_detalle_retorno_fecha'                   => '',
+                        'solicitud_detalle_retorno_fecha_1'                 => '',
+                        'solicitud_detalle_retorno_fecha_2'                 => '',
                         'solicitud_detalle_retorno_hora'                    => '',
                         'solicitud_detalle_auditorio_lugar'                 => '',
-                        'solicitud_detalle_auditorio_fecha'                 => '',
+                        'solicitud_detalle_auditorio_fecha_1'               => '',
+                        'solicitud_detalle_auditorio_fecha_2'               => '',
                         'solicitud_detalle_auditorio_hora'                  => '',
                         'solicitud_detalle_auditorio_cantidad'              => '',
                         'solicitud_detalle_observacion'                     => '',
