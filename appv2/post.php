@@ -1402,7 +1402,7 @@
         $val07      = $request->getParsedBody()['evento_codigo'];
         $val08      = $request->getParsedBody()['workflow_codigo'];
         $val09      = $request->getParsedBody()['solicitud_periodo'];
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_evento_nombre'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
         $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
         $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
@@ -1421,7 +1421,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
-            $sql00  = "INSERT INTO [via].[SOLFIC] (SOLFICEAC, SOLFICECC, SOLFICGEC, SOLFICDEC, SOLFICJEC, SOLFICCAC, SOLFICEVC, SOLFICWFC, SOLFICPER, SOLFICENO, SOLFICPAS, SOLFICHOS, SOLFICTRA, SOLFICDNS, SOLFICDNJ, SOLFICFEC, SOLFICSCC, SOLFICTCA, SOLFICTRE, SOLFICOBS, SOLFICAUS, SOLFICAFH, SOLFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLFIC] (SOLFICEAC, SOLFICECC, SOLFICGEC, SOLFICDEC, SOLFICJEC, SOLFICCAC, SOLFICEVC, SOLFICWFC, SOLFICPER, SOLFICMOT, SOLFICPAS, SOLFICHOS, SOLFICTRA, SOLFICDNS, SOLFICDNJ, SOLFICFEC, SOLFICSCC, SOLFICTCA, SOLFICTRE, SOLFICOBS, SOLFICAUS, SOLFICAFH, SOLFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [via].[SOLFIC]";
 
             try {
@@ -1469,29 +1469,31 @@
         $val07      = $request->getParsedBody()['localidad_aeropuerto_codigo'];
         $val08      = $request->getParsedBody()['solicitud_codigo'];
         $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_preferencia'])));
-        $val10      = $request->getParsedBody()['solicitud_detalle_fecha_salida'];
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hora_salida'])));
-        $val12      = $request->getParsedBody()['solicitud_detalle_fecha_retorno'];
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hora_retorno'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_consumo'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_sala'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_vehiculo'])));
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_sap_centro_costo'])));
-        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_salida_lugar'])));
+        $val11      = $request->getParsedBody()['solicitud_detalle_salida_fecha'];
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_salida_hora'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_retorno_lugar'])));
+        $val14      = $request->getParsedBody()['solicitud_detalle_retorno_fecha'];
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_retorno_hora'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_lugar'])));
+        $val17      = $request->getParsedBody()['solicitud_detalle_auditorio_fecha'];
+        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_hora'])));
+        $val19      = $request->getParsedBody()['solicitud_detalle_auditorio_cantidad'];
+        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val05)) {
-            $sql00  = "INSERT INTO [via].[SOLDET] (SOLDETEST, SOLDETTSC, SOLDETC1C, SOLDETC2C, SOLDETC3C, SOLDETC4C, SOLDETAEC, SOLDETSOC, SOLDETPRE, SOLDETFSL, SOLDETHSL, SOLDETFRE, SOLDETHRE, SOLDETCON, SOLDETSAL, SOLDETVEH, SOLDETSCC, SOLDETOBS, SOLDETAUS, SOLDETAFH, SOLDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val08)) {
+            $sql00  = "INSERT INTO [via].[SOLDET] (SOLDETEST, SOLDETTSC, SOLDETC1C, SOLDETC2C, SOLDETC3C, SOLDETC4C, SOLDETAEC, SOLDETSOC, SOLDETPRE, SOLDETSLU, SOLDETSFE, SOLDETSHO, SOLDETRLU, SOLDETRFE, SOLDETRHO, SOLDETALU, SOLDETAFE, SOLDETAHO, SOLDETACA, SOLDETOBS, SOLDETAUS, SOLDETAFH, SOLDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLDETCOD) AS solicitud_detalle_codigo FROM [via].[SOLDET]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
