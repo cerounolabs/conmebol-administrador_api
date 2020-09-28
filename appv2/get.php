@@ -5022,6 +5022,110 @@
 
             ORDER BY a.RENFICCOD DESC";
 
+        $sql00  = "SELECT
+            a.RENFICCOD         AS          rendicion_codigo,
+            a.RENFICPER         AS          rendicion_periodo,
+            a.RENFICENO         AS          rendicion_evento_nombre,
+            a.RENFICEFE         AS          rendicion_evento_fecha,
+            a.RENFICDNS         AS          rendicion_documento_solicitante,
+            a.RENFICDNJ         AS          rendicion_documento_jefatura,
+            a.RENFICDNA         AS          rendicion_documento_analista,
+            a.RENFICFEC         AS          rendicion_carga_fecha,
+            a.RENFICTCA         AS          rendicion_tarea_cantidad,
+            a.RENFICTRE         AS          rendicion_tarea_resuelta,
+            a.RENFICOBS         AS          rendicion_observacion,
+
+            a.RENFICAUS         AS          auditoria_usuario,
+            a.RENFICAFH         AS          auditoria_fecha_hora,
+            a.RENFICAIP         AS          auditoria_ip,
+
+            b.CODE              AS          tipo_gerencia_codigo,
+            b.NAME              AS          tipo_gerencia_codigo_nombre,
+            b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
+            b.U_NOMBRE          AS          tipo_gerencia_nombre,
+
+            c.CODE              AS          tipo_departamento_codigo,
+            c.NAME              AS          tipo_departamento_codigo_nombre,
+            c.U_CODIGO          AS          tipo_departamento_codigo_referencia,
+            c.U_NOMBRE          AS          tipo_departamento_nombre,
+
+            d.CODE              AS          tipo_jefatura_codigo_referencia,
+            d.NAME              AS          tipo_jefatura_codigo_nombre,
+            d.U_CODIGO          AS          tipo_jefatura_codigo,
+            d.U_NOMBRE          AS          tipo_jefatura_nombre,
+
+            e.CODE              AS          tipo_cargo_codigo_referencia,
+            e.NAME              AS          tipo_cargo_codigo_nombre,
+            e.U_CODIGO          AS          tipo_cargo_codigo,
+            e.U_NOMBRE          AS          tipo_cargo_nombre,
+
+            f.LOCCIUCOD         AS          ciudad_codigo,
+            f.LOCCIUORD         AS          ciudad_orden,
+            f.LOCCIUNOM         AS          ciudad_nombre,
+
+            g.LOCPAICOD         AS          pais_codigo,
+            g.LOCPAIORD         AS          pais_orden,
+            g.LOCPAINOM         AS          pais_nombre,
+            g.LOCPAIPAT         AS          pais_path,
+            g.LOCPAIIC2         AS          pais_iso_char2,
+            g.LOCPAIIC3         AS          pais_iso_char3,
+            g.LOCPAIIN3         AS          pais_iso_num3,
+
+            h.WRKFICCOD         AS          workflow_codigo,
+            h.WRKFICORD         AS          workflow_orden,
+            h.WRKFICNOM         AS          workflow_tarea,
+
+            i.DOMFICCOD         AS          estado_anterior_codigo,
+            i.DOMFICNOI         AS          estado_anterior_ingles,
+            i.DOMFICNOC         AS          estado_anterior_castellano,
+            i.DOMFICNOP         AS          estado_anterior_portugues,
+            i.DOMFICCSS         AS          estado_anterior_css,
+            i.DOMFICPAR         AS          estado_anterior_parametro,
+
+            j.DOMFICCOD         AS          estado_actual_codigo,
+            j.DOMFICNOI         AS          estado_actual_ingles,
+            j.DOMFICNOC         AS          estado_actual_castellano,
+            j.DOMFICNOP         AS          estado_actual_portugues,
+            j.DOMFICCSS         AS          estado_actual_css,
+            j.DOMFICPAR         AS          estado_actual_parametro,
+
+            k.WRKDETCOD         AS          workflow_detalle_codigo,
+            k.WRKDETORD         AS          workflow_detalle_orden,
+            k.WRKDETTCC         AS          workflow_detalle_cargo,
+            k.WRKDETHOR         AS          workflow_detalle_hora,
+            k.WRKDETNOM         AS          workflow_detalle_tarea,
+
+            l.DOMFICCOD         AS          tipo_prioridad_codigo,
+            l.DOMFICNOI         AS          tipo_prioridad_ingles,
+            l.DOMFICNOC         AS          tipo_prioridad_castellano,
+            l.DOMFICNOP         AS          tipo_prioridad_portugues,
+            l.DOMFICCSS         AS          tipo_prioridad_css,
+            l.DOMFICPAR         AS          tipo_prioridad_parametro,
+
+            m1.NombreEmpleado   AS          rendicion_nombre_solicitante,
+            m2.NombreEmpleado   AS          rendicion_nombre_jefatura,
+            m3.NombreEmpleado   AS          rendicion_nombre_analista
+
+            FROM [con].[RENFIC] a
+            INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.RENFICGEC = b.U_CODIGO
+            INNER JOIN [CSF].[dbo].[@A1A_TIDE] c ON a.RENFICDEC = c.U_CODIGO
+            INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.RENFICJEC = d.U_CODIGO
+            INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.RENFICCAC = e.U_CODIGO
+            INNER JOIN [adm].[LOCCIU] f ON a.RENFICCIC = f.LOCCIUCOD
+            INNER JOIN [adm].[LOCPAI] g ON f.LOCCIUPAC = g.LOCPAICOD
+            INNER JOIN [wrk].[WRKFIC] h ON a.RENFICWFC = h.WRKFICCOD
+            INNER JOIN [adm].[DOMFIC] i ON a.RENFICEAC = i.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
+            INNER JOIN [wrk].[WRKDET] k ON a.RENFICWFC = k.WRKDETWFC AND a.RENFICECC = k.WRKDETEAC
+            INNER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = m1.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = m2.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA COLLATE SQL_Latin1_General_CP1_CI_AS = m3.CedulaEmpleado
+
+            WHERE k.WRKDETCOD = (SELECT MIN(k1.WRKDETCOD) FROM [wrk].[WRKDET] k1 WHERE k1.WRKDETWFC = a.RENFICWFC AND k1.WRKDETEAC = a.RENFICECC)
+
+            ORDER BY a.RENFICCOD DESC";
+            
         try {
             $connMSSQL  = getConnectionMSSQLv2();
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
