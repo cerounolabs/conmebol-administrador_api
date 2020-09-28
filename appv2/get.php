@@ -4805,6 +4805,20 @@
                         'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
+                        'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_css'                                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_parametro'                             => $rowMSSQL00['tipo_estado_parametro'],
+    
+                        'tipo_solicitud_codigo'                             => $rowMSSQL00['tipo_solicitud_codigo'],
+                        'tipo_solicitud_ingles'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_ingles']))),
+                        'tipo_solicitud_castellano'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_castellano']))),
+                        'tipo_solicitud_portugues'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_portugues']))),
+                        'tipo_solicitud_css'                                => trim(strtolower($rowMSSQL00['tipo_solicitud_css'])),
+                        'tipo_solicitud_parametro'                          => $rowMSSQL00['tipo_solicitud_parametro'],
+
                         'localidad_ciudad_origen_salida_codigo'             => $rowMSSQL00['localidad_ciudad_origen_salida_codigo'],
                         'localidad_ciudad_origen_salida_orden'              => $rowMSSQL00['localidad_ciudad_origen_salida_orden'],
                         'localidad_ciudad_origen_salida_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_salida_nombre']))),
@@ -4917,6 +4931,20 @@
                         'auditoria_usuario'                                 => '',
                         'auditoria_fecha_hora'                              => '',
                         'auditoria_ip'                                      => '',
+
+                        'tipo_estado_codigo'                                => '',
+                        'tipo_estado_ingles'                                => '',
+                        'tipo_estado_castellano'                            => '',
+                        'tipo_estado_portugues'                             => '',
+                        'tipo_estado_css'                                   => '',
+                        'tipo_estado_parametro'                             => '',
+    
+                        'tipo_solicitud_codigo'                             => '',
+                        'tipo_solicitud_ingles'                             => '',
+                        'tipo_solicitud_castellano'                         => '',
+                        'tipo_solicitud_portugues'                          => '',
+                        'tipo_solicitud_css'                                => '',
+                        'tipo_solicitud_parametro'                          => '',
 
                         'localidad_ciudad_origen_salida_codigo'             => '',
                         'localidad_ciudad_origen_salida_orden'              => '',
