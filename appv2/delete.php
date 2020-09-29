@@ -515,25 +515,26 @@
         $val07      = $request->getParsedBody()['evento_codigo'];
         $val08      = $request->getParsedBody()['workflow_codigo'];
         $val09      = $request->getParsedBody()['solicitud_periodo'];
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_evento_nombre'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
         $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
-        $val18      = $request->getParsedBody()['solicitud_fecha_carga'];
-        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
-        $val20      = $request->getParsedBody()['solicitud_tarea_cantidad'];
-        $val21      = $request->getParsedBody()['solicitud_tarea_resuelta'];
-        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_auditorio'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val19      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val21      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val22      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val00_1) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
             $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
             $sql01  = "DELETE FROM [via].[SOLFIC] WHERE SOLFICCOD = ?";
             
@@ -573,26 +574,34 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['localidad_ciudad_origen_codigo'];
-        $val03      = $request->getParsedBody()['localidad_ciudad_destino_codigo'];
-        $val04      = $request->getParsedBody()['localidad_aeropuerto_codigo'];
-        $val05      = $request->getParsedBody()['solicitud_codigo'];
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_preferencia'])));
-        $val07      = $request->getParsedBody()['solicitud_detalle_fecha_llegada'];
-        $val08      = $request->getParsedBody()['solicitud_detalle_fecha_retorno'];
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hora_llegada'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hora_retorno'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_consumo'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_sala'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_vehiculo'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_sap_centro_costo'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
+        $val03      = $request->getParsedBody()['solicitud_codigo'];        
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_preferencia'])));
+        $val05      = $request->getParsedBody()['solicitud_detalle_salida_aeropuerto_codigo'];
+        $val06      = $request->getParsedBody()['solicitud_detalle_salida_ciudad_codigo'];
+        $val07      = $request->getParsedBody()['solicitud_detalle_salida_horario_codigo'];
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_salida_lugar'])));
+        $val09      = $request->getParsedBody()['solicitud_detalle_salida_fecha'];
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_salida_hora'])));
+        $val11      = $request->getParsedBody()['solicitud_detalle_retorno_aeropuerto_codigo'];
+        $val12      = $request->getParsedBody()['solicitud_detalle_retorno_ciudad_codigo'];
+        $val13      = $request->getParsedBody()['solicitud_detalle_retorno_horario_codigo'];
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_retorno_lugar'])));
+        $val15      = $request->getParsedBody()['solicitud_detalle_retorno_fecha'];
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_retorno_hora'])));
+        $val17      = $request->getParsedBody()['solicitud_detalle_auditorio_ciudad_codigo'];
+        $val18      = $request->getParsedBody()['solicitud_detalle_auditorio_horario_codigo'];
+        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_lugar'])));
+        $val20      = $request->getParsedBody()['solicitud_detalle_auditorio_fecha'];
+        $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_hora'])));
+        $val22      = $request->getParsedBody()['solicitud_detalle_auditorio_cantidad'];
+        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val05)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
             $sql00  = "UPDATE [via].[SOLDET] SET SOLDETAUS = ?, SOLDETAFH = GETDATE(), SOLDETAIP = ? WHERE SOLDETCOD = ?";
             $sql01  = "DELETE FROM [via].[SOLDET] WHERE SOLDETCOD = ?";
             
