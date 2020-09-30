@@ -4775,7 +4775,7 @@
 
                 WHERE a.SOLDETSOC = ?
 
-                ORDER BY a.SOLDETSOC DESC";
+                ORDER BY a.SOLDETTSC DESC";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
