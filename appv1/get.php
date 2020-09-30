@@ -1185,7 +1185,8 @@
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
 
-                    WHERE a.CedulaEmpleado = ? AND a.Estado = 'V'";
+                    WHERE a.CedulaEmpleado = ? AND 
+                    (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500')))";
 
             } elseif ($val01 == '2') {
                 $sql00  = "SELECT
@@ -1218,7 +1219,8 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE b.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
+                    WHERE b.CedulaEmpleado = ? AND
+                    (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
 
             } elseif ($val01 == '3') {
                 $sql00  = "SELECT
