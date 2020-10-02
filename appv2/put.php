@@ -667,7 +667,6 @@
 
         $val00      = $request->getAttribute('codigo');
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
-        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
         $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
@@ -679,28 +678,27 @@
         $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
         $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_auditorio'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
-        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
-        $val19      = $request->getParsedBody()['solicitud_fecha_carga'];
-        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
-        $val21      = $request->getParsedBody()['solicitud_tarea_cantidad'];
-        $val22      = $request->getParsedBody()['solicitud_tarea_resuelta'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val18      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val20      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val21      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
             $sql00  = "";
 
             switch ($val00_1) {
                 case 1:
-                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICMOT = ?, SOLFICPAS = ?, SOLFICHOS = ?, SOLFICAUD = ?, SOLFICTRA = ?, SOLFICSCC = ?, SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICMOT = ?, SOLFICPAS = ?, SOLFICHOS = ?, SOLFICTRA = ?, SOLFICSCC = ?, SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
             }
 
@@ -710,7 +708,7 @@
 
                 switch ($val00_1) {
                     case 1:
-                        $stmtMSSQL00->execute([$val07, $val10, $val11, $val12, $val13, $val14, $val20, $val23, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val07, $val10, $val11, $val12, $val13, $val19, $val22, $aud01, $aud03, $val00]);
                         break;
                 }
 
@@ -760,20 +758,30 @@
         $val20      = $request->getParsedBody()['solicitud_detalle_auditorio_fecha'];
         $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_hora'])));
         $val22      = $request->getParsedBody()['solicitud_detalle_auditorio_cantidad'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
+        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_auditorio'])));
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_escuela'])));
+        $val25      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_u'])));
+        $val26      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_junta'])));
+        $val27      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_requerido'])));
+        $val28      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_especificar'])));
+        $val29      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_requerido'])));
+        $val30      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_especificar'])));
+        $val31      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_interne_requerido'])));
+        $val32      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_internet_especificar'])));
+        $val33      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "UPDATE [via].[SOLDET] SET SOLDETEST = ?, SOLDETTSC = ?, SOLDETPRE = ?, SOLDETSAE = ?, SOLDETSCI = ?, SOLDETSHR = ?, SOLDETSLU = ?, SOLDETSFE = ?, SOLDETSHO = ?, SOLDETRAE = ?, SOLDETRCI = ?, SOLDETRHR = ?, SOLDETRLU = ?, SOLDETRFE = ?, SOLDETRHO = ?, SOLDETACI = ?, SOLDETAHR = ?, SOLDETALU = ?, SOLDETAFE = ?, SOLDETAHO = ?, SOLDETOBS = ?, SOLDETAUS = ?, SOLDETAFH = GETDATE(), SOLDETAIP = ? WHERE SOLDETCOD = ?";
+            $sql00  = "UPDATE [via].[SOLDET] SET SOLDETEST = ?, SOLDETTSC = ?, SOLDETPRE = ?, SOLDETSAE = ?, SOLDETSCI = ?, SOLDETSHR = ?, SOLDETSLU = ?, SOLDETSFE = ?, SOLDETSHO = ?, SOLDETRAE = ?, SOLDETRCI = ?, SOLDETRHR = ?, SOLDETRLU = ?, SOLDETRFE = ?, SOLDETRHO = ?, SOLDETACI = ?, SOLDETAHR = ?, SOLDETALU = ?, SOLDETAFE = ?, SOLDETAHO = ?, SOLDETACA = ?, SOLDETAFA = ?, SOLDETAFS = ?, SOLDETAFU = ?, SOLDETAFJ = ?, SOLDETAAR = ?, SOLDETAAE = ?, SOLDETALR = ?, SOLDETALE = ?, SOLDETAIR = ?, SOLDETAIE = ?, SOLDETOBS = ?, SOLDETAUS = ?, SOLDETAFH = GETDATE(), SOLDETAIP = ? WHERE SOLDETCOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $val24, $val25, $val26, $val27, $val28, $val29, $val30, $val31, $val32, $val33, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
