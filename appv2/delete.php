@@ -506,7 +506,6 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
         $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
@@ -518,23 +517,22 @@
         $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
         $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_auditorio'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
-        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
-        $val19      = $request->getParsedBody()['solicitud_fecha_carga'];
-        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
-        $val21      = $request->getParsedBody()['solicitud_tarea_cantidad'];
-        $val22      = $request->getParsedBody()['solicitud_tarea_resuelta'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val18      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val20      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val21      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
             $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
             $sql01  = "DELETE FROM [via].[SOLFIC] WHERE SOLFICCOD = ?";
             
@@ -595,7 +593,17 @@
         $val20      = $request->getParsedBody()['solicitud_detalle_auditorio_fecha'];
         $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_hora'])));
         $val22      = $request->getParsedBody()['solicitud_detalle_auditorio_cantidad'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
+        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_auditorio'])));
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_escuela'])));
+        $val25      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_u'])));
+        $val26      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_junta'])));
+        $val27      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_requerido'])));
+        $val28      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_especificar'])));
+        $val29      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_requerido'])));
+        $val30      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_especificar'])));
+        $val31      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_interne_requerido'])));
+        $val32      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_internet_especificar'])));
+        $val33      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
