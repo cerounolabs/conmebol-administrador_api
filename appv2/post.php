@@ -1483,21 +1483,31 @@
         $val20      = $request->getParsedBody()['solicitud_detalle_auditorio_fecha'];
         $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_hora'])));
         $val22      = $request->getParsedBody()['solicitud_detalle_auditorio_cantidad'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
+        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_auditorio'])));
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_escuela'])));
+        $val25      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_u'])));
+        $val26      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_junta'])));
+        $val27      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_requerido'])));
+        $val28      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_especificar'])));
+        $val29      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_requerido'])));
+        $val30      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_especificar'])));
+        $val31      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_interne_requerido'])));
+        $val32      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_internet_especificar'])));
+        $val33      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "INSERT INTO [via].[SOLDET] (SOLDETEST, SOLDETTSC, SOLDETSOC, SOLDETPRE, SOLDETSAE, SOLDETSCI, SOLDETSHR, SOLDETSLU, SOLDETSFE, SOLDETSHO, SOLDETRAE, SOLDETRCI, SOLDETRHR, SOLDETRLU, SOLDETRFE, SOLDETRHO, SOLDETACI, SOLDETAHR, SOLDETALU, SOLDETAFE, SOLDETAHO, SOLDETACA, SOLDETOBS, SOLDETAUS, SOLDETAFH, SOLDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLDET] (SOLDETEST, SOLDETTSC, SOLDETSOC, SOLDETPRE, SOLDETSAE, SOLDETSCI, SOLDETSHR, SOLDETSLU, SOLDETSFE, SOLDETSHO, SOLDETRAE, SOLDETRCI, SOLDETRHR, SOLDETRLU, SOLDETRFE, SOLDETRHO, SOLDETACI, SOLDETAHR, SOLDETALU, SOLDETAFE, SOLDETAHO, SOLDETACA, SOLDETAFA, SOLDETAFS, SOLDETAFU, SOLDETAFJ, SOLDETAAR, SOLDETAAE, SOLDETALR, SOLDETALE, SOLDETAIR, SOLDETAIE, SOLDETOBS, SOLDETAUS, SOLDETAFH, SOLDETAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLDETCOD) AS solicitud_detalle_codigo FROM [via].[SOLDET]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $val24, $val25, $val26, $val27, $val28, $val29, $val30, $val31, $val32, $val33, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
