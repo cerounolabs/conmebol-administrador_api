@@ -667,6 +667,7 @@
 
         $val00      = $request->getAttribute('codigo');
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
+        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
         $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
@@ -702,7 +703,7 @@
                     break;
 
                 case 2:
-                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEAC = ?, SOLFICECC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
             }
 
@@ -713,6 +714,10 @@
                 switch ($val00_1) {
                     case 1:
                         $stmtMSSQL00->execute([$val07, $val10, $val11, $val12, $val13, $val19, $val22, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00]);
                         break;
                 }
 
