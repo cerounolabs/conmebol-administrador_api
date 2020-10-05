@@ -4072,10 +4072,10 @@
             INNER JOIN [CSF].[dbo].[@A1A_TIDE] c ON a.SOLFICDEC = c.U_CODIGO
             INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.SOLFICJEC = d.U_CODIGO
             INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.SOLFICCAC = e.U_CODIGO
-            INNER JOIN [via].[EVEFIC] f ON a.SOLFICEVC = f.EVEFICCOD
-            INNER JOIN [wrk].[WRKFIC] g ON a.SOLFICWFC = g.WRKFICCOD
-            INNER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
-            INNER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
+            LEFT OUTER JOIN [via].[EVEFIC] f ON a.SOLFICEVC = f.EVEFICCOD
+            LEFT OUTER JOIN [wrk].[WRKFIC] g ON a.SOLFICWFC = g.WRKFICCOD
+            LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
+            LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
             LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICECC = j.WRKDETEAC
             LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
