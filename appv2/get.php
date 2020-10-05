@@ -4087,6 +4087,109 @@
 
             ORDER BY a.SOLFICCOD DESC";
 
+$sql00  = "SELECT
+a.SOLFICCOD         AS          solicitud_codigo,
+a.SOLFICPER         AS          solicitud_periodo,
+a.SOLFICMOT         AS          solicitud_motivo,
+a.SOLFICPAS         AS          solicitud_pasaje,
+a.SOLFICHOS         AS          solicitud_hospedaje,
+a.SOLFICTRA         AS          solicitud_traslado,
+a.SOLFICFEC         AS          solicitud_fecha_carga,
+a.SOLFICSCC         AS          solicitud_sap_centro_costo,
+a.SOLFICTCA         AS          solicitud_tarea_cantidad,
+a.SOLFICTRE         AS          solicitud_tarea_resuelta,
+a.SOLFICOBS         AS          solicitud_observacion,
+
+a.SOLFICAUS         AS          auditoria_usuario,
+a.SOLFICAFH         AS          auditoria_fecha_hora,
+a.SOLFICAIP         AS          auditoria_ip,
+
+b.CODE              AS          tipo_gerencia_codigo,
+b.NAME              AS          tipo_gerencia_codigo_nombre,
+b.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
+b.U_NOMBRE          AS          tipo_gerencia_nombre,
+
+c.CODE              AS          tipo_departamento_codigo,
+c.NAME              AS          tipo_departamento_codigo_nombre,
+c.U_CODIGO          AS          tipo_departamento_codigo_referencia,
+c.U_NOMBRE          AS          tipo_departamento_nombre,
+
+d.CODE              AS          tipo_jefatura_codigo_referencia,
+d.NAME              AS          tipo_jefatura_codigo_nombre,
+d.U_CODIGO          AS          tipo_jefatura_codigo,
+d.U_NOMBRE          AS          tipo_jefatura_nombre,
+
+e.CODE              AS          tipo_cargo_codigo_referencia,
+e.NAME              AS          tipo_cargo_codigo_nombre,
+e.U_CODIGO          AS          tipo_cargo_codigo,
+e.U_NOMBRE          AS          tipo_cargo_nombre,
+
+f.EVEFICCOD         AS          evento_codigo,
+f.EVEFICORD         AS          evento_orden,
+f.EVEFICNOM         AS          evento_nombre,
+f.EVEFICFVI         AS          evento_fecha_inicio,
+f.EVEFICFVF         AS          evento_fecha_fin,
+f.EVEFICOBS         AS          evento_observacion,
+
+g.WRKFICCOD         AS          workflow_codigo,
+g.WRKFICORD         AS          workflow_orden,
+g.WRKFICNOM         AS          workflow_tarea,
+
+h.DOMFICCOD         AS          estado_anterior_codigo,
+h.DOMFICNOI         AS          estado_anterior_ingles,
+h.DOMFICNOC         AS          estado_anterior_castellano,
+h.DOMFICNOP         AS          estado_anterior_portugues,
+h.DOMFICCSS         AS          estado_anterior_css,
+h.DOMFICPAR         AS          estado_anterior_parametro,
+
+i.DOMFICCOD         AS          estado_actual_codigo,
+i.DOMFICNOI         AS          estado_actual_ingles,
+i.DOMFICNOC         AS          estado_actual_castellano,
+i.DOMFICNOP         AS          estado_actual_portugues,
+i.DOMFICCSS         AS          estado_actual_css,
+i.DOMFICPAR         AS          estado_actual_parametro,
+
+j.WRKDETCOD         AS          workflow_detalle_codigo,
+j.WRKDETORD         AS          workflow_detalle_orden,
+j.WRKDETTCC         AS          workflow_detalle_cargo,
+j.WRKDETHOR         AS          workflow_detalle_hora,
+j.WRKDETNOM         AS          workflow_detalle_tarea,
+
+k.DOMFICCOD         AS          tipo_prioridad_codigo,
+k.DOMFICNOI         AS          tipo_prioridad_ingles,
+k.DOMFICNOC         AS          tipo_prioridad_castellano,
+k.DOMFICNOP         AS          tipo_prioridad_portugues,
+k.DOMFICCSS         AS          tipo_prioridad_css,
+k.DOMFICPAR         AS          tipo_prioridad_parametro,
+
+l1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+a.SOLFICDNS         AS          solicitud_solicitante_documento,
+l2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+a.SOLFICDNJ         AS          solicitud_jefatura_documento,
+l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+a.SOLFICDNP         AS          solicitud_proveedor_documento
+
+FROM [via].[SOLFIC] a
+INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
+INNER JOIN [CSF].[dbo].[@A1A_TIDE] c ON a.SOLFICDEC = c.U_CODIGO
+INNER JOIN [CSF].[dbo].[@A1A_TICA] d ON a.SOLFICJEC = d.U_CODIGO
+INNER JOIN [CSF].[dbo].[@A1A_TICA] e ON a.SOLFICCAC = e.U_CODIGO
+LEFT OUTER JOIN [via].[EVEFIC] f ON a.SOLFICEVC = f.EVEFICCOD
+LEFT OUTER JOIN [wrk].[WRKFIC] g ON a.SOLFICWFC = g.WRKFICCOD
+LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
+LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
+LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICECC = j.WRKDETEAC
+LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
+LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
+LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
+LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+
+
+ORDER BY a.SOLFICCOD DESC";
+
         try {
             $connMSSQL  = getConnectionMSSQLv2();
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
