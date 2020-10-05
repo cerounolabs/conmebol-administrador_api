@@ -988,11 +988,11 @@
                                 $codCargo, 4,  5, 49, $codTarea, 101, 'TAREA#101: PENDIENTE EN JEFE INMEDIATO',    40, 'S', '', $aud01, $aud03,
                                 $codCargo, 4,  6, 49, $codTarea, 102, 'TAREA#102: ANULADO POR SOLICITANTE',      40, 'S', '', $aud01, $aud03,
         
-                                $codCargo, 5, 51, 49, $codTarea, 200, 58, 40, 'S', '', $aud01, $aud03,
+                                $codCargo, 5, 51, 49, $codTarea, 200, 60, 40, 'S', '', $aud01, $aud03,
                                 $codCargo, 5, 52, 49, $codTarea, 201, 'TAREA#201: RECHAZADO POR JEFE INMEDIATO', 40, 'S', '', $aud01, $aud03,
                                 $codCargo, 5,  4, 49, $codTarea, 202, 'TAREA#202: VUELVE AL ESTADO ANTERIOR POR JEFE INMEDIATO',              40, 'S', '', $aud01, $aud03,
         
-                                60, 51, 53, 49, $codTarea, 300, 56, 40, 'S', '', $aud01, $aud03,
+                                60, 51, 53, 49, $codTarea, 300, 59, 40, 'S', '', $aud01, $aud03,
                                 60, 51, 52, 49, $codTarea, 301, 60, 40, 'S', '', $aud01, $aud03,
                                 60, 51,  5, 49, $codTarea, 302, 60, 40, 'S', '', $aud01, $aud03
                             ]);
