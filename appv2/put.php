@@ -700,6 +700,10 @@
                 case 1:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICMOT = ?, SOLFICPAS = ?, SOLFICHOS = ?, SOLFICTRA = ?, SOLFICSCC = ?, SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
+
+                case 2:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICOBS = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
             }
 
             try {
