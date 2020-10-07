@@ -694,7 +694,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02)) {
+        if (isset($val00) && isset($val00_1)) {
             $sql00  = "";
 
             switch ($val00_1) {
