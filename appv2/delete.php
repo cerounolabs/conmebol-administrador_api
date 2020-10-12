@@ -11,7 +11,7 @@
         $val06      = trim(strtolower($request->getParsedBody()['tipo_path']));
         $val07      = trim(strtolower($request->getParsedBody()['tipo_css']));
         $val08      = $request->getParsedBody()['tipo_parametro'];
-        $val09      = $request->getParsedBody()['tipo_icono'];
+        $val09      = trim(strtolower($request->getParsedBody()['tipo_icono']));
         $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_dominio'])));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_observacion'])));
 
