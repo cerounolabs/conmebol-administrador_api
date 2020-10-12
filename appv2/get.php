@@ -5190,7 +5190,7 @@
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val01, $val01, $val01]);
+                $stmtMSSQL00->execute([$val01, $val01, $val01, $val01, $val01, $val01, $val01, $val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
                     $detalle = array(                    
