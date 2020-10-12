@@ -138,20 +138,21 @@
         $val06      = trim(strtolower($request->getParsedBody()['tipo_path']));
         $val07      = trim(strtolower($request->getParsedBody()['tipo_css']));
         $val08      = $request->getParsedBody()['tipo_parametro'];
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_dominio'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_observacion'])));
+        $val09      = $request->getParsedBody()['tipo_icono'];
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_dominio'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val04) && isset($val09)) {    
-            $sql00  = "INSERT INTO [adm].[DOMFIC] (DOMFICEST, DOMFICORD, DOMFICNOI, DOMFICNOC, DOMFICNOP, DOMFICPAT, DOMFICCSS, DOMFICPAR, DOMFICVAL, DOMFICOBS, DOMFICUSU, DOMFICFEC, DOMFICDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val04) && isset($val10)) {    
+            $sql00  = "INSERT INTO [adm].[DOMFIC] (DOMFICEST, DOMFICORD, DOMFICNOI, DOMFICNOC, DOMFICNOP, DOMFICPAT, DOMFICCSS, DOMFICPAR, DOMFICICO, DOMFICVAL, DOMFICOBS, DOMFICUSU, DOMFICFEC, DOMFICDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
