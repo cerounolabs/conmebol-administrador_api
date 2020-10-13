@@ -5831,7 +5831,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/ejecutivo/{codigo}', function($request) {
+    $app->get('/v2/400/solicitud/proveedor/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
