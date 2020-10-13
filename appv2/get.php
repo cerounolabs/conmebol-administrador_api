@@ -6177,7 +6177,7 @@
             COUNT(*) AS solicitud_cantidad
 
             FROM [via].[SOLFIC] a
-            WHERE (a.SOLFICDNS = ? OR a.SOLFICDNJ = ? OR a.SOLFICDNE = ? OR a.SOLFICDNP = ?)
+            WHERE a.SOLFICDNS = ?
 
             UNION ALL
 
@@ -6187,12 +6187,12 @@
             COUNT(*) AS solicitud_cantidad
 
             FROM [via].[SOLFIC] a
-            WHERE (a.SOLFICDNS = ? OR a.SOLFICDNJ = ? OR a.SOLFICDNE = ? OR a.SOLFICDNP = ?)";
+            WHERE a.SOLFICDNS = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val01, $val01, $val01, $val01, $val01, $val01, $val01]);
+                $stmtMSSQL00->execute([$val01, $val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
                     $detalle = array(                    
