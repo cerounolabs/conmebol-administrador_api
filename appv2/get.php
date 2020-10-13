@@ -6165,7 +6165,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/char01/{codigo}', function($request) {
+    $app->get('/v2/400/solicitud/char01/documento/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
@@ -6188,6 +6188,75 @@
 
             FROM [via].[SOLFIC] a
             WHERE a.SOLFICDNS = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
+                    $detalle = array(                    
+                        'solicitud_codigo'                      => $rowMSSQL00['solicitud_codigo'],
+                        'solicitud_tipo'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tipo']))),
+                        'solicitud_cantidad'                    => $rowMSSQL00['solicitud_cantidad']
+                    );
+    
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'solicitud_codigo'                      => '',
+                        'solicitud_tipo'                        => '',
+                        'solicitud_cantidad'                    => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/char01/colaborador/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+            '1' AS solicitud_codigo,
+            'solicitud_total' AS solicitud_tipo,
+            COUNT(*) AS solicitud_cantidad
+
+            FROM [via].[SOLFIC] a
+            WHERE a.SOLFICDNJ = ?
+
+            UNION ALL
+
+            SELECT
+            '2' AS solicitud_codigo,
+            'solicitud_pendiente' AS solicitud_tipo,
+            COUNT(*) AS solicitud_cantidad
+
+            FROM [via].[SOLFIC] a
+            WHERE a.SOLFICDNJ = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
