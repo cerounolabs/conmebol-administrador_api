@@ -1483,6 +1483,54 @@
         
         return $json;
     });
+
+    $app->post('/v2/400/solicitud/comentario', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['solicitud_codigo'];        
+        $val02      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_comentario_persona'])));
+        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_comentario_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03)) {
+            $sql00  = "INSERT INTO [via].[SOLCOM] (SOLCOMSOC, SOLCOMPER, SOLCOMOBS, SOLCOMAUS, SOLCOMAFH, SOLCOMAIP) VALUES (?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(SOLCOMCOD) AS solicitud_comentario_codigo FROM [via].[SOLCOM]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['solicitud_comentario_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
