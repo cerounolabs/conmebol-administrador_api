@@ -6504,7 +6504,7 @@
                         'solicitud_detalle_observacion'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_observacion']))),
 
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
-                        'auditoria_fecha_hora'                                      => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                         'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
