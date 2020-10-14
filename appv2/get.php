@@ -6800,7 +6800,7 @@
                 FROM [via].[SOLCOM] a
                 INNER JOIN [via].[SOLFIC] b ON a.SOLCOMSOC = b.SOLFICCOD
 
-                WHERE a.SOLDETSOC = ?
+                WHERE a.SOLCOMSOC = ?
 
                 ORDER BY a.SOLCOMCOD ASC";
 
