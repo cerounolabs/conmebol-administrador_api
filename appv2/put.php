@@ -827,8 +827,8 @@
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['aerolinea_orden'];
-        $val03      = $request->getParsedBody()['aerolinea_nombre'];
-        $val04      = $request->getParsedBody()['aerolinea_observacion'];
+        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['aerolinea_nombre'])));
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['aerolinea_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
