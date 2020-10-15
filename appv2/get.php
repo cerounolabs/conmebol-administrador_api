@@ -6890,6 +6890,91 @@
         
         return $json;
     });
+
+    $app->get('/v2/400/aerolinea', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT
+            a.AERFICCOD         AS          aerolinea_codigo,
+            a.AERFICORD         AS          aerolinea_orden,
+            a.AERFICNOM         AS          aerolinea_nombre,
+            a.AERFICOBS         AS          aerolinea_observacion,
+
+            a.AERFICAUS         AS          auditoria_usuario,
+            a.AERFICAFH         AS          auditoria_fecha_hora,
+            a.AERFICAIP         AS          auditoria_ip,
+
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues
+            
+            FROM [via].[AERFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.AERFICEST = b.DOMFICCOD
+
+            ORDER BY a.AERFICORD, a.AERFICNOM";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+            
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle    = array(
+                    'aerolinea_codigo'       => $rowMSSQL00['aerolinea_codigo'],
+                    'aerolinea_orden'        => $rowMSSQL00['aerolinea_orden'],
+                    'aerolinea_nombre'       => trim(strtoupper(strtolower($rowMSSQL00['aerolinea_nombre']))),
+                    'aerolinea_observacion'  => trim(strtoupper(strtolower($rowMSSQL00['aerolinea_observacion']))),
+
+                    'auditoria_usuario'     => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                    'auditoria_fecha_hora'  => $rowMSSQL00['auditoria_fecha_hora'],
+                    'auditoria_ip'          => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+
+                    'tipo_estado_codigo'    => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_ingles'    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'=> trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues' => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'aerolinea_codigo'       => '',
+                    'aerolinea_orden'        => '',
+                    'aerolinea_nombre'       => '',
+                    'aerolinea_observacion'  => '',
+
+                    'auditoria_usuario'     => '',
+                    'auditoria_fecha_hora'  => '',
+                    'auditoria_ip'          => '',
+
+                    'tipo_estado_codigo'    => '',
+                    'tipo_estado_ingles'    => '',
+                    'tipo_estado_castellano'=> '',
+                    'tipo_estado_portugues' => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
