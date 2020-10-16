@@ -7842,7 +7842,7 @@
                 INNER JOIN via.SOLOPC c ON a.SOLOPVOPC = c.SOLOPCCOD
                 INNER JOIN via.SOLFIC d ON c.SOLOPCSOC = d.SOLFICCOD
 
-                WHERE a.SOLOPCSOC = ?
+                WHERE c.SOLOPCSOC = ?
                 
                 ORDER BY a.SOLOPVCOD";
 
