@@ -7862,7 +7862,7 @@
                         'solicitud_opcionvuelo_codigo'              => $rowMSSQL00['solicitud_opcionvuelo_codigo'],
                         'solicitud_opcionvuelo_vuelo'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcionvuelo_vuelo']))),
                         'solicitud_opcionvuelo_companhia'           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcionvuelo_companhia']))),
-                        'solicitud_opcionvuelo_fecha'               => date("d/m/Y", strtotime($rowMSSQL00['solicitud_opcionvuelo_fecha'])),
+                        'solicitud_opcionvuelo_fecha'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcionvuelo_fecha']))),
                         'solicitud_opcionvuelo_desde'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcionvuelo_desde']))),
                         'solicitud_opcionvuelo_hasta'               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcionvuelo_hasta']))),
                         'solicitud_opcionvuelo_salida_llegada'      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcionvuelo_salida_llegada']))),
