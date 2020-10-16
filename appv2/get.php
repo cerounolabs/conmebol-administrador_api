@@ -7068,6 +7068,14 @@
                 d.SOLFICTCA         AS          solicitud_tarea_cantidad,
                 d.SOLFICTRE         AS          solicitud_tarea_resuelta,
                 d.SOLFICOBS         AS          solicitud_observacion,
+                p1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                d.SOLFICDNS         AS          solicitud_solicitante_documento,
+                p2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                d.SOLFICDNJ         AS          solicitud_jefatura_documento,
+                p3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                d.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+                p4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                d.SOLFICDNP         AS          solicitud_proveedor_documento,
 
                 e.LOCAERCOD         AS          solicitud_detalle_salida_aeropuerto_codigo,
                 e.LOCAERORD         AS          solicitud_detalle_salida_aeropuerto_orden,
@@ -7164,6 +7172,11 @@
                 LEFT OUTER JOIN [adm].[LOCPAI] n ON j.LOCCIUPAC = n.LOCPAICOD
                 LEFT OUTER JOIN [adm].[DOMFIC] o ON a.SOLDETAHR = o.DOMFICCOD
 
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] p1 ON d.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = p1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] p2 ON d.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = p2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] p3 ON d.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = p3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] p4 ON d.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = p4.CedulaEmpleado
+
                 WHERE a.SOLDETSOC = ?
 
                 ORDER BY a.SOLDETTSC";
@@ -7248,6 +7261,14 @@
                         'solicitud_tarea_cantidad'                                  => $rowMSSQL00['solicitud_tarea_cantidad'],
                         'solicitud_tarea_resuelta'                                  => $rowMSSQL00['solicitud_tarea_resuelta'],
                         'solicitud_tarea_porcentaje'                                => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
+                        'solicitud_solicitante_nombre'                              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_nombre']))),
+                        'solicitud_solicitante_documento'                           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_documento']))),
+                        'solicitud_jefatura_nombre'                                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_nombre']))),
+                        'solicitud_jefatura_documento'                              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_documento']))),
+                        'solicitud_ejecutivo_nombre'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_nombre']))),
+                        'solicitud_ejecutivo_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
+                        'solicitud_proveedor_nombre'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
+                        'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
                         'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
 
                         'solicitud_detalle_salida_aeropuerto_codigo'                => $rowMSSQL00['solicitud_detalle_salida_aeropuerto_codigo'],
@@ -7384,6 +7405,14 @@
                         'solicitud_tarea_cantidad'                                  => '',
                         'solicitud_tarea_resuelta'                                  => '',
                         'solicitud_tarea_porcentaje'                                => '',
+                        'solicitud_solicitante_nombre'                              => '',
+                        'solicitud_solicitante_documento'                           => '',
+                        'solicitud_jefatura_nombre'                                 => '',
+                        'solicitud_jefatura_documento'                              => '',
+                        'solicitud_ejecutivo_nombre'                                => '',
+                        'solicitud_ejecutivo_documento'                             => '',
+                        'solicitud_proveedor_nombre'                                => '',
+                        'solicitud_proveedor_documento'                             => '',
                         'solicitud_observacion'                                     => '',
 
                         'solicitud_detalle_salida_aeropuerto_codigo'                => '',
