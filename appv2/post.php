@@ -1606,7 +1606,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02)) {
-            $sql00  = "INSERT INTO [via].[SOLOPV] (SOLOPVEST, SOLOPVOPC, SOLOPVVUE, SOLOPVCOM, SOLOPVFEC, SOLOPVDES, SOLOPVHAS, SOLOPVSYL, SOLOPVOBS, SOLOPVAUS, SOLOPVAFH, SOLOPVAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLOPV] (SOLOPVEST, SOLOPVOPC, SOLOPVVUE, SOLOPVCOM, SOLOPVFEC, SOLOPVDES, SOLOPVHAS, SOLOPVSYL, SOLOPVOBS, SOLOPVAUS, SOLOPVAFH, SOLOPVAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLOPVCOD) AS solicitud_opcionvuelo_codigo FROM [via].[SOLOPV]";
 
             try {
