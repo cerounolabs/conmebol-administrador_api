@@ -1532,6 +1532,116 @@
         return $json;
     });
 
+    $app->post('/v2/400/solicitud/opcioncabecera', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
+        $val03      = $request->getParsedBody()['solicitud_codigo'];
+        $val04      = $request->getParsedBody()['proveedor_codigo'];        
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_nombre'])));
+        $val06      = $request->getParsedBody()['solicitud_opcioncabecera_tarifa'];
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_solicitante'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_jefatura'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_ejecutivo'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_proveedor'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03)) {
+            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCSOC, SOLOPCPRC, SOLOPCOPC, SOLOPCTAR, SOLOPCVSO, SOLOPCVJE, SOLOPCVEJ, SOLOPCVPR, SOLOPCOBS, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(SOLOPCCOD) AS solicitud_opcioncabecera_codigo FROM [via].[SOLOPC]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['solicitud_opcioncabecera_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v2/400/solicitud/opcionvuelo', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['solicitud_opcioncabecera_codigo'];
+        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_vuelo'])));
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_companhia'])));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_fecha'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_desde'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_hasta'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_salida_llegada'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02)) {
+            $sql00  = "INSERT INTO [via].[SOLOPV] (SOLOPVEST, SOLOPVOPC, SOLOPVVUE, SOLOPVCOM, SOLOPVFEC, SOLOPVDES, SOLOPVHAS, SOLOPVSYL, SOLOPVOBS, SOLOPVAUS, SOLOPVAFH, SOLOPVAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(SOLOPVCOD) AS solicitud_opcionvuelo_codigo FROM [via].[SOLOPV]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['solicitud_opcionvuelo_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->post('/v2/400/aerolinea', function($request) {
         require __DIR__.'/../src/connect.php';
 
