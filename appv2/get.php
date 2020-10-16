@@ -7662,7 +7662,7 @@
                 INNER JOIN via.SOLFIC      d ON a.SOLOPCSOC = d.SOLFICCOD
                 LEFT OUTER JOIN via.PROFIC e ON a.SOLOPCPRC = e.PROFICCOD
 
-                WHERE a.SOLOPCCOD = ?
+                WHERE a.SOLOPCSOC = ?
 
                 ORDER BY a.SOLOPCCOD";
 
@@ -7791,7 +7791,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/opcionvuelo/{codigo}', function($request) {//REEPLAZAR
+    $app->get('/v2/400/solicitud/opcionvuelo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
