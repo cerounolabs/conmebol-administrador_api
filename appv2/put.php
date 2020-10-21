@@ -750,7 +750,7 @@
                         break;
 
                     case 6:
-                        $stmtMSSQL00->execute([$val07, $val02, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val07, $aud01, $aud03, $val00]);
                         break;
                 }
 
