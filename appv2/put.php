@@ -718,6 +718,10 @@
                 case 5:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEAC = ?, SOLFICECC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
+
+                case 6:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEVC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
             }
 
             try {
@@ -743,6 +747,10 @@
 
                     case 5:
                         $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 6:
+                        $stmtMSSQL00->execute([$val07, $val02, $aud01, $aud03, $val00]);
                         break;
                 }
 
@@ -846,25 +854,29 @@
         $val03      = $request->getParsedBody()['solicitud_codigo'];
         $val04      = $request->getParsedBody()['proveedor_codigo'];        
         $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_nombre'])));
-        $val06      = $request->getParsedBody()['solicitud_opcioncabecera_tarifa'];
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_solicitante'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_jefatura'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_ejecutivo'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_ver_proveedor'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_observacion'])));
+        $val06      = $request->getParsedBody()['solicitud_opcioncabecera_tarifa_importe'];
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_solicitante'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_jefatura'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_ejecutivo'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_proveedor'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_reserva'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_1'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_2'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_3'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_4'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTAR = ?, SOLOPCVSO = ?, SOLOPCVJE = ?, SOLOPCVEJ = ?, SOLOPCVPR = ?, SOLOPCOBS = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+            $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTIM = ?, SOLOPCTVS = ?, SOLOPCTVJ = ?, SOLOPCTVE = ?, SOLOPCTVP = ?, SOLOPCRES = ?, SOLOPCCO1 = ?, SOLOPCCO2 = ?, SOLOPCCO3 = ?, SOLOPCCO4 = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -892,26 +904,28 @@
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_opcioncabecera_codigo'];
-        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_vuelo'])));
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_companhia'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_fecha'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_desde'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_hasta'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_salida_llegada'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_observacion'])));
+        $val03      = $request->getParsedBody()['aerolinea_codigo'];
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_vuelo'])));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_companhia'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_fecha'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_desde'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_hasta'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_salida'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_llegada'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02)) {
-            $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = ?, SOLOPVVUE = ?, SOLOPVCOM = ?, SOLOPVFEC = ?, SOLOPVDES = ?, SOLOPVHAS = ?, SOLOPVSYL = ?, SOLOPVOBS = ?, SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
+            $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = ?, SOLOPVAEC = ?, SOLOPVVUE = ?, SOLOPVCOM = ?, SOLOPVFEC = ?, SOLOPVDES = ?, SOLOPVHAS = ?, SOLOPVSAL = ?, SOLOPVLLE = ?, SOLOPVOBS = ?, SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
