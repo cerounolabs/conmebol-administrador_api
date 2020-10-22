@@ -888,6 +888,11 @@
                 case 2:
                     $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
                     break;
+
+                case 3:
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCSOC = ?";
+                    $sql01  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    break;
             }
             
             
@@ -902,6 +907,17 @@
                     
                     case 2:
                         $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 3:
+                        $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                        $stmtMSSQL00->execute([4, $aud01, $aud03, $val03]);
+                        $stmtMSSQL01->execute([$val01, $aud01, $aud03, $val00]);
+
+                        $stmtMSSQL01->closeCursor();
+                        $stmtMSSQL01 = null;
+
                         break;
                 }
                 
