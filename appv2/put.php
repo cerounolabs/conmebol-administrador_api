@@ -858,6 +858,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];
@@ -878,15 +879,32 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTIM = ?, SOLOPCTVS = ?, SOLOPCTVJ = ?, SOLOPCTVE = ?, SOLOPCTVP = ?, SOLOPCRES = ?, SOLOPCCO1 = ?, SOLOPCCO2 = ?, SOLOPCCO3 = ?, SOLOPCCO4 = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+        if (isset($val00) && isset($val00_1)) {
+            switch ($val00_1) {
+                case 1:
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTIM = ?, SOLOPCTVS = ?, SOLOPCTVJ = ?, SOLOPCTVE = ?, SOLOPCTVP = ?, SOLOPCRES = ?, SOLOPCCO1 = ?, SOLOPCCO2 = ?, SOLOPCCO3 = ?, SOLOPCCO4 = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    break;
+                
+                case 2:
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    break;
+            }
+            
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $aud01, $aud03, $val00]);
-
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $aud01, $aud03, $val00]);
+                        break;
+                    
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                        break;
+                }
+                
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
 
@@ -911,6 +929,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_opcioncabecera_codigo'];
         $val03      = $request->getParsedBody()['aerolinea_codigo'];
@@ -927,14 +946,31 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02)) {
-            $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = ?, SOLOPVAEC = ?, SOLOPVVUE = ?, SOLOPVCOM = ?, SOLOPVFEC = ?, SOLOPVDES = ?, SOLOPVHAS = ?, SOLOPVSAL = ?, SOLOPVLLE = ?, SOLOPVOBS = ?, SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
+        if (isset($val00) && isset($val00_1)) {
+            switch ($val00_1) {
+                case 1:
+                    $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = ?, SOLOPVAEC = ?, SOLOPVVUE = ?, SOLOPVCOM = ?, SOLOPVFEC = ?, SOLOPVDES = ?, SOLOPVHAS = ?, SOLOPVSAL = ?, SOLOPVLLE = ?, SOLOPVOBS = ?, SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
+                    break;
+                
+                case 2:
+                    $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = ?, SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
+                    break;
+            }
+            
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03, $val00]);
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03, $val00]);
+                        break;
+                    
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                        break;
+                }
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
