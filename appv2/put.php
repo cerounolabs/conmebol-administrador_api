@@ -886,7 +886,7 @@
                     break;
                 
                 case 2:
-                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
                     break;
             }
             
@@ -953,7 +953,7 @@
                     break;
                 
                 case 2:
-                    $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = ?, SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
+                    $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPVAUS = ?, SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
                     break;
             }
             
