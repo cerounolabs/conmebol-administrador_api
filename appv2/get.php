@@ -4268,7 +4268,7 @@
             LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
             LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
             LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICECC = j.WRKDETEAC
-            LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -4598,7 +4598,7 @@
                 LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
                 LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-                LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -4932,7 +4932,7 @@
                 LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
                 LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-                LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -5266,7 +5266,7 @@
                 LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
                 LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-                LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -5600,7 +5600,7 @@
                 LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
                 LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-                LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -5990,7 +5990,7 @@
             LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
             LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
             LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-            LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -6317,7 +6317,7 @@
             LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
             LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
             LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-            LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
@@ -6647,7 +6647,7 @@
                 LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
                 LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
                 LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
-                LEFT OUTER JOIN [adm].[DOMFIC] k ON j.WRKDETTPC = k.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
