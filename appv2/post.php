@@ -1344,40 +1344,41 @@
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
-        $val03      = $request->getParsedBody()['tipo_gerencia_codigo'];
-        $val04      = $request->getParsedBody()['tipo_departamento_codigo'];
-        $val05      = $request->getParsedBody()['tipo_jefatura_codigo'];
-        $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val07      = $request->getParsedBody()['evento_codigo'];
-        $val08      = $request->getParsedBody()['workflow_codigo'];
-        $val09      = $request->getParsedBody()['solicitud_periodo'];
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
-        $val18      = $request->getParsedBody()['solicitud_fecha_carga'];
-        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
-        $val20      = $request->getParsedBody()['solicitud_tarea_cantidad'];
-        $val21      = $request->getParsedBody()['solicitud_tarea_resuelta'];
-        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val03      = $request->getParsedBody()['tipo_prioridad_codigo'];
+        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val08      = $request->getParsedBody()['evento_codigo'];
+        $val09      = $request->getParsedBody()['workflow_codigo'];
+        $val10      = $request->getParsedBody()['solicitud_periodo'];
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val19      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val21      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val22      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {
-            $sql00  = "INSERT INTO [via].[SOLFIC] (SOLFICEAC, SOLFICECC, SOLFICGEC, SOLFICDEC, SOLFICJEC, SOLFICCAC, SOLFICEVC, SOLFICWFC, SOLFICPER, SOLFICMOT, SOLFICPAS, SOLFICHOS, SOLFICTRA, SOLFICDNS, SOLFICDNJ, SOLFICFEC, SOLFICSCC, SOLFICTCA, SOLFICTRE, SOLFICOBS, SOLFICAUS, SOLFICAFH, SOLFICAIP) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
+            $sql00  = "INSERT INTO [via].[SOLFIC] (SOLFICEAC, SOLFICECC, SOLFICTPC, SOLFICGEC, SOLFICDEC, SOLFICJEC, SOLFICCAC, SOLFICEVC, SOLFICWFC, SOLFICPER, SOLFICMOT, SOLFICPAS, SOLFICHOS, SOLFICTRA, SOLFICDNS, SOLFICDNJ, SOLFICFEC, SOLFICSCC, SOLFICTCA, SOLFICTRE, SOLFICOBS, SOLFICAUS, SOLFICAFH, SOLFICAIP) VALUES (?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDPRIORIDAD' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [via].[SOLFIC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val06, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val18, $val19, $val20, $val21, $val22, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val07, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val18, $val19, $val20, $val21, $val22, $val23, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
