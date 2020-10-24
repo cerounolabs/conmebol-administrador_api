@@ -895,7 +895,6 @@
                     break;
             }
             
-            
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
