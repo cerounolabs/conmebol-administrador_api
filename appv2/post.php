@@ -1551,20 +1551,21 @@
         $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_2'])));
         $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_3'])));
         $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_4'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_directorio'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCSOC, SOLOPCPRC, SOLOPCOPC, SOLOPCTIM, SOLOPCTVS, SOLOPCTVJ, SOLOPCTVE, SOLOPCTVP, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCSOC, SOLOPCPRC, SOLOPCOPC, SOLOPCTIM, SOLOPCTVS, SOLOPCTVJ, SOLOPCTVE, SOLOPCTVP, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCPAT, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLOPCCOD) AS solicitud_opcioncabecera_codigo FROM [via].[SOLOPC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
@@ -1626,6 +1627,115 @@
                 $stmtMSSQL01->execute();
                 $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
                 $codigo     = $row_mssql01['solicitud_opcionvuelo_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v2/400/solicitud/opcionhospedaje', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_habitacion_codigo'];
+        $val03      = $request->getParsedBody()['solicitud_opcioncabecera_codigo'];
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionhospedaje_hospedaje'])));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionhospedaje_direccion'])));
+        $val06      = $request->getParsedBody()['solicitud_opcionhospedaje_fecha_desde'];
+        $val07      = $request->getParsedBody()['solicitud_opcionhospedaje_fecha_hasta'];
+        $val08      = $request->getParsedBody()['solicitud_opcionhospedaje_cantidad'];
+        $val09      = $request->getParsedBody()['solicitud_opcionhospedaje_tarifa_noche'];
+        $val10      = $request->getParsedBody()['solicitud_opcionhospedaje_tarifa_consumo'];
+        $val11      = $request->getParsedBody()['solicitud_opcionhospedaje_tarifa_lavanderia'];
+        $val12      = $request->getParsedBody()['solicitud_opcionhospedaje_tarifa_adicional'];
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionhospedaje_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03)) {
+            $sql00  = "INSERT INTO [via].[SOLOPH] (SOLOPHEST, SOLOPHTHC, SOLOPHOPC, SOLOPHHOS, SOLOPHDIR, SOLOPHFIN, SOLOPHFOU, SOLOPHCAN, SOLOPHTNO, SOLOPHTCO, SOLOPHTLA, SOLOPHTAD, SOLOPHOBS, SOLOPHAUS, SOLOPHAFH, SOLOPHAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'HOSPEDAJEHABITACION' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(SOLOPHCOD) AS solicitud_opcionhospedaje_codigo FROM [via].[SOLOPH]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['solicitud_opcionhospedaje_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v2/400/solicitud/opciontraslado', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
+        $val03      = $request->getParsedBody()['solicitud_opcioncabecera_codigo'];
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opciontraslado_traslado'])));
+        $val05      = $request->getParsedBody()['solicitud_opciontraslado_tarifa_dia'];
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opciontraslado_observacion'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03)) {
+            $sql00  = "INSERT INTO [via].[SOLOPT] (SOLOPTEST, SOLOPTTVC, SOLOPTOPC, SOLOPTTRA, SOLOPTTAR, SOLOPTOBS, SOLOPTAUS, SOLOPTAFH, SOLOPTAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOVEHICULOTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(SOLOPTCOD) AS solicitud_opciontraslado_codigo FROM [via].[SOLOPT]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['solicitud_opciontraslado_codigo'];
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
