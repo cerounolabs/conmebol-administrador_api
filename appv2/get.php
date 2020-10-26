@@ -4178,6 +4178,9 @@
             a.SOLFICPAS         AS          solicitud_pasaje,
             a.SOLFICHOS         AS          solicitud_hospedaje,
             a.SOLFICTRA         AS          solicitud_traslado,
+            a.SOLFICTAR         AS          solicitud_tarifa,
+            a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+            a.SOLFICPTR         AS          solicitud_proveedor_traslado,
             a.SOLFICFEC         AS          solicitud_fecha_carga,
             a.SOLFICSCC         AS          solicitud_sap_centro_costo,
             a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -4256,7 +4259,15 @@
             l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
             a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
             l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-            a.SOLFICDNP         AS          solicitud_proveedor_documento
+            a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+            m.DOMFICCOD         AS          tipo_dificultad_codigo,
+            m.DOMFICNOI         AS          tipo_dificultad_ingles,
+            m.DOMFICNOC         AS          tipo_dificultad_castellano,
+            m.DOMFICNOP         AS          tipo_dificultad_portugues,
+            m.DOMFICPAR         AS          tipo_dificultad_parametro,
+            m.DOMFICICO         AS          tipo_dificultad_icono,
+            m.DOMFICCSS         AS          tipo_dificultad_css
 
             FROM [via].[SOLFIC] a
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -4267,12 +4278,13 @@
             LEFT OUTER JOIN [wrk].[WRKFIC] g ON a.SOLFICWFC = g.WRKFICCOD
             LEFT OUTER JOIN [adm].[DOMFIC] h ON a.SOLFICEAC = h.DOMFICCOD
             LEFT OUTER JOIN [adm].[DOMFIC] i ON a.SOLFICECC = i.DOMFICCOD
-            LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICECC = j.WRKDETEAC
+            LEFT OUTER JOIN [wrk].[WRKDET] j ON a.SOLFICWFC = j.WRKDETWFC AND a.SOLFICEAC = j.WRKDETEAC AND a.SOLFICECC = j.WRKDETECC
             INNER JOIN [adm].[DOMFIC] k ON a.SOLFICTPC = k.DOMFICCOD
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = l1.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+            INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
             WHERE j.WRKDETCOD = (SELECT MIN(j1.WRKDETCOD) FROM [wrk].[WRKDET] j1 WHERE j1.WRKDETWFC = a.SOLFICWFC AND j1.WRKDETEAC = a.SOLFICECC)
             
@@ -4297,6 +4309,9 @@
                     'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                     'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                     'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                    'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                    'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                    'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                     'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                     'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                     'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -4378,7 +4393,15 @@
                     'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                     'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                     'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+
+                    'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                    'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                    'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                    'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                    'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                    'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                    'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                 );
 
                 $result[]   = $detalle;
@@ -4395,6 +4418,9 @@
                     'solicitud_pasaje'                      => '',
                     'solicitud_hospedaje'                   => '',
                     'solicitud_traslado'                    => '',
+                    'solicitud_tarifa'                      => '',
+                    'solicitud_proveedor_hospedaje'         => '',
+                    'solicitud_proveedor_traslado'          => '',
                     'solicitud_fecha_carga_1'               => '',
                     'solicitud_fecha_carga_2'               => '',
                     'solicitud_sap_centro_costo'            => '',
@@ -4476,7 +4502,15 @@
                     'tipo_prioridad_portugues'              => '',
                     'tipo_prioridad_parametro'              => '',
                     'tipo_prioridad_icono'                  => '',
-                    'tipo_prioridad_css'                    => ''
+                    'tipo_prioridad_css'                    => '',
+
+                    'tipo_dificultad_codigo'                => '',
+                    'tipo_dificultad_ingles'                => '',
+                    'tipo_dificultad_castellano'            => '',
+                    'tipo_dificultad_portugues'             => '',
+                    'tipo_dificultad_parametro'             => '',
+                    'tipo_dificultad_icono'                 => '',
+                    'tipo_dificultad_css'                   => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -4508,6 +4542,9 @@
                 a.SOLFICPAS         AS          solicitud_pasaje,
                 a.SOLFICHOS         AS          solicitud_hospedaje,
                 a.SOLFICTRA         AS          solicitud_traslado,
+                a.SOLFICTAR         AS          solicitud_tarifa,
+                a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+                a.SOLFICPTR         AS          solicitud_proveedor_traslado,
                 a.SOLFICFEC         AS          solicitud_fecha_carga,
                 a.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -4586,7 +4623,15 @@
                 l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
                 a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
                 l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                a.SOLFICDNP         AS          solicitud_proveedor_documento
+                a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+                m.DOMFICCOD         AS          tipo_dificultad_codigo,
+                m.DOMFICNOI         AS          tipo_dificultad_ingles,
+                m.DOMFICNOC         AS          tipo_dificultad_castellano,
+                m.DOMFICNOP         AS          tipo_dificultad_portugues,
+                m.DOMFICPAR         AS          tipo_dificultad_parametro,
+                m.DOMFICICO         AS          tipo_dificultad_icono,
+                m.DOMFICCSS         AS          tipo_dificultad_css
 
                 FROM [via].[SOLFIC] a
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -4603,6 +4648,7 @@
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+                INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
                 WHERE a.SOLFICCOD = ?
                 
@@ -4627,6 +4673,9 @@
                         'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                         'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                         'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                        'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                        'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                        'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                         'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                         'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -4708,7 +4757,15 @@
                         'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                         'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                         'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+    
+                        'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                        'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                        'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                        'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                        'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                        'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                        'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                     );
     
                     $result[]   = $detalle;
@@ -4725,6 +4782,9 @@
                         'solicitud_pasaje'                      => '',
                         'solicitud_hospedaje'                   => '',
                         'solicitud_traslado'                    => '',
+                        'solicitud_tarifa'                      => '',
+                        'solicitud_proveedor_hospedaje'         => '',
+                        'solicitud_proveedor_traslado'          => '',
                         'solicitud_fecha_carga_1'               => '',
                         'solicitud_fecha_carga_2'               => '',
                         'solicitud_sap_centro_costo'            => '',
@@ -4806,7 +4866,15 @@
                         'tipo_prioridad_portugues'              => '',
                         'tipo_prioridad_parametro'              => '',
                         'tipo_prioridad_icono'                  => '',
-                        'tipo_prioridad_css'                    => ''
+                        'tipo_prioridad_css'                    => '',
+    
+                        'tipo_dificultad_codigo'                => '',
+                        'tipo_dificultad_ingles'                => '',
+                        'tipo_dificultad_castellano'            => '',
+                        'tipo_dificultad_portugues'             => '',
+                        'tipo_dificultad_parametro'             => '',
+                        'tipo_dificultad_icono'                 => '',
+                        'tipo_dificultad_css'                   => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -4842,6 +4910,9 @@
                 a.SOLFICPAS         AS          solicitud_pasaje,
                 a.SOLFICHOS         AS          solicitud_hospedaje,
                 a.SOLFICTRA         AS          solicitud_traslado,
+                a.SOLFICTAR         AS          solicitud_tarifa,
+                a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+                a.SOLFICPTR         AS          solicitud_proveedor_traslado,
                 a.SOLFICFEC         AS          solicitud_fecha_carga,
                 a.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -4920,7 +4991,15 @@
                 l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
                 a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
                 l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                a.SOLFICDNP         AS          solicitud_proveedor_documento
+                a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+                m.DOMFICCOD         AS          tipo_dificultad_codigo,
+                m.DOMFICNOI         AS          tipo_dificultad_ingles,
+                m.DOMFICNOC         AS          tipo_dificultad_castellano,
+                m.DOMFICNOP         AS          tipo_dificultad_portugues,
+                m.DOMFICPAR         AS          tipo_dificultad_parametro,
+                m.DOMFICICO         AS          tipo_dificultad_icono,
+                m.DOMFICCSS         AS          tipo_dificultad_css
 
                 FROM [via].[SOLFIC] a
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -4937,6 +5016,7 @@
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+                INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
                 WHERE a.SOLFICDNS = ?
 
@@ -4961,6 +5041,9 @@
                         'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                         'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                         'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                        'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                        'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                        'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                         'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                         'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -5042,7 +5125,15 @@
                         'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                         'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                         'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+    
+                        'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                        'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                        'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                        'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                        'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                        'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                        'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                     );
     
                     $result[]   = $detalle;
@@ -5059,6 +5150,9 @@
                         'solicitud_pasaje'                      => '',
                         'solicitud_hospedaje'                   => '',
                         'solicitud_traslado'                    => '',
+                        'solicitud_tarifa'                      => '',
+                        'solicitud_proveedor_hospedaje'         => '',
+                        'solicitud_proveedor_traslado'          => '',
                         'solicitud_fecha_carga_1'               => '',
                         'solicitud_fecha_carga_2'               => '',
                         'solicitud_sap_centro_costo'            => '',
@@ -5140,7 +5234,15 @@
                         'tipo_prioridad_portugues'              => '',
                         'tipo_prioridad_parametro'              => '',
                         'tipo_prioridad_icono'                  => '',
-                        'tipo_prioridad_css'                    => ''
+                        'tipo_prioridad_css'                    => '',
+    
+                        'tipo_dificultad_codigo'                => '',
+                        'tipo_dificultad_ingles'                => '',
+                        'tipo_dificultad_castellano'            => '',
+                        'tipo_dificultad_portugues'             => '',
+                        'tipo_dificultad_parametro'             => '',
+                        'tipo_dificultad_icono'                 => '',
+                        'tipo_dificultad_css'                   => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -5176,6 +5278,9 @@
                 a.SOLFICPAS         AS          solicitud_pasaje,
                 a.SOLFICHOS         AS          solicitud_hospedaje,
                 a.SOLFICTRA         AS          solicitud_traslado,
+                a.SOLFICTAR         AS          solicitud_tarifa,
+                a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+                a.SOLFICPTR         AS          solicitud_proveedor_traslado,
                 a.SOLFICFEC         AS          solicitud_fecha_carga,
                 a.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -5254,7 +5359,15 @@
                 l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
                 a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
                 l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                a.SOLFICDNP         AS          solicitud_proveedor_documento
+                a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+                m.DOMFICCOD         AS          tipo_dificultad_codigo,
+                m.DOMFICNOI         AS          tipo_dificultad_ingles,
+                m.DOMFICNOC         AS          tipo_dificultad_castellano,
+                m.DOMFICNOP         AS          tipo_dificultad_portugues,
+                m.DOMFICPAR         AS          tipo_dificultad_parametro,
+                m.DOMFICICO         AS          tipo_dificultad_icono,
+                m.DOMFICCSS         AS          tipo_dificultad_css
 
                 FROM [via].[SOLFIC] a
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -5271,6 +5384,7 @@
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+                INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
                 WHERE a.SOLFICDNJ = ?
 
@@ -5295,6 +5409,9 @@
                         'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                         'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                         'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                        'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                        'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                        'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                         'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                         'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -5376,7 +5493,15 @@
                         'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                         'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                         'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+    
+                        'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                        'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                        'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                        'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                        'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                        'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                        'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                     );
     
                     $result[]   = $detalle;
@@ -5393,6 +5518,9 @@
                         'solicitud_pasaje'                      => '',
                         'solicitud_hospedaje'                   => '',
                         'solicitud_traslado'                    => '',
+                        'solicitud_tarifa'                      => '',
+                        'solicitud_proveedor_hospedaje'         => '',
+                        'solicitud_proveedor_traslado'          => '',
                         'solicitud_fecha_carga_1'               => '',
                         'solicitud_fecha_carga_2'               => '',
                         'solicitud_sap_centro_costo'            => '',
@@ -5474,7 +5602,15 @@
                         'tipo_prioridad_portugues'              => '',
                         'tipo_prioridad_parametro'              => '',
                         'tipo_prioridad_icono'                  => '',
-                        'tipo_prioridad_css'                    => ''
+                        'tipo_prioridad_css'                    => '',
+    
+                        'tipo_dificultad_codigo'                => '',
+                        'tipo_dificultad_ingles'                => '',
+                        'tipo_dificultad_castellano'            => '',
+                        'tipo_dificultad_portugues'             => '',
+                        'tipo_dificultad_parametro'             => '',
+                        'tipo_dificultad_icono'                 => '',
+                        'tipo_dificultad_css'                   => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -5510,6 +5646,9 @@
                 a.SOLFICPAS         AS          solicitud_pasaje,
                 a.SOLFICHOS         AS          solicitud_hospedaje,
                 a.SOLFICTRA         AS          solicitud_traslado,
+                a.SOLFICTAR         AS          solicitud_tarifa,
+                a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+                a.SOLFICPTR         AS          solicitud_proveedor_traslado,
                 a.SOLFICFEC         AS          solicitud_fecha_carga,
                 a.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -5588,7 +5727,15 @@
                 l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
                 a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
                 l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                a.SOLFICDNP         AS          solicitud_proveedor_documento
+                a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+                m.DOMFICCOD         AS          tipo_dificultad_codigo,
+                m.DOMFICNOI         AS          tipo_dificultad_ingles,
+                m.DOMFICNOC         AS          tipo_dificultad_castellano,
+                m.DOMFICNOP         AS          tipo_dificultad_portugues,
+                m.DOMFICPAR         AS          tipo_dificultad_parametro,
+                m.DOMFICICO         AS          tipo_dificultad_icono,
+                m.DOMFICCSS         AS          tipo_dificultad_css
 
                 FROM [via].[SOLFIC] a
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -5605,6 +5752,7 @@
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+                INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
                 WHERE a.SOLFICDNE = ?
 
@@ -5629,6 +5777,9 @@
                         'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                         'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                         'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                        'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                        'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                        'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                         'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                         'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -5710,7 +5861,15 @@
                         'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                         'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                         'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+    
+                        'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                        'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                        'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                        'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                        'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                        'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                        'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                     );
     
                     $result[]   = $detalle;
@@ -5727,6 +5886,9 @@
                         'solicitud_pasaje'                      => '',
                         'solicitud_hospedaje'                   => '',
                         'solicitud_traslado'                    => '',
+                        'solicitud_tarifa'                      => '',
+                        'solicitud_proveedor_hospedaje'         => '',
+                        'solicitud_proveedor_traslado'          => '',
                         'solicitud_fecha_carga_1'               => '',
                         'solicitud_fecha_carga_2'               => '',
                         'solicitud_sap_centro_costo'            => '',
@@ -5808,7 +5970,15 @@
                         'tipo_prioridad_portugues'              => '',
                         'tipo_prioridad_parametro'              => '',
                         'tipo_prioridad_icono'                  => '',
-                        'tipo_prioridad_css'                    => ''
+                        'tipo_prioridad_css'                    => '',
+    
+                        'tipo_dificultad_codigo'                => '',
+                        'tipo_dificultad_ingles'                => '',
+                        'tipo_dificultad_castellano'            => '',
+                        'tipo_dificultad_portugues'             => '',
+                        'tipo_dificultad_parametro'             => '',
+                        'tipo_dificultad_icono'                 => '',
+                        'tipo_dificultad_css'                   => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -5900,6 +6070,9 @@
             a.SOLFICPAS         AS          solicitud_pasaje,
             a.SOLFICHOS         AS          solicitud_hospedaje,
             a.SOLFICTRA         AS          solicitud_traslado,
+            a.SOLFICTAR         AS          solicitud_tarifa,
+            a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+            a.SOLFICPTR         AS          solicitud_proveedor_traslado,
             a.SOLFICFEC         AS          solicitud_fecha_carga,
             a.SOLFICSCC         AS          solicitud_sap_centro_costo,
             a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -5978,7 +6151,15 @@
             l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
             a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
             l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-            a.SOLFICDNP         AS          solicitud_proveedor_documento
+            a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+            m.DOMFICCOD         AS          tipo_dificultad_codigo,
+            m.DOMFICNOI         AS          tipo_dificultad_ingles,
+            m.DOMFICNOC         AS          tipo_dificultad_castellano,
+            m.DOMFICNOP         AS          tipo_dificultad_portugues,
+            m.DOMFICPAR         AS          tipo_dificultad_parametro,
+            m.DOMFICICO         AS          tipo_dificultad_icono,
+            m.DOMFICCSS         AS          tipo_dificultad_css
 
             FROM [via].[SOLFIC] a
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -5995,6 +6176,7 @@
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+            INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
             WHERE a.SOLFICDNE IS NULL
 
@@ -6019,6 +6201,9 @@
                     'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                     'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                     'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                    'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                    'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                    'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                     'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                     'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                     'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -6100,7 +6285,15 @@
                     'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                     'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                     'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+
+                    'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                    'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                    'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                    'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                    'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                    'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                    'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                 );
 
                 $result[]   = $detalle;
@@ -6117,6 +6310,9 @@
                     'solicitud_pasaje'                      => '',
                     'solicitud_hospedaje'                   => '',
                     'solicitud_traslado'                    => '',
+                    'solicitud_tarifa'                      => '',
+                    'solicitud_proveedor_hospedaje'         => '',
+                    'solicitud_proveedor_traslado'          => '',
                     'solicitud_fecha_carga_1'               => '',
                     'solicitud_fecha_carga_2'               => '',
                     'solicitud_sap_centro_costo'            => '',
@@ -6198,7 +6394,15 @@
                     'tipo_prioridad_portugues'              => '',
                     'tipo_prioridad_parametro'              => '',
                     'tipo_prioridad_icono'                  => '',
-                    'tipo_prioridad_css'                    => ''
+                    'tipo_prioridad_css'                    => '',
+
+                    'tipo_dificultad_codigo'                => '',
+                    'tipo_dificultad_ingles'                => '',
+                    'tipo_dificultad_castellano'            => '',
+                    'tipo_dificultad_portugues'             => '',
+                    'tipo_dificultad_parametro'             => '',
+                    'tipo_dificultad_icono'                 => '',
+                    'tipo_dificultad_css'                   => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -6227,6 +6431,9 @@
             a.SOLFICPAS         AS          solicitud_pasaje,
             a.SOLFICHOS         AS          solicitud_hospedaje,
             a.SOLFICTRA         AS          solicitud_traslado,
+            a.SOLFICTAR         AS          solicitud_tarifa,
+            a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+            a.SOLFICPTR         AS          solicitud_proveedor_traslado,
             a.SOLFICFEC         AS          solicitud_fecha_carga,
             a.SOLFICSCC         AS          solicitud_sap_centro_costo,
             a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -6305,7 +6512,15 @@
             l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
             a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
             l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-            a.SOLFICDNP         AS          solicitud_proveedor_documento
+            a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+            m.DOMFICCOD         AS          tipo_dificultad_codigo,
+            m.DOMFICNOI         AS          tipo_dificultad_ingles,
+            m.DOMFICNOC         AS          tipo_dificultad_castellano,
+            m.DOMFICNOP         AS          tipo_dificultad_portugues,
+            m.DOMFICPAR         AS          tipo_dificultad_parametro,
+            m.DOMFICICO         AS          tipo_dificultad_icono,
+            m.DOMFICCSS         AS          tipo_dificultad_css
 
             FROM [via].[SOLFIC] a
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -6322,6 +6537,7 @@
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+            INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
             WHERE a.SOLFICDNE IS NULL
 
@@ -6346,6 +6562,9 @@
                     'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                     'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                     'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                    'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                    'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                    'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                     'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                     'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                     'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -6427,7 +6646,15 @@
                     'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                     'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                     'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                    'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+
+                    'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                    'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                    'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                    'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                    'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                    'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                    'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                 );
 
                 $result[]   = $detalle;
@@ -6444,6 +6671,9 @@
                     'solicitud_pasaje'                      => '',
                     'solicitud_hospedaje'                   => '',
                     'solicitud_traslado'                    => '',
+                    'solicitud_tarifa'                      => '',
+                    'solicitud_proveedor_hospedaje'         => '',
+                    'solicitud_proveedor_traslado'          => '',
                     'solicitud_fecha_carga_1'               => '',
                     'solicitud_fecha_carga_2'               => '',
                     'solicitud_sap_centro_costo'            => '',
@@ -6525,7 +6755,15 @@
                     'tipo_prioridad_portugues'              => '',
                     'tipo_prioridad_parametro'              => '',
                     'tipo_prioridad_icono'                  => '',
-                    'tipo_prioridad_css'                    => ''
+                    'tipo_prioridad_css'                    => '',
+
+                    'tipo_dificultad_codigo'                => '',
+                    'tipo_dificultad_ingles'                => '',
+                    'tipo_dificultad_castellano'            => '',
+                    'tipo_dificultad_portugues'             => '',
+                    'tipo_dificultad_parametro'             => '',
+                    'tipo_dificultad_icono'                 => '',
+                    'tipo_dificultad_css'                   => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -6557,6 +6795,9 @@
                 a.SOLFICPAS         AS          solicitud_pasaje,
                 a.SOLFICHOS         AS          solicitud_hospedaje,
                 a.SOLFICTRA         AS          solicitud_traslado,
+                a.SOLFICTAR         AS          solicitud_tarifa,
+                a.SOLFICPHO         AS          solicitud_proveedor_hospedaje,
+                a.SOLFICPTR         AS          solicitud_proveedor_traslado,
                 a.SOLFICFEC         AS          solicitud_fecha_carga,
                 a.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 a.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -6635,7 +6876,15 @@
                 l3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
                 a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
                 l4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                a.SOLFICDNP         AS          solicitud_proveedor_documento
+                a.SOLFICDNP         AS          solicitud_proveedor_documento,
+
+                m.DOMFICCOD         AS          tipo_dificultad_codigo,
+                m.DOMFICNOI         AS          tipo_dificultad_ingles,
+                m.DOMFICNOC         AS          tipo_dificultad_castellano,
+                m.DOMFICNOP         AS          tipo_dificultad_portugues,
+                m.DOMFICPAR         AS          tipo_dificultad_parametro,
+                m.DOMFICICO         AS          tipo_dificultad_icono,
+                m.DOMFICCSS         AS          tipo_dificultad_css
 
                 FROM [via].[SOLFIC] a
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] b ON a.SOLFICGEC = b.U_CODIGO
@@ -6652,6 +6901,7 @@
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = l2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = l3.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
+                INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
 
                 WHERE a.SOLFICDNP = ?
 
@@ -6676,6 +6926,9 @@
                         'solicitud_pasaje'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
                         'solicitud_hospedaje'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
                         'solicitud_traslado'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                        'solicitud_tarifa'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_tarifa']))),
+                        'solicitud_proveedor_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_hospedaje']))),
+                        'solicitud_proveedor_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_traslado']))),
                         'solicitud_fecha_carga_1'               => $rowMSSQL00['solicitud_fecha_carga'],
                         'solicitud_fecha_carga_2'               => $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
@@ -6757,7 +7010,15 @@
                         'tipo_prioridad_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_prioridad_portugues']))),
                         'tipo_prioridad_parametro'              => $rowMSSQL00['tipo_prioridad_parametro'],
                         'tipo_prioridad_icono'                  => trim(strtolower($rowMSSQL00['tipo_prioridad_icono'])),
-                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css']))
+                        'tipo_prioridad_css'                    => trim(strtolower($rowMSSQL00['tipo_prioridad_css'])),
+    
+                        'tipo_dificultad_codigo'                => $rowMSSQL00['tipo_dificultad_codigo'],
+                        'tipo_dificultad_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                        'tipo_dificultad_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                        'tipo_dificultad_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                        'tipo_dificultad_parametro'             => $rowMSSQL00['tipo_dificultad_parametro'],
+                        'tipo_dificultad_icono'                 => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                        'tipo_dificultad_css'                   => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
                     );
     
                     $result[]   = $detalle;
@@ -6774,6 +7035,9 @@
                         'solicitud_pasaje'                      => '',
                         'solicitud_hospedaje'                   => '',
                         'solicitud_traslado'                    => '',
+                        'solicitud_tarifa'                      => '',
+                        'solicitud_proveedor_hospedaje'         => '',
+                        'solicitud_proveedor_traslado'          => '',
                         'solicitud_fecha_carga_1'               => '',
                         'solicitud_fecha_carga_2'               => '',
                         'solicitud_sap_centro_costo'            => '',
@@ -6855,7 +7119,15 @@
                         'tipo_prioridad_portugues'              => '',
                         'tipo_prioridad_parametro'              => '',
                         'tipo_prioridad_icono'                  => '',
-                        'tipo_prioridad_css'                    => ''
+                        'tipo_prioridad_css'                    => '',
+    
+                        'tipo_dificultad_codigo'                => '',
+                        'tipo_dificultad_ingles'                => '',
+                        'tipo_dificultad_castellano'            => '',
+                        'tipo_dificultad_portugues'             => '',
+                        'tipo_dificultad_parametro'             => '',
+                        'tipo_dificultad_icono'                 => '',
+                        'tipo_dificultad_css'                   => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
