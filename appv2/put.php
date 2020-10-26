@@ -671,26 +671,30 @@
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_prioridad_codigo'];
-        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
-        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
-        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
-        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val08      = $request->getParsedBody()['evento_codigo'];
-        $val09      = $request->getParsedBody()['workflow_codigo'];
-        $val10      = $request->getParsedBody()['solicitud_periodo'];
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
-        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
-        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
-        $val19      = $request->getParsedBody()['solicitud_fecha_carga'];
-        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
-        $val21      = $request->getParsedBody()['solicitud_tarea_cantidad'];
-        $val22      = $request->getParsedBody()['solicitud_tarea_resuelta'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
+        $val04      = $request->getParsedBody()['tipo_dificultad_codigo'];
+        $val05      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val06      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val07      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val08      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val09      = $request->getParsedBody()['evento_codigo'];
+        $val10      = $request->getParsedBody()['workflow_codigo'];
+        $val11      = $request->getParsedBody()['solicitud_periodo'];
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_motivo'])));
+        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_pasaje'])));
+        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_hospedaje'])));
+        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_traslado'])));
+        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_tarifa'])));
+        $val17      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_proveedor_hospedaje'])));
+        $val18      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_proveedor_traslado'])));
+        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_solicitante'])));
+        $val20      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_jefatura'])));
+        $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_ejecutivo'])));
+        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_documento_proveedor'])));
+        $val23      = $request->getParsedBody()['solicitud_fecha_carga'];
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_sap_centro_costo'])));
+        $val25      = $request->getParsedBody()['solicitud_tarea_cantidad'];
+        $val26      = $request->getParsedBody()['solicitud_tarea_resuelta'];
+        $val27      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_observacion'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -727,6 +731,22 @@
                 case 7:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICTPC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
+
+                case 8:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICTDC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
+
+                case 9:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICTAR = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
+
+                case 10:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICPHO = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
+
+                case 11:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICPTR = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
             }
 
             try {
@@ -735,7 +755,7 @@
 
                 switch ($val00_1) {
                     case 1:
-                        $stmtMSSQL00->execute([$val08, $val11, $val12, $val13, $val14, $val20, $val23, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val09, $val12, $val13, $val14, $val15, $val24, $val27, $aud01, $aud03, $val00]);
                         break;
 
                     case 2:
@@ -743,11 +763,11 @@
                         break;
 
                     case 3:
-                        $stmtMSSQL00->execute([$val17, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val21, $aud01, $aud03, $val00]);
                         break;
 
                     case 4:
-                        $stmtMSSQL00->execute([$val18, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val22, $aud01, $aud03, $val00]);
                         break;
 
                     case 5:
@@ -755,11 +775,27 @@
                         break;
 
                     case 6:
-                        $stmtMSSQL00->execute([$val08, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val09, $aud01, $aud03, $val00]);
                         break;
 
                     case 7:
                         $stmtMSSQL00->execute([$val03, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 8:
+                        $stmtMSSQL00->execute([$val04, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 9:
+                        $stmtMSSQL00->execute([$val16, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 10:
+                        $stmtMSSQL00->execute([$val17, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 11:
+                        $stmtMSSQL00->execute([$val18, $aud01, $aud03, $val00]);
                         break;
                 }
 
