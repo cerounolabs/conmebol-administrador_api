@@ -1493,8 +1493,8 @@
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['solicitud_codigo'];        
-        $val02      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_comentario_persona'])));
-        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_comentario_observacion'])));
+        $val02      = trim($request->getParsedBody()['solicitud_comentario_persona']);
+        $val03      = trim($request->getParsedBody()['solicitud_comentario_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
