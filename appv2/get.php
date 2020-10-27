@@ -7832,8 +7832,8 @@
 
                     $detalle = array(
                         'solicitud_comentario_codigo'                               => $rowMSSQL00['solicitud_comentario_codigo'],
-                        'solicitud_comentario_persona'                              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_comentario_persona']))),
-                        'solicitud_comentario_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_comentario_observacion']))),
+                        'solicitud_comentario_persona'                              => trim($rowMSSQL00['solicitud_comentario_persona']),
+                        'solicitud_comentario_observacion'                          => trim($rowMSSQL00['solicitud_comentario_observacion']),
                         
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
