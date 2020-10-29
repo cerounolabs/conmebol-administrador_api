@@ -7936,7 +7936,7 @@
                 FROM [via].[SOLCOM] a
                 INNER JOIN [via].[SOLFIC] b ON a.SOLCOMSOC = b.SOLFICCOD
 
-                WHERE b.SOLFICDNS = ? OR b.SOLFICDNJ = ? OR b.SOLFICDNE = ? OR b.SOLFICDNP = ? OR 
+                WHERE b.SOLFICDNS = ? OR b.SOLFICDNJ = ? OR b.SOLFICDNE = ? OR b.SOLFICDNP = ?
 
                 ORDER BY a.SOLCOMCOD DESC";
 
@@ -8026,7 +8026,7 @@
         
         return $json;
     });
-    
+
     $app->get('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
