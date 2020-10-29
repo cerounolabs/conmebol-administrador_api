@@ -7943,7 +7943,7 @@
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01]);
+                $stmtMSSQL00->execute([$val01, $val01, $val01, $val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
@@ -8026,8 +8026,7 @@
         
         return $json;
     });
-
-
+    
     $app->get('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
