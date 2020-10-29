@@ -747,6 +747,10 @@
                 case 11:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICPTR = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
+
+                case 12:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICSCC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
             }
 
             try {
@@ -796,6 +800,10 @@
 
                     case 11:
                         $stmtMSSQL00->execute([$val18, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 12:
+                        $stmtMSSQL00->execute([$val24, $aud01, $aud03, $val00]);
                         break;
                 }
 
