@@ -711,7 +711,7 @@
                             $auxHor .= ($diff->i > 1) ? $diff->i.':00' : $diff->i . ':00';
                         }
 
-                        $SOLAXICON  = get_format($auxHor);
+                        //$SOLAXICON  = get_format($auxHor);
                     }
 
                     if (trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3'])) == 'DSM' && trim(strtoupper($rowMSSQL01['tipo_solicitud_codigo'])) == 'I') {
