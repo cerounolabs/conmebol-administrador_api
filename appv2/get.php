@@ -10190,7 +10190,7 @@
                         'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.') 
                     );
 
                     $result[]   = $detalle;
@@ -10202,19 +10202,19 @@
                         'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.'
                     );
 
                     $result[]   = $detalle;
                 }
 
                                 
-                while ($rowMSSQL00 = $stmtMSSQL02->fetch()) {
+                while ($rowMSSQL00 = $stmtMSSQL02->fetch()) { 
                     $detalle    = array(
                         'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.'
                     );
 
                     $result[]   = $detalle;
@@ -10225,7 +10225,7 @@
                         'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.'
                     );
 
                     $result[]   = $detalle;
