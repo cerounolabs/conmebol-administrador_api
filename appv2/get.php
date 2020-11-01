@@ -10187,7 +10187,7 @@
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_IMPORTE'],
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower(['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
                         'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
@@ -10199,7 +10199,7 @@
                 
                 while ($rowMSSQL00 = $stmtMSSQL01->fetch()) {
                     $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_IMPORTE'],
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower(['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
                         'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
@@ -10211,7 +10211,7 @@
                                 
                 while ($rowMSSQL00 = $stmtMSSQL02->fetch()) {
                     $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_IMPORTE'],
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower(['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
                         'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
@@ -10222,7 +10222,7 @@
 
                 while ($rowMSSQL00 = $stmtMSSQL03->fetch()) {
                     $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_IMPORTE'],
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
                         'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower(['TOTAL_NOMBRE']))),
                         'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
                         'TOTAL_IMPORTE'     =>  $rowMSSQL00['TOTAL_IMPORTE']
