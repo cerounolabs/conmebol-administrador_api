@@ -8129,52 +8129,63 @@
         
         if (isset($val01)) {
                 $sql00  = "SELECT 
-                a.SOLHOSCOD     AS      solicitud_detalle_hospedaje_codigo,
-                a.SOLHOSCOM     AS      solicitud_detalle_hospedaje_comentario,   
-                a.SOLHOSALI     AS      solicitud_detalle_hospedaje_comentario_alimentacion,	
-                a.SOLHOSLAV	    AS      solicitud_detalle_hospedaje_comentario_lavanderia,
-                a.SOLHOSFIN     AS      solicitud_detalle_hospedaje_fecha_checkin,	
-                a.SOLHOSFOU     AS      solicitud_detalle_hospedaje_fecha_checkout,
-                a.SOLHOSCNO	    AS     solicitud_detalle_hospedaje_cantidad_noche,
-                a.SOLHOSAUS	    AS      auditoria_usuario,
-                a.SOLHOSAFH     AS      auditoria_fecha_hora,	
-                a.SOLHOSAIP     AS      auditoria_ip,
-                
-                b.DOMFICCOD     AS      tipo_estado_codigo,
-                b.DOMFICNOC     AS      tipo_estado_nombre,
-                b.DOMFICPAR     AS      tipo_estado_parametro,
-                
-                c.SOLFICCOD         AS          solicitud_codigo,
-                c.SOLFICPER         AS          solicitud_periodo,
-                c.SOLFICMOT         AS          solicitud_motivo,
-                c.SOLFICVUE         AS          solicitud_vuelo,
-                c.SOLFICHOS         AS          solicitud_hospedaje,
-                c.SOLFICTRA         AS          solicitud_traslado,
-                c.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
-                c.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
-                c.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
-                c.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
-                c.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
-                c.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
-                c.SOLFICFEC         AS          solicitud_fecha_carga,
-                c.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                c.SOLFICTCA         AS          solicitud_tarea_cantidad,
-                c.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                c.SOLFICOBS         AS          solicitud_observacion,
-                
-                d.LOCCIUCOD         AS          localidad_ciudad_codigo,
-                d.LOCCIUORD         AS          localidad_ciudad_orden,
-                d.LOCCIUNOM         AS          localidad_ciudad_nombre,
-                d.LOCCIUOBS         AS          localidad_ciudad_observacion
-                
-                FROM via.SOLHOS a
-                INNER JOIN adm.DOMFIC b ON a.SOLHOSEST = b.DOMFICCOD
-                INNER JOIN via.SOLFIC c ON a.SOLHOSSOC = c.SOLFICCOD
-                INNER JOIN adm.LOCCIU d ON a.SOLHOSCDC = d.LOCCIUCOD
-                
-                WHERE a.SOLHOSSOC = ?
+                    a.SOLHOSCOD         AS          solicitud_detalle_hospedaje_codigo,
+                    a.SOLHOSCOM         AS          solicitud_detalle_hospedaje_comentario,   
+                    a.SOLHOSALI         AS          solicitud_detalle_hospedaje_comentario_alimentacion,	
+                    a.SOLHOSLAV	        AS          solicitud_detalle_hospedaje_comentario_lavanderia,
+                    a.SOLHOSFIN         AS          solicitud_detalle_hospedaje_fecha_checkin,	
+                    a.SOLHOSFOU         AS          solicitud_detalle_hospedaje_fecha_checkout,
+                    a.SOLHOSCNO	        AS          solicitud_detalle_hospedaje_cantidad_noche,
 
-                ORDER BY a.SOLHOSCOD";
+                    a.SOLHOSAUS	        AS          auditoria_usuario,
+                    a.SOLHOSAFH         AS          auditoria_fecha_hora,	
+                    a.SOLHOSAIP         AS          auditoria_ip,
+                    
+                    b.DOMFICCOD         AS          tipo_estado_codigo,
+                    b.DOMFICNOC         AS          tipo_estado_nombre,
+                    b.DOMFICPAR         AS          tipo_estado_parametro,
+                    
+                    c.SOLFICCOD         AS          solicitud_codigo,
+                    c.SOLFICPER         AS          solicitud_periodo,
+                    c.SOLFICMOT         AS          solicitud_motivo,
+                    c.SOLFICVUE         AS          solicitud_vuelo,
+                    c.SOLFICHOS         AS          solicitud_hospedaje,
+                    c.SOLFICTRA         AS          solicitud_traslado,
+                    c.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
+                    c.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
+                    c.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
+                    c.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
+                    c.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+                    c.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
+                    c.SOLFICFEC         AS          solicitud_fecha_carga,
+                    c.SOLFICSCC         AS          solicitud_sap_centro_costo,
+                    c.SOLFICTCA         AS          solicitud_tarea_cantidad,
+                    c.SOLFICTRE         AS          solicitud_tarea_resuelta,
+                    c.SOLFICOBS         AS          solicitud_observacion,
+                    
+                    d2.LOCCIUCOD        AS          localidad_ciudad_destino_ciudad_codigo,
+                    d2.LOCCIUORD        AS          localidad_ciudad_destino_ciudad_orden,
+                    d2.LOCCIUNOM        AS          localidad_ciudad_destino_ciudad_nombre,
+                    d2.LOCCIUOBS        AS          localidad_ciudad_destino_ciudad_observacion,
+
+                    e2.LOCPAICOD        AS          localidad_ciudad_destino_pais_codigo,
+                    e2.LOCPAIORD        AS          localidad_ciudad_destino_pais_orden,
+                    e2.LOCPAINOM        AS          localidad_ciudad_destino_pais_nombre,
+                    e2.LOCPAIPAT        AS          localidad_ciudad_destino_pais_path,
+                    e2.LOCPAIIC2        AS          localidad_ciudad_destino_pais_iso_char2,
+                    e2.LOCPAIIC3        AS          localidad_ciudad_destino_pais_iso_char3,
+                    e2.LOCPAIIN3        AS          localidad_ciudad_destino_pais_iso_num3,
+                    e2.LOCPAIOBS        AS          localidad_ciudad_destino_pais_observacion
+                    
+                    FROM via.SOLHOS a
+                    INNER JOIN adm.DOMFIC b ON a.SOLHOSEST = b.DOMFICCOD
+                    INNER JOIN via.SOLFIC c ON a.SOLHOSSOC = c.SOLFICCOD
+                    INNER JOIN adm.LOCCIU d2 ON a.SOLHOSCDC = d2.LOCCIUCOD
+                    LEFT OUTER JOIN [adm].[LOCPAI] e2 ON d2.LOCCIUPAC = e2.LOCPAICOD
+                    
+                    WHERE a.SOLHOSSOC = ?
+
+                    ORDER BY a.SOLHOSCOD";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -8207,14 +8218,7 @@
                         $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     }
 
-
-                
-
-
-
-
                     $detalle = array(
-
                         'solicitud_detalle_hospedaje_codigo'                        => $rowMSSQL00['solicitud_detalle_hospedaje_codigo'],
                         'solicitud_detalle_hospedaje_comentario'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_comentario']))),
                         'solicitud_detalle_hospedaje_comentario_alimentacion'       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_comentario_alimentacion']))),
@@ -8255,9 +8259,21 @@
                         'solicitud_ejecutivo_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
                         'solicitud_proveedor_nombre'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
-                        'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
+                        'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
 
-                        
+                        'localidad_ciudad_destino_ciudad_codigo'                    => $rowMSSQL00['localidad_ciudad_destino_ciudad_codigo'],
+                        'localidad_ciudad_destino_ciudad_orden'                     => $rowMSSQL00['localidad_ciudad_destino_ciudad_orden'],
+                        'localidad_ciudad_destino_ciudad_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_nombre']))),
+                        'localidad_ciudad_destino_ciudad_observacion'               => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_observacion'])),
+
+                        'localidad_ciudad_destino_pais_codigo'                      => $rowMSSQL00['localidad_ciudad_destino_pais_codigo'],
+                        'localidad_ciudad_destino_pais_orden'                       => $rowMSSQL00['localidad_ciudad_destino_pais_orden'],
+                        'localidad_ciudad_destino_pais_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_nombre']))),
+                        'localidad_ciudad_destino_pais_path'                        => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_path'])),
+                        'localidad_ciudad_destino_pais_iso_char2'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_char2']))),
+                        'localidad_ciudad_destino_pais_iso_char3'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_char3']))),
+                        'localidad_ciudad_destino_pais_iso_num3'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_num3']))),
+                        'localidad_ciudad_destino_pais_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -8306,7 +8322,21 @@
                         'solicitud_ejecutivo_documento'                     => '',
                         'solicitud_proveedor_nombre'                        => '',
                         'solicitud_proveedor_documento'                     => '',
-                        'solicitud_observacion'                             => ''
+                        'solicitud_observacion'                             => '',
+                        
+                        'localidad_ciudad_destino_ciudad_codigo'                    => '',
+                        'localidad_ciudad_destino_ciudad_orden'                     => '',
+                        'localidad_ciudad_destino_ciudad_nombre'                    => '',
+                        'localidad_ciudad_destino_ciudad_observacion'               => '',
+
+                        'localidad_ciudad_destino_pais_codigo'                      => '',
+                        'localidad_ciudad_destino_pais_orden'                       => '',
+                        'localidad_ciudad_destino_pais_nombre'                      => '',
+                        'localidad_ciudad_destino_pais_path'                        => '',
+                        'localidad_ciudad_destino_pais_iso_char2'                   => '',
+                        'localidad_ciudad_destino_pais_iso_char3'                   => '',
+                        'localidad_ciudad_destino_pais_iso_num3'                    => '',
+                        'localidad_ciudad_destino_pais_observacion'                 => ''
 
                     );
 
