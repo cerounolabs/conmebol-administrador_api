@@ -8372,12 +8372,15 @@
                 a.SOLTRASAL         AS          solicitud_detalle_traslado_origen,	
                 a.SOLTRADES         AS          solicitud_detalle_traslado_destino,	
                 a.SOLTRAFSA         AS          solicitud_detalle_traslado_fecha,	
-                a.SOLTRAHSA         AS          solicitud_detalle_traslado_hora,	
+                a.SOLTRAHSA         AS          solicitud_detalle_traslado_hora,
+
+                a.SOLVUETTC         AS          tipo_traslado_codigo,
+
                 CASE
-                  WHEN SOLVUETTC = 'I' THEN 'TRASLADO IN'
-                  WHEN SOLVUETTC = 'O' THEN 'TRASLADO OUT'
-                  WHEN SOLVUETTC = 'T' THEN 'OTROS TRASLADOS' 
-                END AS solicitud_detalle_traslado_tipo_traslado, 
+                  WHEN a.SOLVUETTC = 'I' THEN 'TRASLADO IN'
+                  WHEN a.SOLVUETTC = 'O' THEN 'TRASLADO OUT'
+                  WHEN a.SOLVUETTC = 'T' THEN 'OTROS TRASLADOS' 
+                END AS a.tipo_traslado_nombre, 
 
                 a.SOLTRAAUS         AS          auditoria_usuario,	
                 a.SOLTRAAFH         AS          auditoria_fecha_hora,	
@@ -8452,7 +8455,9 @@
                         'solicitud_detalle_traslado_fecha_2'                        => $solicitud_detalle_traslado_fecha_2,
                         'solicitud_detalle_traslado_hora_1'                         => $solicitud_detalle_traslado_hora_1,
                         'solicitud_detalle_traslado_hora_2'                         => $solicitud_detalle_traslado_hora_2,
-                        'solicitud_detalle_traslado_tipo_traslado'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_tipo_traslado']))),
+
+                        'tipo_traslado_codigo'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_codigo']))),
+                        'tipo_traslado_nombre'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre']))),
                         
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -8504,8 +8509,10 @@
                         'solicitud_detalle_traslado_fecha_1'                => '',      
                         'solicitud_detalle_traslado_fecha_2'                => '',       
                         'solicitud_detalle_traslado_hora_1'                 => '',      
-                        'solicitud_detalle_traslado_hora_2'                 => '',     
-                        'solicitud_detalle_traslado_tipo_traslado'          => '',       
+                        'solicitud_detalle_traslado_hora_2'                 => '',   
+
+                        'tipo_traslado_codigo'                              => '',
+                        'tipo_traslado_nombre'                              => '',     
                         
                         'auditoria_usuario'                                 => '',
                         'auditoria_fecha_hora'                              => '',

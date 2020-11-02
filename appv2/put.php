@@ -881,10 +881,10 @@
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_codigo'];
-        $val03      = trim($request->getParsedBody()['localidad_ciudad_destino_ciudad_codigo']);
-        $val04      = $request->getParsedBody()['solicitud_detalle_hospedaje_comentario'];
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_alimentacion'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_lavanderia'])));
+        $val03      = $request->getParsedBody()['localidad_ciudad_destino_ciudad_codigo'];
+        $val04      = trim($request->getParsedBody()['solicitud_detalle_hospedaje_comentario']);
+        $val05      = trim($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_alimentacion']);
+        $val06      = trim($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_lavanderia']);
         $val07      = $request->getParsedBody()['solicitud_detalle_hospedaje_fecha_checkin']; 
         $val08      = $request->getParsedBody()['solicitud_detalle_hospedaje_fecha_checkout'];
         $val09      = $request->getParsedBody()['solicitud_detalle_hospedaje_cantidad_noche'];
@@ -925,13 +925,13 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = 2;
-        $val02      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_traslado_tipo_traslado'])));
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_traslado_codigo'])));
         $val03      = $request->getParsedBody()['solicitud_codigo']; 
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_traslado_comentario'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_traslado_origen'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_traslado_destino'])));
-        $val07      = trim($request->getParsedBody()['solicitud_detalle_traslado_fecha']);
+        $val04      = trim($request->getParsedBody()['solicitud_detalle_traslado_comentario']);
+        $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_origen']);
+        $val06      = trim($request->getParsedBody()['solicitud_detalle_traslado_destino']);
+        $val07      = $request->getParsedBody()['solicitud_detalle_traslado_fecha'];
         $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_traslado_hora'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
@@ -966,6 +966,7 @@
         
         return $json;
     });
+
     $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
