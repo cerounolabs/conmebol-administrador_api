@@ -921,7 +921,7 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/detalle/traslado/{codigo}', function($request) {
+    $app->put('/v2/400/solicitud/detalle/traslado/{codigo}', function($request) {//20201102
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -938,7 +938,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) /*&& isset($val01) && isset($val02) && isset($val03)*/) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
             $sql00 = "UPDATE [via].[SOLTRA] SET SOLTRAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLVUETTC = ?, SOLTRASOC = ?, SOLTRACOM = ?, SOLTRASAL = ?, SOLTRADES = ?, SOLTRAFSA = ?, SOLTRAHSA = ?, SOLTRAAUS = ?, SOLTRAAFH = GETDATE(), SOLTRAAIP = ? WHERE SOLTRACOD = ?";
                                                                                                                                                      
             try {
