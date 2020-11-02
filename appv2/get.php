@@ -7984,10 +7984,10 @@
                         'localidad_ciudad_origen_pais_iso_num3'                     => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_iso_num3']))),
                         'localidad_ciudad_origen_pais_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_observacion']))),
 
-                        'solicitud_detalle_retorno_ciudad_codigo'                   => $rowMSSQL00['solicitud_detalle_retorno_ciudad_codigo'],
-                        'solicitud_detalle_retorno_ciudad_orden'                    => $rowMSSQL00['solicitud_detalle_retorno_ciudad_orden'],
-                        'solicitud_detalle_retorno_ciudad_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_retorno_ciudad_nombre']))),
-                        'solicitud_detalle_retorno_ciudad_observacion'              => trim(strtolower($rowMSSQL00['solicitud_detalle_retorno_ciudad_observacion'])),
+                        'localidad_ciudad_destino_ciudad_codigo'                    => $rowMSSQL00['localidad_ciudad_destino_ciudad_codigo'],
+                        'localidad_ciudad_destino_ciudad_orden'                     => $rowMSSQL00['localidad_ciudad_destino_ciudad_orden'],
+                        'localidad_ciudad_destino_ciudad_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_nombre']))),
+                        'localidad_ciudad_destino_ciudad_observacion'               => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_observacion'])),
 
                         'localidad_ciudad_destino_pais_codigo'                      => $rowMSSQL00['localidad_ciudad_destino_pais_codigo'],
                         'localidad_ciudad_destino_pais_orden'                       => $rowMSSQL00['localidad_ciudad_destino_pais_orden'],
@@ -8087,10 +8087,10 @@
                         'localidad_ciudad_origen_pais_iso_num3'                     => '',
                         'localidad_ciudad_origen_pais_observacion'                  => '',
 
-                        'solicitud_detalle_retorno_ciudad_codigo'                   => '',
-                        'solicitud_detalle_retorno_ciudad_orden'                    => '',
-                        'solicitud_detalle_retorno_ciudad_nombre'                   => '',
-                        'solicitud_detalle_retorno_ciudad_observacion'              => '',
+                        'localidad_ciudad_destino_ciudad_codigo'                    => '',
+                        'localidad_ciudad_destino_ciudad_orden'                     => '',
+                        'localidad_ciudad_destino_ciudad_nombre'                    => '',
+                        'localidad_ciudad_destino_ciudad_observacion'               => '',
 
                         'localidad_ciudad_destino_pais_codigo'                      => '',
                         'localidad_ciudad_destino_pais_orden'                       => '',
