@@ -879,7 +879,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = 2;
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_codigo'];
         $val03      = trim($request->getParsedBody()['localidad_ciudad_destino_ciudad_codigo']);
         $val04      = $request->getParsedBody()['solicitud_detalle_hospedaje_comentario'];
