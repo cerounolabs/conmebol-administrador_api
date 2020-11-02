@@ -827,56 +827,33 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/detalle/{codigo}', function($request) {
+    $app->put('/v2/400/solicitud/detalle/vuelo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
-        $val03      = $request->getParsedBody()['solicitud_codigo'];        
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_preferencia'])));
-        $val05      = $request->getParsedBody()['solicitud_detalle_salida_aeropuerto_codigo'];
-        $val06      = $request->getParsedBody()['solicitud_detalle_salida_ciudad_codigo'];
-        $val07      = $request->getParsedBody()['solicitud_detalle_salida_horario_codigo'];
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_salida_lugar'])));
-        $val09      = $request->getParsedBody()['solicitud_detalle_salida_fecha'];
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_salida_hora'])));
-        $val11      = $request->getParsedBody()['solicitud_detalle_retorno_aeropuerto_codigo'];
-        $val12      = $request->getParsedBody()['solicitud_detalle_retorno_ciudad_codigo'];
-        $val13      = $request->getParsedBody()['solicitud_detalle_retorno_horario_codigo'];
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_retorno_lugar'])));
-        $val15      = $request->getParsedBody()['solicitud_detalle_retorno_fecha'];
-        $val16      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_retorno_hora'])));
-        $val17      = $request->getParsedBody()['solicitud_detalle_auditorio_ciudad_codigo'];
-        $val18      = $request->getParsedBody()['solicitud_detalle_auditorio_horario_codigo'];
-        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_lugar'])));
-        $val20      = $request->getParsedBody()['solicitud_detalle_auditorio_fecha'];
-        $val21      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_hora'])));
-        $val22      = $request->getParsedBody()['solicitud_detalle_auditorio_cantidad'];
-        $val23      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_auditorio'])));
-        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_escuela'])));
-        $val25      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_u'])));
-        $val26      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_formato_mesa_junta'])));
-        $val27      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_requerido'])));
-        $val28      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_audiovisual_especificar'])));
-        $val29      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_requerido'])));
-        $val30      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_alimentacion_especificar'])));
-        $val31      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_interne_requerido'])));
-        $val32      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_auditorio_internet_especificar'])));
-        $val33      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_observacion'])));
+        $val02      = $request->getParsedBody()['tipo_horario_salida_codigo'];
+        $val03      = $request->getParsedBody()['tipo_horario_retorno_codigo'];
+        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_vuelo_codigo'])));
+        $val05      = $request->getParsedBody()['solicitud_codigo']; 
+        $val06      = $request->getParsedBody()['localidad_ciudad_origen_codigo'];
+        $val07      = $request->getParsedBody()['localidad_ciudad_destino_codigo'];
+        $val08      = trim($request->getParsedBody()['solicitud_detalle_vuelo_comentario']);
+        $val09      = $request->getParsedBody()['solicitud_detalle_vuelo_fecha_salida'];
+        $val10      = $request->getParsedBody()['solicitud_detalle_vuelo_fecha_retorno'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "UPDATE [via].[SOLDET] SET SOLDETEST = ?, SOLDETTSC = ?, SOLDETPRE = ?, SOLDETSAE = ?, SOLDETSCI = ?, SOLDETSHR = ?, SOLDETSLU = ?, SOLDETSFE = ?, SOLDETSHO = ?, SOLDETRAE = ?, SOLDETRCI = ?, SOLDETRHR = ?, SOLDETRLU = ?, SOLDETRFE = ?, SOLDETRHO = ?, SOLDETACI = ?, SOLDETAHR = ?, SOLDETALU = ?, SOLDETAFE = ?, SOLDETAHO = ?, SOLDETACA = ?, SOLDETAFA = ?, SOLDETAFS = ?, SOLDETAFU = ?, SOLDETAFJ = ?, SOLDETAAR = ?, SOLDETAAE = ?, SOLDETALR = ?, SOLDETALE = ?, SOLDETAIR = ?, SOLDETAIE = ?, SOLDETOBS = ?, SOLDETAUS = ?, SOLDETAFH = GETDATE(), SOLDETAIP = ? WHERE SOLDETCOD = ?";
+        if (isset($val01) && isset($val04) && isset($val05)) {
+            $sql00  = "UPDATE [via].[SOLVUE] SET SOLVUEEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLVUETSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDHORARIO' AND DOMFICPAR = ?), SOLVUETRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDHORARIO' AND DOMFICPAR = ?), SOLVUETVC = ?, SOLVUECOC = ?, SOLVUECDC = ?, SOLVUECOM = ?, SOLVUEFSA = ?, SOLVUEFRE = ?, SOLVUEAUS = ?, SOLVUEAFH = GETDATE(), SOLVUEAIP = ? WHERE SOLVUECOD = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $val24, $val25, $val26, $val27, $val28, $val29, $val30, $val31, $val32, $val33, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
