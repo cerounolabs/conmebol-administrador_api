@@ -8255,9 +8255,9 @@
                 a.SOLHOSCOM     AS      solicitud_detalle_hospedaje_comentario,   
                 a.SOLHOSALI     AS      solicitud_detalle_hospedaje_comentario_alimentacion,	
                 a.SOLHOSLAV	    AS      solicitud_detalle_hospedaje_comentario_lavanderia,
-                a.SOLHOSFIN     AS      solicitud_detalle_hospedaje_comentario_alimentacion,	
-                a.SOLHOSFOU     AS      solicitud_detalle_hospedaje_fecha_checkin,
-                a.SOLHOSCNO	    AS      solicitud_detalle_hospedaje_fecha_checkout,
+                a.SOLHOSFIN     AS      solicitud_detalle_hospedaje_fecha_checkin,	
+                a.SOLHOSFOU     AS      solicitud_detalle_hospedaje_fecha_checkout,
+                a.SOLHOSCNO	    AS     solicitud_detalle_hospedaje_cantidad_noche,
                 a.SOLHOSAUS	    AS      auditoria_usuario,
                 a.SOLHOSAFH     AS      auditoria_fecha_hora,	
                 a.SOLHOSAIP     AS      auditoria_ip,
@@ -8304,29 +8304,31 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['solicitud_detalle_salida_fecha'])){
-                        $solicitud_detalle_salida_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_salida_fecha']));
+
+                    if ($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin'] == '1900-01-01' || $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin'] == null){
+                        $solicitud_detalle_hospedaje_fecha_checkin_1 = '';
+                        $solicitud_detalle_hospedaje_fecha_checkin_2 = '';
                     } else {
-                        $solicitud_detalle_salida_fecha_2    = '';
+                        $solicitud_detalle_hospedaje_fecha_checkin_1 = $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin'];
+                        $solicitud_detalle_hospedaje_fecha_checkin_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin']));
                     }
 
-                    if(!empty($rowMSSQL00['solicitud_detalle_retorno_fecha'])){
-                        $solicitud_detalle_retorno_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_retorno_fecha']));
+                    if ($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout'] == '1900-01-01' || $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout'] == null){
+                        $solicitud_detalle_hospedaje_fecha_checkout_1 = '';
+                        $solicitud_detalle_hospedaje_fecha_checkout_2 = '';
                     } else {
-                        $solicitud_detalle_retorno_fecha_2    = '';
+                        $solicitud_detalle_hospedaje_fecha_checkout_1 = $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout'];
+                        $solicitud_detalle_hospedaje_fecha_checkout_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout']));
+                    }
+                    
+                    if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
+                        $solicitud_fecha_carga_1 = '';
+                        $solicitud_fecha_carga_2 = '';
+                    } else {
+                        $solicitud_fecha_carga_1 = $rowMSSQL['solicitud_fecha_carga'];
+                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_fecha_carga']));
                     }
 
-                    if(!empty($rowMSSQL00['solicitud_detalle_auditorio_fecha'])){
-                        $solicitud_detalle_auditorio_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_auditorio_fecha']));
-                    } else {
-                        $solicitud_detalle_auditorio_fecha_2    = '';
-                    }
-
-                    if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
-                        $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
-                    } else {
-                        $solicitud_fecha_carga_2    = '';
-                    }
 
                     $detalle = array(
 
@@ -8338,6 +8340,7 @@
                         'solicitud_detalle_hospedaje_fecha_checkin_2'               => $solicitud_detalle_hospedaje_fecha_checkin_2,
                         'solicitud_detalle_hospedaje_fecha_checkout_1'              => $solicitud_detalle_hospedaje_fecha_checkout_1,
                         'solicitud_detalle_hospedaje_fecha_checkout_2'              => $solicitud_detalle_hospedaje_fecha_checkout_2,
+                        'solicitud_detalle_hospedaje_cantidad_noche'                => $rowMSSQL00['solicitud_detalle_hospedaje_cantidad_noche'],
                         
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
