@@ -8183,29 +8183,34 @@
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
 
-                    if ($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin'] == '1900-01-01' || $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin'] == null){
+                    if ($rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkin'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkin'] == null){
                         $solicitud_detalle_hospedaje_fecha_checkin_1 = '';
                         $solicitud_detalle_hospedaje_fecha_checkin_2 = '';
                     } else {
-                        $solicitud_detalle_hospedaje_fecha_checkin_1 = $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin'];
-                        $solicitud_detalle_hospedaje_fecha_checkin_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkin']));
+                        $solicitud_detalle_hospedaje_fecha_checkin_1 = $rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkin'];
+                        $solicitud_detalle_hospedaje_fecha_checkin_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkin']));
                     }
 
-                    if ($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout'] == '1900-01-01' || $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout'] == null){
+                    if ($rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkout'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkout'] == null){
                         $solicitud_detalle_hospedaje_fecha_checkout_1 = '';
                         $solicitud_detalle_hospedaje_fecha_checkout_2 = '';
                     } else {
-                        $solicitud_detalle_hospedaje_fecha_checkout_1 = $rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout'];
-                        $solicitud_detalle_hospedaje_fecha_checkout_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_detalle_hospedaje_fecha_checkout']));
+                        $solicitud_detalle_hospedaje_fecha_checkout_1 = $rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkout'];
+                        $solicitud_detalle_hospedaje_fecha_checkout_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_hospedaje_fecha_checkout']));
                     }
                     
-                    if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
+                    if ($rowMSSQL00['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_carga'] == null){
                         $solicitud_fecha_carga_1 = '';
                         $solicitud_fecha_carga_2 = '';
                     } else {
-                        $solicitud_fecha_carga_1 = $rowMSSQL['solicitud_fecha_carga'];
-                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_fecha_carga']));
+                        $solicitud_fecha_carga_1 = $rowMSSQL00['solicitud_fecha_carga'];
+                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     }
+
+
+                
+
+
 
 
                     $detalle = array(
