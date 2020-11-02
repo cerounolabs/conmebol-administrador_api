@@ -4529,6 +4529,179 @@
         return $json;
     });
 
+    $app->get('/v2/400/solicitud/consulta/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        $val01 = $request->getAttribute('codigo'); 
+        $sql00  = "SELECT 
+            a.SOLCONCOD	        AS          solicitud_consulta_codigo,
+            a.SOLCONPDO         AS          solicitud_consulta_persona_documento,
+            a.SOLCONPNO	        AS          solicitud_consulta_persona_nombre,
+            a.SOLVUEFEC	        AS          solicitud_consulta_fecha,
+            a.SOLCONOBS	        AS          solicitud_consulta_observacion,
+            
+            a.SOLCONAUS         AS          auditoria_usuario,
+            a.SOLCONAFH	        AS          auditoria_fecha_hora,
+            a.SOLCONAIP         AS          auditoria_ip,
+            
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICNOC         AS          tipo_estado_nombre,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            
+            c.SOLFICCOD         AS          solicitud_codigo,
+            c.SOLFICPER         AS          solicitud_periodo,
+            c.SOLFICMOT         AS          solicitud_motivo,
+            c.SOLFICVUE         AS          solicitud_vuelo,
+            c.SOLFICHOS         AS          solicitud_hospedaje,
+            c.SOLFICTRA         AS          solicitud_traslado,
+            c.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
+            c.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
+            c.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
+            c.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
+            c.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+            c.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
+            c.SOLFICFEC         AS          solicitud_fecha_carga,
+            c.SOLFICSCC         AS          solicitud_sap_centro_costo,
+            c.SOLFICTCA         AS          solicitud_tarea_cantidad,
+            c.SOLFICTRE         AS          solicitud_tarea_resuelta,
+            c.SOLFICOBS         AS          solicitud_observacion,
+            
+            d.DOMFICCOD         AS          tipo_consulta_codigo,
+            d.DOMFICNOC         AS          tipo_consulta_nombre,
+            d.DOMFICPAR         AS          tipo_consulta_parametro
+            
+            FROM via.SOLCON a
+            INNER JOIN adm.DOMFIC b ON a.SOLCONEST = b.DOMFICCOD
+            INNER JOIN via.SOLFIC c ON a.SOLCONSOC = c.SOLFICCOD
+            INNER JOIN adm.DOMFIC d ON a.SOLCONTCT = d.DOMFICCOD
+            
+            WHERE a.SOLCONSOC = ?
+            
+            ORDER BY a.SOLCONCOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute([$val01]);
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if(!empty($rowMSSQL00['solicitud_consulta_fecha'])){
+                    $solicitud_consulta_fecha_1    = $rowMSSQL00['solicitud_consulta_fecha'];
+                    $solicitud_consulta_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_consulta_fecha']));
+                } else {
+                    $solicitud_consulta_fecha_2    = '';
+                }
+
+                if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
+                    $solicitud_fecha_carga_1    = $rowMSSQL00['solicitud_fecha_carga'];
+                    $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
+                } else {
+                    $solicitud_fecha_carga_1    = '';
+                    $solicitud_fecha_carga_2    = '';
+                }
+
+                $detalle = array(                    
+                    'solicitud_consulta_codigo'                      => $rowMSSQL00['solicitud_consulta_codigo'],
+                    'solicitud_consulta_persona_documento'           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_documento']))),
+                    'solicitud_consulta_persona_nombre'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
+                    'solicitud_consulta_fecha_1'                     => $solicitud_consulta_fecha_1,
+                    'solicitud_consulta_fecha_2'                     => $solicitud_consulta_fecha_2,
+
+                    'auditoria_usuario'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                           => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                                   => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'solicitud_codigo'                               => $rowMSSQL00['solicitud_codigo'],
+                    'solicitud_periodo'                              => $rowMSSQL00['solicitud_periodo'],
+                    'solicitud_motivo'                               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_motivo']))),
+                    'solicitud_vuelo'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_vuelo']))),
+                    'solicitud_hospedaje'                            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
+                    'solicitud_traslado'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
+                    'solicitud_solicitante_tarifa_vuelo'             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_vuelo']))),
+                    'solicitud_solicitante_tarifa_hospedaje'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_hospedaje']))),
+                    'solicitud_solicitante_tarifa_traslado'          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_traslado']))),
+                    'solicitud_proveedor_carga_hospedaje'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_hospedaje']))),
+                    'solicitud_proveedor_carga_hospedaje'            => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_hospedaje']))),
+                    'solicitud_proveedor_carga_traslado'             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_traslado']))),
+                    'solicitud_fecha_carga_1'                        => $solicitud_fecha_carga_1,
+                    'solicitud_fecha_carga_2'                        => $solicitud_fecha_carga_2,
+                    'solicitud_sap_centro_costo'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
+                    'solicitud_tarea_cantidad'                       => $rowMSSQL00['solicitud_tarea_cantidad'],
+                    'solicitud_tarea_resuelta'                       => $rowMSSQL00['solicitud_tarea_resuelta'],
+                    'solicitud_tarea_porcentaje'                     => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
+                    'solicitud_solicitante_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_nombre']))),
+                    'solicitud_solicitante_documento'                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_documento']))),
+                    'solicitud_jefatura_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_nombre']))),
+                    'solicitud_jefatura_documento'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_jefatura_documento']))),
+                    'solicitud_ejecutivo_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_nombre']))),
+                    'solicitud_ejecutivo_documento'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
+                    'solicitud_proveedor_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
+                    'solicitud_proveedor_documento'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
+                    'solicitud_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
+
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_consulta_codigo'                     => '',
+                    'solicitud_consulta_persona_documento'          => '',
+                    'solicitud_consulta_persona_nombre'             => '',
+                    'solicitud_consulta_fecha_1'                    => '',
+                    'solicitud_consulta_fecha_2'                    => '',
+
+                    'auditoria_usuario'                             => '',
+                    'auditoria_fecha_hora'                          => '',
+                    'auditoria_ip'                                  => '',
+
+                    'solicitud_periodo'                             => '',
+                    'solicitud_motivo'                              => '',
+                    'solicitud_vuelo'                               => '',
+                    'solicitud_hospedaje'                           => '',
+                    'solicitud_traslado'                            => '',
+                    'solicitud_solicitante_tarifa_vuelo'            => '',
+                    'solicitud_solicitante_tarifa_hospedaje'        => '',
+                    'solicitud_solicitante_tarifa_traslado'         => '',
+                    'solicitud_proveedor_carga_vuelo'               => '',
+                    'solicitud_proveedor_carga_hospedaje'           => '',
+                    'solicitud_proveedor_carga_traslado'            => '',
+                    'solicitud_fecha_carga_1'                       => '',
+                    'solicitud_fecha_carga_2'                       => '',
+                    'solicitud_sap_centro_costo'                    => '',
+                    'solicitud_tarea_cantidad'                      => '',
+                    'solicitud_tarea_resuelta'                      => '',
+                    'solicitud_tarea_porcentaje'                    => '',
+                    'solicitud_solicitante_nombre'                  => '',
+                    'solicitud_solicitante_documento'               => '',
+                    'solicitud_jefatura_nombre'                     => '',
+                    'solicitud_jefatura_documento'                  => '',
+                    'solicitud_ejecutivo_nombre'                    => '',
+                    'solicitud_ejecutivo_documento'                 => '',
+                    'solicitud_proveedor_nombre'                    => '',
+                    'solicitud_proveedor_documento'                 => '',
+                    'solicitud_observacion'                         => '',
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v2/400/solicitud/codigo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
