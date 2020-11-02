@@ -8122,7 +8122,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/detalle/hospedaje{codigo}', function($request) {//20201102
+    $app->get('/v2/400/solicitud/detalle/hospedaje/{codigo}', function($request) {//20201102
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
