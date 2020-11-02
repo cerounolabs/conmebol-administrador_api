@@ -7853,7 +7853,7 @@
                 LEFT OUTER JOIN [adm].[LOCCIU] e1 ON a.SOLVUECOC = e1.LOCCIUCOD
                 LEFT OUTER JOIN [adm].[LOCPAI] f1 ON e1.LOCCIUPAC = f1.LOCPAICOD
 
-                LEFT OUTER JOIN [adm].[LOCCIU] e2 ON a.SOLVUECOC = e2.LOCCIUCOD
+                LEFT OUTER JOIN [adm].[LOCCIU] e2 ON a.SOLVUECDC = e2.LOCCIUCOD
                 LEFT OUTER JOIN [adm].[LOCPAI] f2 ON e2.LOCCIUPAC = f2.LOCPAICOD
 
                 LEFT OUTER JOIN [via].[SOLFIC] g ON a.SOLVUESOC = g.SOLFICCOD
