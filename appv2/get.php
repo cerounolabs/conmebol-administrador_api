@@ -8163,19 +8163,19 @@
                     c.SOLFICTRE         AS          solicitud_tarea_resuelta,
                     c.SOLFICOBS         AS          solicitud_observacion,
                     
-                    d2.LOCCIUCOD        AS          localidad_ciudad_destino_ciudad_codigo,
-                    d2.LOCCIUORD        AS          localidad_ciudad_destino_ciudad_orden,
-                    d2.LOCCIUNOM        AS          localidad_ciudad_destino_ciudad_nombre,
-                    d2.LOCCIUOBS        AS          localidad_ciudad_destino_ciudad_observacion,
+                    d2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
+                    d2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
+                    d2.LOCCIUNOM        AS          localidad_ciudad_destino_nombre,
+                    d2.LOCCIUOBS        AS          localidad_ciudad_destino_observacion,
 
-                    e2.LOCPAICOD        AS          localidad_ciudad_destino_pais_codigo,
-                    e2.LOCPAIORD        AS          localidad_ciudad_destino_pais_orden,
-                    e2.LOCPAINOM        AS          localidad_ciudad_destino_pais_nombre,
-                    e2.LOCPAIPAT        AS          localidad_ciudad_destino_pais_path,
-                    e2.LOCPAIIC2        AS          localidad_ciudad_destino_pais_iso_char2,
-                    e2.LOCPAIIC3        AS          localidad_ciudad_destino_pais_iso_char3,
-                    e2.LOCPAIIN3        AS          localidad_ciudad_destino_pais_iso_num3,
-                    e2.LOCPAIOBS        AS          localidad_ciudad_destino_pais_observacion
+                    e2.LOCPAICOD        AS          localidad_pais_destino_codigo,
+                    e2.LOCPAIORD        AS          localidad_pais_destino_orden,
+                    e2.LOCPAINOM        AS          localidad_pais_destino_nombre,
+                    e2.LOCPAIPAT        AS          localidad_pais_destino_path,
+                    e2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
+                    e2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
+                    e2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
+                    e2.LOCPAIOBS        AS          localidad_pais_destino_observacion
                     
                     FROM via.SOLHOS a
                     INNER JOIN adm.DOMFIC b ON a.SOLHOSEST = b.DOMFICCOD
@@ -8261,19 +8261,19 @@
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
                         'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
 
-                        'localidad_ciudad_destino_ciudad_codigo'                    => $rowMSSQL00['localidad_ciudad_destino_ciudad_codigo'],
-                        'localidad_ciudad_destino_ciudad_orden'                     => $rowMSSQL00['localidad_ciudad_destino_ciudad_orden'],
-                        'localidad_ciudad_destino_ciudad_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_nombre']))),
-                        'localidad_ciudad_destino_ciudad_observacion'               => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_observacion'])),
+                        'localidad_ciudad_destino_codigo'                    => $rowMSSQL00['localidad_ciudad_destino_codigo'],
+                        'localidad_ciudad_destino_orden'                     => $rowMSSQL00['localidad_ciudad_destino_orden'],
+                        'localidad_ciudad_destino_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_nombre']))),
+                        'localidad_ciudad_destino_observacion'               => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_observacion'])),
 
-                        'localidad_ciudad_destino_pais_codigo'                      => $rowMSSQL00['localidad_ciudad_destino_pais_codigo'],
-                        'localidad_ciudad_destino_pais_orden'                       => $rowMSSQL00['localidad_ciudad_destino_pais_orden'],
-                        'localidad_ciudad_destino_pais_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_nombre']))),
-                        'localidad_ciudad_destino_pais_path'                        => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_path'])),
-                        'localidad_ciudad_destino_pais_iso_char2'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_char2']))),
-                        'localidad_ciudad_destino_pais_iso_char3'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_char3']))),
-                        'localidad_ciudad_destino_pais_iso_num3'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_num3']))),
-                        'localidad_ciudad_destino_pais_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_observacion'])))
+                        'localidad_pais_destino_codigo'                      => $rowMSSQL00['localidad_pais_destino_codigo'],
+                        'localidad_pais_destino_orden'                       => $rowMSSQL00['localidad_pais_destino_orden'],
+                        'localidad_pais_destino_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_nombre']))),
+                        'localidad_pais_destino_path'                        => trim(strtolower($rowMSSQL00['localidad_pais_destino_path'])),
+                        'localidad_pais_destino_iso_char2'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char2']))),
+                        'localidad_pais_destino_iso_char3'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char3']))),
+                        'localidad_pais_destino_iso_num3'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_num3']))),
+                        'localidad_pais_destino_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -8324,19 +8324,19 @@
                         'solicitud_proveedor_documento'                     => '',
                         'solicitud_observacion'                             => '',
                         
-                        'localidad_ciudad_destino_ciudad_codigo'                    => '',
-                        'localidad_ciudad_destino_ciudad_orden'                     => '',
-                        'localidad_ciudad_destino_ciudad_nombre'                    => '',
-                        'localidad_ciudad_destino_ciudad_observacion'               => '',
+                        'localidad_ciudad_destino_codigo'                    => '',
+                        'localidad_ciudad_destino_orden'                     => '',
+                        'localidad_ciudad_destino_nombre'                    => '',
+                        'localidad_ciudad_destino_observacion'               => '',
 
-                        'localidad_ciudad_destino_pais_codigo'                      => '',
-                        'localidad_ciudad_destino_pais_orden'                       => '',
-                        'localidad_ciudad_destino_pais_nombre'                      => '',
-                        'localidad_ciudad_destino_pais_path'                        => '',
-                        'localidad_ciudad_destino_pais_iso_char2'                   => '',
-                        'localidad_ciudad_destino_pais_iso_char3'                   => '',
-                        'localidad_ciudad_destino_pais_iso_num3'                    => '',
-                        'localidad_ciudad_destino_pais_observacion'                 => ''
+                        'localidad_pais_destino_codigo'                      => '',
+                        'localidad_pais_destino_orden'                       => '',
+                        'localidad_pais_destino_nombre'                      => '',
+                        'localidad_pais_destino_path'                        => '',
+                        'localidad_pais_destino_iso_char2'                   => '',
+                        'localidad_pais_destino_iso_char3'                   => '',
+                        'localidad_pais_destino_iso_num3'                    => '',
+                        'localidad_pais_destino_observacion'                 => ''
 
                     );
 

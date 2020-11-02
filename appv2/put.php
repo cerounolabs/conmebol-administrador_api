@@ -881,7 +881,7 @@
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_codigo'];
-        $val03      = $request->getParsedBody()['localidad_ciudad_destino_ciudad_codigo'];
+        $val03      = $request->getParsedBody()['localidad_ciudad_destino_codigo'];
         $val04      = trim($request->getParsedBody()['solicitud_detalle_hospedaje_comentario']);
         $val05      = trim($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_alimentacion']);
         $val06      = trim($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_lavanderia']);
