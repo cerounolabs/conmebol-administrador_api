@@ -4623,6 +4623,7 @@
                     $solicitud_consulta_fecha_1    = $rowMSSQL00['solicitud_consulta_fecha'];
                     $solicitud_consulta_fecha_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_consulta_fecha']));
                 } else {
+                    $solicitud_consulta_fecha_1    = '';
                     $solicitud_consulta_fecha_2    = '';
                 }
 
