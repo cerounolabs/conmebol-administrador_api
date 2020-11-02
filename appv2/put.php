@@ -893,7 +893,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
             $sql00 = "UPDATE [via].[SOLHOS] SET SOLHOSEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLHOSSOC = ?,  SOLHOSCDC = ?, SOLHOSCOM = ?, SOLHOSALI = ?, SOLHOSLAV = ?, SOLHOSFIN = ?, SOLHOSFOU = ?, SOLHOSCNO = ?, SOLHOSAUS = ?, SOLHOSAFH = GETDATE(), SOLHOSAIP = ? WHERE SOLHOSCOD = ?";
             try { 
                 $connMSSQL  = getConnectionMSSQLv2();
