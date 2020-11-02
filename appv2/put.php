@@ -831,7 +831,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val01      = 2;
         $val02      = $request->getParsedBody()['tipo_horario_salida_codigo'];
         $val03      = $request->getParsedBody()['tipo_horario_retorno_codigo'];
         $val04      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_vuelo_codigo'])));
