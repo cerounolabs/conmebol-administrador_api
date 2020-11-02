@@ -8425,6 +8425,22 @@
                         $solicitud_detalle_traslado_fecha_1 = $rowMSSQL00['solicitud_detalle_traslado_fecha'];
                         $solicitud_detalle_traslado_fecha_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_traslado_fecha']));
                     }
+                    
+                    if ($rowMSSQL00['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_carga'] == null){
+                        $solicitud_fecha_carga_1 = '';
+                        $solicitud_fecha_carga_2 = '';
+                    } else {
+                        $solicitud_fecha_carga_1 = $rowMSSQL00['solicitud_fecha_carga'];
+                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_traslado_hora'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_traslado_hora'] == null){
+                        $solicitud_detalle_traslado_hora_1 = '';
+                        $solicitud_detalle_traslado_hora_2 = '';
+                    } else {
+                        $solicitud_detalle_traslado_hora_1 = $rowMSSQL00['solicitud_detalle_traslado_hora'];
+                        $solicitud_detalle_traslado_hora_2 = date('H:i:s', strtotime($rowMSSQL00['solicitud_detalle_traslado_hora']));
+                    }
 
                     $detalle = array(
 
