@@ -8372,7 +8372,6 @@
                 a.SOLTRASAL         AS          solicitud_detalle_traslado_origen,	
                 a.SOLTRADES         AS          solicitud_detalle_traslado_destino,	
                 a.SOLTRAFSA         AS          solicitud_detalle_traslado_fecha,	
-                a.SOLTRAHSA         AS          solicitud_detalle_traslado_hora,
 
                 a.SOLVUETTC         AS          tipo_traslado_codigo,
 
