@@ -880,7 +880,7 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = 2;
-        $val02      =  $request->getParsedBody()['solicitud_codigo'];
+        $val02      = $request->getParsedBody()['solicitud_codigo'];
         $val03      = trim($request->getParsedBody()['localidad_ciudad_destino_ciudad_codigo']);
         $val04      = $request->getParsedBody()['solicitud_detalle_hospedaje_comentario'];
         $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_hospedaje_comentario_alimentacion'])));
@@ -894,7 +894,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {
-            $sql00 = "UPDATE [via].[SOLHOS] SET SOLHOSEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLHOSSOC = ?,  SOLHOSCDC = ?, SOLHOSCOM = ?, SOLHOSALI = ?, SOLHOSLAV = ?, SOLHOSFIN = ?, SOLHOSFOU = ?, SOLHOSCNO = ?, SOLHOSAUS = ?, SOLHOSAFH = GETDATE(), SOLHOSAIP = ?";
+            $sql00 = "UPDATE [via].[SOLHOS] SET SOLHOSEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLHOSSOC = ?,  SOLHOSCDC = ?, SOLHOSCOM = ?, SOLHOSALI = ?, SOLHOSLAV = ?, SOLHOSFIN = ?, SOLHOSFOU = ?, SOLHOSCNO = ?, SOLHOSAUS = ?, SOLHOSAFH = GETDATE(), SOLHOSAIP = ? WHERE SOLHOSCOD = ?";
             try { 
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
