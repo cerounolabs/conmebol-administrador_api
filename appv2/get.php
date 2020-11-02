@@ -8437,13 +8437,6 @@
                         $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     }
 
-                    if ($rowMSSQL00['solicitud_detalle_traslado_hora'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_traslado_hora'] == null){
-                        $solicitud_detalle_traslado_hora_1 = '';
-                        $solicitud_detalle_traslado_hora_2 = '';
-                    } else {
-                        $solicitud_detalle_traslado_hora_1 = $rowMSSQL00['solicitud_detalle_traslado_hora'];
-                        $solicitud_detalle_traslado_hora_2 = date('H:i:s', strtotime($rowMSSQL00['solicitud_detalle_traslado_hora']));
-                    }
 
                     $detalle = array(
 
@@ -8453,8 +8446,6 @@
                         'solicitud_detalle_traslado_destino'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_destino']))),
                         'solicitud_detalle_traslado_fecha_1'                        => $solicitud_detalle_traslado_fecha_1,
                         'solicitud_detalle_traslado_fecha_2'                        => $solicitud_detalle_traslado_fecha_2,
-                        'solicitud_detalle_traslado_hora_1'                         => $solicitud_detalle_traslado_hora_1,
-                        'solicitud_detalle_traslado_hora_2'                         => $solicitud_detalle_traslado_hora_2,
 
                         'tipo_traslado_codigo'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_codigo']))),
                         'tipo_traslado_nombre'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre']))),
@@ -8491,7 +8482,6 @@
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
                         'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
 
-                        
                     );
 
                     $result[]   = $detalle;
@@ -8507,9 +8497,7 @@
                         'solicitud_detalle_traslado_origen'                 => '',        
                         'solicitud_detalle_traslado_destino'                => '',        
                         'solicitud_detalle_traslado_fecha_1'                => '',      
-                        'solicitud_detalle_traslado_fecha_2'                => '',       
-                        'solicitud_detalle_traslado_hora_1'                 => '',      
-                        'solicitud_detalle_traslado_hora_2'                 => '',   
+                        'solicitud_detalle_traslado_fecha_2'                => '',         
 
                         'tipo_traslado_codigo'                              => '',
                         'tipo_traslado_nombre'                              => '',     
