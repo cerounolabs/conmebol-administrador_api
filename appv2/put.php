@@ -931,8 +931,7 @@
         $val04      = trim($request->getParsedBody()['solicitud_detalle_traslado_comentario']);
         $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_origen']);
         $val06      = trim($request->getParsedBody()['solicitud_detalle_traslado_destino']);
-        $val07      = $request->getParsedBody()['solicitud_detalle_traslado_fecha'];
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_detalle_traslado_hora'])));
+        $val07      = $request->getParsedBody()['solicitud_detalle_traslado_fecha_carga'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
