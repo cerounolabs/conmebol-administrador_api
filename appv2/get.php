@@ -9793,7 +9793,7 @@
         b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
         b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
-        b.SOLCONOBS         AS          solicitud_consulta_observacion,
+        b.SOLCONOBS         AS          solicitud_consulta_comentario,
             
         b.SOLCONAUS         AS          auditoria_usuario, 	
         b.SOLCONAFH         AS          auditoria_fecha_hora,	
@@ -9846,7 +9846,7 @@
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
                     'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
                     'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
-                    'solicitud_consulta_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_observacion']))),
+                    'solicitud_consulta_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_comentario']))),
 
                     'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -9886,7 +9886,7 @@
                     'solicitud_consulta_persona_nombre'                 => '',
                     'solicitud_consulta_fecha_carga_1'                  => '',
                     'solicitud_consulta_fecha_carga_2'                  => '',
-                    'solicitud_consulta_observacion'                    => '',
+                    'solicitud_consulta_comentario'                     => '',
 
                     'auditoria_usuario'                                 => '',
                     'auditoria_fecha_hora'                              => '',
@@ -9937,7 +9937,7 @@
         b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
         b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
-        b.SOLCONOBS         AS          solicitud_consulta_observacion,
+        b.SOLCONOBS         AS          solicitud_consulta_comentario,
             
         b.SOLCONAUS         AS          auditoria_usuario, 	
         b.SOLCONAFH         AS          auditoria_fecha_hora,	
@@ -9990,7 +9990,7 @@
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
                     'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
                     'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
-                    'solicitud_consulta_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_observacion']))),
+                    'solicitud_consulta_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_comentario']))),
 
                     'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -10029,7 +10029,7 @@
                     'solicitud_consulta_persona_nombre'                 => '',
                     'solicitud_consulta_fecha_carga_1'                  => '',
                     'solicitud_consulta_fecha_carga_2'                  => '',
-                    'solicitud_consulta_observacion'                    => '',
+                    'solicitud_consulta_comentario'                     => '',
 
                     'auditoria_usuario'                                 => '',
                     'auditoria_fecha_hora'                              => '',
