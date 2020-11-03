@@ -1866,11 +1866,11 @@
 
         if (isset($val01) && isset($val02) && isset($val03)) {
             $sql00  = "INSERT INTO [via].[SOLOPA] (SOLOPAEST, SOLOPATDC, SOLOPASOC, SOLOPAPAT, SOLOPACOM, SOLOPAAUS, SOLOPAAFH, SOLOPAAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDOPCIONDOCUMENTO' AND DOMFICPAR = ?),          ?,         ?,           ?,        ?, GETDATE(),       ?)";
-            $sql01  = "SELECT MAX(SOLOPCOD) AS solicitud_opcion_adjunto_codigo FROM [via].[SOLOPA]";
+            $sql01  = "SELECT MAX(SOLOPACOD) AS solicitud_opcion_adjunto_codigo FROM [via].[SOLOPA]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
-
+s
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL00->execute([$val01, $val02, $val03, $val05, $val06, $aud01, $aud03]);
 
