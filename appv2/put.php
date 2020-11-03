@@ -967,6 +967,51 @@
         return $json;
     });
 
+    $app->put('/v2/400/solicitud/notificacion/{codigo}', function($request) {//20201102
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_consulta_codigo'];
+        $val03      = $request->getParsedBody()['solicitud_codigo'];
+        $val04      = trim($request->getParsedBody()['solicitud_consulta_persona_documento']);
+        $val05      = trim($request->getParsedBody()['solicitud_consulta_persona_nombre']);
+        $val06      = trim($request->getParsedBody()['solicitud_consulta_fecha']);
+        $val07      = trim($request->getParsedBody()['solicitud_consulta_comentario']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
+            $sql00 = "UPDATE [via].[SOLCON] SET SOLCONEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOCONSULTA' AND DOMFICPAR = ?), SOLCONAUS = ?, SOLCONAFH = GETDATE(), SOLCONAIP = ? WHERE SOLCONCOD = ?";
+                                                                                                                                                     
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => $val00.', '.$val01.', '.$val02.', '.$val03), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
