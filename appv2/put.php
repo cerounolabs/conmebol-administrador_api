@@ -1105,7 +1105,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00 = "UPDATE [via].[SOLOPA] SET SOLOPAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = SOLICITUDESTADOOPCION' AND DOMFICPAR = ?),
+            $sql00 = "UPDATE [via].[SOLOPA] SET SOLOPAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?),
              SOLOPATDC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDOPCIONDOCUMENTO' AND DOMFICPAR = ?), SOLOPASOC = ?, SOLOPAPAT= ?, SOLOPACOM = ?, SOLOPAAUS = ? SOLOPAAFH = GETDATE(), SOLOPAAIP = ? WHERE SOLOPACOD = ?";
             
             
