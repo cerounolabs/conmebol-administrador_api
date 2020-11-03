@@ -4297,7 +4297,6 @@
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] l4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = l4.CedulaEmpleado
             INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] n ON a.SOLFICEST = n.DOMFICCOD
-            WHERE j.WRKDETCOD = (SELECT MIN(j1.WRKDETCOD) FROM [wrk].[WRKDET] j1 WHERE j1.WRKDETWFC = a.SOLFICWFC AND j1.WRKDETEAC = a.SOLFICECC)
 
             ORDER BY a.SOLFICCOD DESC";
 
