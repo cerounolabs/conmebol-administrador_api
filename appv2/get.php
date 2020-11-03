@@ -7790,33 +7790,33 @@
                 d.DOMFICICO         AS          tipo_horario_retorno_icono,
                 d.DOMFICCSS         AS          tipo_horario_retorno_css,
 
-                e1.LOCCIUCOD        AS          localidad_ciudad_origen_ciudad_codigo,
-                e1.LOCCIUORD        AS          localidad_ciudad_origen_ciudad_orden,
-                e1.LOCCIUNOM        AS          localidad_ciudad_origen_ciudad_nombre,
-                e1.LOCCIUOBS        AS          localidad_ciudad_origen_ciudad_observacion,
+                e1.LOCCIUCOD        AS          localidad_ciudad_origen_codigo,
+                e1.LOCCIUORD        AS          localidad_ciudad_origen_orden,
+                e1.LOCCIUNOM        AS          localidad_ciudad_origen_nombre,
+                e1.LOCCIUOBS        AS          localidad_ciudad_origen_observacion,
 
-                f1.LOCPAICOD        AS          localidad_ciudad_origen_pais_codigo,
-                f1.LOCPAIORD        AS          localidad_ciudad_origen_pais_orden,
-                f1.LOCPAINOM        AS          localidad_ciudad_origen_pais_nombre,
-                f1.LOCPAIPAT        AS          localidad_ciudad_origen_pais_path,
-                f1.LOCPAIIC2        AS          localidad_ciudad_origen_pais_iso_char2,
-                f1.LOCPAIIC3        AS          localidad_ciudad_origen_pais_iso_char3,
-                f1.LOCPAIIN3        AS          localidad_ciudad_origen_pais_iso_num3,
-                f1.LOCPAIOBS        AS          localidad_ciudad_origen_pais_observacion,
+                f1.LOCPAICOD        AS          localidad_pais_origen_codigo,
+                f1.LOCPAIORD        AS          localidad_pais_origen_orden,
+                f1.LOCPAINOM        AS          localidad_pais_origen_nombre,
+                f1.LOCPAIPAT        AS          localidad_pais_origen_path,
+                f1.LOCPAIIC2        AS          localidad_pais_origen_iso_char2,
+                f1.LOCPAIIC3        AS          localidad_pais_origen_iso_char3,
+                f1.LOCPAIIN3        AS          localidad_pais_origen_iso_num3,
+                f1.LOCPAIOBS        AS          localidad_pais_origen_observacion,
 
-                e2.LOCCIUCOD        AS          localidad_ciudad_destino_ciudad_codigo,
-                e2.LOCCIUORD        AS          localidad_ciudad_destino_ciudad_orden,
-                e2.LOCCIUNOM        AS          localidad_ciudad_destino_ciudad_nombre,
-                e2.LOCCIUOBS        AS          localidad_ciudad_destino_ciudad_observacion,
+                e2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
+                e2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
+                e2.LOCCIUNOM        AS          localidad_ciudad_destino_nombre,
+                e2.LOCCIUOBS        AS          localidad_ciudad_destino_observacion,
 
-                f2.LOCPAICOD        AS          localidad_ciudad_destino_pais_codigo,
-                f2.LOCPAIORD        AS          localidad_ciudad_destino_pais_orden,
-                f2.LOCPAINOM        AS          localidad_ciudad_destino_pais_nombre,
-                f2.LOCPAIPAT        AS          localidad_ciudad_destino_pais_path,
-                f2.LOCPAIIC2        AS          localidad_ciudad_destino_pais_iso_char2,
-                f2.LOCPAIIC3        AS          localidad_ciudad_destino_pais_iso_char3,
-                f2.LOCPAIIN3        AS          localidad_ciudad_destino_pais_iso_num3,
-                f2.LOCPAIOBS        AS          localidad_ciudad_destino_pais_observacion,
+                f2.LOCPAICOD        AS          localidad_pais_destino_codigo,
+                f2.LOCPAIORD        AS          localidad_pais_destino_orden,
+                f2.LOCPAINOM        AS          localidad_pais_destino_nombre,
+                f2.LOCPAIPAT        AS          localidad_pais_destino_path,
+                f2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
+                f2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
+                f2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
+                f2.LOCPAIOBS        AS          localidad_pais_destino_observacion,
 
                 g.SOLFICCOD         AS          solicitud_codigo,
                 g.SOLFICPER         AS          solicitud_periodo,
@@ -7898,9 +7898,9 @@
                     }
 
                     if ($rowMSSQL00['tipo_vuelo_codigo'] == 'R'){
-                        $tipo_vuelo_nombre = 'Roundtrip';
+                        $tipo_vuelo_nombre = 'ROUNDTRIP';
                     } else {
-                        $tipo_vuelo_nombre = 'One-way';
+                        $tipo_vuelo_nombre = 'ONE-WAY';
                     }
 
                     $detalle = array(
@@ -7911,7 +7911,7 @@
                         'solicitud_detalle_vuelo_fecha_retorno_1'                   => $solicitud_detalle_vuelo_fecha_retorno_1,
                         'solicitud_detalle_vuelo_fecha_retorno_2'                   => $solicitud_detalle_vuelo_fecha_retorno_2,
 
-                        'tipo_vuelo_codigo'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'tipo_vuelo_codigo'                                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_codigo']))),
                         'tipo_vuelo_nombre'                                         => $tipo_vuelo_nombre,
 
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -7970,33 +7970,33 @@
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
                         'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
 
-                        'localidad_ciudad_origen_ciudad_codigo'                     => $rowMSSQL00['localidad_ciudad_origen_ciudad_codigo'],
-                        'localidad_ciudad_origen_ciudad_orden'                      => $rowMSSQL00['localidad_ciudad_origen_ciudad_orden'],
-                        'localidad_ciudad_origen_ciudad_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_ciudad_nombre']))),
-                        'localidad_ciudad_origen_ciudad_observacion'                => trim(strtolower($rowMSSQL00['localidad_ciudad_origen_ciudad_observacion'])),
+                        'localidad_ciudad_origen_codigo'                            => $rowMSSQL00['localidad_ciudad_origen_codigo'],
+                        'localidad_ciudad_origen_orden'                             => $rowMSSQL00['localidad_ciudad_origen_orden'],
+                        'localidad_ciudad_origen_nombre'                            => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_nombre']))),
+                        'localidad_ciudad_origen_observacion'                       => trim(strtolower($rowMSSQL00['localidad_ciudad_origen_observacion'])),
 
-                        'localidad_ciudad_origen_pais_codigo'                       => $rowMSSQL00['localidad_ciudad_origen_pais_codigo'],
-                        'localidad_ciudad_origen_pais_orden'                        => $rowMSSQL00['localidad_ciudad_origen_pais_orden'],
-                        'localidad_ciudad_origen_pais_nombre'                       => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_nombre']))),
-                        'localidad_ciudad_origen_pais_path'                         => trim(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_path'])),
-                        'localidad_ciudad_origen_pais_iso_char2'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_iso_char2']))),
-                        'localidad_ciudad_origen_pais_iso_char3'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_iso_char3']))),
-                        'localidad_ciudad_origen_pais_iso_num3'                     => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_iso_num3']))),
-                        'localidad_ciudad_origen_pais_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_origen_pais_observacion']))),
+                        'localidad_pais_origen_codigo'                              => $rowMSSQL00['localidad_pais_origen_codigo'],
+                        'localidad_pais_origen_orden'                               => $rowMSSQL00['localidad_pais_origen_orden'],
+                        'localidad_pais_origen_nombre'                              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_origen_nombre']))),
+                        'localidad_pais_origen_path'                                => trim(strtolower($rowMSSQL00['localidad_pais_origen_path'])),
+                        'localidad_pais_origen_iso_char2'                           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_origen_iso_char2']))),
+                        'localidad_pais_origen_iso_char3'                           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_origen_iso_char3']))),
+                        'localidad_pais_origen_iso_num3'                            => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_origen_iso_num3']))),
+                        'localidad_pais_origen_observacion'                         => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_origen_observacion']))),
 
-                        'localidad_ciudad_destino_ciudad_codigo'                    => $rowMSSQL00['localidad_ciudad_destino_ciudad_codigo'],
-                        'localidad_ciudad_destino_ciudad_orden'                     => $rowMSSQL00['localidad_ciudad_destino_ciudad_orden'],
-                        'localidad_ciudad_destino_ciudad_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_nombre']))),
-                        'localidad_ciudad_destino_ciudad_observacion'               => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_ciudad_observacion'])),
+                        'localidad_ciudad_destino_codigo'                           => $rowMSSQL00['localidad_ciudad_destino_codigo'],
+                        'localidad_ciudad_destino_orden'                            => $rowMSSQL00['localidad_ciudad_destino_orden'],
+                        'localidad_ciudad_destino_nombre'                           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_nombre']))),
+                        'localidad_ciudad_destino_observacion'                      => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_observacion'])),
 
-                        'localidad_ciudad_destino_pais_codigo'                      => $rowMSSQL00['localidad_ciudad_destino_pais_codigo'],
-                        'localidad_ciudad_destino_pais_orden'                       => $rowMSSQL00['localidad_ciudad_destino_pais_orden'],
-                        'localidad_ciudad_destino_pais_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_nombre']))),
-                        'localidad_ciudad_destino_pais_path'                        => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_path'])),
-                        'localidad_ciudad_destino_pais_iso_char2'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_char2']))),
-                        'localidad_ciudad_destino_pais_iso_char3'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_char3']))),
-                        'localidad_ciudad_destino_pais_iso_num3'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_iso_num3']))),
-                        'localidad_ciudad_destino_pais_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_pais_observacion'])))
+                        'localidad_pais_destino_codigo'                             => $rowMSSQL00['localidad_pais_destino_codigo'],
+                        'localidad_pais_destino_orden'                              => $rowMSSQL00['localidad_pais_destino_orden'],
+                        'localidad_pais_destino_nombre'                             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_nombre']))),
+                        'localidad_pais_destino_path'                               => trim(strtolower($rowMSSQL00['localidad_pais_destino_path'])),
+                        'localidad_pais_destino_iso_char2'                          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char2']))),
+                        'localidad_pais_destino_iso_char3'                          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char3']))),
+                        'localidad_pais_destino_iso_num3'                           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_num3']))),
+                        'localidad_pais_destino_observacion'                        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -8073,33 +8073,33 @@
                         'solicitud_proveedor_documento'                             => '',
                         'solicitud_observacion'                                     => '',
 
-                        'localidad_ciudad_origen_ciudad_codigo'                     => '',
-                        'localidad_ciudad_origen_ciudad_orden'                      => '',
-                        'localidad_ciudad_origen_ciudad_nombre'                     => '',
-                        'localidad_ciudad_origen_ciudad_observacion'                => '',
+                        'localidad_ciudad_origen_codigo'                            => '',
+                        'localidad_ciudad_origen_orden'                             => '',
+                        'localidad_ciudad_origen_nombre'                            => '',
+                        'localidad_ciudad_origen_observacion'                       => '',
 
-                        'localidad_ciudad_origen_pais_codigo'                       => '',
-                        'localidad_ciudad_origen_pais_orden'                        => '',
-                        'localidad_ciudad_origen_pais_nombre'                       => '',
-                        'localidad_ciudad_origen_pais_path'                         => '',
-                        'localidad_ciudad_origen_pais_iso_char2'                    => '',
-                        'localidad_ciudad_origen_pais_iso_char3'                    => '',
-                        'localidad_ciudad_origen_pais_iso_num3'                     => '',
-                        'localidad_ciudad_origen_pais_observacion'                  => '',
+                        'localidad_pais_origen_codigo'                              => '',
+                        'localidad_pais_origen_orden'                               => '',
+                        'localidad_pais_origen_nombre'                              => '',
+                        'localidad_pais_origen_path'                                => '',
+                        'localidad_pais_origen_iso_char2'                           => '',
+                        'localidad_pais_origen_iso_char3'                           => '',
+                        'localidad_pais_origen_iso_num3'                            => '',
+                        'localidad_pais_origen_observacion'                         => '',
 
-                        'localidad_ciudad_destino_ciudad_codigo'                    => '',
-                        'localidad_ciudad_destino_ciudad_orden'                     => '',
-                        'localidad_ciudad_destino_ciudad_nombre'                    => '',
-                        'localidad_ciudad_destino_ciudad_observacion'               => '',
+                        'localidad_ciudad_destino_codigo'                           => '',
+                        'localidad_ciudad_destino_orden'                            => '',
+                        'localidad_ciudad_destino_nombre'                           => '',
+                        'localidad_ciudad_destino_observacion'                      => '',
 
-                        'localidad_ciudad_destino_pais_codigo'                      => '',
-                        'localidad_ciudad_destino_pais_orden'                       => '',
-                        'localidad_ciudad_destino_pais_nombre'                      => '',
-                        'localidad_ciudad_destino_pais_path'                        => '',
-                        'localidad_ciudad_destino_pais_iso_char2'                   => '',
-                        'localidad_ciudad_destino_pais_iso_char3'                   => '',
-                        'localidad_ciudad_destino_pais_iso_num3'                    => '',
-                        'localidad_ciudad_destino_pais_observacion'                 => ''
+                        'localidad_pais_destino_codigo'                             => '',
+                        'localidad_pais_destino_orden'                              => '',
+                        'localidad_pais_destino_nombre'                             => '',
+                        'localidad_pais_destino_path'                               => '',
+                        'localidad_pais_destino_iso_char2'                          => '',
+                        'localidad_pais_destino_iso_char3'                          => '',
+                        'localidad_pais_destino_iso_num3'                           => '',
+                        'localidad_pais_destino_observacion'                        => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -8131,8 +8131,8 @@
                 $sql00  = "SELECT 
                     a.SOLHOSCOD         AS          solicitud_detalle_hospedaje_codigo,
                     a.SOLHOSCOM         AS          solicitud_detalle_hospedaje_comentario,   
-                    a.SOLHOSALI         AS          solicitud_detalle_hospedaje_comentario_alimentacion,	
-                    a.SOLHOSLAV	        AS          solicitud_detalle_hospedaje_comentario_lavanderia,
+                    a.SOLHOSALI         AS          solicitud_detalle_hospedaje_alimentacion,	
+                    a.SOLHOSLAV	        AS          solicitud_detalle_hospedaje_lavanderia,
                     a.SOLHOSFIN         AS          solicitud_detalle_hospedaje_fecha_checkin,	
                     a.SOLHOSFOU         AS          solicitud_detalle_hospedaje_fecha_checkout,
                     a.SOLHOSCNO	        AS          solicitud_detalle_hospedaje_cantidad_noche,
@@ -8142,8 +8142,12 @@
                     a.SOLHOSAIP         AS          auditoria_ip,
                     
                     b.DOMFICCOD         AS          tipo_estado_codigo,
-                    b.DOMFICNOC         AS          tipo_estado_nombre,
+                    b.DOMFICNOI         AS          tipo_estado_ingles,
+                    b.DOMFICNOC         AS          tipo_estado_castellano,
+                    b.DOMFICNOP         AS          tipo_estado_portugues,
                     b.DOMFICPAR         AS          tipo_estado_parametro,
+                    b.DOMFICICO         AS          tipo_estado_icono,
+                    b.DOMFICCSS         AS          tipo_estado_css,
                     
                     c.SOLFICCOD         AS          solicitud_codigo,
                     c.SOLFICPER         AS          solicitud_periodo,
