@@ -8620,249 +8620,6 @@
         
         return $json;
     });
-    
-    $app->get('/v2/400/solicitud/comentario/{codigo}', function($request) {
-        require __DIR__.'/../src/connect.php';
-        
-        $val01  = $request->getAttribute('codigo');
-        
-        if (isset($val01)) {
-            $sql00  = "SELECT
-                a.SOLCOMCOD         AS          solicitud_comentario_codigo,
-                a.SOLCOMPER         AS          solicitud_comentario_persona,
-                a.SOLCOMOBS         AS          solicitud_comentario_observacion,
-
-                a.SOLCOMAUS         AS          auditoria_usuario,
-                a.SOLCOMAFH         AS          auditoria_fecha_hora,
-                a.SOLCOMAIP         AS          auditoria_ip,
-
-                b.SOLFICCOD         AS          solicitud_codigo,
-                b.SOLFICPER         AS          solicitud_periodo,
-                b.SOLFICMOT         AS          solicitud_motivo,
-                b.SOLFICPAS         AS          solicitud_pasaje,
-                b.SOLFICHOS         AS          solicitud_hospedaje,
-                b.SOLFICTRA         AS          solicitud_traslado,
-                b.SOLFICFEC         AS          solicitud_fecha_carga,
-                b.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                b.SOLFICTCA         AS          solicitud_tarea_cantidad,
-                b.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                b.SOLFICOBS         AS          solicitud_observacion
-
-                FROM [via].[SOLCOM] a
-                INNER JOIN [via].[SOLFIC] b ON a.SOLCOMSOC = b.SOLFICCOD
-
-                WHERE a.SOLCOMSOC = ?
-
-                ORDER BY a.SOLCOMCOD ASC";
-
-            try {
-                $connMSSQL  = getConnectionMSSQLv2();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01]);
-
-                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
-                        $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
-                    } else {
-                        $solicitud_fecha_carga_2    = '';
-                    }
-
-                    $detalle = array(
-                        'solicitud_comentario_codigo'                               => $rowMSSQL00['solicitud_comentario_codigo'],
-                        'solicitud_comentario_persona'                              => trim($rowMSSQL00['solicitud_comentario_persona']),
-                        'solicitud_comentario_observacion'                          => trim($rowMSSQL00['solicitud_comentario_observacion']),
-                        
-                        'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
-                        'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
-                        'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
-
-                        'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
-                        'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
-                        'solicitud_motivo'                                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_motivo']))),
-                        'solicitud_pasaje'                                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
-                        'solicitud_hospedaje'                                       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
-                        'solicitud_traslado'                                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
-                        'solicitud_fecha_carga_1'                                   => $rowMSSQL00['solicitud_fecha_carga'],
-                        'solicitud_fecha_carga_2'                                   => $solicitud_fecha_carga_2,
-                        'solicitud_sap_centro_costo'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
-                        'solicitud_tarea_cantidad'                                  => $rowMSSQL00['solicitud_tarea_cantidad'],
-                        'solicitud_tarea_resuelta'                                  => $rowMSSQL00['solicitud_tarea_resuelta'],
-                        'solicitud_tarea_porcentaje'                                => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
-                        'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                if (isset($result)){
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                } else {
-                    $detalle    = array(
-                        'solicitud_comentario_codigo'                               => '',
-                        'solicitud_comentario_persona'                              => '',
-                        'solicitud_comentario_observacion'                          => '',
-
-                        'auditoria_usuario'                                         => '',
-                        'auditoria_fecha_hora'                                      => '',
-                        'auditoria_ip'                                              => '',
-
-                        'solicitud_codigo'                                          => '',
-                        'solicitud_periodo'                                         => '',
-                        'solicitud_motivo'                                          => '',
-                        'solicitud_pasaje'                                          => '',
-                        'solicitud_hospedaje'                                       => '',
-                        'solicitud_traslado'                                        => '',
-                        'solicitud_fecha_carga_1'                                   => '',
-                        'solicitud_fecha_carga_2'                                   => '',
-                        'solicitud_sap_centro_costo'                                => '',
-                        'solicitud_tarea_cantidad'                                  => '',
-                        'solicitud_tarea_resuelta'                                  => '',
-                        'solicitud_tarea_porcentaje'                                => '',
-                        'solicitud_observacion'                                     => ''
-                    );
-
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                }
-
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL00 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        }  else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
-
-    $app->get('/v2/400/solicitud/notificacion/{codigo}', function($request) {
-        require __DIR__.'/../src/connect.php';
-        
-        $val01  = $request->getAttribute('codigo');
-        
-        if (isset($val01)) {
-            $sql00  = "SELECT
-                TOP 5
-                a.SOLCOMCOD         AS          solicitud_comentario_codigo,
-                a.SOLCOMPER         AS          solicitud_comentario_persona,
-                a.SOLCOMOBS         AS          solicitud_comentario_observacion,
-
-                a.SOLCOMAUS         AS          auditoria_usuario,
-                a.SOLCOMAFH         AS          auditoria_fecha_hora,
-                a.SOLCOMAIP         AS          auditoria_ip,
-
-                b.SOLFICCOD         AS          solicitud_codigo,
-                b.SOLFICPER         AS          solicitud_periodo,
-                b.SOLFICMOT         AS          solicitud_motivo,
-                b.SOLFICPAS         AS          solicitud_pasaje,
-                b.SOLFICHOS         AS          solicitud_hospedaje,
-                b.SOLFICTRA         AS          solicitud_traslado,
-                b.SOLFICFEC         AS          solicitud_fecha_carga,
-                b.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                b.SOLFICTCA         AS          solicitud_tarea_cantidad,
-                b.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                b.SOLFICOBS         AS          solicitud_observacion
-
-                FROM [via].[SOLCOM] a
-                INNER JOIN [via].[SOLFIC] b ON a.SOLCOMSOC = b.SOLFICCOD
-
-                WHERE b.SOLFICDNS = ? OR b.SOLFICDNJ = ? OR b.SOLFICDNE = ? OR b.SOLFICDNP = ?
-
-                ORDER BY a.SOLCOMCOD DESC";
-
-            try {
-                $connMSSQL  = getConnectionMSSQLv2();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val01, $val01, $val01]);
-
-                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
-                        $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
-                    } else {
-                        $solicitud_fecha_carga_2    = '';
-                    }
-
-                    $detalle = array(
-                        'solicitud_comentario_codigo'                               => $rowMSSQL00['solicitud_comentario_codigo'],
-                        'solicitud_comentario_persona'                              => trim($rowMSSQL00['solicitud_comentario_persona']),
-                        'solicitud_comentario_observacion'                          => trim($rowMSSQL00['solicitud_comentario_observacion']),
-                        
-                        'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
-                        'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
-                        'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
-
-                        'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
-                        'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
-                        'solicitud_motivo'                                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_motivo']))),
-                        'solicitud_pasaje'                                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_pasaje']))),
-                        'solicitud_hospedaje'                                       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_hospedaje']))),
-                        'solicitud_traslado'                                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_traslado']))),
-                        'solicitud_fecha_carga_1'                                   => $rowMSSQL00['solicitud_fecha_carga'],
-                        'solicitud_fecha_carga_2'                                   => $solicitud_fecha_carga_2,
-                        'solicitud_sap_centro_costo'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
-                        'solicitud_tarea_cantidad'                                  => $rowMSSQL00['solicitud_tarea_cantidad'],
-                        'solicitud_tarea_resuelta'                                  => $rowMSSQL00['solicitud_tarea_resuelta'],
-                        'solicitud_tarea_porcentaje'                                => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
-                        'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                if (isset($result)){
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                } else {
-                    $detalle    = array(
-                        'solicitud_comentario_codigo'                               => '',
-                        'solicitud_comentario_persona'                              => '',
-                        'solicitud_comentario_observacion'                          => '',
-
-                        'auditoria_usuario'                                         => '',
-                        'auditoria_fecha_hora'                                      => '',
-                        'auditoria_ip'                                              => '',
-
-                        'solicitud_codigo'                                          => '',
-                        'solicitud_periodo'                                         => '',
-                        'solicitud_motivo'                                          => '',
-                        'solicitud_pasaje'                                          => '',
-                        'solicitud_hospedaje'                                       => '',
-                        'solicitud_traslado'                                        => '',
-                        'solicitud_fecha_carga_1'                                   => '',
-                        'solicitud_fecha_carga_2'                                   => '',
-                        'solicitud_sap_centro_costo'                                => '',
-                        'solicitud_tarea_cantidad'                                  => '',
-                        'solicitud_tarea_resuelta'                                  => '',
-                        'solicitud_tarea_porcentaje'                                => '',
-                        'solicitud_observacion'                                     => ''
-                    );
-
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                }
-
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL00 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        }  else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
 
     $app->get('/v2/400/solicitud/opcion/cabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
@@ -9764,6 +9521,146 @@
                     'tipo_estado_ingles'    => '',
                     'tipo_estado_castellano'=> '',
                     'tipo_estado_portugues' => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/notificacion/codigo/{codigo}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        $val00 = $request->getAttribute('codigo');
+
+        $sql00  = "SELECT 
+        a.SOLCONSOC         AS          solicitud_codigo,
+
+        a.SOLCONCOD         AS          solicitud_consulta_codigo,	
+        a.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
+        a.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
+        a.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
+        a.SOLCONOBS         AS          solicitud_consulta_comentario,
+            
+        a.SOLCONAUS         AS          auditoria_usuario, 	
+        a.SOLCONAFH         AS          auditoria_fecha_hora,	
+        a.SOLCONAIP         AS          auditoria_ip,
+        
+        b.DOMFICCOD         AS          tipo_estado_codigo,
+        b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+        b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+        b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+        b.DOMFICPAR         AS          tipo_estado_parametro,
+        b.DOMFICICO         AS          tipo_estado_icono,
+        b.DOMFICCSS         AS          tipo_estado_css,
+        
+        c.DOMFICCOD         AS          tipo_consulta_codigo,
+        c.DOMFICNOI         AS          tipo_consulta_nombre_ingles,
+        c.DOMFICNOC         AS          tipo_consulta_nombre_castellano,
+        c.DOMFICNOP         AS          tipo_consulta_nombre_portugues,
+        c.DOMFICPAR         AS          tipo_consulta_parametro,
+        c.DOMFICICO         AS          tipo_consulta_icono,
+        c.DOMFICCSS         AS          tipo_consulta_css
+        
+        FROM via.SOLCON a
+        INNER JOIN adm.DOMFIC b ON a.SOLCONEST = b.DOMFICCOD
+        INNER JOIN adm.DOMFIC c ON a.SOLCONTCT = c.DOMFICCOD 
+
+        WHERE a.SOLCONSOC = 
+        
+        ORDER BY b.DOMFICPAR ASC, a.SOLCONCOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute([$val00]);
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
+                    $solicitud_consulta_fecha_carga_1    = $rowMSSQL00['solicitud_consulta_fecha_carga'];
+                    $solicitud_consulta_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_consulta_fecha_carga']));
+                } else {
+                    $solicitud_consulta_fecha_carga_1    = '';
+                    $solicitud_consulta_fecha_carga_2    = '';
+                }
+
+                $detalle = array(    
+                    'solicitud_codigo'                                  => $rowMSSQL00['solicitud_codigo'],
+                    'solicitud_consulta_codigo'                         => $rowMSSQL00['solicitud_consulta_codigo'],
+                    'solicitud_consulta_persona_documento'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_documento']))),
+                    'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
+                    'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
+                    'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
+                    'solicitud_consulta_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_comentario']))),
+
+                    'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre_ingles'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                    'tipo_estado_parametro'                             => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_css'                                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+
+                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_consulta_codigo'],
+                    'tipo_consulta_nombre_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_ingles']))),
+                    'tipo_consulta_nombre_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_castellano']))),
+                    'tipo_consulta_nombre_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_portugues']))),
+                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_consulta_parametro'],
+                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_consulta_icono'])),
+                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_consulta_css']))
+                    
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_codigo'                                  => '',
+                    'solicitud_consulta_codigo'                         => '',
+                    'solicitud_consulta_persona_documento'              => '',
+                    'solicitud_consulta_persona_nombre'                 => '',
+                    'solicitud_consulta_fecha_carga_1'                  => '',
+                    'solicitud_consulta_fecha_carga_2'                  => '',
+                    'solicitud_consulta_comentario'                     => '',
+
+                    'auditoria_usuario'                                 => '',
+                    'auditoria_fecha_hora'                              => '',
+                    'auditoria_ip'                                      => '',
+
+                    'tipo_estado_nombre_codigo'                         => '',
+                    'tipo_estado_nombre_ingles'                         => '',
+                    'tipo_estado_nombre_castellano'                     => '',
+                    'tipo_estado_nombre_portugues'                      => '',
+                    'tipo_estado_parametro'                             => '',
+                    'tipo_estado_icono'                                 => '',
+                    'tipo_estado_css'                                   => '',
+
+                    'tipo_consulta_codigo'                              => '',
+                    'tipo_consulta_nombre_ingles'                       => '',
+                    'tipo_consulta_nombre_castellano'                   => '',
+                    'tipo_consulta_nombre_portugues'                    => '',
+                    'tipo_consulta_parametro'                           => '',
+                    'tipo_consulta_icono'                               => '',
+                    'tipo_consulta_css'                                 => ''
+
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
