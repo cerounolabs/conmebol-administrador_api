@@ -5545,7 +5545,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/colaborador/{codigo}', function($request) {
+    $app->get('/v2/400/solicitud/solicitante/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
