@@ -7940,7 +7940,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/char01/ejecutivo/{documento}', function($request) {//20201103
+    $app->get('/v2/400/solicitud/char01/proveedor/{documento}', function($request) {//20201103
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('documento');
