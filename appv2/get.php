@@ -9781,6 +9781,282 @@
         
         return $json;
     });
+
+    $app->get('/v2/400/solicitud/notificacion/top10/{documento}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        $val00 = trim(strtoupper(strtolower($request->getAttribute('documento'))));
+
+        $sql00  = "SELECT TOP 10
+        b.SOLCONCOD         AS          solicitud_consulta_codigo,	
+        b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
+        b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
+        b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
+        b.SOLCONOBS         AS          solicitud_consulta_observacion,
+            
+        b.SOLCONAUS         AS          auditoria_usuario, 	
+        b.SOLCONAFH         AS          auditoria_fecha_hora,	
+        b.SOLCONAIP         AS          auditoria_ip,
+        
+        c.DOMFICCOD         AS          tipo_estado_codigo,
+        c.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+        c.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+        c.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+        c.DOMFICPAR         AS          tipo_estado_parametro,
+        c.DOMFICICO         AS          tipo_estado_icono,
+        c.DOMFICCSS         AS          tipo_estado_css,
+        
+        d.DOMFICCOD         AS          tipo_consulta_codigo,
+        d.DOMFICNOI         AS          tipo_consulta_nombre_ingles,
+        d.DOMFICNOC         AS          tipo_consulta_nombre_castellano,
+        d.DOMFICNOP         AS          tipo_consulta_nombre_portugues,
+        d.DOMFICPAR         AS          tipo_consulta_parametro,
+        d.DOMFICICO         AS          tipo_consulta_icono,
+        d.DOMFICCSS         AS          tipo_consulta_css
+        
+        FROM via.SOLFIC a
+        INNER JOIN via.SOLCON b ON a.SOLFICCOD = b.SOLCONSOC
+        INNER JOIN adm.DOMFIC c ON b.SOLCONEST = c.DOMFICCOD
+        INNER JOIN adm.DOMFIC d ON b.SOLCONTCT = d.DOMFICCOD 
+
+        WHERE (a.SOLFICDNS = ? or a.SOLFICDNJ = ? or a.SOLFICDNE = ?) and (b.SOLCONPDO <> ?) 
+        
+        ORDER BY c.DOMFICPAR ASC, b.SOLCONCOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
+                    $solicitud_consulta_fecha_carga_1    = $rowMSSQL00['solicitud_consulta_fecha_carga'];
+                    $solicitud_consulta_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_consulta_fecha_carga']));
+                } else {
+                    $solicitud_consulta_fecha_carga_1    = '';
+                    $solicitud_consulta_fecha_carga_2    = '';
+                }
+
+                $detalle = array(                    
+                    'solicitud_consulta_codigo'                         => $rowMSSQL00['solicitud_consulta_codigo'],
+                    'solicitud_consulta_persona_documento'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_documento']))),
+                    'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
+                    'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
+                    'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
+                    'solicitud_consulta_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_observacion']))),
+
+                    'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_parametro'                             => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_css'                                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+
+                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_dificultad_codigo'],
+                    'tipo_consulta_ingles'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                    'tipo_consulta_castellano'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                    'tipo_consulta_portugues'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_dificultad_parametro'],
+                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
+
+                    
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_consulta_codigo'                         => '',
+                    'solicitud_consulta_persona_documento'              => '',
+                    'solicitud_consulta_persona_nombre'                 => '',
+                    'solicitud_consulta_fecha_carga_1'                  => '',
+                    'solicitud_consulta_fecha_carga_2'                  => '',
+                    'solicitud_consulta_observacion'                    => '',
+
+                    'auditoria_usuario'                                 => '',
+                    'auditoria_fecha_hora'                              => '',
+                    'auditoria_ip'                                      => '',
+
+                    'tipo_estado_codigo'                                => '',
+                    'tipo_estado_ingles'                                => '',
+                    'tipo_estado_castellano'                            => '',
+                    'tipo_estado_portugues'                             => '',
+                    'tipo_estado_parametro'                             => '',
+                    'tipo_estado_icono'                                 => '',
+                    'tipo_estado_css'                                   => '',
+
+                    'tipo_consulta_codigo'                              => '',
+                    'tipo_consulta_ingles'                              => '',
+                    'tipo_consulta_castellano'                          => '',
+                    'tipo_consulta_portugues'                           => '',
+                    'tipo_consulta_parametro'                           => '',
+                    'tipo_consulta_icono'                               => '',
+                    'tipo_consulta_css'                                 => ''
+
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/notificacion/listado/{documento}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        $val00 = trim(strtoupper(strtolower($request->getAttribute('documento'))));//20201103
+
+        $sql00  = "SELECT 
+        b.SOLCONCOD         AS          solicitud_consulta_codigo,	
+        b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
+        b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
+        b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
+        b.SOLCONOBS         AS          solicitud_consulta_observacion,
+            
+        b.SOLCONAUS         AS          auditoria_usuario, 	
+        b.SOLCONAFH         AS          auditoria_fecha_hora,	
+        b.SOLCONAIP         AS          auditoria_ip,
+        
+        c.DOMFICCOD         AS          tipo_estado_codigo,
+        c.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+        c.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+        c.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+        c.DOMFICPAR         AS          tipo_estado_parametro,
+        c.DOMFICICO         AS          tipo_estado_icono,
+        c.DOMFICCSS         AS          tipo_estado_css,
+        
+        d.DOMFICCOD         AS          tipo_consulta_codigo,
+        d.DOMFICNOI         AS          tipo_consulta_nombre_ingles,
+        d.DOMFICNOC         AS          tipo_consulta_nombre_castellano,
+        d.DOMFICNOP         AS          tipo_consulta_nombre_portugues,
+        d.DOMFICPAR         AS          tipo_consulta_parametro,
+        d.DOMFICICO         AS          tipo_consulta_icono,
+        d.DOMFICCSS         AS          tipo_consulta_css
+        
+        FROM via.SOLFIC a
+        INNER JOIN via.SOLCON b ON a.SOLFICCOD = b.SOLCONSOC
+        INNER JOIN adm.DOMFIC c ON b.SOLCONEST = c.DOMFICCOD
+        INNER JOIN adm.DOMFIC d ON b.SOLCONTCT = d.DOMFICCOD 
+
+        WHERE (a.SOLFICDNS = ? or a.SOLFICDNJ = ? or a.SOLFICDNE = ?) and (b.SOLCONPDO <> ?) 
+        
+        ORDER BY c.DOMFICPAR ASC, b.SOLCONCOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
+                    $solicitud_consulta_fecha_carga_1    = $rowMSSQL00['solicitud_consulta_fecha_carga'];
+                    $solicitud_consulta_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_consulta_fecha_carga']));
+                } else {
+                    $solicitud_consulta_fecha_carga_1    = '';
+                    $solicitud_consulta_fecha_carga_2    = '';
+                }
+
+                $detalle = array(                    
+                    'solicitud_consulta_codigo'                         => $rowMSSQL00['solicitud_consulta_codigo'],
+                    'solicitud_consulta_persona_documento'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_documento']))),
+                    'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
+                    'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
+                    'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
+                    'solicitud_consulta_observacion'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_observacion']))),
+
+                    'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_parametro'                             => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_css'                                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+
+                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_dificultad_codigo'],
+                    'tipo_consulta_ingles'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
+                    'tipo_consulta_castellano'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
+                    'tipo_consulta_portugues'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
+                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_dificultad_parametro'],
+                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
+                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
+
+                    
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_consulta_codigo'                         => '',
+                    'solicitud_consulta_persona_documento'              => '',
+                    'solicitud_consulta_persona_nombre'                 => '',
+                    'solicitud_consulta_fecha_carga_1'                  => '',
+                    'solicitud_consulta_fecha_carga_2'                  => '',
+                    'solicitud_consulta_observacion'                    => '',
+
+                    'auditoria_usuario'                                 => '',
+                    'auditoria_fecha_hora'                              => '',
+                    'auditoria_ip'                                      => '',
+
+                    'tipo_estado_codigo'                                => '',
+                    'tipo_estado_ingles'                                => '',
+                    'tipo_estado_castellano'                            => '',
+                    'tipo_estado_portugues'                             => '',
+                    'tipo_estado_parametro'                             => '',
+                    'tipo_estado_icono'                                 => '',
+                    'tipo_estado_css'                                   => '',
+
+                    'tipo_consulta_codigo'                              => '',
+                    'tipo_consulta_ingles'                              => '',
+                    'tipo_consulta_castellano'                          => '',
+                    'tipo_consulta_portugues'                           => '',
+                    'tipo_consulta_parametro'                           => '',
+                    'tipo_consulta_icono'                               => '',
+                    'tipo_consulta_css'                                 => ''
+
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
