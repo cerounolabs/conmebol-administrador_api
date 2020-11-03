@@ -663,7 +663,7 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/{codigo}', function($request) {
+    $app->put('/v2/400/solicitud/{codigo}', function($request) {    
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
