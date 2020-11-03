@@ -8628,19 +8628,15 @@
 
         if (isset($val01)){
             $sql00  = "SELECT 
-                a.SOLOPCCOD     AS      solicitud_opcioncabecera_codigo,
-                a.SOLOPCOPC     AS      solicitud_opcioncabecera_nombre,
-                a.SOLOPCTIM     AS      solicitud_opcioncabecera_tarifa_importe,
-                a.SOLOPCTVS     AS      solicitud_opcioncabecera_visualiza_solicitante,
-                a.SOLOPCTVJ     AS      solicitud_opcioncabecera_visualiza_jefatura,
-                a.SOLOPCTVE     AS      solicitud_opcioncabecera_visualiza_ejecutivo,
-                a.SOLOPCTVP     AS      solicitud_opcioncabecera_visualiza_proveedor,
-                a.SOLOPCRES     AS      solicitud_opcioncabecera_reserva,
-                a.SOLOPCCO1     AS      solicitud_opcioncabecera_comentario_1,
-                a.SOLOPCCO2     AS      solicitud_opcioncabecera_comentario_2,
-                a.SOLOPCCO3     AS      solicitud_opcioncabecera_comentario_3,
-                a.SOLOPCCO4     AS      solicitud_opcioncabecera_comentario_4,
-                a.SOLOPCPAT     AS      solicitud_opcioncabecera_directorio,
+                a.SOLOPCCOD     AS      solicitud_opcion_cabecera_codigo,
+                a.SOLOPCOPC     AS      solicitud_opcion_cabecera_nombre,
+                a.SOLOPCTIM     AS      solicitud_opcion_cabecera_tarifa_importe,
+                a.SOLOPCRES     AS      solicitud_opcion_cabecera_reserva,
+                a.SOLOPCCO1     AS      solicitud_opcion_cabecera_comentario_1,
+                a.SOLOPCCO2     AS      solicitud_opcion_cabecera_comentario_2,
+                a.SOLOPCCO3     AS      solicitud_opcion_cabecera_comentario_3,
+                a.SOLOPCCO4     AS      solicitud_opcion_cabecera_comentario_4,
+                a.SOLOPCPAT     AS      solicitud_opcion_cabecera_directorio,
                 
                 a.SOLOPCAUS     AS      auditoria_usuario,
                 a.SOLOPCAFH     AS      auditoria_fecha_hora,
@@ -8659,30 +8655,20 @@
                 d.SOLFICCOD     AS      solicitud_codigo,
                 d.SOLFICPER     AS      solicitud_periodo,
                 d.SOLFICMOT     AS      solicitud_motivo,
-                d.SOLFICPAS     AS      solicitud_pasaje,
+                d.SOLFICPAS     AS      solicitud_vuelo,
                 d.SOLFICHOS     AS      solicitud_hospedaje,
                 d.SOLFICTRA     AS      solicitud_traslado,
                 d.SOLFICFEC     AS      solicitud_fecha_carga,
                 d.SOLFICSCC     AS      solicitud_sap_centro_costo,
                 d.SOLFICTCA     AS      solicitud_tarea_cantidad,
                 d.SOLFICTRE     AS      solicitud_tarea_resuelta,
-                d.SOLFICOBS     AS      solicitud_observacion,
-                
-                e.PROFICCOD     AS      proveedor_codigo,
-                e.PROFICNOM     AS      proveedor_nombre,
-                e.PROFICRAZ     AS      proveedor_razon_social,
-                e.PROFICRUC     AS      proveedor_ruc,
-                e.PROFICDIR     AS      proveedor_direccion,
-                e.PROFICSPC     AS      proveedor_sap_castastrado,
-                e.PROFICSPI     AS      proveedor_sap_codigo,
-                e.PROFICOBS     AS      proveedor_observacion
+                d.SOLFICOBS     AS      solicitud_observacion
                 
                 FROM via.SOLOPC a
 
                 INNER JOIN adm.DOMFIC      b ON a.SOLOPCEST = b.DOMFICCOD
                 INNER JOIN adm.DOMFIC      c ON a.SOLOPCTSC = c.DOMFICCOD
                 INNER JOIN via.SOLFIC      d ON a.SOLOPCSOC = d.SOLFICCOD
-                LEFT OUTER JOIN via.PROFIC e ON a.SOLOPCPRC = e.PROFICCOD
 
                 WHERE a.SOLOPCSOC = ?
 
@@ -8696,19 +8682,15 @@
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $detalle    = array(
-                        'solicitud_opcioncabecera_codigo'                   =>      $rowMSSQL00['solicitud_opcioncabecera_codigo'],
-                        'solicitud_opcioncabecera_nombre'                   =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_nombre'])),
-                        'solicitud_opcioncabecera_tarifa_importe'           =>      $rowMSSQL00['solicitud_opcioncabecera_tarifa_importe'],
-                        'solicitud_opcioncabecera_visualiza_solicitante'    =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_visualiza_solicitante'])),
-                        'solicitud_opcioncabecera_visualiza_jefatura'       =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_visualiza_jefatura'])),
-                        'solicitud_opcioncabecera_visualiza_ejecutivo'      =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_visualiza_ejecutivo'])),
-                        'solicitud_opcioncabecera_visualiza_proveedor'      =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_visualiza_proveedor'])),
-                        'solicitud_opcioncabecera_reserva'                  =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_reserva'])),
-                        'solicitud_opcioncabecera_comentario_1'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_comentario_1'])),
-                        'solicitud_opcioncabecera_comentario_2'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_comentario_2'])),
-                        'solicitud_opcioncabecera_comentario_3'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_comentario_3'])),
-                        'solicitud_opcioncabecera_comentario_4'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcioncabecera_comentario_4'])),
-                        'solicitud_opcioncabecera_directorio'               =>      trim(strtolower($rowMSSQL00['solicitud_opcioncabecera_directorio'])),
+                        'solicitud_opcion_cabecera_codigo'                   =>      $rowMSSQL00['solicitud_opcion_cabecera_codigo'],
+                        'solicitud_opcion_cabecera_nombre'                   =>      trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_nombre'])),
+                        'solicitud_opcion_cabecera_tarifa_importe'           =>      $rowMSSQL00['solicitud_opcion_cabecera_tarifa_importe'],
+                        'solicitud_opcion_cabecera_reserva'                  =>      trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_reserva'])),
+                        'solicitud_opcion_cabecera_comentario_1'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_comentario_1'])),
+                        'solicitud_opcion_cabecera_comentario_2'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_comentario_2'])),
+                        'solicitud_opcion_cabecera_comentario_3'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_comentario_3'])),
+                        'solicitud_opcion_cabecera_comentario_4'             =>      trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_comentario_4'])),
+                        'solicitud_opcion_cabecera_directorio'               =>      trim(strtolower($rowMSSQL00['solicitud_opcion_cabecera_directorio'])),
 
                         'tipo_estado_codigo'                                =>       $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_nombre'                                =>       trim(strtoupper($rowMSSQL00['tipo_estado_nombre'])),
@@ -8723,7 +8705,7 @@
                         'solicitud_codigo'                                  =>       $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                 =>       $rowMSSQL00['solicitud_periodo'],
                         'solicitud_motivo'                                  =>       trim(strtoupper($rowMSSQL00['solicitud_motivo'])),
-                        'solicitud_pasaje'                                  =>       trim(strtoupper($rowMSSQL00['solicitud_pasaje'])),
+                        'solicitud_vuelo'                                   =>       trim(strtoupper($rowMSSQL00['solicitud_vuelo'])),
                         'solicitud_hospedaje'                               =>       trim(strtoupper($rowMSSQL00['solicitud_hospedaje'])),
                         'solicitud_traslado'                                =>       trim(strtoupper($rowMSSQL00['solicitud_traslado'])),
                         'solicitud_fecha_carga'                             =>       date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga'])),
@@ -8731,15 +8713,6 @@
                         'solicitud_tarea_cantidad'                          =>       $rowMSSQL00['solicitud_tarea_cantidad'],
                         'solicitud_tarea_resuelta'                          =>       $rowMSSQL00['solicitud_tarea_resuelta'],
                         'solicitud_observacion'                             =>       trim(strtoupper($rowMSSQL00['solicitud_observacion'])),
-
-                        'proveedor_codigo'                                  =>       $rowMSSQL00['proveedor_codigo'],
-                        'proveedor_nombre'                                  =>       trim(strtoupper($rowMSSQL00['proveedor_nombre'])),
-                        'proveedor_razon_social'                            =>       trim(strtoupper($rowMSSQL00['proveedor_razon_social'])),
-                        'proveedor_ruc'                                     =>       trim(strtoupper($rowMSSQL00['proveedor_ruc'])),
-                        'proveedor_direccion'                               =>       trim(strtoupper($rowMSSQL00['proveedor_direccion'])),
-                        'proveedor_sap_castastrado'                         =>       trim(strtoupper($rowMSSQL00['proveedor_sap_castastrado'])),
-                        'proveedor_sap_codigo'                              =>       trim(strtoupper($rowMSSQL00['proveedor_sap_codigo'])),
-                        'proveedor_observacion'                             =>       trim(strtoupper($rowMSSQL00['proveedor_observacion'])),
 
                         'auditoria_usuario'                                 =>       trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
                         'auditoria_fecha_hora'                              =>       date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
