@@ -8166,6 +8166,15 @@
                     c.SOLFICTCA         AS          solicitud_tarea_cantidad,
                     c.SOLFICTRE         AS          solicitud_tarea_resuelta,
                     c.SOLFICOBS         AS          solicitud_observacion,
+
+                    h1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                    c.SOLFICDNS         AS          solicitud_solicitante_documento,
+                    h2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                    c.SOLFICDNJ         AS          solicitud_jefatura_documento,
+                    h3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                    c.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+                    h4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                    c.SOLFICDNP         AS          solicitud_proveedor_documento,
                     
                     d2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
                     d2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
@@ -8179,13 +8188,17 @@
                     e2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
                     e2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
                     e2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
-                    e2.LOCPAIOBS        AS          localidad_pais_destino_observacion
-                    
+                    e2.LOCPAIOBS        AS          localidad_pais_destino_observacion,
+
                     FROM via.SOLHOS a
                     INNER JOIN adm.DOMFIC b ON a.SOLHOSEST = b.DOMFICCOD
                     INNER JOIN via.SOLFIC c ON a.SOLHOSSOC = c.SOLFICCOD
                     INNER JOIN adm.LOCCIU d2 ON a.SOLHOSCDC = d2.LOCCIUCOD
                     LEFT OUTER JOIN [adm].[LOCPAI] e2 ON d2.LOCCIUPAC = e2.LOCPAICOD
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h1 ON c.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = h1.CedulaEmpleado
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h2 ON c.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = h2.CedulaEmpleado
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h3 ON c.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = h3.CedulaEmpleado
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h4 ON c.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = h4.CedulaEmpleado
                     
                     WHERE a.SOLHOSSOC = ?
 
@@ -8225,8 +8238,8 @@
                     $detalle = array(
                         'solicitud_detalle_hospedaje_codigo'                        => $rowMSSQL00['solicitud_detalle_hospedaje_codigo'],
                         'solicitud_detalle_hospedaje_comentario'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_comentario']))),
-                        'solicitud_detalle_hospedaje_comentario_alimentacion'       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_comentario_alimentacion']))),
-                        'solicitud_detalle_hospedaje_comentario_lavanderia'         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_comentario_lavanderia']))),
+                        'solicitud_detalle_hospedaje_alimentacion'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_alimentacion']))),
+                        'solicitud_detalle_hospedaje_lavanderia'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_hospedaje_lavanderia']))),
                         'solicitud_detalle_hospedaje_fecha_checkin_1'               => $solicitud_detalle_hospedaje_fecha_checkin_1,
                         'solicitud_detalle_hospedaje_fecha_checkin_2'               => $solicitud_detalle_hospedaje_fecha_checkin_2,
                         'solicitud_detalle_hospedaje_fecha_checkout_1'              => $solicitud_detalle_hospedaje_fecha_checkout_1,
@@ -8236,6 +8249,14 @@
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
 
                         'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
@@ -8265,19 +8286,19 @@
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
                         'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
 
-                        'localidad_ciudad_destino_codigo'                    => $rowMSSQL00['localidad_ciudad_destino_codigo'],
-                        'localidad_ciudad_destino_orden'                     => $rowMSSQL00['localidad_ciudad_destino_orden'],
-                        'localidad_ciudad_destino_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_nombre']))),
-                        'localidad_ciudad_destino_observacion'               => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_observacion'])),
+                        'localidad_ciudad_destino_codigo'                           => $rowMSSQL00['localidad_ciudad_destino_codigo'],
+                        'localidad_ciudad_destino_orden'                            => $rowMSSQL00['localidad_ciudad_destino_orden'],
+                        'localidad_ciudad_destino_nombre'                           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_destino_nombre']))),
+                        'localidad_ciudad_destino_observacion'                      => trim(strtolower($rowMSSQL00['localidad_ciudad_destino_observacion'])),
 
-                        'localidad_pais_destino_codigo'                      => $rowMSSQL00['localidad_pais_destino_codigo'],
-                        'localidad_pais_destino_orden'                       => $rowMSSQL00['localidad_pais_destino_orden'],
-                        'localidad_pais_destino_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_nombre']))),
-                        'localidad_pais_destino_path'                        => trim(strtolower($rowMSSQL00['localidad_pais_destino_path'])),
-                        'localidad_pais_destino_iso_char2'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char2']))),
-                        'localidad_pais_destino_iso_char3'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char3']))),
-                        'localidad_pais_destino_iso_num3'                    => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_num3']))),
-                        'localidad_pais_destino_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_observacion'])))
+                        'localidad_pais_destino_codigo'                             => $rowMSSQL00['localidad_pais_destino_codigo'],
+                        'localidad_pais_destino_orden'                              => $rowMSSQL00['localidad_pais_destino_orden'],
+                        'localidad_pais_destino_nombre'                             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_nombre']))),
+                        'localidad_pais_destino_path'                               => trim(strtolower($rowMSSQL00['localidad_pais_destino_path'])),
+                        'localidad_pais_destino_iso_char2'                          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char2']))),
+                        'localidad_pais_destino_iso_char3'                          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_char3']))),
+                        'localidad_pais_destino_iso_num3'                           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_iso_num3']))),
+                        'localidad_pais_destino_observacion'                        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_destino_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -8288,18 +8309,26 @@
                     $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 } else {
                     $detalle    = array(
-                        'solicitud_detalle_hospedaje_codigo'                 => '',
-                        'solicitud_detalle_hospedaje_comentario'             => '',
-                        'solicitud_detalle_hospedaje_comentario_alimentacion'=> '',
-                        'solicitud_detalle_hospedaje_comentario_lavanderia'  => '',
-                        'solicitud_detalle_hospedaje_fecha_checkin_1'        => '',
-                        'solicitud_detalle_hospedaje_fecha_checkin_2'        => '',
-                        'solicitud_detalle_hospedaje_fecha_checkout_1'       => '',
-                        'solicitud_detalle_hospedaje_fecha_checkout_2'       => '',
+                        'solicitud_detalle_hospedaje_codigo'                => '',
+                        'solicitud_detalle_hospedaje_comentario'            => '',
+                        'solicitud_detalle_hospedaje_alimentacion'          => '',
+                        'solicitud_detalle_hospedaje_lavanderia'            => '',
+                        'solicitud_detalle_hospedaje_fecha_checkin_1'       => '',
+                        'solicitud_detalle_hospedaje_fecha_checkin_2'       => '',
+                        'solicitud_detalle_hospedaje_fecha_checkout_1'      => '',
+                        'solicitud_detalle_hospedaje_fecha_checkout_2'      => '',
                         
                         'auditoria_usuario'                                 => '',
                         'auditoria_fecha_hora'                              => '',
                         'auditoria_ip'                                      => '',
+
+                        'tipo_estado_codigo'                                => '',
+                        'tipo_estado_ingles'                                => '',
+                        'tipo_estado_castellano'                            => '',
+                        'tipo_estado_portugues'                             => '',
+                        'tipo_estado_parametro'                             => '',
+                        'tipo_estado_icono'                                 => '',
+                        'tipo_estado_css'                                   => '',
 
                         'solicitud_periodo'                                 => '',
                         'solicitud_motivo'                                  => '',
@@ -8413,11 +8442,24 @@
                 c.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 c.SOLFICTCA         AS          solicitud_tarea_cantidad,
                 c.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                c.SOLFICOBS         AS          solicitud_observacion
+                c.SOLFICOBS         AS          solicitud_observacion,
+
+                h1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                c.SOLFICDNS         AS          solicitud_solicitante_documento,
+                h2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                c.SOLFICDNJ         AS          solicitud_jefatura_documento,
+                h3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                c.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+                h4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                c.SOLFICDNP         AS          solicitud_proveedor_documento,
                 
                 FROM via.SOLTRA a
                 INNER JOIN adm.DOMFIC b ON a.SOLTRAEST = b.DOMFICCOD
                 INNER JOIN via.SOLFIC c ON a.SOLTRASOC = c.SOLFICCOD
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h1 ON c.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = h1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h2 ON c.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = h2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h3 ON c.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = h3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h4 ON c.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = h4.CedulaEmpleado
                 
                 WHERE a.SOLTRASOC = ?";
 
