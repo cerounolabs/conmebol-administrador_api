@@ -7774,7 +7774,7 @@
                     $detalle = array(                    
                         'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
-                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'tipo_estado_css'                         => trim($rowMSSQL00['tipo_estado_css']),
                         'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
                     );
     
@@ -7838,7 +7838,7 @@
                     $detalle = array(                    
                         'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
-                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'tipo_estado_css'                         => trim($rowMSSQL00['tipo_estado_css']),
                         'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
                     );
     
@@ -7902,7 +7902,7 @@
                     $detalle = array(                    
                         'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
-                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'tipo_estado_css'                         => trim($rowMSSQL00['tipo_estado_css']),
                         'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
                     );
     
@@ -7966,7 +7966,7 @@
                     $detalle = array(                    
                         'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
-                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'tipo_estado_css'                         => trim($rowMSSQL00['tipo_estado_css']),
                         'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
                     );
     
