@@ -7748,6 +7748,262 @@
         return $json;
     });
 
+    $app->get('/v2/400/solicitud/char01/solicitante/{documento}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('documento');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT 
+            a.DOMFICCOD         AS          tipo_estado_codigo,
+            a.DOMFICNOC         AS          tipo_estado_nombre,
+            a.DOMFICCSS         AS          tipo_estado_css,
+            COUNT(*)            AS          solicitud_cantidad
+            FROM adm.DOMFIC a 
+            INNER JOIN via.SOLFIC b ON a.DOMFICCOD = b.SOLFICEST
+            WHERE DOMFICVAL = 'SOLICITUDESTADO' AND b.SOLFICDNS = ? 
+            
+            GROUP BY a.DOMFICCOD, a.DOMFICNOC, a.DOMFICCSS";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
+                    $detalle = array(                    
+                        'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
+                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
+                    );
+    
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_nombre'                        => '',
+                        'tipo_estado_css'                           => '',
+                        'solicitud_cantidad'                        => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/char01/jefatura/{documento}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('documento');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT 
+                a.DOMFICCOD         AS          tipo_estado_codigo,
+                a.DOMFICNOC         AS          tipo_estado_nombre,
+                a.DOMFICCSS         AS          tipo_estado_css,
+                COUNT(*)            AS          solicitud_cantidad
+                FROM adm.DOMFIC a 
+                INNER JOIN via.SOLFIC b ON a.DOMFICCOD = b.SOLFICEST
+                WHERE DOMFICVAL = 'SOLICITUDESTADO' AND b.SOLFICDNJ = ? 
+                
+                GROUP BY a.DOMFICCOD, a.DOMFICNOC, a.DOMFICCSS ";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
+                    $detalle = array(                    
+                        'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
+                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
+                    );
+    
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_nombre'                        => '',
+                        'tipo_estado_css'                           => '',
+                        'solicitud_cantidad'                        => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/char01/ejecutivo/{documento}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('documento');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT 
+                a.DOMFICCOD         AS          tipo_estado_codigo,
+                a.DOMFICNOC         AS          tipo_estado_nombre,
+                a.DOMFICCSS         AS          tipo_estado_css,
+                COUNT(*)            AS          solicitud_cantidad
+                FROM adm.DOMFIC a 
+                INNER JOIN via.SOLFIC b ON a.DOMFICCOD = b.SOLFICEST
+                WHERE DOMFICVAL = 'SOLICITUDESTADO' AND b.SOLFICDNE = ? 
+                
+                GROUP BY a.DOMFICCOD, a.DOMFICNOC, a.DOMFICCSS ";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
+                    $detalle = array(                    
+                        'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
+                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
+                    );
+    
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_nombre'                        => '',
+                        'tipo_estado_css'                           => '',
+                        'solicitud_cantidad'                        => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/char01/ejecutivo/{documento}', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+        
+        $val01  = $request->getAttribute('documento');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT 
+                a.DOMFICCOD         AS          tipo_estado_codigo,
+                a.DOMFICNOC         AS          tipo_estado_nombre,
+                a.DOMFICCSS         AS          tipo_estado_css,
+                COUNT(*)            AS          solicitud_cantidad
+                FROM adm.DOMFIC a 
+                INNER JOIN via.SOLFIC b ON a.DOMFICCOD = b.SOLFICEST
+                WHERE DOMFICVAL = 'SOLICITUDESTADO' AND b.SOLFICDNP = ? 
+                
+                GROUP BY a.DOMFICCOD, a.DOMFICNOC, a.DOMFICCSS ";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {    
+                    $detalle = array(                    
+                        'tipo_estado_codigo'                      => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
+                        'tipo_estado_css'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_css']))),
+                        'solicitud_cantidad'                      => $rowMSSQL00['solicitud_cantidad']
+                    );
+    
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_nombre'                        => '',
+                        'tipo_estado_css'                           => '',
+                        'solicitud_cantidad'                        => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v2/400/solicitud/detalle/vuelo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
