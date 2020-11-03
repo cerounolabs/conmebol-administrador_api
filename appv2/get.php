@@ -9787,7 +9787,9 @@
         $val00 = $request->getAttribute('documento');
 
         $sql00  = "SELECT TOP 10
-        b.SOLCONCOD         AS          solicitud_consulta_codigo,	
+        a.SOLFICCOD         AS          solicitud_codigo,
+
+        b.SOLCONCOD         AS          solicitud_consulta_codigo,
         b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
         b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
@@ -9836,7 +9838,9 @@
                     $solicitud_consulta_fecha_carga_2    = '';
                 }
 
-                $detalle = array(                    
+                $detalle = array(  
+                    'solicitud_codigo'                                  => $rowMSSQL00['solicitud_codigo'],
+
                     'solicitud_consulta_codigo'                         => $rowMSSQL00['solicitud_consulta_codigo'],
                     'solicitud_consulta_persona_documento'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_documento']))),
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
@@ -9875,6 +9879,8 @@
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             } else {
                 $detalle    = array(
+                    'solicitud_codigo'                                  => '',
+
                     'solicitud_consulta_codigo'                         => '',
                     'solicitud_consulta_persona_documento'              => '',
                     'solicitud_consulta_persona_nombre'                 => '',
@@ -9925,6 +9931,8 @@
         $val00 = $request->getAttribute('documento');
 
         $sql00  = "SELECT 
+        a.SOLFICCOD         AS          solicitud_codigo,
+
         b.SOLCONCOD         AS          solicitud_consulta_codigo,	
         b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
@@ -9974,7 +9982,9 @@
                     $solicitud_consulta_fecha_carga_2    = '';
                 }
 
-                $detalle = array(                    
+                $detalle = array(    
+                    'solicitud_codigo'                                  => $rowMSSQL00['solicitud_codigo'],
+
                     'solicitud_consulta_codigo'                         => $rowMSSQL00['solicitud_consulta_codigo'],
                     'solicitud_consulta_persona_documento'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_documento']))),
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
@@ -10012,6 +10022,8 @@
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             } else {
                 $detalle    = array(
+                    'solicitud_codigo'                                  => '',
+
                     'solicitud_consulta_codigo'                         => '',
                     'solicitud_consulta_persona_documento'              => '',
                     'solicitud_consulta_persona_nombre'                 => '',
