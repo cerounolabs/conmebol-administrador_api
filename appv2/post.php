@@ -1850,6 +1850,57 @@
         return $json;
     });
 
+    $app->post('/v2/400/solicitud/opcion/adjunto', function($request) {//20201103
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_documento_codigo'];
+        $val03      = $request->getParsedBody()['solicitud_codigo'];
+        $val04      = $request->getParsedBody()['solicitud_opcion_adjunto_codigo'];
+        $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_adjunto_pat']));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_adjunto_comentario'])));
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03)) {
+            $sql00  = "INSERT INTO [via].[SOLOPA] (SOLOPAEST, SOLOPATDC, SOLOPASOC, SOLOPAPAT, SOLOPACOM, SOLOPAAUS, SOLOPAAFH, SOLOPAAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDOPCIONDOCUMENTO' AND DOMFICPAR = ?),          ?,         ?,           ?,        ?, GETDATE(),       ?)";
+            $sql01  = "SELECT MAX(SOLOPCOD) AS solicitud_opcion_adjunto_codigo FROM [via].[SOLOPA]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val05, $val06, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['solicitud_opcion_adjunto_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->post('/v2/400/aerolinea', function($request) {
         require __DIR__.'/../src/connect.php';
 
