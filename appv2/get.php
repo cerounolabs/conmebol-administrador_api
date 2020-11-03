@@ -9784,7 +9784,7 @@
 
     $app->get('/v2/400/solicitud/notificacion/top10/{documento}', function($request) {//20201103
         require __DIR__.'/../src/connect.php';
-        $val00 = trim(strtoupper(strtolower($request->getAttribute('documento'))));
+        $val00 = $request->getAttribute('documento');
 
         $sql00  = "SELECT TOP 10
         b.SOLCONCOD         AS          solicitud_consulta_codigo,	
@@ -9825,7 +9825,7 @@
         try {
             $connMSSQL  = getConnectionMSSQLv2();
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute();
+            $stmtMSSQL00->execute([$val00,$val00,$val00,$val00]);
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                 if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
@@ -9922,7 +9922,7 @@
 
     $app->get('/v2/400/solicitud/notificacion/listado/{documento}', function($request) {//20201103
         require __DIR__.'/../src/connect.php';
-        $val00 = trim(strtoupper(strtolower($request->getAttribute('documento'))));//20201103
+        $val00 = $request->getAttribute('documento');
 
         $sql00  = "SELECT 
         b.SOLCONCOD         AS          solicitud_consulta_codigo,	
@@ -9963,7 +9963,7 @@
         try {
             $connMSSQL  = getConnectionMSSQLv2();
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute();
+            $stmtMSSQL00->execute([$val00,$val00,$val00,$val00]);
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                 if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
