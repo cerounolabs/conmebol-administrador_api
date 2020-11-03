@@ -9849,20 +9849,20 @@
                     'auditoria_ip'                                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                     'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                    'tipo_estado_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                    'tipo_estado_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_nombre_ingles'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
                     'tipo_estado_parametro'                             => $rowMSSQL00['tipo_estado_parametro'],
                     'tipo_estado_icono'                                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
                     'tipo_estado_css'                                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
 
-                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_dificultad_codigo'],
-                    'tipo_consulta_ingles'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
-                    'tipo_consulta_castellano'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
-                    'tipo_consulta_portugues'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
-                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_dificultad_parametro'],
-                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
-                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
+                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_consulta_codigo'],
+                    'tipo_consulta_nombre_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_ingles']))),
+                    'tipo_consulta_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_castellano']))),
+                    'tipo_consulta_nombre_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_portugues']))),
+                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_consulta_parametro'],
+                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_consulta_icono'])),
+                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_consulta_css']))
 
                     
                 );
@@ -9895,9 +9895,9 @@
                     'tipo_estado_css'                                   => '',
 
                     'tipo_consulta_codigo'                              => '',
-                    'tipo_consulta_ingles'                              => '',
-                    'tipo_consulta_castellano'                          => '',
-                    'tipo_consulta_portugues'                           => '',
+                    'tipo_consulta_nombre_ingles'                       => '',
+                    'tipo_consulta_nombre_castellano'                   => '',
+                    'tipo_consulta_nombre_portugues'                    => '',
                     'tipo_consulta_parametro'                           => '',
                     'tipo_consulta_icono'                               => '',
                     'tipo_consulta_css'                                 => ''
@@ -9987,21 +9987,20 @@
                     'auditoria_ip'                                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                     'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                    'tipo_estado_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                    'tipo_estado_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_nombre_ingles'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
                     'tipo_estado_parametro'                             => $rowMSSQL00['tipo_estado_parametro'],
                     'tipo_estado_icono'                                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
                     'tipo_estado_css'                                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
 
-                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_dificultad_codigo'],
-                    'tipo_consulta_ingles'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_ingles']))),
-                    'tipo_consulta_castellano'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_castellano']))),
-                    'tipo_consulta_portugues'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_dificultad_portugues']))),
-                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_dificultad_parametro'],
-                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_dificultad_icono'])),
-                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_dificultad_css']))
-
+                    'tipo_consulta_codigo'                              => $rowMSSQL00['tipo_consulta_codigo'],
+                    'tipo_consulta_nombre_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_ingles']))),
+                    'tipo_consulta_nombre_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_castellano']))),
+                    'tipo_consulta_nombre_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_portugues']))),
+                    'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_consulta_parametro'],
+                    'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_consulta_icono'])),
+                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_consulta_css']))
                     
                 );
 
