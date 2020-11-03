@@ -1577,7 +1577,7 @@
         return $json;
     });
 
-    $app->post('/v2/400/solicitud/consulta', function($request) {
+    $app->post('/v2/400/solicitud/notificacion', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
