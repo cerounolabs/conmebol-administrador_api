@@ -8655,7 +8655,7 @@
                 d.SOLFICCOD     AS      solicitud_codigo,
                 d.SOLFICPER     AS      solicitud_periodo,
                 d.SOLFICMOT     AS      solicitud_motivo,
-                d.SOLFICPAS     AS      solicitud_vuelo,
+                d.SOLFICVUE     AS      solicitud_vuelo,
                 d.SOLFICHOS     AS      solicitud_hospedaje,
                 d.SOLFICTRA     AS      solicitud_traslado,
                 d.SOLFICFEC     AS      solicitud_fecha_carga,
