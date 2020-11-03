@@ -8188,7 +8188,7 @@
                     e2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
                     e2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
                     e2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
-                    e2.LOCPAIOBS        AS          localidad_pais_destino_observacion,
+                    e2.LOCPAIOBS        AS          localidad_pais_destino_observacion
 
                     FROM via.SOLHOS a
                     INNER JOIN adm.DOMFIC b ON a.SOLHOSEST = b.DOMFICCOD
@@ -8451,7 +8451,7 @@
                 h3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
                 c.SOLFICDNE         AS          solicitud_ejecutivo_documento,
                 h4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                c.SOLFICDNP         AS          solicitud_proveedor_documento,
+                c.SOLFICDNP         AS          solicitud_proveedor_documento
                 
                 FROM via.SOLTRA a
                 INNER JOIN adm.DOMFIC b ON a.SOLTRAEST = b.DOMFICCOD
