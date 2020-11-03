@@ -8366,29 +8366,33 @@
         $val01  = $request->getAttribute('codigo');
         
         if (isset($val01)) {
-                $sql00  = "SELECT 
-                a.SOLTRACOD         AS          solicitud_detalle_traslado_codigo,	
-                a.SOLTRACOM         AS          solicitud_detalle_traslado_comentario,	
-                a.SOLTRASAL         AS          solicitud_detalle_traslado_origen,	
-                a.SOLTRADES         AS          solicitud_detalle_traslado_destino,	
-                a.SOLTRAFSA         AS          solicitud_detalle_traslado_fecha,	
+            $sql00  = "SELECT 
+                a.SOLTRACOD         AS          solicitud_detalle_traslado_codigo,
+                a.SOLTRACOM         AS          solicitud_detalle_traslado_comentario,
+                a.SOLTRASAL         AS          solicitud_detalle_traslado_origen,
+                a.SOLTRADES         AS          solicitud_detalle_traslado_destino,
+                a.SOLTRAFSA         AS          solicitud_detalle_traslado_fecha,
 
                 a.SOLVUETTC         AS          tipo_traslado_codigo,
 
                 CASE
                   WHEN a.SOLVUETTC = 'I' THEN 'TRASLADO IN'
                   WHEN a.SOLVUETTC = 'O' THEN 'TRASLADO OUT'
-                  WHEN a.SOLVUETTC = 'T' THEN 'OTROS TRASLADOS' 
-                END AS a.tipo_traslado_nombre, 
+                  WHEN a.SOLVUETTC = 'T' THEN 'OTROS TRASLADOS'
+                END AS tipo_traslado_nombre,
 
-                a.SOLTRAAUS         AS          auditoria_usuario,	
-                a.SOLTRAAFH         AS          auditoria_fecha_hora,	
+                a.SOLTRAAUS         AS          auditoria_usuario,
+                a.SOLTRAAFH         AS          auditoria_fecha_hora,
                 a.SOLTRAAIP         AS          auditoria_ip,
 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
-                b.DOMFICNOC         AS          tipo_estado_nombre,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
                 b.DOMFICPAR         AS          tipo_estado_parametro,
-                
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICCSS         AS          tipo_estado_css,
+
                 c.SOLFICCOD         AS          solicitud_codigo,
                 c.SOLFICPER         AS          solicitud_periodo,
                 c.SOLFICMOT         AS          solicitud_motivo,
@@ -8436,9 +8440,7 @@
                         $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     }
 
-
                     $detalle = array(
-
                         'solicitud_detalle_traslado_codigo'                         => $rowMSSQL00['solicitud_detalle_traslado_codigo'],
                         'solicitud_detalle_traslado_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_comentario']))),
                         'solicitud_detalle_traslado_origen'                         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_origen']))),
@@ -8452,6 +8454,14 @@
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_ingles'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
 
                         'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
@@ -8504,6 +8514,14 @@
                         'auditoria_usuario'                                 => '',
                         'auditoria_fecha_hora'                              => '',
                         'auditoria_ip'                                      => '',
+
+                        'tipo_estado_codigo'                                => '',
+                        'tipo_estado_ingles'                                => '',
+                        'tipo_estado_castellano'                            => '',
+                        'tipo_estado_portugues'                             => '',
+                        'tipo_estado_parametro'                             => '',
+                        'tipo_estado_icono'                                 => '',
+                        'tipo_estado_css'                                   => '',
 
                         'solicitud_periodo'                                 => '',
                         'solicitud_motivo'                                  => '',
