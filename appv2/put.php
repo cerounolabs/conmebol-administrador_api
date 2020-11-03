@@ -1102,7 +1102,7 @@
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
+        $aud03      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_ip'])));
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
             $sql00 = "UPDATE [via].[SOLOPA] SET SOLOPAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?),
