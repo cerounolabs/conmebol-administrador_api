@@ -10408,6 +10408,166 @@
         return $json;
     });
 
+    $app->get('/v2/500/rendicion/chart01/{codigo}', function($request) {//20201031
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT 
+            '1' AS TOTAL_CODIGO,
+            'TOTAL DECLARADO' AS TOTAL_NOMBRE,
+            'bg-blue' AS TOTAL_CSS,
+            CASE WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NULL THEN 0  
+                 WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP *a.RENFCACAM) 
+              END AS TOTAL_IMPORTE  
+        
+            FROM con.RENFCA a 
+            
+            INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
+
+            WHERE a.RENFCAREC = ?";
+
+            $sql01 = "SELECT 
+            '2' AS TOTAL_CODIGO,
+            'TOTAL PENDIENTE' AS TOTAL_NOMBRE,
+            'bg-info' AS TOTAL_CSS,
+             CASE WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NULL THEN 0    
+                    WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP *a.RENFCACAM) 
+             END AS TOTAL_IMPORTE
+
+             FROM con.RENFCA a 
+             
+             INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
+             
+             WHERE a.RENFCAREC = ? AND b.RENFDEECC IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR NOT IN (3, 5, 9) AND DOMFICVAL = 'WORKFLOWESTADO')
+            ";
+
+            $sql02 = " SELECT 
+            '3' AS TOTAL_CODIGO,
+            'TOTAL APROBADO' AS TOTAL_NOMBRE,
+            'bg-orange' AS TOTAL_CSS,
+             CASE WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NULL THEN 0  
+                    WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP * a.RENFCACAM) 
+             END AS TOTAL_IMPORTE  
+         
+             FROM con.RENFCA a 
+             
+             INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
+             
+             WHERE a.RENFCAREC = ? AND b.RENFDEECC IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR = 9 AND DOMFICVAL = 'WORKFLOWESTADO')";    
+
+            $sql03 = " SELECT 
+            '4' AS TOTAL_CODIGO,
+            'TOTAL RECHAZADO' AS TOTAL_NOMBRE,
+            'bg-red' AS TOTAL_CSS,
+             CASE WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NULL THEN 0  
+                  WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP *a.RENFCACAM) 
+             END AS TOTAL_IMPORTE    
+         
+             FROM con.RENFCA a 
+             
+             INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
+             
+             WHERE a.RENFCAREC = ? AND b.RENFDEECC IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR IN (3,5) AND DOMFICVAL = 'WORKFLOWESTADO')";
+
+            try {
+                $connMSSQL   = getConnectionMSSQLv2();
+                $stmtMSSQL00 = $connMSSQL->prepare($sql00);
+                $stmtMSSQL01 = $connMSSQL->prepare($sql01);
+                $stmtMSSQL02 = $connMSSQL->prepare($sql02);
+                $stmtMSSQL03 = $connMSSQL->prepare($sql03);
+
+                $stmtMSSQL00->execute([$val01]);
+                $stmtMSSQL01->execute([$val01]);
+                $stmtMSSQL02->execute([$val01]);
+                $stmtMSSQL03->execute([$val01]);
+
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
+                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
+                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.') 
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                
+                while ($rowMSSQL00 = $stmtMSSQL01->fetch()) {
+                    $detalle    = array(
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
+                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
+                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.')
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                                
+                while ($rowMSSQL00 = $stmtMSSQL02->fetch()) { 
+                    $detalle    = array(
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
+                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
+                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.')
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                while ($rowMSSQL00 = $stmtMSSQL03->fetch()) {
+                    $detalle    = array(
+                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
+                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
+                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
+                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.')
+                    );
+
+                    $result[]   = $detalle;
+                }
+                
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'TOTAL_CODIGO'       => '',
+                        'TOTAL_NOMBRE'       => '',
+                        'TOTAL_CSS'          => '',
+                        'TOTAL_IMPORTE'      => ''
+                        
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+                $stmtMSSQL02->closeCursor();
+                $stmtMSSQL03->closeCursor();
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+                $stmtMSSQL02 = null;
+                $stmtMSSQL03 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v2/500/rendicion/cabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -10947,159 +11107,137 @@
         return $json;
     });
 
-    $app->get('/v2/500/rendicion/consulta/{codigo}', function($request) {//20201031
+    $app->get('/v2/500/rendicion/consulta/{codigo}', function($request) {//20201101
         require __DIR__.'/../src/connect.php';
-
         $val01  = $request->getAttribute('codigo');
+
+        $sql00  = "SELECT 
+            a.RENCONCOD         AS          rendicion_consulta_codigo,
+            a.RENCONDNU         AS          rendicion_consulta_persona_documento,
+            a.RENCONNOM         AS          rendicion_consulta_persona_nombre,
+            a.RENCONCOM         AS          rendicion_consulta_comentario,     
+            a.RENCONFHC         AS          rendicion_consulta_fecha_hora_carga,
         
-        if (isset($val01)) {
-            $sql00  = "SELECT 
-            '1' AS TOTAL_CODIGO,
-            'TOTAL DECLARADO' AS TOTAL_NOMBRE,
-            'bg-blue' AS TOTAL_CSS,
-            CASE WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NULL THEN 0  
-                 WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP *a.RENFCACAM) 
-              END AS TOTAL_IMPORTE  
+            a.RENCONAUS         AS          auditoria_usuario,
+            a.RENCONAFH         AS          auditoria_fecha_hora,
+            a.RENCONAIP         AS          auditoria_ip,
         
-            FROM con.RENFCA a 
+            b.RENFICCOD         AS          rendicion_codigo,
+            b.RENFICPER         AS          rendicion_periodo,
+            b.RENFICENO         AS          rendicion_evento_nombre,
+            b.RENFICEFE         AS          rendicion_evento_fecha,
+            b.RENFICDNS         AS          rendicion_documento_solicitante,
+            b.RENFICDNJ         AS          rendicion_documento_jefatura,
+            b.RENFICDNA         AS          rendicion_documento_analista,
+            b.RENFICFEC         AS          rendicion_carga_fecha,
+            b.RENFICTCA         AS          rendicion_tarea_cantidad,
+            b.RENFICTRE         AS          rendicion_tarea_resuelta,
+            b.RENFICOBS         AS          rendicion_observacion,
+        
+            c.DOMFICCOD         AS          tipo_estado_codigo,
+            c.DOMFICNOC         AS          tipo_estado_nombre,
+            c.DOMFICPAR         AS          tipo_estado_parametro
+        
+            FROM con.RENCON a
+            INNER JOIN con.RENFIC b ON a.RENCONREC = b.RENFICCOD
+            INNER JOIN adm.DOMFIC c ON a.RENCONEST = c.DOMFICCOD
+        
+            WHERE a.RENCONREC = ?
             
-            INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
+            ORDER BY a.RENCONCOD";
+            
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute([$val01]);
 
-            WHERE a.RENFCAREC = ?";
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
 
-            $sql01 = "SELECT 
-            '2' AS TOTAL_CODIGO,
-            'TOTAL PENDIENTE' AS TOTAL_NOMBRE,
-            'bg-info' AS TOTAL_CSS,
-             CASE WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NULL THEN 0    
-                    WHEN SUM(b.RENFDEIMP *a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP *a.RENFCACAM) 
-             END AS TOTAL_IMPORTE
-
-             FROM con.RENFCA a 
-             
-             INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
-             
-             WHERE a.RENFCAREC = ? AND b.RENFDEECC IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR NOT IN (3, 5, 9) AND DOMFICVAL = 'WORKFLOWESTADO')
-            ";
-
-            $sql02 = " SELECT 
-            '3' AS TOTAL_CODIGO,
-            'TOTAL APROBADO' AS TOTAL_NOMBRE,
-            'bg-orange' AS TOTAL_CSS,
-             CASE WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NULL THEN 0  
-                    WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP * a.RENFCACAM) 
-             END AS TOTAL_IMPORTE  
-         
-             FROM con.RENFCA a 
-             
-             INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
-             
-             WHERE a.RENFCAREC = ? AND b.RENFDEECC IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR = 9 AND DOMFICVAL = 'WORKFLOWESTADO')";    
-
-            $sql03 = " SELECT 
-            '4' AS TOTAL_CODIGO,
-            'TOTAL RECHAZADO' AS TOTAL_NOMBRE,
-            'bg-red' AS TOTAL_CSS,
-             CASE WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NULL THEN 0  
-                  WHEN SUM(b.RENFDEIMP * a.RENFCACAM) IS NOT NULL THEN SUM(b.RENFDEIMP *a.RENFCACAM) 
-             END AS TOTAL_IMPORTE    
-         
-             FROM con.RENFCA a 
-             
-             INNER JOIN con.RENFDE b ON a.RENFCACOD = b.RENFDEFCC
-             
-             WHERE a.RENFCAREC = ? AND b.RENFDEECC IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR IN (3,5) AND DOMFICVAL = 'WORKFLOWESTADO')";
-
-            try {
-                $connMSSQL   = getConnectionMSSQLv2();
-                $stmtMSSQL00 = $connMSSQL->prepare($sql00);
-                $stmtMSSQL01 = $connMSSQL->prepare($sql01);
-                $stmtMSSQL02 = $connMSSQL->prepare($sql02);
-                $stmtMSSQL03 = $connMSSQL->prepare($sql03);
-
-                $stmtMSSQL00->execute([$val01]);
-                $stmtMSSQL01->execute([$val01]);
-                $stmtMSSQL02->execute([$val01]);
-                $stmtMSSQL03->execute([$val01]);
-
-
-                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
-                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
-                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.') 
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                
-                while ($rowMSSQL00 = $stmtMSSQL01->fetch()) {
-                    $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
-                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
-                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.')
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                                
-                while ($rowMSSQL00 = $stmtMSSQL02->fetch()) { 
-                    $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
-                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
-                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.')
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                while ($rowMSSQL00 = $stmtMSSQL03->fetch()) {
-                    $detalle    = array(
-                        'TOTAL_CODIGO'      =>  $rowMSSQL00['TOTAL_CODIGO'],
-                        'TOTAL_NOMBRE'      =>  trim(strtoupper(strtolower($rowMSSQL00['TOTAL_NOMBRE']))),
-                        'TOTAL_CSS'         =>  trim(strtolower($rowMSSQL00['TOTAL_CSS'])),
-                        'TOTAL_IMPORTE'     =>  number_format($rowMSSQL00['TOTAL_IMPORTE'], 2, ',', '.')
-                    );
-
-                    $result[]   = $detalle;
-                }
-                
-                if (isset($result)){
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                if ($rowMSSQL['rendicion_consulta_fecha_hora_carga'] == '1900-01-01' || $rowMSSQL['rendicion_consulta_fecha_hora_carga'] == null){
+                    $rendicion_consulta_fecha_hora_carga_1 = '';
+                    $rendicion_consulta_fecha_hora_carga_2 = '';
                 } else {
-                    $detalle    = array(
-                        'TOTAL_CODIGO'       => '',
-                        'TOTAL_NOMBRE'       => '',
-                        'TOTAL_CSS'          => '',
-                        'TOTAL_IMPORTE'      => ''
-                        
-                    );
-
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    $rendicion_consulta_fecha_hora_carga_1 = $rowMSSQL['rendicion_consulta_fecha_hora_carga'];
+                    $rendicion_consulta_fecha_hora_carga_2 = date('d/m/Y', strtotime($rowMSSQL['rendicion_consulta_fecha_hora_carga']));
                 }
 
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL01->closeCursor();
-                $stmtMSSQL02->closeCursor();
-                $stmtMSSQL03->closeCursor();
-                $stmtMSSQL00 = null;
-                $stmtMSSQL01 = null;
-                $stmtMSSQL02 = null;
-                $stmtMSSQL03 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                if ($rowMSSQL['rendicion_carga_fecha'] == '1900-01-01' || $rowMSSQL['rendicion_carga_fecha'] == null){
+                    $rendicion_carga_fecha_1 = '';
+                    $rendicion_carga_fecha_2 = '';
+                } else {
+                    $rendicion_carga_fecha_1 = $rowMSSQL['rendicion_carga_fecha'];
+                    $rendicion_carga_fecha_2 = date('d/m/Y', strtotime($rowMSSQL['rendicion_carga_fecha']));
+                }
+
+                $detalle    = array(
+                    'rendicion_consulta_codigo'                 => $rowMSSQL00['rendicion_consulta_codigo'],
+                    'rendicion_consulta_persona_documento'      => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_persona_documento']))),
+                    'rendicion_consulta_persona_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_persona_nombre']))),
+                    'rendicion_consulta_comentario'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_comentario']))),    
+                    'rendicion_consulta_fecha_hora_carga_1'     => $rendicion_consulta_fecha_hora_carga_1,
+                    'rendicion_consulta_fecha_hora_carga_2'     => $rendicion_consulta_fecha_hora_carga_2,
+
+                    'rendicion_codigo'                          => $rowMSSQL00['rendicion_codigo'],
+                    'rendicion_periodo'                         => $rowMSSQL00['rendicion_periodo'],
+                    'rendicion_evento_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['rendicion_evento_nombre']))),
+                    'rendicion_evento_fecha'                    => date("d/m/Y", strtotime($rowMSSQL00['rendicion_evento_fecha'])),
+                    'rendicion_documento_solicitante'           => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_solicitante']))),
+                    'rendicion_documento_jefatura'              => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_jefatura']))),
+                    'rendicion_documento_analista'              => trim(strtoupper(strtolower($rowMSSQL00['rendicion_documento_analista']))),
+                    'rendicion_carga_fecha_1'                   => $rendicion_carga_fecha_1,
+                    'rendicion_carga_fecha_2'                   => $rendicion_carga_fecha_2,
+                    'rendicion_tarea_cantidad'                  => $rowMSSQL00['rendicion_tarea_cantidad'],
+                    'rendicion_tarea_resuelta'                  => $rowMSSQL00['rendicion_tarea_resuelta'],
+                    'rendicion_tarea_porcentaje'                => number_format((($rowMSSQL00['rendicion_tarea_resuelta'] * 100) / $rowMSSQL00['rendicion_tarea_cantidad']), 2, '.', ''),
+                    'rendicion_observacion'                     => trim(strtoupper(strtolower($rowMSSQL00['rendicion_observacion']))),
+
+                    'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                      => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))) 
+                );
+
+                $result[]   = $detalle;
             }
-        } else {
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'rendicion_consulta_codigo'                 => '',
+                    'rendicion_consulta_persona_documento'      => '',
+                    'rendicion_consulta_persona_nombre'         => '',
+                    'rendicion_consulta_comentario'             => '',   
+                    'rendicion_consulta_fecha_hora_carga_1'     => '',
+                    'rendicion_consulta_fecha_hora_carga_2'     => '',
+                    
+                    'rendicion_codigo'                          => '',
+                    'rendicion_periodo'                         => '',
+                    'rendicion_evento_nombre'                   => '',
+                    'rendicion_evento_fecha'                    => '',
+                    'rendicion_documento_solicitante'           => '',
+                    'rendicion_documento_jefatura'              => '',
+                    'rendicion_documento_analista'              => '',
+                    'rendicion_carga_fecha'                     => '',
+                    'rendicion_tarea_cantidad'                  => '',
+                    'rendicion_tarea_resuelta'                  => '',
+                    'rendicion_tarea_porcentaje'                => '',
+                    'rendicion_observacion'                     => '',
+
+                    'auditoria_usuario'                         => '',
+                    'auditoria_fecha_hora'                      => '',
+                    'auditoria_ip'                              => '',
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
             header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
 
         $connMSSQL  = null;
