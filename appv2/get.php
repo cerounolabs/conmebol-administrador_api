@@ -5678,7 +5678,7 @@
                 INNER JOIN [adm].[DOMFIC] m ON a.SOLFICTDC = m.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] n ON a.SOLFICEST = n.DOMFICCOD
 
-                WHERE a.SOLFICDNJ = ?
+                WHERE a.SOLFICDNS = ?
 
                 ORDER BY a.SOLFICCOD DESC";
 
