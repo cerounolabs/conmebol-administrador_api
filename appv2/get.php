@@ -8405,6 +8405,7 @@
                 a.SOLTRASAL         AS          solicitud_detalle_traslado_origen,
                 a.SOLTRADES         AS          solicitud_detalle_traslado_destino,
                 a.SOLTRAFSA         AS          solicitud_detalle_traslado_fecha,
+                a.SOLTRAHSA         AS          solicitud_detalle_traslado_hora,
 
                 a.SOLVUETTC         AS          tipo_traslado_codigo,
 
@@ -8493,6 +8494,8 @@
                         'solicitud_detalle_traslado_destino'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_destino']))),
                         'solicitud_detalle_traslado_fecha_1'                        => $solicitud_detalle_traslado_fecha_1,
                         'solicitud_detalle_traslado_fecha_2'                        => $solicitud_detalle_traslado_fecha_2,
+                        'solicitud_detalle_traslado_fecha_2'                        => $solicitud_detalle_traslado_fecha_2,
+                        'solicitud_detalle_traslado_hora'                           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_destino']))),
 
                         'tipo_traslado_codigo'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_codigo']))),
                         'tipo_traslado_nombre'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre']))),
@@ -8552,7 +8555,8 @@
                         'solicitud_detalle_traslado_origen'                 => '',        
                         'solicitud_detalle_traslado_destino'                => '',        
                         'solicitud_detalle_traslado_fecha_1'                => '',      
-                        'solicitud_detalle_traslado_fecha_2'                => '',         
+                        'solicitud_detalle_traslado_fecha_2'                => '',    
+                        'solicitud_detalle_traslado_hora'                   => '',     
 
                         'tipo_traslado_codigo'                              => '',
                         'tipo_traslado_nombre'                              => '',     
