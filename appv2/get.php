@@ -4762,7 +4762,7 @@
             c.DOMFICNOP         AS          tipo_documento_nombre_portugues,
             c.DOMFICPAR         AS          tipo_documento_parametro,
             c.DOMFICICO         AS          tipo_documento_icono,
-            c.DOMFICCSS         AS          tipo_documento_css
+            c.DOMFICCSS         AS          tipo_documento_css,
 
             d.SOLFICCOD         AS          solicitud_codigo,
             d.SOLFICPER         AS          solicitud_periodo,
