@@ -10523,7 +10523,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/notificacion/codigo/{codigo}', function($request) {//20201103
+    $app->get('/v2/400/solicitud/notificacion/solicitud/{codigo}', function($request) {//20201103
         require __DIR__.'/../src/connect.php';
         $val00 = $request->getAttribute('codigo');
 
@@ -10585,7 +10585,7 @@
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
                     'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
                     'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
-                    'solicitud_consulta_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_comentario']))),
+                    'solicitud_consulta_comentario'                     => trim($rowMSSQL00['solicitud_consulta_comentario']),
 
                     'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -10727,7 +10727,7 @@
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
                     'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
                     'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
-                    'solicitud_consulta_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_comentario']))),
+                    'solicitud_consulta_comentario'                     => trim($rowMSSQL00['solicitud_consulta_comentario']),
 
                     'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -10871,7 +10871,7 @@
                     'solicitud_consulta_persona_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_persona_nombre']))),
                     'solicitud_consulta_fecha_carga_1'                  => $solicitud_consulta_fecha_carga_1,
                     'solicitud_consulta_fecha_carga_2'                  => $solicitud_consulta_fecha_carga_2,
-                    'solicitud_consulta_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_consulta_comentario']))),
+                    'solicitud_consulta_comentario'                     => trim($rowMSSQL00['solicitud_consulta_comentario']),
 
                     'auditoria_usuario'                                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
