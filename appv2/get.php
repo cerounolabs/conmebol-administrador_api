@@ -10701,14 +10701,14 @@
         INNER JOIN adm.DOMFIC c ON b.SOLCONEST = c.DOMFICCOD
         INNER JOIN adm.DOMFIC d ON b.SOLCONTCT = d.DOMFICCOD 
 
-        WHERE (a.SOLFICDNS = ? or a.SOLFICDNJ = ? or a.SOLFICDNE = ?) and (b.SOLCONPDO <> ?) 
+        WHERE (a.SOLFICDNS = ? OR a.SOLFICDNE = ? OR a.SOLFICDNP = ?) AND (b.SOLCONPDO <> ?) 
         
         ORDER BY c.DOMFICPAR ASC, b.SOLCONCOD DESC";
 
         try {
             $connMSSQL  = getConnectionMSSQLv2();
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute([$val00,$val00,$val00,$val00]);
+            $stmtMSSQL00->execute([$val00, $val00, $val00, $val00]);
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                 if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
@@ -10845,14 +10845,14 @@
         INNER JOIN adm.DOMFIC c ON b.SOLCONEST = c.DOMFICCOD
         INNER JOIN adm.DOMFIC d ON b.SOLCONTCT = d.DOMFICCOD 
 
-        WHERE (a.SOLFICDNS = ? or a.SOLFICDNJ = ? or a.SOLFICDNE = ?) and (b.SOLCONPDO <> ?) 
+        WHERE (a.SOLFICDNS = ? OR a.SOLFICDNE = ? OR a.SOLFICDNP = ?) AND (b.SOLCONPDO <> ?) 
         
         ORDER BY c.DOMFICPAR ASC, b.SOLCONCOD DESC";
 
         try {
             $connMSSQL  = getConnectionMSSQLv2();
             $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute([$val00,$val00,$val00,$val00]);
+            $stmtMSSQL00->execute([$val00, $val00, $val00, $val00]);
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                 if(!empty($rowMSSQL00['solicitud_consulta_fecha_carga'])){
