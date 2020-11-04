@@ -8935,7 +8935,7 @@
                         'tipo_vuelo_nombre'                                         => $tipo_vuelo_nombre,
 
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
-                        'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_fecha_hora'                                      => $rowMSSQL00['auditoria_fecha_hora'],
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                         'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
