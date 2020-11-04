@@ -715,6 +715,10 @@
                 case 2:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICSCC = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
+
+                case 3:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), SOLFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
             }
 
             try {
@@ -728,6 +732,10 @@
 
                     case 2:
                         $stmtMSSQL00->execute([$val28, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 3:
+                        $stmtMSSQL00->execute([$val10, $val11, $aud01, $aud03, $val00]);
                         break;
                 }
 
@@ -1134,6 +1142,7 @@
         
         return $json;
     });
+
     $app->put('/v2/400/aerolinea/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
