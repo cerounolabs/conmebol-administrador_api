@@ -4800,6 +4800,14 @@
             $stmtMSSQL00->execute([$val01]);
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+
+                if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
+                    $solicitud_fecha_carga_1    = $rowMSSQL00['solicitud_fecha_carga'];
+                    $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
+                } else {
+                    $solicitud_fecha_carga_1    = '';
+                    $solicitud_fecha_carga_2    = '';
+                }
                 $detalle = array(                    
                     'solicitud_opcion_codigo'                       => $rowMSSQL00['solicitud_opcion_codigo'],
                     'solicitud_opcion_pat'                          => trim(strtolower($rowMSSQL00['solicitud_opcion_pat'])),
