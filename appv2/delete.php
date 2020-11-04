@@ -704,7 +704,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "UPDATE [via].[SOLOPA] SET SOLOPAAUS = ?	SOLOPAAFH = GETDATE(), SOLOPAAIP = ? WHERE SOLOPACOD = ?";
+            $sql00  = "UPDATE [via].[SOLOPA] SET SOLOPAAUS = ?,	SOLOPAAFH = GETDATE(), SOLOPAAIP = ? WHERE SOLOPACOD = ?";
             $sql01  = "DELETE FROM [via].[SOLOPA] WHERE SOLOPACOD = ?";
             
             try {
