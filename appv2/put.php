@@ -747,11 +747,11 @@
                         break;
 
                     case 4:
-                        $stmtMSSQL00->execute([$val25, $val11, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val25, $aud01, $aud03, $val00]);
                         break;
 
                     case 5:
-                        $stmtMSSQL00->execute([$val26, $val11, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val26, $aud01, $aud03, $val00]);
                         break;
                 }
 
