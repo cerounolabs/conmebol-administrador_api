@@ -719,6 +719,14 @@
                 case 3:
                     $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), SOLFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
                     break;
+
+                case 4:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICDNE = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
+
+                case 5:
+                    $sql00  = "UPDATE [via].[SOLFIC] SET SOLFICDNP = ?, SOLFICAUS = ?, SOLFICAFH = GETDATE(), SOLFICAIP = ? WHERE SOLFICCOD = ?";
+                    break;
             }
 
             try {
@@ -736,6 +744,14 @@
 
                     case 3:
                         $stmtMSSQL00->execute([$val10, $val11, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 4:
+                        $stmtMSSQL00->execute([$val25, $val11, $aud01, $aud03, $val00]);
+                        break;
+
+                    case 5:
+                        $stmtMSSQL00->execute([$val26, $val11, $aud01, $aud03, $val00]);
                         break;
                 }
 
