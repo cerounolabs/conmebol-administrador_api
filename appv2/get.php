@@ -9641,6 +9641,7 @@
                 c.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
                 c.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
                 c.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+                c.SOLFICPCT         AS          solicitud_proveedor_carga_traslado,
                 c.SOLFICFEC         AS          solicitud_fecha_carga,
                 c.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 c.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -10116,6 +10117,7 @@
                 c.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
                 c.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
                 c.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+                c.SOLFICPCT         AS          solicitud_proveedor_carga_traslado,
                 c.SOLFICFEC         AS          solicitud_fecha_carga,
                 c.SOLFICSCC         AS          solicitud_sap_centro_costo,
                 c.SOLFICTCA         AS          solicitud_tarea_cantidad,
@@ -10246,7 +10248,7 @@
                         'solicitud_sap_centro_costo'                                => '',
                         'solicitud_tarea_cantidad'                                  => '',
                         'solicitud_tarea_resuelta'                                  => '',
-                        'solicitud_observacion'                                     => ''
+                        'solicitud_observacion'                                     => ''  
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
