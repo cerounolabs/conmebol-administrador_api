@@ -10082,18 +10082,20 @@
         
         if (isset($val01)) {
             $sql00  = "SELECT 
-                a.SOLHTRIDD         AS      historico_traslado_id,	
-                a.SOLHTRAME         AS      historico_traslado_metodo,	
-                a.SOLHTRCOD	        AS      historico_traslado_codigo,
-                a.SOLHTRCOM	        AS      historico_traslado_comentario,
-                a.SOLHTRSAL         AS      historico_traslado_origen,	
-                a.SOLHTRDES         AS      historico_traslado_destino,	
-                a.SOLHTRFSA         AS      historico_traslado_fecha_salida,	
-                a.SOLHTRHSA         AS      historico_traslado_hora_salida,
-                    
-                a.SOLHTRAUS	        AS      auditoria_usuario,
-                a.SOLHTRAFH         AS      auditoria_fecha_hora,      	
-                a.SOLHTRAIP         AS      auditoria_ip,
+                a.SOLHTRIDD         AS          historico_traslado_id,	
+                a.SOLHTRAME         AS          historico_traslado_metodo,	
+                a.SOLHTRCOD	        AS          historico_traslado_codigo,
+                a.SOLHTRCOM	        AS          historico_traslado_comentario,
+                a.SOLHTRSAL         AS          historico_traslado_origen,	
+                a.SOLHTRDES         AS          historico_traslado_destino,	
+                a.SOLHTRFSA         AS          historico_traslado_fecha_salida,	
+                a.SOLHTRHSA         AS          historico_traslado_hora_salida,
+                
+                a.SOLHTRTTC         AS          historico_tipo_traslado_codigo,
+
+                a.SOLHTRAUS	        AS          auditoria_usuario,
+                a.SOLHTRAFH         AS          auditoria_fecha_hora,      	
+                a.SOLHTRAIP         AS          auditoria_ip,
                 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
                 b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
@@ -10130,7 +10132,6 @@
                 
                 FROM via.SOLHTR a
                 INNER JOIN adm.DOMFIC b ON a.SOLHTREST = b.DOMFICCOD
-                INNER JOIN adm.DOMFIC c ON a.SOLHTRTTC = c.DOMFICCOD
                 INNER JOIN via.SOLFIC d ON a.SOLHTRSOC = d.SOLFICCOD
                 
                 WHERE a.SOLHTRSOC = ?
