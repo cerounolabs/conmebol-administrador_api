@@ -4736,6 +4736,128 @@
         
         return $json;
     });
+    $app->get('/v2/400/solicitud/opcion/adjunto/{codigo}', function($request) {//20201104
+        require __DIR__.'/../src/connect.php';
+        $val01 = $request->getAttribute('codigo'); 
+        $sql00  = "SELECT 
+            a.SOLOPACOD         AS          solicitud_opcion_codigo, 	
+            a.SOLOPAPAT	        AS          solicitud_opcion_pat,
+            a.SOLOPACOM         AS          solicitud_opcion_comentario,
+            
+            a.SOLOPAAUS	        AS          auditoria_usuario,
+            a.SOLOPAAFH         AS          auditoria_fecha_hora,	
+            a.SOLOPAAIP         AS          auditoria_ip,
+            
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            
+            c.DOMFICCOD         AS          tipo_documento_codigo,
+            c.DOMFICNOI         AS          tipo_documento_nombre_ingles,
+            c.DOMFICNOC         AS          tipo_documento_nombre_castellano,
+            c.DOMFICNOP         AS          tipo_documento_nombre_portugues,
+            c.DOMFICPAR         AS          tipo_documento_parametro,
+            c.DOMFICICO         AS          tipo_documento_icono,
+            c.DOMFICCSS         AS          tipo_documento_css
+            
+            
+            FROM via.SOLOPA a
+            INNER JOIN adm.DOMFIC b ON a.SOLOPAEST = b.DOMFICCOD
+            INNER JOIN adm.DOMFIC c ON a.SOLOPATDC = c.DOMFICCOD
+            INNER JOIN via.SOLFIC d ON a.SOLOPASOC = d.SOLFICCOD
+            
+            WHERE a.SOLOPASOC = ?
+            
+            ORDER BY a.SOLOPACOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute([$val01]);
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle = array(                    
+                    'solicitud_opcion_codigo'                       => $rowMSSQL00['solicitud_opcion_codigo'],
+                    'solicitud_opcion_pat'                          => trim(strtolower($rowMSSQL00['solicitud_opcion_pat'])),
+                    'solicitud_opcion_comentario'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcion_comentario']))),
+
+                    'auditoria_usuario'                             => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                          => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                                  => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                            => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                    'tipo_estado_parametro'                         => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                             => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),       
+                    'tipo_estado_css'                               => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+
+                    'tipo_documento_codigo'                         => $rowMSSQL00['tipo_documento_codigo'],                      
+                    'tipo_documento_nombre_ingles'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_documento_nombre_ingles']))),
+                    'tipo_documento_nombre_castellano'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_documento_nombre_castellano']))),
+                    'tipo_documento_nombre_portugues'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_documento_nombre_portugues']))),
+                    'tipo_documento_parametro'                      => $rowMSSQL00['tipo_documento_parametro'],
+                    'tipo_documento_icono'                          => trim(strtolower($rowMSSQL00['tipo_documento_icono'])),
+                    'tipo_documento_css'                            => trim(strtolower($rowMSSQL00['tipo_documento_css']))
+
+                    
+
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_opcion_codigo'                       => '',
+                    'solicitud_opcion_pat'                          => '',
+                    'solicitud_opcion_comentario'                   => '',
+
+                    'auditoria_usuario'                             => '',
+                    'auditoria_fecha_hora'                          => '',
+                    'auditoria_ip'                                  => '',
+
+                    'tipo_estado_codigo'                            => '',
+                    'tipo_estado_nombre_ingles'                     => '',
+                    'tipo_estado_nombre_castellano'                 => '',
+                    'tipo_estado_nombre_portugues'                  => '',
+                    'tipo_estado_parametro'                         => '',
+                    'tipo_estado_icono'                             => '',       
+                    'tipo_estado_css'                               => '',
+
+                    'tipo_documento_codigo'                         => '',                       
+                    'tipo_documento_nombre_ingles'                  => '', 
+                    'tipo_documento_nombre_castellano'              => '', 
+                    'tipo_documento_nombre_portugues'               => '', 
+                    'tipo_documento_parametro'                      => '', 
+                    'tipo_documento_icono'                          => '', 
+                    'tipo_documento_css'                            => ''
+
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 
     $app->get('/v2/400/solicitud/codigo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
