@@ -1845,16 +1845,16 @@
         $val02  = $request->getAttribute('tipo');
 
         $sql01  = "SELECT count(*) AS solicitud_cantidad, 'TOTAL_COLABORADOR' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ?
-        UNION
-        SELECT count(*)  AS solicitud_cantidad, 'CON_SOLICITUD' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
-        UNION
-        SELECT count(*)  AS solicitud_cantidad, 'SIN_SOLICITUD' AS solicitud_tipo
-        FROM [CSF].[dbo].[empleados_AxisONE] a
-        WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ?
+            UNION
+            SELECT count(*)  AS solicitud_cantidad, 'CON_SOLICITUD' AS solicitud_tipo
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)
+            UNION
+            SELECT count(*)  AS solicitud_cantidad, 'SIN_SOLICITUD' AS solicitud_tipo
+            FROM [CSF].[dbo].[empleados_AxisONE] a
+            WHERE a.SEXO = ? AND NOT EXISTS (SELECT * FROM [hum].[SOLFIC] b WHERE b.SOLFICEST <> 'C' AND b.SOLFICTST = ? AND a.CedulaEmpleado = b.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS)";
 
         try {
             $connMSSQL  = getConnectionMSSQLv2();
@@ -4621,7 +4621,8 @@
 
     $app->get('/v2/400/solicitud/consulta/{codigo}', function($request) {//20201102//20201105 M
         require __DIR__.'/../src/connect.php';
-        $val01 = $request->getAttribute('codigo'); 
+
+        $val01  = $request->getAttribute('codigo'); 
         $sql00  = "SELECT 
             a.SOLCONCOD	        AS          solicitud_consulta_codigo,
             a.SOLCONPDO         AS          solicitud_consulta_persona_documento,
@@ -4858,63 +4859,10 @@
         
         return $json;
     });
-    $app->get('/v2/400/solicitud/ejecutivo/asignado/cantidad', function($request) {//20201105
+
+    $app->get('/v2/400/solicitud/opcion/adjunto/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
-        $sql00  = "SELECT 
-            b.CedulaEmpleado AS solicitud_ejecutivo_documento,
-            b.NombreEmpleado   AS solicitud_ejecutivo_nombre,
-            COUNT(*) AS TOTAL_ASIGNADOS
-            
-            FROM [via].[SOLFIC] a
-            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = b.CedulaEmpleado  
-
-            WHERE SOLFICDNE IS NOT NULL
-
-            GROUP BY a.SOLFICDNE, b.CedulaEmpleado, b.NombreEmpleado";
-
-        try {
-            $connMSSQL  = getConnectionMSSQLv2();
-            $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute();
-
-            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $detalle = array(                    
-                    'solicitud_ejecutivo_documento'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
-                    'solicitud_ejecutivo_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_nombre']))),
-                    'TOTAL_ASIGNADOS'                               => $rowMSSQL00['TOTAL_ASIGNADOS']
-                );
-
-                $result[]   = $detalle;
-            }
-
-            if (isset($result)){
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            } else {
-                $detalle    = array(
-                    'solicitud_ejecutivo_documento'                 => '',
-                    'solicitud_ejecutivo_nombre'                    => '',
-                    'TOTAL_ASIGNADOS'                               => ''
-                );
-
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-
-            $stmtMSSQL00->closeCursor();
-            $stmtMSSQL00 = null;
-        } catch (PDOException $e) {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
-    $app->get('/v2/400/solicitud/opcion/adjunto/{codigo}', function($request) {//20201104
-        require __DIR__.'/../src/connect.php';
         $val01 = $request->getAttribute('codigo'); 
         $sql00  = "SELECT 
             a.SOLOPACOD         AS          solicitud_opcion_codigo, 	
@@ -4959,9 +4907,6 @@
             d.SOLFICTRE         AS          solicitud_tarea_resuelta,
             d.SOLFICOBS         AS          solicitud_observacion
 
-           
-            
-            
             FROM via.SOLOPA a
             INNER JOIN adm.DOMFIC b ON a.SOLOPAEST = b.DOMFICCOD
             INNER JOIN adm.DOMFIC c ON a.SOLOPATDC = c.DOMFICCOD
@@ -4977,7 +4922,6 @@
             $stmtMSSQL00->execute([$val01]);
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-
                 if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
                     $solicitud_fecha_carga_1    = $rowMSSQL00['solicitud_fecha_carga'];
                     $solicitud_fecha_carga_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga']));
@@ -4985,6 +4929,7 @@
                     $solicitud_fecha_carga_1    = '';
                     $solicitud_fecha_carga_2    = '';
                 }
+
                 $detalle = array(                    
                     'solicitud_opcion_codigo'                       => $rowMSSQL00['solicitud_opcion_codigo'],
                     'solicitud_opcion_pat'                          => trim(strtolower($rowMSSQL00['solicitud_opcion_pat'])),
@@ -5052,10 +4997,10 @@
                     'tipo_estado_nombre_castellano'                 => '',
                     'tipo_estado_nombre_portugues'                  => '',
                     'tipo_estado_parametro'                         => '',
-                    'tipo_estado_icono'                             => '',       
+                    'tipo_estado_icono'                             => '',
                     'tipo_estado_css'                               => '',
 
-                    'tipo_documento_codigo'                         => '',                       
+                    'tipo_documento_codigo'                         => '',
                     'tipo_documento_nombre_ingles'                  => '', 
                     'tipo_documento_nombre_castellano'              => '', 
                     'tipo_documento_nombre_portugues'               => '', 
@@ -5081,7 +5026,6 @@
                     'solicitud_tarea_cantidad'                       => '',
                     'solicitud_tarea_resuelta'                       => '',
                     'solicitud_observacion'                          => ''
-
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -6716,7 +6660,63 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/ejecutivo/asignado/{codigo}', function($request) {
+    $app->get('/v2/400/solicitud/ejecutivo/asignado/cantidad', function($request) {//20201105
+        require __DIR__.'/../src/connect.php';
+
+        $sql00  = "SELECT 
+            b.CedulaEmpleado AS solicitud_ejecutivo_documento,
+            b.NombreEmpleado   AS solicitud_ejecutivo_nombre,
+            COUNT(*) AS TOTAL_ASIGNADOS
+            
+            FROM [via].[SOLFIC] a
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = b.CedulaEmpleado  
+
+            WHERE SOLFICDNE IS NOT NULL
+
+            GROUP BY a.SOLFICDNE, b.CedulaEmpleado, b.NombreEmpleado";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle = array(                    
+                    'solicitud_ejecutivo_documento'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
+                    'solicitud_ejecutivo_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_nombre']))),
+                    'TOTAL_ASIGNADOS'                               => $rowMSSQL00['TOTAL_ASIGNADOS']
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_ejecutivo_documento'                 => '',
+                    'solicitud_ejecutivo_nombre'                    => '',
+                    'TOTAL_ASIGNADOS'                               => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/ejecutivo/asignado/listado/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
