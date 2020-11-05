@@ -2162,9 +2162,9 @@
                 $tipoComprobante =  $rowMSSQL00['tipo_comprobante_parametro'];
 
                 if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                    $valores = $nroDoc.'-'.$periodo.'/'.'0'.$mes.'-'.$tipoComprobante;
+                    $codigobarra = $nroDoc.'-'.$periodo.'/'.'0'.$mes.'-'.$tipoComprobante;
                 } else {
-                    $valores = $nroDoc.'-'.$periodo.'/'.$mes.'-'.$tipoComprobante;
+                    $codigobarra = $nroDoc.'-'.$periodo.'/'.$mes.'-'.$tipoComprobante;
                 }
               
                 $detalle    = array(
@@ -2174,7 +2174,7 @@
                     'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
                     'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
                     'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
-                    'comprobante_datos'                 => $valores,
+                    'comprobante_codigo_barra'          => trim(strtoupper(strtolower($codigobarra))),
 
                     'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL01['auditoria_usuario']))),
                     'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
@@ -2225,7 +2225,7 @@
                     'comprobante_documento'             => '',
                     'comprobante_adjunto'               => '',
                     'comprobante_observacion'           => '',
-                    'comprobante_datos'                 => '',
+                    'comprobante_codigo_barra'          => '',
                     
                     'auditoria_usuario'                 => '',
                     'auditoria_fecha_hora'              => '',
