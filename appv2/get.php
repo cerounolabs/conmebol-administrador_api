@@ -7120,7 +7120,7 @@
         return $json;
     });
     
-    $app->get('/v2/400/solicitud/ejecutivo/sinasignar/cantidad', function($request) {
+    $app->get('/v2/400/solicitud/ejecutivo/sinasignar/cantidad', function($request) {//20201105
         require __DIR__.'/../src/connect.php';
 
         $sql00  = "SELECT
@@ -7128,17 +7128,7 @@
             COUNT(*)    AS solicitud_cantidad
             FROM [via].[SOLFIC] a
             
-            WHERE a.SOLFICDNE IS NULL
-            
-            UNION ALL
-
-            SELECT
-            '2'         AS solicitud_tipo,
-            COUNT(*)    AS solicitud_cantidad
-            FROM [via].[SOLFIC] a
-            
-            WHERE a.SOLFICDNP IS NULL
-            ";
+            WHERE a.SOLFICDNE IS NULL";
 
         try {
             $connMSSQL  = getConnectionMSSQLv2();
