@@ -1857,9 +1857,9 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_documento_codigo'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];
-        $val04      = $request->getParsedBody()['solicitud_opcion_adjunto_codigo'];
-        $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_adjunto_pat']));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_adjunto_comentario'])));
+        $val04      = $request->getParsedBody()['solicitud_adjunto_codigo'];
+        $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_pat']));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_comentario'])));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
