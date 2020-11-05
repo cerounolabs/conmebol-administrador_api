@@ -2074,7 +2074,7 @@
         return $json;
     });
 
-    $app->get('/v2/200/comprobante', function($request) {
+    $app->get('/v2/200/comprobante', function($request) {//20201105
         require __DIR__.'/../src/connect.php';
         
         $sql00  = "SELECT
@@ -2091,16 +2091,25 @@
             b.DOMFICNOI         AS          tipo_estado_ingles,
             b.DOMFICNOC         AS          tipo_estado_castellano,
             b.DOMFICNOP         AS          tipo_estado_portugues,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICCSS         AS          tipo_estado_CSS,
 
             c.DOMFICCOD         AS          tipo_comprobante_codigo,
             c.DOMFICNOI         AS          tipo_comprobante_ingles,
             c.DOMFICNOC         AS          tipo_comprobante_castellano,
             c.DOMFICNOP         AS          tipo_comprobante_portugues,
+            c.DOMFICPAR         AS          tipo_comprobante_parametro,
+            c.DOMFICICO         AS          tipo_comprobante_icono,
+            c.DOMFICCSS         AS          tipo_comprobante_CSS,
 
             d.DOMFICCOD         AS          tipo_mes_codigo,
             d.DOMFICNOI         AS          tipo_mes_ingles,
             d.DOMFICNOC         AS          tipo_mes_castellano,
             d.DOMFICNOP         AS          tipo_mes_portugues
+            d.DOMFICPAR         AS          tipo_mes_parametro,
+            d.DOMFICICO         AS          tipo_mes_icono,
+            d.DOMFICCSS         AS          tipo_mes_CSS
 
             FROM [hum].[COMFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
@@ -2148,6 +2157,16 @@
                 $stmtMSSQL01->execute([$nroDoc]);
                 $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
 
+                $periodo    = $rowMSSQL00['comprobante_periodo'];
+                $mes        = $rowMSSQL00['tipo_mes_parametro'];
+                $tipoComprobante =  $rowMSSQL00['tipo_comprobante_parametro'];
+
+                if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
+                    $valores = $nroDoc.'-'.$periodo.'/'.'0'.$mes.'-'.$tipoComprobante;
+                } else {
+                    $valores = $nroDoc.'-'.$periodo.'/'.$mes.'-'.$tipoComprobante;
+                }
+              
                 $detalle    = array(
                     'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
                     'comprobante_periodo'               => $rowMSSQL00['comprobante_periodo'],
@@ -2155,19 +2174,35 @@
                     'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
                     'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
                     'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
+                    'comprobante_datos'                 => $valores,
 
                     'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL01['auditoria_usuario']))),
                     'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
                     'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL01['auditoria_ip']))),
 
                     'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_nombre'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_parametro'             => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_icono']))),
+                    'tipo_estado_CSS'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_CSS']))),
 
                     'tipo_comprobante_codigo'           => $rowMSSQL00['tipo_comprobante_codigo'],
-                    'tipo_comprobante_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_castellano']))),
+                    'tipo_comprobante_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_ingles']))),
+                    'tipo_comprobante_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_castellano']))),
+                    'tipo_comprobante_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_portugues']))),
+                    'tipo_comprobante_parametro'        => $rowMSSQL00['tipo_comprobante_parametro'],
+                    'tipo_comprobante_icono'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_icono']))),
+                    'tipo_comprobante_CSS'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_CSS']))),
 
                     'tipo_mes_codigo'                   => $rowMSSQL00['tipo_mes_codigo'],
-                    'tipo_mes_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano']))),
+                    'tipo_mes_castellano'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano']))),
+                    'tipo_mes_ingles'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_ingles']))),
+                    'tipo_mes_portugues'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_portugues']))),
+                    'tipo_mes_parametro'                => $rowMSSQL00['tipo_mes_parametro'],
+                    'tipo_mes_icono'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_icono']))),
+                    'tipo_mes_CSS'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_CSS']))),
 
                     'tipo_gerencia_codigo'               => $rowMSSQL01['gerencia_codigo'],
                     'tipo_gerencia_nombre'               => trim(strtoupper(strtolower($rowMSSQL01['gerencia_nombre']))),
@@ -2190,15 +2225,36 @@
                     'comprobante_documento'             => '',
                     'comprobante_adjunto'               => '',
                     'comprobante_observacion'           => '',
+                    'comprobante_datos'                 => '',
+                    
                     'auditoria_usuario'                 => '',
                     'auditoria_fecha_hora'              => '',
                     'auditoria_ip'                      => '',
+
                     'tipo_estado_codigo'                => '',
-                    'tipo_estado_nombre'                => '',
+                    'tipo_estado_ingles'                => '',
+                    'tipo_estado_castellano'            => '',
+                    'tipo_estado_portugues'             => '',
+                    'tipo_estado_parametro'             => '',
+                    'tipo_estado_icono'                 => '',
+                    'tipo_estado_CSS'                   => '',
+
                     'tipo_comprobante_codigo'           => '',
-                    'tipo_comprobante_nombre'           => '',
+                    'tipo_comprobante_ingles'           => '',
+                    'tipo_comprobante_castellano'       => '',
+                    'tipo_comprobante_portugues'        => '',
+                    'tipo_comprobante_parametro'        => '',
+                    'tipo_comprobante_icono'            => '',
+                    'tipo_comprobante_CSS'              => '',
+
                     'tipo_mes_codigo'                   => '',
-                    'tipo_mes_nombre'                   => '',
+                    'tipo_mes_castellano'               => '',
+                    'tipo_mes_ingles'                   => '',
+                    'tipo_mes_portugues'                => '',
+                    'tipo_mes_parametro'                => '',
+                    'tipo_mes_icono'                    => '',
+                    'tipo_mes_CSS'                      => '',
+                    
                     'tipo_gerencia_codigo'              => '',
                     'tipo_gerencia_nombre'              => '',
                     'tipo_departamento_codigo'          => '',
