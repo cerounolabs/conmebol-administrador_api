@@ -2106,7 +2106,7 @@
             d.DOMFICCOD         AS          tipo_mes_codigo,
             d.DOMFICNOI         AS          tipo_mes_ingles,
             d.DOMFICNOC         AS          tipo_mes_castellano,
-            d.DOMFICNOP         AS          tipo_mes_portugues
+            d.DOMFICNOP         AS          tipo_mes_portugues,
             d.DOMFICPAR         AS          tipo_mes_parametro,
             d.DOMFICICO         AS          tipo_mes_icono,
             d.DOMFICCSS         AS          tipo_mes_CSS
