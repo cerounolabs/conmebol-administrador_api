@@ -1577,7 +1577,7 @@
         return $json;
     });
 
-    $app->post('/v2/400/solicitud/notificacion', function($request) {
+    $app->post('/v2/400/solicitud/notificacion', function($request) {//20201105 M
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -1587,20 +1587,21 @@
         $val05      = trim($request->getParsedBody()['solicitud_consulta_persona_nombre']);
         $val06      = trim($request->getParsedBody()['solicitud_consulta_fecha']);
         $val07      = trim($request->getParsedBody()['solicitud_consulta_comentario']);
+        $val08      = $request->getParsedBody()['tipo_solicitud_codigo'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "INSERT INTO [via].[SOLCON] (SOLCONEST, SOLCONTCT, SOLCONSOC, SOLCONPDO, SOLCONPNO, SOLVUEFEC, SOLCONOBS, SOLCONAUS, SOLCONAFH, SOLCONAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOCONSULTA' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDCONSULTA' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val08)) {
+            $sql00  = "INSERT INTO [via].[SOLCON] (SOLCONEST, SOLCONTCT, SOLCONSOC, SOLCONTSC, SOLCONPDO, SOLCONPNO, SOLVUEFEC, SOLCONOBS, SOLCONAUS, SOLCONAFH, SOLCONAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOCONSULTA' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDCONSULTA' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?,GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLCONCOD) AS solicitud_consulta_codigo FROM [via].[SOLCON]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val08, $val04, $val05, $val06, $val07, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
