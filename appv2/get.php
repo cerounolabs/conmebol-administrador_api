@@ -7102,7 +7102,7 @@
                 $detalle    = array(
                     'solicitud_ejecutivo_documento'                 => '',
                     'solicitud_ejecutivo_nombre'                    => '',
-                    'solicitud_ejecutivo_nombre'                    => ''
+                    'TOTAL_ASIGNADOS'                               => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
