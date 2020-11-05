@@ -2162,9 +2162,9 @@
                 $tipoComprobante =  $rowMSSQL00['tipo_comprobante_parametro'];
 
                 if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                    $valores = $nroDoc.'-'.$periodo.'/'.'0'.$mes.'-'.$tipoComprobante;
+                    $codigobarra = $nroDoc.'-'.$periodo.'/'.'0'.$mes.'-'.$tipoComprobante;
                 } else {
-                    $valores = $nroDoc.'-'.$periodo.'/'.$mes.'-'.$tipoComprobante;
+                    $codigobarra = $nroDoc.'-'.$periodo.'/'.$mes.'-'.$tipoComprobante;
                 }
               
                 $detalle    = array(
@@ -2174,7 +2174,7 @@
                     'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
                     'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
                     'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
-                    'comprobante_datos'                 => $valores,
+                    'comprobante_codigo_barra'          => trim(strtoupper(strtolower($codigobarra))),
 
                     'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL01['auditoria_usuario']))),
                     'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
@@ -2225,7 +2225,7 @@
                     'comprobante_documento'             => '',
                     'comprobante_adjunto'               => '',
                     'comprobante_observacion'           => '',
-                    'comprobante_datos'                 => '',
+                    'comprobante_codigo_barra'          => '',
                     
                     'auditoria_usuario'                 => '',
                     'auditoria_fecha_hora'              => '',
@@ -4619,7 +4619,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/consulta/{codigo}', function($request) {//20201102
+    $app->get('/v2/400/solicitud/consulta/{codigo}', function($request) {//20201102//20201105 M
         require __DIR__.'/../src/connect.php';
         $val01 = $request->getAttribute('codigo'); 
         $sql00  = "SELECT 
@@ -4634,8 +4634,12 @@
             a.SOLCONAIP         AS          auditoria_ip,
             
             b.DOMFICCOD         AS          tipo_estado_codigo,
-            b.DOMFICNOC         AS          tipo_estado_nombre,
+            b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            b.DOMFICNOP         AS          tipo_estado_nombre_portugues,         
             b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICCSS         AS          tipo_estado_CSS,	
+            b.DOMFICICO         AS          tipo_estado_icono,
             
             c.SOLFICCOD         AS          solicitud_codigo,
             c.SOLFICPER         AS          solicitud_periodo,
@@ -4656,13 +4660,26 @@
             c.SOLFICOBS         AS          solicitud_observacion,
             
             d.DOMFICCOD         AS          tipo_consulta_codigo,
-            d.DOMFICNOC         AS          tipo_consulta_nombre,
-            d.DOMFICPAR         AS          tipo_consulta_parametro
+            b.DOMFICNOI         AS          tipo_consulta_nombre_ingles,
+            b.DOMFICNOC         AS          tipo_consulta_nombre_castellano,
+            b.DOMFICNOP         AS          tipo_consulta_nombre_portugues,      
+            d.DOMFICPAR         AS          tipo_consulta_parametro,
+            d.DOMFICCSS         AS          tipo_consulta_CSS,	
+            d.DOMFICICO         AS          tipo_consulta_icono,
+            
+            e.DOMFICCOD         AS          tipo_solicitud_codigo,
+            e.DOMFICNOI         AS          tipo_solicitud_nombre_ingles,
+            e.DOMFICNOC         AS          tipo_solicitud_nombre_castellano,
+            e.DOMFICNOP         AS          tipo_solicitud_nombre_portugues,      
+            e.DOMFICPAR         AS          tipo_solicitud_parametro,
+            e.DOMFICCSS         AS          tipo_solicitud_CSS,	
+            e.DOMFICICO         AS          tipo_solicitud_icono
             
             FROM via.SOLCON a
             INNER JOIN adm.DOMFIC b ON a.SOLCONEST = b.DOMFICCOD
             INNER JOIN via.SOLFIC c ON a.SOLCONSOC = c.SOLFICCOD
             INNER JOIN adm.DOMFIC d ON a.SOLCONTCT = d.DOMFICCOD
+            INNER JOIN adm.DOMFIC e ON a.SOLCONTSC = e.DOMFICCOD
             
             WHERE a.SOLCONSOC = ?
             
@@ -4701,6 +4718,15 @@
                     'auditoria_fecha_hora'                           => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                     'auditoria_ip'                                   => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
+                    'tipo_estado_codigo'                             => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre_ingles'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),   
+                    'tipo_estado_parametro'                          => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_CSS'	                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_CSS']))),
+                    'tipo_estado_icono'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_icono']))),
+                    
+
                     'solicitud_codigo'                               => $rowMSSQL00['solicitud_codigo'],
                     'solicitud_periodo'                              => $rowMSSQL00['solicitud_periodo'],
                     'solicitud_motivo'                               => trim(strtoupper(strtolower($rowMSSQL00['solicitud_motivo']))),
@@ -4727,7 +4753,23 @@
                     'solicitud_ejecutivo_documento'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
                     'solicitud_proveedor_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
                     'solicitud_proveedor_documento'                  => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
-                    'solicitud_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
+                    'solicitud_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
+
+                    'tipo_consulta_codigo'                           => $rowMSSQL00['tipo_consulta_codigo'],
+                    'tipo_consulta_nombre_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_ingles']))),
+                    'tipo_consulta_nombre_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_castellano']))),
+                    'tipo_consulta_nombre_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_portugues']))),   
+                    'tipo_consulta_parametro'                        => $rowMSSQL00['tipo_consulta_parametro'],
+                    'tipo_consulta_CSS'	                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_CSS']))),
+                    'tipo_consulta_icono'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_icono']))),
+
+                    'tipo_solicitud_codigo'                          => $rowMSSQL00['tipo_solicitud_codigo'],
+                    'tipo_solicitud_nombre_ingles'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_nombre_ingles']))),
+                    'tipo_solicitud_nombre_castellano'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_nombre_castellano']))),
+                    'tipo_solicitud_nombre_portugues'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_nombre_portugues']))),    
+                    'tipo_solicitud_parametro'                       => $rowMSSQL00['tipo_solicitud_parametro'],
+                    'tipo_solicitud_CSS'	                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_CSS']))),
+                    'tipo_solicitud_icono'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_icono'])))
 
                 );
 
@@ -4748,6 +4790,14 @@
                     'auditoria_usuario'                             => '',
                     'auditoria_fecha_hora'                          => '',
                     'auditoria_ip'                                  => '',
+
+                    'tipo_estado_codigo'                            => '',
+                    'tipo_estado_nombre_ingles'                     => '',
+                    'tipo_estado_nombre_castellano'                 => '',
+                    'tipo_estado_nombre_portugues'                  => '',  
+                    'tipo_estado_parametro'                         => '',
+                    'tipo_estado_CSS'	                            => '',
+                    'tipo_estado_icono'                             => '',
 
                     'solicitud_periodo'                             => '',
                     'solicitud_motivo'                              => '',
@@ -4774,7 +4824,23 @@
                     'solicitud_ejecutivo_documento'                 => '',
                     'solicitud_proveedor_nombre'                    => '',
                     'solicitud_proveedor_documento'                 => '',
-                    'solicitud_observacion'                         => ''
+                    'solicitud_observacion'                         => '',
+
+                    'tipo_consulta_codigo'                          => '', 
+                    'tipo_consulta_nombre_ingles'                   => '',
+                    'tipo_consulta_nombre_castellano'               => '',
+                    'tipo_consulta_nombre_portugues'                => '',
+                    'tipo_consulta_parametro'                       => '',
+                    'tipo_consulta_CSS'	                            => '',
+                    'tipo_consulta_icono'                           => '',
+
+                    'tipo_solicitud_codigo'                         => '', 
+                    'tipo_solicitud_nombre_ingles'                  => '', 
+                    'tipo_solicitud_nombre_castellano'              => '', 
+                    'tipo_solicitud_nombre_portugues'               => '',    
+                    'tipo_solicitud_parametro'                      => '', 
+                    'tipo_solicitud_CSS'	                        => '', 
+                    'tipo_solicitud_icono'                          => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
