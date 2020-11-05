@@ -960,7 +960,7 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {//20201105
+    $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {//20201105//VER
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
