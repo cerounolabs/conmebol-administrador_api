@@ -1857,7 +1857,7 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_documento_codigo'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];
-        $val04      = $request->getParsedBody()['solicitud_adjunto_codigo'];
+        $val04      = $request->getParsedBody()['solicitud_opcion_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_pat']));
         $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_comentario'])));
 
