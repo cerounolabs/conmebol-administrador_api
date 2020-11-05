@@ -960,7 +960,7 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {
+    $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {//20201105
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -980,6 +980,7 @@
         $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_2'])));
         $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_3'])));
         $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_4'])));
+        $val16      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -988,7 +989,7 @@
         if (isset($val00) && isset($val00_1)) {
             switch ($val00_1) {
                 case 1:
-                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTIM = ?, SOLOPCTVS = ?, SOLOPCTVJ = ?, SOLOPCTVE = ?, SOLOPCTVP = ?, SOLOPCRES = ?, SOLOPCCO1 = ?, SOLOPCCO2 = ?, SOLOPCCO3 = ?, SOLOPCCO4 = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTIM = ?, SOLOPCTVS = ?, SOLOPCTVJ = ?, SOLOPCTVE = ?, SOLOPCTVP = ?, SOLOPCRES = ?, SOLOPCCO1 = ?, SOLOPCCO2 = ?, SOLOPCCO3 = ?, SOLOPCCO4 = ?, SOLOPCPAT = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
                     break;
                 
                 case 2:
@@ -1007,7 +1008,7 @@
 
                 switch ($val00_1) {
                     case 1:
-                        $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $aud01, $aud03, $val00]);
                         break;
                     
                     case 2:
