@@ -11453,11 +11453,20 @@
         c.DOMFICNOP         AS          tipo_consulta_nombre_portugues,
         c.DOMFICPAR         AS          tipo_consulta_parametro,
         c.DOMFICICO         AS          tipo_consulta_icono,
-        c.DOMFICCSS         AS          tipo_consulta_css
+        c.DOMFICCSS         AS          tipo_consulta_css,
+
+        d.DOMFICCOD         AS          tipo_solicitud_codigo,
+        d.DOMFICNOI         AS          tipo_solicitud_nombre_ingles,
+        d.DOMFICNOC         AS          tipo_solicitud_nombre_castellano,
+        d.DOMFICNOP         AS          tipo_solicitud_nombre_portugues,
+        d.DOMFICPAR         AS          tipo_solicitud_parametro,
+        d.DOMFICICO         AS          tipo_solicitud_icono,
+        d.DOMFICCSS         AS          tipo_solicitud_css
         
         FROM via.SOLCON a
         INNER JOIN adm.DOMFIC b ON a.SOLCONEST = b.DOMFICCOD
         INNER JOIN adm.DOMFIC c ON a.SOLCONTCT = c.DOMFICCOD 
+        INNER JOIN adm.DOMFIC d ON a.SOLCONTSC = d.DOMFICCOD 
 
         WHERE a.SOLCONSOC = ?
         
@@ -11504,7 +11513,15 @@
                     'tipo_consulta_nombre_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_consulta_nombre_portugues']))),
                     'tipo_consulta_parametro'                           => $rowMSSQL00['tipo_consulta_parametro'],
                     'tipo_consulta_icono'                               => trim(strtolower($rowMSSQL00['tipo_consulta_icono'])),
-                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_consulta_css']))
+                    'tipo_consulta_css'                                 => trim(strtolower($rowMSSQL00['tipo_consulta_css'])),
+
+                    'tipo_solicitud_codigo'                              => $rowMSSQL00['tipo_solicitud_codigo'],
+                    'tipo_solicitud_nombre_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_nombre_ingles']))),
+                    'tipo_solicitud_nombre_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_nombre_castellano']))),
+                    'tipo_solicitud_nombre_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_nombre_portugues']))),
+                    'tipo_solicitud_parametro'                           => $rowMSSQL00['tipo_solicitud_parametro'],
+                    'tipo_solicitud_icono'                               => trim(strtolower($rowMSSQL00['tipo_solicitud_icono'])),
+                    'tipo_solicitud_css'                                 => trim(strtolower($rowMSSQL00['tipo_solicitud_css']))
                     
                 );
 
@@ -11542,7 +11559,15 @@
                     'tipo_consulta_nombre_portugues'                    => '',
                     'tipo_consulta_parametro'                           => '',
                     'tipo_consulta_icono'                               => '',
-                    'tipo_consulta_css'                                 => ''
+                    'tipo_consulta_css'                                 => '',
+
+                    'tipo_solicitud_codigo'                              => '',
+                    'tipo_solicitud_nombre_ingles'                       => '',
+                    'tipo_solicitud_nombre_castellano'                   => '',
+                    'tipo_solicitud_nombre_portugues'                    => '',
+                    'tipo_solicitud_parametro'                           => '',
+                    'tipo_solicitud_icono'                               => '',
+                    'tipo_solicitud_css'                                 => ''
 
                 );
 
