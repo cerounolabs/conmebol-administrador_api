@@ -52,7 +52,7 @@
                                             break;
 
                                         case 'thumbnailphoto':
-                                            $user_var06 = sbase64_encode($i[$j][0]);
+                                            $user_var06 = base64_encode($i[$j][0]);
                                             break;
 
                                         case 'thumbnail':
