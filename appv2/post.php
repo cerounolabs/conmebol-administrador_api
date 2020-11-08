@@ -1082,13 +1082,13 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_proveedor_codigo'];
         $val03      = $request->getParsedBody()['localidad_ciudad_codigo'];
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_nombre'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_razon_social'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_ruc'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_direccion'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_castastrado'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_sap_codigo'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_observacion'])));
+        $val04      = trim($request->getParsedBody()['proveedor_nombre']);
+        $val05      = trim($request->getParsedBody()['proveedor_razon_social']);
+        $val06      = trim($request->getParsedBody()['proveedor_ruc']);
+        $val07      = trim($request->getParsedBody()['proveedor_direccion']);
+        $val08      = trim($request->getParsedBody()['proveedor_sap_castastrado']);
+        $val09      = trim($request->getParsedBody()['proveedor_sap_codigo']);
+        $val10      = trim($request->getParsedBody()['proveedor_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1136,12 +1136,12 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['proveedor_codigo'];
-        $val03      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_nombre'])));
+        $val03      = trim($request->getParsedBody()['proveedor_contacto_nombre']);
         $val04      = trim(strtolower($request->getParsedBody()['proveedor_contacto_email']));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_telefono'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_whatsapp'])));
+        $val05      = trim($request->getParsedBody()['proveedor_contacto_telefono']);
+        $val06      = trim($request->getParsedBody()['proveedor_contacto_whatsapp']);
         $val07      = trim(strtolower($request->getParsedBody()['proveedor_contacto_skype']));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_contacto_observacion'])));
+        $val08      = trim($request->getParsedBody()['proveedor_contacto_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1190,11 +1190,11 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_habitacion_codigo'];
         $val03      = $request->getParsedBody()['proveedor_codigo'];
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_nombre'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_precio'])));
+        $val04      = trim($request->getParsedBody()['proveedor_habitacion_nombre']);
+        $val05      = trim($request->getParsedBody()['proveedor_habitacion_precio']);
         $val06      = $request->getParsedBody()['proveedor_habitacion_cantidad'];
         $val07      = trim(strtolower($request->getParsedBody()['proveedor_habitacion_path']));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_habitacion_observacion'])));
+        $val08      = trim($request->getParsedBody()['proveedor_habitacion_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1243,7 +1243,7 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['proveedor_codigo'];
         $val03      = trim(strtolower($request->getParsedBody()['proveedor_imagen_path']));
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_imagen_observacion'])));
+        $val04      = trim($request->getParsedBody()['proveedor_imagen_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1637,7 +1637,7 @@
         $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];      
         $val04      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
-        $val05      = $request->getParsedBody()['solicitud_opcioncabecera_tarifa_importe'];
+        $val05      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
         $val06      = trim($request->getParsedBody()['solicitud_opcion_cabecera_reserva']);
         $val07      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_1']);
         $val08      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_2']);
@@ -1692,14 +1692,14 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val03      = $request->getParsedBody()['aerolinea_codigo'];
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_vuelo'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_companhia'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_fecha'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_desde'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_hasta'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_salida'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_llegada'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_vuelo_observacion'])));
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_vuelo_vuelo']);
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_vuelo_companhia']);
+        $val06      = trim($request->getParsedBody()['solicitud_opcion_vuelo_fecha']);
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_vuelo_desde']);
+        $val08      = trim($request->getParsedBody()['solicitud_opcion_vuelo_hasta']);
+        $val09      = trim($request->getParsedBody()['solicitud_opcion_vuelo_salida']);
+        $val10      = trim($request->getParsedBody()['solicitud_opcion_vuelo_llegada']);
+        $val11      = trim($request->getParsedBody()['solicitud_opcion_vuelo_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1748,15 +1748,15 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_habitacion_codigo'];
         $val03      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_hospedaje_hospedaje'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_hospedaje_direccion'])));
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_hospedaje']);
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_direccion']);
         $val06      = $request->getParsedBody()['solicitud_opcion_hospedaje_fecha_checkin'];
         $val07      = $request->getParsedBody()['solicitud_opcion_hospedaje_fecha_checkout'];
         $val08      = $request->getParsedBody()['solicitud_opcion_hospedaje_cantidad_noche'];
         $val09      = $request->getParsedBody()['solicitud_opcion_hospedaje_tarifa_alimentacion'];
         $val10      = $request->getParsedBody()['solicitud_opcion_hospedaje_tarifa_lavanderia'];
         $val11      = $request->getParsedBody()['solicitud_opcion_hospedaje_tarifa_noche'];
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_hospedaje_observacion'])));
+        $val12      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1806,9 +1806,9 @@
         $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
         $val03      = $request->getParsedBody()['tipo_traslado_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_traslado_nombre'])));
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_nombre']);
         $val06      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_traslado_observacion'])));
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1859,7 +1859,7 @@
         $val03      = $request->getParsedBody()['solicitud_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_pat']));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcion_comentario'])));
+        $val06      = trim($request->getParsedBody()['solicitud_opcion_comentario']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1907,8 +1907,8 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['aerolinea_orden'];
-        $val03      = $request->getParsedBody()['aerolinea_nombre'];
-        $val04      = $request->getParsedBody()['aerolinea_observacion'];
+        $val03      = trim($request->getParsedBody()['aerolinea_nombre']);
+        $val04      = trim($request->getParsedBody()['aerolinea_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
