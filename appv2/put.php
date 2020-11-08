@@ -960,27 +960,22 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/opcioncabecera/{codigo}', function($request) {//20201105//VER
+    $app->put('/v2/400/solicitud/opcion/cabecera/{codigo}', function($request) {//20201105//VER
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
-        $val03      = $request->getParsedBody()['solicitud_codigo'];
-        $val04      = $request->getParsedBody()['proveedor_codigo'];        
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_nombre'])));
-        $val06      = $request->getParsedBody()['solicitud_opcioncabecera_tarifa_importe'];
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_solicitante'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_jefatura'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_ejecutivo'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_visualiza_proveedor'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_reserva'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_1'])));
-        $val13      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_2'])));
-        $val14      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_3'])));
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcioncabecera_comentario_4'])));
-        $val16      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
+        $val03      = $request->getParsedBody()['solicitud_codigo'];      
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
+        $val05      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
+        $val06      = trim($request->getParsedBody()['solicitud_opcion_cabecera_reserva']);
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_1']);
+        $val08      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_2']);
+        $val09      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_3']);
+        $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
+        $val11      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -989,7 +984,7 @@
         if (isset($val00) && isset($val00_1)) {
             switch ($val00_1) {
                 case 1:
-                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = ?, SOLOPCPRC = ?, SOLOPCOPC = ?, SOLOPCTIM = ?, SOLOPCTVS = ?, SOLOPCTVJ = ?, SOLOPCTVE = ?, SOLOPCTVP = ?, SOLOPCRES = ?, SOLOPCCO1 = ?, SOLOPCCO2 = ?, SOLOPCCO3 = ?, SOLOPCCO4 = ?, SOLOPCPAT = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCSOC = ? AND SOLOPCTSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?) AND (SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?) OR SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?))";
                     break;
                 
                 case 2:
@@ -1008,7 +1003,7 @@
 
                 switch ($val00_1) {
                     case 1:
-                        $stmtMSSQL00->execute([$val01, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val15, $val16, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val03, $val02, 2, 3]);
                         break;
                     
                     case 2:
@@ -1047,22 +1042,22 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/opcionvuelo/{codigo}', function($request) {
+    $app->put('/v2/400/solicitud/opcion/vuelo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['solicitud_opcioncabecera_codigo'];
+        $val02      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val03      = $request->getParsedBody()['aerolinea_codigo'];
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_vuelo'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_companhia'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_fecha'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_desde'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_hasta'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_salida'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_llegada'])));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['solicitud_opcionvuelo_observacion'])));
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_vuelo_vuelo']);
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_vuelo_companhia']);
+        $val06      = trim($request->getParsedBody()['solicitud_opcion_vuelo_fecha']);
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_vuelo_desde']);
+        $val08      = trim($request->getParsedBody()['solicitud_opcion_vuelo_hasta']);
+        $val09      = trim($request->getParsedBody()['solicitud_opcion_vuelo_salida']);
+        $val10      = trim($request->getParsedBody()['solicitud_opcion_vuelo_llegada']);
+        $val11      = trim($request->getParsedBody()['solicitud_opcion_vuelo_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
