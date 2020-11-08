@@ -1643,7 +1643,7 @@
         $val08      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_2']);
         $val09      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_3']);
         $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
-        $val11      = trim($request->getParsedBody()['solicitud_opcion_cabecera_directorio']);
+        $val11      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
