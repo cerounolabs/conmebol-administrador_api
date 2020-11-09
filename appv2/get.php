@@ -13640,8 +13640,12 @@
             b.RENFICOBS         AS          rendicion_observacion,
         
             c.DOMFICCOD         AS          tipo_estado_codigo,
-            c.DOMFICNOC         AS          tipo_estado_nombre,
-            c.DOMFICPAR         AS          tipo_estado_parametro
+            c.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            c.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            c.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+            c.DOMFICPAR         AS          tipo_estado_parametro,
+            c.DOMFICCSS	        AS          tipo_estado_CSS,
+            c.DOMFICICO         AS          tipo_estado_icono
         
             FROM con.RENCON a
             INNER JOIN con.RENFIC b ON a.RENCONREC = b.RENFICCOD
@@ -13681,6 +13685,8 @@
                     'rendicion_consulta_comentario'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_comentario']))),    
                     'rendicion_consulta_fecha_hora_carga_1'     => $rendicion_consulta_fecha_hora_carga_1,
                     'rendicion_consulta_fecha_hora_carga_2'     => $rendicion_consulta_fecha_hora_carga_2,
+                    'tipo_estado_CSS'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_CSS']))),
+                    'tipo_estado_icono'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_icono']))),
 
                     'rendicion_codigo'                          => $rowMSSQL00['rendicion_codigo'],
                     'rendicion_periodo'                         => $rowMSSQL00['rendicion_periodo'],
@@ -13698,7 +13704,15 @@
 
                     'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                      => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
-                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))) 
+                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))), 
+
+                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre_catellano'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_catellano']))),
+                    'tipo_estado_nombre_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),             
+                    'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_CSS'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_CSS']))),  
+                    'tipo_estado_icono'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_icono'])))
                 );
 
                 $result[]   = $detalle;
@@ -13732,6 +13746,14 @@
                     'auditoria_usuario'                         => '',
                     'auditoria_fecha_hora'                      => '',
                     'auditoria_ip'                              => '',
+
+                    'tipo_estado_codigo'                        => '',
+                    'tipo_estado_nombre_catellano'              => '',
+                    'tipo_estado_nombre_ingles'                 => '',
+                    'tipo_estado_nombre_portugues'              => '',            
+                    'tipo_estado_parametro'                     => '',
+                    'tipo_estado_CSS'                           => '',  
+                    'tipo_estado_icono'                         => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
