@@ -13662,20 +13662,20 @@
 
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
 
-                if ($rowMSSQL['rendicion_consulta_fecha_hora_carga'] == '1900-01-01' || $rowMSSQL['rendicion_consulta_fecha_hora_carga'] == null){
+                if ($rowMSSQL00['rendicion_consulta_fecha_hora_carga'] == '1900-01-01' || $rowMSSQL00['rendicion_consulta_fecha_hora_carga'] == null){
                     $rendicion_consulta_fecha_hora_carga_1 = '';
                     $rendicion_consulta_fecha_hora_carga_2 = '';
                 } else {
-                    $rendicion_consulta_fecha_hora_carga_1 = $rowMSSQL['rendicion_consulta_fecha_hora_carga'];
-                    $rendicion_consulta_fecha_hora_carga_2 = date('d/m/Y', strtotime($rowMSSQL['rendicion_consulta_fecha_hora_carga']));
+                    $rendicion_consulta_fecha_hora_carga_1 = $rowMSSQL00['rendicion_consulta_fecha_hora_carga'];
+                    $rendicion_consulta_fecha_hora_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['rendicion_consulta_fecha_hora_carga']));
                 }
 
-                if ($rowMSSQL['rendicion_carga_fecha'] == '1900-01-01' || $rowMSSQL['rendicion_carga_fecha'] == null){
+                if ($rowMSSQL00['rendicion_carga_fecha'] == '1900-01-01' || $rowMSSQL00['rendicion_carga_fecha'] == null){
                     $rendicion_carga_fecha_1 = '';
                     $rendicion_carga_fecha_2 = '';
                 } else {
-                    $rendicion_carga_fecha_1 = $rowMSSQL['rendicion_carga_fecha'];
-                    $rendicion_carga_fecha_2 = date('d/m/Y', strtotime($rowMSSQL['rendicion_carga_fecha']));
+                    $rendicion_carga_fecha_1 = $rowMSSQL00['rendicion_carga_fecha'];
+                    $rendicion_carga_fecha_2 = date('d/m/Y', strtotime($rowMSSQL00['rendicion_carga_fecha']));
                 }
 
                 $detalle    = array(
