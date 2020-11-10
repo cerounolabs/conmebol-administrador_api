@@ -1956,7 +1956,7 @@
         $val08      = $request->getParsedBody()['localidad_ciudad_codigo'];
         $val09      = $request->getParsedBody()['workflow_codigo'];
         $val10      = $request->getParsedBody()['rendicion_periodo'];
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_evento_nombre'])));
+        $val11      = trim($request->getParsedBody()['rendicion_evento_nombre']);
         $val12      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_solicitante'])));
         $val13      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_jefatura'])));
         $val14      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_documento_analista'])));
@@ -1964,14 +1964,14 @@
         $val16      = $request->getParsedBody()['rendicion_evento_fecha'];
         $val17      = $request->getParsedBody()['rendicion_tarea_cantidad'];
         $val18      = $request->getParsedBody()['rendicion_tarea_resuelta'];
-        $val19      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_observacion'])));
+        $val19      = trim($request->getParsedBody()['rendicion_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
-            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC,RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICTCA, RENFICTRE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'RENDICIONESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'RENDICIONESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?)), ?, ?, ?, ?, ?, ?, (SELECT COUNT(DISTINCT(WRKDETTCC)) FROM wrk.WRKDET WHERE WRKDETWFC = (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = ?)), ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC,RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICTCA, RENFICTRE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?)), ?, ?, ?, ?, ?, ?, (SELECT COUNT(DISTINCT(WRKDETTCC)) FROM wrk.WRKDET WHERE WRKDETWFC = (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?))), ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(RENFICCOD) AS rendicion_codigo FROM [con].[RENFIC]";
 
             try {
