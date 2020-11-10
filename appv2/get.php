@@ -11958,7 +11958,7 @@
                     }
 
                     $detalle = array(
-                        'solicitud_calendario_codigo'                              => $rowMSSQL00['solicitud_calendario_vuelo_codigo'],
+                        'solicitud_calendario_codigo'                              => $rowMSSQL00['solicitud_calendario_codigo'],
                         'solicitud_calendario_fecha_salida_1'                      => $solicitud_calendario_fecha_salida_1,
                         'solicitud_calendario_fecha_salida_2'                      => $solicitud_calendario_fecha_salida_2,
                         'solicitud_calendario_fecha_retorno_1'                     => $solicitud_calendario_fecha_retorno_1,
