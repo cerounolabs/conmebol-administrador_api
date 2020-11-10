@@ -1374,7 +1374,7 @@
         return $json;
     });
 
-    $app->put('/v2/500/rendicion/detalle/workflow/{codigo}', function($request) {
+    $app->put('/v2/500/rendicion/detalle/workflow/{codigo}', function($request) {//20201110
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -1395,11 +1395,11 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {   
-            $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = ?, RENFDEECC = ?, RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ? AND RENFDEWFC = ?";
+            $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ? AND RENFDEWFC = ?";
             $sql01  = "SELECT * FROM [con].[RENFCA] a WHERE a.RENFCACOD = ? AND a.RENFCAWFC = ? AND EXISTS (SELECT * FROM [con].[RENFDE] b WHERE b.RENFDEFCC = a.RENFCACOD AND b.RENFDEWFC = a.RENFCAWFC AND b.RENFDEEAC = a.RENFCAEAC AND b.RENFDEECC = a.RENFCAECC)";
-            $sql02  = "UPDATE [con].[RENFCA] SET RENFCAEAC = ?, RENFCAECC = ?, RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
+            $sql02  = "UPDATE [con].[RENFCA] SET RENFCAEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
             $sql03  = "SELECT * FROM [con].[RENFIC] a WHERE a.RENFICCOD = ? AND a.RENFICWFC = ? AND EXISTS (SELECT * FROM [con].[RENFCA] b WHERE b.RENFCAREC = a.RENFICCOD AND b.RENFCAWFC = a.RENFICWFC AND b.RENFCAEAC = a.RENFICEAC AND b.RENFCAECC = a.RENFICECC)";
-            $sql04  = "UPDATE [con].[RENFIC] SET RENFICEAC = ?, RENFICECC = ?, RENFICAUS = ?, RENFICAFH = GETDATE(), RENFICAIP = ? WHERE RENFICCOD = ? AND RENFICWFC = ?";
+            $sql04  = "UPDATE [con].[RENFIC] SET RENFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICAUS = ?, RENFICAFH = GETDATE(), RENFICAIP = ? WHERE RENFICCOD = ? AND RENFICWFC = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
