@@ -13397,7 +13397,7 @@
                     'rendicion_consulta_codigo'                 => $rowMSSQL00['rendicion_consulta_codigo'],
                     'rendicion_consulta_persona_documento'      => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_persona_documento']))),
                     'rendicion_consulta_persona_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_persona_nombre']))),
-                    'rendicion_consulta_comentario'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_consulta_comentario']))),    
+                    'rendicion_consulta_comentario'             => trim($rowMSSQL00['rendicion_consulta_comentario']),    
                     'rendicion_consulta_fecha_hora_carga_1'     => $rendicion_consulta_fecha_hora_carga_1,
                     'rendicion_consulta_fecha_hora_carga_2'     => $rendicion_consulta_fecha_hora_carga_2,
                     'tipo_estado_CSS'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_CSS']))),
