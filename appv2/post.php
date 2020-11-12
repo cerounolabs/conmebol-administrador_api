@@ -2181,7 +2181,7 @@
         $val02      = $request->getParsedBody()['rendicion_codigo'];
         $val03      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_consulta_persona_documento'])));
         $val04      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_consulta_persona_nombre'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_consulta_comentario'])));
+        $val05      = trim($request->getParsedBody()['rendicion_consulta_comentario']);
         $val06      = $request->getParsedBody()['rendicion_consulta_fecha_hora_carga'];
 
 
