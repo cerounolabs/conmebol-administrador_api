@@ -1389,7 +1389,6 @@
         $val09      = $request->getParsedBody()['rendicion_detalle_importe'];
         $val10      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
-        $val12      = $request->getParsedBody()['rendicion_detalle_codigo'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -1410,7 +1409,7 @@
                 $stmtMSSQL03= $connMSSQL->prepare($sql03);
                 $stmtMSSQL04= $connMSSQL->prepare($sql04);
 
-                $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val12, $val05]);
+                $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00, $val05]);
 
                 $stmtMSSQL01->execute([$val07, $val05]);
                 $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
