@@ -1283,7 +1283,7 @@
         return $json;
     });
 
-    $app->put('/v2/500/rendicion/consulta/{codigo}', function($request) {//20201109
+    $app->put('/v2/500/rendicion/consulta/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -1374,10 +1374,11 @@
         return $json;
     });
 
-    $app->put('/v2/500/rendicion/detalle/workflow/{codigo}', function($request) {//20201110
+    $app->put('/v2/500/rendicion/detalle/workflow/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_concepto_codigo'];
@@ -1394,12 +1395,17 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {   
-            $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ? AND RENFDEWFC = ?";
-            $sql01  = "SELECT * FROM [con].[RENFCA] a WHERE a.RENFCACOD = ? AND a.RENFCAWFC = ? AND EXISTS (SELECT * FROM [con].[RENFDE] b WHERE b.RENFDEFCC = a.RENFCACOD AND b.RENFDEWFC = a.RENFCAWFC AND b.RENFDEEAC = a.RENFCAEAC AND b.RENFDEECC = a.RENFCAECC)";
-            $sql02  = "UPDATE [con].[RENFCA] SET RENFCAEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
-            $sql03  = "SELECT * FROM [con].[RENFIC] a WHERE a.RENFICCOD = ? AND a.RENFICWFC = ? AND EXISTS (SELECT * FROM [con].[RENFCA] b WHERE b.RENFCAREC = a.RENFICCOD AND b.RENFCAWFC = a.RENFICWFC AND b.RENFCAEAC = a.RENFICEAC AND b.RENFCAECC = a.RENFICECC)";
-            $sql04  = "UPDATE [con].[RENFIC] SET RENFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICAUS = ?, RENFICAFH = GETDATE(), RENFICAIP = ? WHERE RENFICCOD = ? AND RENFICWFC = ?";
+        if (isset($val00) && isset($val00_1) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {  
+            switch ($val00_1) {
+                case 1:
+                    $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ? AND RENFDEWFC = ?";
+                    $sql01  = "SELECT * FROM [con].[RENFCA] a WHERE a.RENFCACOD = ? AND a.RENFCAWFC = ? AND EXISTS (SELECT * FROM [con].[RENFDE] b WHERE b.RENFDEFCC = a.RENFCACOD AND b.RENFDEWFC = a.RENFCAWFC AND b.RENFDEEAC = a.RENFCAEAC AND b.RENFDEECC = a.RENFCAECC)";
+                    $sql02  = "UPDATE [con].[RENFCA] SET RENFCAEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
+                    $sql03  = "SELECT * FROM [con].[RENFIC] a WHERE a.RENFICCOD = ? AND a.RENFICWFC = ? AND EXISTS (SELECT * FROM [con].[RENFCA] b WHERE b.RENFCAREC = a.RENFICCOD AND b.RENFCAWFC = a.RENFICWFC AND b.RENFCAEAC = a.RENFICEAC AND b.RENFCAECC = a.RENFICECC)";
+                    $sql04  = "UPDATE [con].[RENFIC] SET RENFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICAUS = ?, RENFICAFH = GETDATE(), RENFICAIP = ? WHERE RENFICCOD = ? AND RENFICWFC = ?";
+        
+                    break;
+            } 
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -1409,20 +1415,25 @@
                 $stmtMSSQL03= $connMSSQL->prepare($sql03);
                 $stmtMSSQL04= $connMSSQL->prepare($sql04);
 
-                $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00, $val05]);
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00, $val05]);
 
-                $stmtMSSQL01->execute([$val07, $val05]);
-                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                        $stmtMSSQL01->execute([$val07, $val05]);
+                        $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+        
+                        if(empty($row_mssql01)){
+                            $stmtMSSQL02->execute([$val01, $val02, $aud01, $aud03, $val07, $val05]);
+                        }
+        
+                        $stmtMSSQL03->execute([$val06, $val05]);
+                        $row_mssql03= $stmtMSSQL03->fetch(PDO::FETCH_ASSOC);
+        
+                        if(empty($row_mssql03)){
+                            $stmtMSSQL04->execute([$val01, $val02, $aud01, $aud03, $val06, $val05]);
+                        }
 
-                if(empty($row_mssql01)){
-                    $stmtMSSQL02->execute([$val01, $val02, $aud01, $aud03, $val07, $val05]);
-                }
-
-                $stmtMSSQL03->execute([$val06, $val05]);
-                $row_mssql03= $stmtMSSQL03->fetch(PDO::FETCH_ASSOC);
-
-                if(empty($row_mssql03)){
-                    $stmtMSSQL04->execute([$val01, $val02, $aud01, $aud03, $val06, $val05]);
+                        break;
                 }
 
                 header("Content-Type: application/json; charset=utf-8");
