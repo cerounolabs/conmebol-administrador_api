@@ -11355,7 +11355,7 @@
         if(isset($val01)) {
             $sql00  = "SELECT 
                 a.SOLOPHCOD     AS      solicitud_opcion_hospedaje_codigo,
-                a.SOLOPHHOS     AS      solicitud_opcion_hospedaje_hospedaje,	
+                a.SOLOPHHOS     AS      solicitud_opcion_hospedaje_nombre,	
                 a.SOLOPHDIR     AS      solicitud_opcion_hospedaje_direccion,	
                 a.SOLOPHFIN	    AS      solicitud_opcion_hospedaje_fecha_desde,
                 a.SOLOPHFOU     AS      solicitud_opcion_hospedaje_fecha_hasta,  	
@@ -11471,7 +11471,7 @@
 
                     $detalle    = array(
                         'solicitud_opcion_hospedaje_codigo'                  => $rowMSSQL00['solicitud_opcion_hospedaje_codigo'],
-                        'solicitud_opcion_hospedaje_hospedaje'               => trim($rowMSSQL00['solicitud_opcion_hospedaje_hospedaje']),
+                        'solicitud_opcion_hospedaje_nombre'                  => trim($rowMSSQL00['solicitud_opcion_hospedaje_nombre']),
                         'solicitud_opcion_hospedaje_direccion'               => trim($rowMSSQL00['solicitud_opcion_hospedaje_direccion']),
                         'solicitud_opcion_hospedaje_fecha_desde_1'           => $solicitud_opcion_hospedaje_fecha_desde_1,
                         'solicitud_opcion_hospedaje_fecha_desde_2'           => $solicitud_opcion_hospedaje_fecha_desde_2,
@@ -11558,7 +11558,7 @@
                 } else {
                     $detalle = array(
                         'solicitud_opcion_hospedaje_codigo'                  => '',
-                        'solicitud_opcion_hospedaje_hospedaje'               => '',
+                        'solicitud_opcion_hospedaje_nombre'               => '',
                         'solicitud_opcion_hospedaje_direccion'               => '',
                         'solicitud_opcion_hospedaje_fecha_desde_1'           => '',
                         'solicitud_opcion_hospedaje_fecha_desde_2'           => '',
@@ -11664,8 +11664,13 @@
         if(isset($val01)) {
             $sql00  = "SELECT 
                 a.SOLOPTCOD     AS      solicitud_opcion_traslado_codigo,
-                a.SOLOPTTRA     AS      solicitud_opcion_traslado_traslado,	
-                a.SOLOPTTAR     AS      solicitud_opcion_traslado_tarifa_dia,	
+                a.SOLOPTTRA     AS      solicitud_opcion_traslado_nombre,	
+                a.SOLOPTTAR     AS      solicitud_opcion_traslado_tarifa_dia,
+                a.SOLOPTCOM     AS      solicitud_opcion_traslado_comentario,
+                a.SOLOPTORI     AS      solicitud_opcion_traslado_origen,
+                a.SOLOPTDES     AS      solicitud_opcion_traslado_destino,  
+                a.SOLOPTFSA     AS      solicitud_opcion_traslado_fecha_salida, 
+                a.SOLOPTHSA     AS      solicitud_opcion_traslado_hora_salida,   
                 a.SOLOPTOBS	    AS      solicitud_opcion_traslado_observacion,
 
                 a.SOLOPTAUS     AS      auditoria_usuario,
@@ -11749,6 +11754,14 @@
                 $stmtMSSQL00->execute([$val01]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL['solicitud_opcion_traslado_fecha_salida'] == '1900-01-01' || $rowMSSQL['solicitud_opcion_traslado_fecha_salida'] == null){
+                        $solicitud_opcion_traslado_fecha_salida_1 = '';
+                        $solicitud_opcion_traslado_fecha_salida_2 = '';
+                    } else {
+                        $solicitud_opcion_traslado_fecha_salida_1 = $rowMSSQL['solicitud_opcion_traslado_fecha_salida'];
+                        $solicitud_opcion_traslado_fecha_salida_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_opcion_traslado_fecha_salida']));
+                    }
+
                     if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
                         $solicitud_fecha_carga_1 = '';
                         $solicitud_fecha_carga_2 = '';
@@ -11759,8 +11772,14 @@
 
                     $detalle    = array(
                         'solicitud_opcion_traslado_codigo'                   => $rowMSSQL00['solicitud_opcion_traslado_codigo'],
-                        'solicitud_opcion_traslado_traslado'                 => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcion_traslado_traslado']))),
+                        'solicitud_opcion_traslado_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcion_traslado_nombre']))),
                         'solicitud_opcion_traslado_tarifa_dia'               => $rowMSSQL00['solicitud_opcion_traslado_tarifa_dia'],
+                        'solicitud_opcion_traslado_comentario'               => trim($rowMSSQL00['solicitud_opcion_traslado_tarifa_dia']),
+                        'solicitud_opcion_traslado_origen'                   => trim($rowMSSQL00['solicitud_opcion_traslado_tarifa_dia']),
+                        'solicitud_opcion_traslado_destino'                  => trim($rowMSSQL00['solicitud_opcion_traslado_tarifa_dia']),
+                        'solicitud_opcion_traslado_fecha_salida_1'           => $solicitud_opcion_traslado_fecha_salida_1,
+                        'solicitud_opcion_traslado_fecha_salida_2'           => $solicitud_opcion_traslado_fecha_salida_2,
+                        'solicitud_opcion_traslado_hora_salida'              => trim($rowMSSQL00['solicitud_opcion_traslado_hora_salida']),
                         'solicitud_opcion_traslado_observacion'              => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcion_traslado_observacion']))),
 
                         'auditoria_usuario'                                  => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -11837,8 +11856,14 @@
                 } else {
                     $detalle = array(
                         'solicitud_opcion_traslado_codigo'                  => '',
-                        'solicitud_opcion_traslado_traslado'                => '',
+                        'solicitud_opcion_traslado_nombre'                  => '',
                         'solicitud_opcion_traslado_tarifa_dia'              => '',
+                        'solicitud_opcion_traslado_comentario'              => '',
+                        'solicitud_opcion_traslado_origen'                  => '',
+                        'solicitud_opcion_traslado_destino'                 => '',
+                        'solicitud_opcion_traslado_fecha_salida_1'          => '',
+                        'solicitud_opcion_traslado_fecha_salida_2'          => '',
+                        'solicitud_opcion_traslado_hora_salida'             => '',
                         'solicitud_opcion_traslado_observacion'             => '',
 
                         'auditoria_usuario'                                 => '',
