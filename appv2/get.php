@@ -10916,6 +10916,14 @@
                 $stmtMSSQL00->execute([$val01, $val02]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
+                        $solicitud_fecha_carga_1 = '';
+                        $solicitud_fecha_carga_2 = '';
+                    } else {
+                        $solicitud_fecha_carga_1 = $rowMSSQL['solicitud_fecha_carga'];
+                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_fecha_carga']));
+                    }
+
                     $detalle    = array(
                         'solicitud_opcion_cabecera_codigo'                  =>       $rowMSSQL00['solicitud_opcion_cabecera_codigo'],
                         'solicitud_opcion_cabecera_origen'                  =>       trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_origen'])),
@@ -10958,7 +10966,8 @@
                         'solicitud_vuelo'                                   =>       trim(strtoupper($rowMSSQL00['solicitud_vuelo'])),
                         'solicitud_hospedaje'                               =>       trim(strtoupper($rowMSSQL00['solicitud_hospedaje'])),
                         'solicitud_traslado'                                =>       trim(strtoupper($rowMSSQL00['solicitud_traslado'])),
-                        'solicitud_fecha_carga'                             =>       date("d/m/Y", strtotime($rowMSSQL00['solicitud_fecha_carga'])),
+                        'solicitud_fecha_carga_1'                           =>       $solicitud_fecha_carga_1,
+                        'solicitud_fecha_carga_2'                           =>       $solicitud_fecha_carga_2,
                         'solicitud_sap_centro_costo'                        =>       trim(strtoupper($rowMSSQL00['solicitud_sap_centro_costo'])),     
                         'solicitud_tarea_cantidad'                          =>       $rowMSSQL00['solicitud_tarea_cantidad'],
                         'solicitud_tarea_resuelta'                          =>       $rowMSSQL00['solicitud_tarea_resuelta'],
@@ -10989,20 +10998,16 @@
                     $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 } else { 
                     $detalle    =   array(
-                        'solicitud_opcion_cabecera_codigo'                   => '',
+                        'solicitud_opcion_cabecera_codigo'                  => '',
                         'solicitud_opcion_cabecera_origen'                  => '',
-                        'solicitud_opcion_cabecera_nombre'                   => '',
-                        'solicitud_opcion_cabecera_tarifa_importe'           => '',
-                        'solicitud_opcion_cabecera_visualiza_solicitante'    => '',
-                        'solicitud_opcion_cabecera_visualiza_jefatura'       => '',
-                        'solicitud_opcion_cabecera_visualiza_ejecutivo'      => '',
-                        'solicitud_opcion_cabecera_visualiza_proveedor'      => '',
-                        'solicitud_opcion_cabecera_reserva'                  => '',
-                        'solicitud_opcion_cabecera_comentario_1'             => '',
-                        'solicitud_opcion_cabecera_comentario_2'             => '',
-                        'solicitud_opcion_cabecera_comentario_3'             => '',
-                        'solicitud_opcion_cabecera_comentario_4'             => '',
-                        'solicitud_opcion_cabecera_directorio'               => '',
+                        'solicitud_opcion_cabecera_nombre'                  => '',
+                        'solicitud_opcion_cabecera_tarifa_importe'          => '',
+                        'solicitud_opcion_cabecera_reserva'                 => '',
+                        'solicitud_opcion_cabecera_comentario_1'            => '',
+                        'solicitud_opcion_cabecera_comentario_2'            => '',
+                        'solicitud_opcion_cabecera_comentario_3'            => '',
+                        'solicitud_opcion_cabecera_comentario_4'            => '',
+                        'solicitud_opcion_cabecera_directorio'              => '',
 
                         'tipo_estado_codigo'                                => '',
                         'tipo_estado_orden'                                 => '',
@@ -11032,23 +11037,15 @@
                         'solicitud_codigo'                                  => '',
                         'solicitud_periodo'                                 => '',
                         'solicitud_motivo'                                  => '',
-                        'solicitud_pasaje'                                  => '',
+                        'solicitud_vuelo'                                   => '',
                         'solicitud_hospedaje'                               => '',
                         'solicitud_traslado'                                => '',
-                        'solicitud_fecha_carga'                             => '',
+                        'solicitud_fecha_carga_1'                           => '',
+                        'solicitud_fecha_carga_2'                           => '',
                         'solicitud_sap_centro_costo'                        => '', 
                         'solicitud_tarea_cantidad'                          => '',
                         'solicitud_tarea_resuelta'                          => '',
                         'solicitud_observacion'                             => '',
-
-                        'proveedor_codigo'                                  => '',
-                        'proveedor_nombre'                                  => '',
-                        'proveedor_razon_social'                            => '',
-                        'proveedor_ruc'                                     => '',
-                        'proveedor_direccion'                               => '',
-                        'proveedor_sap_castastrado'                         => '',
-                        'proveedor_sap_codigo'                              => '',
-                        'proveedor_observacion'                             => '',
 
                         'auditoria_usuario'                                 => '',
                         'auditoria_fecha_hora'                              => '',
@@ -11176,6 +11173,13 @@
                 $stmtMSSQL00->execute([$val01]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL['solicitud_opcion_vuelo_fecha'] == '1900-01-01' || $rowMSSQL['solicitud_opcion_vuelo_fecha'] == null){
+                        $solicitud_opcion_vuelo_fecha_1 = '';
+                        $solicitud_opcion_vuelo_fecha_2 = '';
+                    } else {
+                        $solicitud_opcion_vuelo_fecha_1 = $rowMSSQL['solicitud_opcion_vuelo_fecha'];
+                        $solicitud_opcion_vuelo_fecha_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_opcion_vuelo_fecha']));
+                    }
 
                     if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
                         $solicitud_fecha_carga_1 = '';
@@ -11189,7 +11193,8 @@
                         'solicitud_opcion_vuelo_codigo'                      => $rowMSSQL00['solicitud_opcion_vuelo_codigo'],
                         'solicitud_opcion_vuelo_vuelo'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_vuelo']),
                         'solicitud_opcion_vuelo_companhia'                   => trim($rowMSSQL00['solicitud_opcion_vuelo_companhia']),
-                        'solicitud_opcion_vuelo_fecha'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_fecha']),
+                        'solicitud_opcion_vuelo_fecha_1'                     => $solicitud_opcion_vuelo_fecha_1,
+                        'solicitud_opcion_vuelo_fecha_2'                     => $solicitud_opcion_vuelo_fecha_2,
                         'solicitud_opcion_vuelo_desde'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_desde']),
                         'solicitud_opcion_vuelo_hasta'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_hasta']),
                         'solicitud_opcion_vuelo_salida'                      => trim($rowMSSQL00['solicitud_opcion_vuelo_salida']),
@@ -11214,7 +11219,7 @@
 
                         'solicitud_opcion_cabecera_codigo'                   => $rowMSSQL00['solicitud_opcion_cabecera_codigo'],
                         'solicitud_opcion_cabecera_origen'                   => trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_origen'])),
-                        'solicitud_opcion_cabecera_nombre'                   => trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_nombre'])),
+                        'solicitud_opcion_cabecera_nombre'                   => trim($rowMSSQL00['solicitud_opcion_cabecera_nombre']),
                         'solicitud_opcion_cabecera_tarifa_importe'           => $rowMSSQL00['solicitud_opcion_cabecera_tarifa_importe'],
                         'solicitud_opcion_cabecera_reserva'                  => trim($rowMSSQL00['solicitud_opcion_cabecera_reserva']),
                         'solicitud_opcion_cabecera_comentario_1'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_1']),
@@ -11231,10 +11236,9 @@
                         'solicitud_traslado'                                => trim($rowMSSQL00['solicitud_traslado']),
                         'solicitud_fecha_carga_1'                           => $solicitud_fecha_carga_1,
                         'solicitud_fecha_carga_2'                           => $solicitud_fecha_carga_2,
-                        'solicitud_sap_centro_costo'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_sap_centro_costo']))),
+                        'solicitud_sap_centro_costo'                        => trim($rowMSSQL00['solicitud_sap_centro_costo']),
                         'solicitud_tarea_cantidad'                          => $rowMSSQL00['solicitud_tarea_cantidad'],
                         'solicitud_tarea_resuelta'                          => $rowMSSQL00['solicitud_tarea_resuelta'],
-                        'solicitud_tarea_porcentaje'                        => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
                         'solicitud_observacion'                             => trim($rowMSSQL00['solicitud_observacion']),
 
                         'aerolinea_codigo'                                  => $rowMSSQL00['aerolinea_codigo'],
@@ -11266,7 +11270,8 @@
                         'solicitud_opcion_vuelo_codigo'              => '',
                         'solicitud_opcion_vuelo_vuelo'               => '',
                         'solicitud_opcion_vuelo_companhia'           => '',
-                        'solicitud_opcion_vuelo_fecha'               => '',
+                        'solicitud_opcion_vuelo_fecha_1'             => '',
+                        'solicitud_opcion_vuelo_fecha_2'             => '',
                         'solicitud_opcion_vuelo_desde'               => '',
                         'solicitud_opcion_vuelo_hasta'               => '',
                         'solicitud_opcion_vuelo_salida_llegada'      => '',
@@ -11307,7 +11312,6 @@
                         'solicitud_sap_centro_costo'                 => '',
                         'solicitud_tarea_cantidad'                   => '',
                         'solicitud_tarea_resuelta'                   => '',
-                        'solicitud_tarea_porcentaje'                 => '',
                         'solicitud_observacion'                      => '',
 
                         'tipo_origen_codigo'                         => '',
@@ -11403,7 +11407,7 @@
                 e.SOLFICCOD     AS      solicitud_codigo,
                 e.SOLFICPER     AS      solicitud_periodo,
                 e.SOLFICMOT     AS      solicitud_motivo,
-                e.SOLFICPAS     AS      solicitud_pasaje,
+                e.SOLFICVUE     AS      solicitud_vuelo,
                 e.SOLFICHOS     AS      solicitud_hospedaje,
                 e.SOLFICTRA     AS      solicitud_traslado,
                 e.SOLFICFEC     AS      solicitud_fecha_carga,
@@ -11480,9 +11484,9 @@
                         'solicitud_opcion_hospedaje_tarifa_adicional'        => $rowMSSQL00['solicitud_opcion_hospedaje_tarifa_adicional'],
                         'solicitud_opcion_hospedaje_observacion'             => trim($rowMSSQL00['solicitud_opcion_hospedaje_observacion']),
 
-                        'auditoria_usuario'                                 => trim($rowMSSQL00['auditoria_usuario']),
-                        'auditoria_fecha_hora'                              => $rowMSSQL00['auditoria_fecha_hora'],
-                        'auditoria_ip'                                      => trim($rowMSSQL00['auditoria_ip']),
+                        'auditoria_usuario'                                  => trim($rowMSSQL00['auditoria_usuario']),
+                        'auditoria_fecha_hora'                               => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                                       => trim($rowMSSQL00['auditoria_ip']),
 
                         'tipo_estado_codigo'                                 => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_orden'                                  => $rowMSSQL00['tipo_estado_orden'],
@@ -11512,45 +11516,126 @@
                         'solicitud_opcion_cabecera_origen'                   => trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_origen'])),
                         'solicitud_opcion_cabecera_nombre'                   => trim($rowMSSQL00['solicitud_opcion_cabecera_nombre']),
                         'solicitud_opcion_cabecera_tarifa_importe'           => $rowMSSQL00['solicitud_opcion_cabecera_tarifa_importe'],
-                        'solicitud_opcion_cabecera_visualiza_solicitante'    => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_solicitante']),
-                        'solicitud_opcion_cabecera_visualiza_jefatura'       => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_jefatura']),
-                        'solicitud_opcion_cabecera_visualiza_ejecutivo'      => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_ejecutivo']),
-                        'solicitud_opcion_cabecera_visualiza_proveedor'      => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_proveedor']),
                         'solicitud_opcion_cabecera_reserva'                  => trim($rowMSSQL00['solicitud_opcion_cabecera_reserva']),
                         'solicitud_opcion_cabecera_comentario_1'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_1']),
                         'solicitud_opcion_cabecera_comentario_2'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_2']),
                         'solicitud_opcion_cabecera_comentario_3'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_3']),
                         'solicitud_opcion_cabecera_comentario_4'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_4']),
-                        'solicitud_opcion_cabecera_directorio'               => trim($rowMSSQL00['solicitud_opcion_cabecera_directorio']),
+                        'solicitud_opcion_cabecera_directorio'               => trim(strtolower($rowMSSQL00['solicitud_opcion_cabecera_directorio'])),
 
-                        'solicitud_codigo'                                  => $rowMSSQL00['solicitud_codigo'],
-                        'solicitud_periodo'                                 => $rowMSSQL00['solicitud_periodo'],
-                        'solicitud_motivo'                                  => trim($rowMSSQL00['solicitud_motivo']),
-                        'solicitud_pasaje'                                  => trim($rowMSSQL00['solicitud_pasaje']),
-                        'solicitud_hospedaje'                               => trim($rowMSSQL00['solicitud_hospedaje']),
-                        'solicitud_traslado'                                => trim($rowMSSQL00['solicitud_traslado']),
-                        'solicitud_fecha_carga_1'                           => $solicitud_fecha_carga_1,
-                        'solicitud_fecha_carga_2'                           => $solicitud_fecha_carga_2,
-                        'solicitud_sap_centro_costo'                        => trim($rowMSSQL00['solicitud_sap_centro_costo']),
-                        'solicitud_tarea_cantidad'                          => $rowMSSQL00['solicitud_tarea_cantidad'],
-                        'solicitud_tarea_resuelta'                          => $rowMSSQL00['solicitud_tarea_resuelta'],
-                        'solicitud_tarea_porcentaje'                        => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
-                        'solicitud_observacion'                             => trim($rowMSSQL00['solicitud_observacion']),
+                        'solicitud_codigo'                                   => $rowMSSQL00['solicitud_codigo'],
+                        'solicitud_periodo'                                  => $rowMSSQL00['solicitud_periodo'],
+                        'solicitud_motivo'                                   => trim($rowMSSQL00['solicitud_motivo']),
+                        'solicitud_vuelo'                                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_vuelo']))),  
+                        'solicitud_hospedaje'                                => trim($rowMSSQL00['solicitud_hospedaje']),
+                        'solicitud_traslado'                                 => trim($rowMSSQL00['solicitud_traslado']),
+                        'solicitud_fecha_carga_1'                            => $solicitud_fecha_carga_1,
+                        'solicitud_fecha_carga_2'                            => $solicitud_fecha_carga_2,
+                        'solicitud_sap_centro_costo'                         => trim($rowMSSQL00['solicitud_sap_centro_costo']),
+                        'solicitud_tarea_cantidad'                           => $rowMSSQL00['solicitud_tarea_cantidad'],
+                        'solicitud_tarea_resuelta'                           => $rowMSSQL00['solicitud_tarea_resuelta'],
+                        'solicitud_observacion'                              => trim($rowMSSQL00['solicitud_observacion']),
 
-                        'tipo_origen_codigo'                                => $rowMSSQL00['tipo_origen_codigo'],
-                        'tipo_origen_orden'                                 => $rowMSSQL00['tipo_origen_orden'],
-                        'tipo_origen_nombre_ingles'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_ingles']))),
-                        'tipo_origen_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_castellano']))),
-                        'tipo_origen_nombre_portugues'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_portugues']))),
-                        'tipo_origen_path'                                  => trim(strtolower($rowMSSQL00['tipo_origen_path'])),
-                        'tipo_origen_css'                                   => trim(strtolower($rowMSSQL00['tipo_origen_css'])),
-                        'tipo_origen_parametro'                             => $rowMSSQL00['tipo_origen_parametro'],
-                        'tipo_origen_icono'                                 => trim(strtolower($rowMSSQL00['tipo_origen_icono'])),
-                        'tipo_origen_dominio'                               => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_dominio']))),
-                        'tipo_origen_observacion'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion'])))
+                        'tipo_origen_codigo'                                 => $rowMSSQL00['tipo_origen_codigo'],
+                        'tipo_origen_orden'                                  => $rowMSSQL00['tipo_origen_orden'],
+                        'tipo_origen_nombre_ingles'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_ingles']))),
+                        'tipo_origen_nombre_castellano'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_castellano']))),
+                        'tipo_origen_nombre_portugues'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_portugues']))),
+                        'tipo_origen_path'                                   => trim(strtolower($rowMSSQL00['tipo_origen_path'])),
+                        'tipo_origen_css'                                    => trim(strtolower($rowMSSQL00['tipo_origen_css'])),
+                        'tipo_origen_parametro'                              => $rowMSSQL00['tipo_origen_parametro'],
+                        'tipo_origen_icono'                                  => trim(strtolower($rowMSSQL00['tipo_origen_icono'])),
+                        'tipo_origen_dominio'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_dominio']))),
+                        'tipo_origen_observacion'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion'])))
                     );
 
-                  
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'solicitud_opcion_hospedaje_codigo'                  => '',
+                        'solicitud_opcion_hospedaje_hospedaje'               => '',
+                        'solicitud_opcion_hospedaje_direccion'               => '',
+                        'solicitud_opcion_hospedaje_fecha_desde_1'           => '',
+                        'solicitud_opcion_hospedaje_fecha_desde_2'           => '',
+                        'solicitud_opcion_hospedaje_fecha_hasta_1'           => '',
+                        'solicitud_opcion_hospedaje_fecha_hasta_2'           => '',
+                        'solicitud_opcion_hospedaje_cantidad'                => '',
+                        'solicitud_opcion_hospedaje_tarifa_noche'            => '',
+                        'solicitud_opcion_hospedaje_tarifa_consumo'          => '',
+                        'solicitud_opcion_hospedaje_tarifa_lavanderia'       => '',
+                        'solicitud_opcion_hospedaje_tarifa_adicional'        => '',
+                        'solicitud_opcion_hospedaje_observacion'             => '',
+
+                        'auditoria_usuario'                                  => '',
+                        'auditoria_fecha_hora'                               => '',
+                        'auditoria_ip'                                       => '',
+
+                        'tipo_estado_codigo'                                 => '',
+                        'tipo_estado_orden'                                  => '',
+                        'tipo_estado_nombre_ingles'                          => '',
+                        'tipo_estado_nombre_castellano'                      => '',
+                        'tipo_estado_nombre_portugues'                       => '',
+                        'tipo_estado_path'                                   => '',
+                        'tipo_estado_css'                                    => '',
+                        'tipo_estado_parametro'                              => '',
+                        'tipo_estado_icono'                                  => '',
+                        'tipo_estado_dominio'                                => '',
+                        'tipo_estado_observacion'                            => '',
+
+                        'tipo_habitacion_codigo'                             => '',
+                        'tipo_habitacion_orden'                              => '',
+                        'tipo_habitacion_nombre_ingles'                      => '',
+                        'tipo_habitacion_nombre_castellano'                  => '',
+                        'tipo_habitacion_nombre_portugues'                   => '',
+                        'tipo_habitacion_path'                               => '',
+                        'tipo_habitacion_css'                                => '',
+                        'tipo_habitacion_parametro'                          => '',
+                        'tipo_habitacion_icono'                              => '',
+                        'tipo_habitacion_dominio'                            => '',
+                        'tipo_habitacion_observacion'                        => '',
+
+                        'solicitud_opcion_cabecera_codigo'                   => '',
+                        'solicitud_opcion_cabecera_origen'                   => '',
+                        'solicitud_opcion_cabecera_nombre'                   => '',
+                        'solicitud_opcion_cabecera_tarifa_importe'           => '',
+                        'solicitud_opcion_cabecera_reserva'                  => '',
+                        'solicitud_opcion_cabecera_comentario_1'             => '',
+                        'solicitud_opcion_cabecera_comentario_2'             => '',
+                        'solicitud_opcion_cabecera_comentario_3'             => '',
+                        'solicitud_opcion_cabecera_comentario_4'             => '',
+                        'solicitud_opcion_cabecera_directorio'               => '',
+
+                        'solicitud_codigo'                                   => '',
+                        'solicitud_periodo'                                  => '',
+                        'solicitud_motivo'                                   => '',
+                        'solicitud_vuelo'                                    => '',  
+                        'solicitud_hospedaje'                                => '',
+                        'solicitud_traslado'                                 => '',
+                        'solicitud_fecha_carga_1'                            => '',
+                        'solicitud_fecha_carga_2'                            => '',
+                        'solicitud_sap_centro_costo'                         => '',
+                        'solicitud_tarea_cantidad'                           => '',
+                        'solicitud_tarea_resuelta'                           => '',
+                        'solicitud_observacion'                              => '',
+
+                        'tipo_origen_codigo'                                 => '',
+                        'tipo_origen_orden'                                  => '',
+                        'tipo_origen_nombre_ingles'                          => '',
+                        'tipo_origen_nombre_castellano'                      => '',
+                        'tipo_origen_nombre_portugues'                       => '',
+                        'tipo_origen_path'                                   => '',
+                        'tipo_origen_css'                                    => '',
+                        'tipo_origen_parametro'                              => '',
+                        'tipo_origen_icono'                                  => '',
+                        'tipo_origen_dominio'                                => '',
+                        'tipo_origen_observacion'                            => ''
+                    );
+
                     header("Content-Type: application/json; charset=utf-8");
                     $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 }
@@ -11583,9 +11668,9 @@
                 a.SOLOPTTAR     AS      solicitud_opcion_traslado_tarifa_dia,	
                 a.SOLOPTOBS	    AS      solicitud_opcion_traslado_observacion,
 
-                a.SOLOPHAUS     AS      auditoria_usuario,
-                a.SOLOPHAFH     AS      auditoria_fecha_hora,
-                a.SOLOPHAIP     AS      auditoria_ip,
+                a.SOLOPTAUS     AS      auditoria_usuario,
+                a.SOLOPTAFH     AS      auditoria_fecha_hora,
+                a.SOLOPTAIP     AS      auditoria_ip,
 
                 b.DOMFICCOD     AS      tipo_estado_codigo,
                 b.DOMFICORD     AS      tipo_estado_orden,
@@ -11613,13 +11698,9 @@
                 c.DOMFICOBS     AS      tipo_vehiculo_observacion,
                 
                 d.SOLOPCCOD     AS      solicitud_opcion_cabecera_codigo,
-                d.SOLOPCORI     AS      solicitud_opcion_cabecera_origen,
+                d.SOLOPCORI     AS      solicitud_opcion_cabecera_origen, 
                 d.SOLOPCOPC     AS      solicitud_opcion_cabecera_nombre,
                 d.SOLOPCTIM     AS      solicitud_opcion_cabecera_tarifa_importe,
-                d.SOLOPCTVS     AS      solicitud_opcion_cabecera_visualiza_solicitante,
-                d.SOLOPCTVJ     AS      solicitud_opcion_cabecera_visualiza_jefatura,
-                d.SOLOPCTVE     AS      solicitud_opcion_cabecera_visualiza_ejecutivo,
-                d.SOLOPCTVP     AS      solicitud_opcion_cabecera_visualiza_proveedor,
                 d.SOLOPCRES     AS      solicitud_opcion_cabecera_reserva,
                 d.SOLOPCCO1     AS      solicitud_opcion_cabecera_comentario_1,
                 d.SOLOPCCO2     AS      solicitud_opcion_cabecera_comentario_2,
@@ -11630,7 +11711,7 @@
                 e.SOLFICCOD     AS      solicitud_codigo,
                 e.SOLFICPER     AS      solicitud_periodo,
                 e.SOLFICMOT     AS      solicitud_motivo,
-                e.SOLFICPAS     AS      solicitud_pasaje,
+                e.SOLFICVUE     AS      solicitud_vuelo,
                 e.SOLFICHOS     AS      solicitud_hospedaje,
                 e.SOLFICTRA     AS      solicitud_traslado,
                 e.SOLFICFEC     AS      solicitud_fecha_carga,
@@ -11656,7 +11737,7 @@
                 INNER JOIN adm.DOMFIC c ON a.SOLOPTTVC = c.DOMFICCOD
                 INNER JOIN via.SOLOPC d ON a.SOLOPTOPC = d.SOLOPCCOD
                 INNER JOIN via.SOLFIC e ON d.SOLOPCSOC = e.SOLFICCOD
-                INNER JOIN adm.DOMFIC f ON a.SOLOPCTOC = e.DOMFICCOD
+                INNER JOIN adm.DOMFIC f ON d.SOLOPCTOC = f.DOMFICCOD
 
                 WHERE d.SOLOPCSOC = ?
                 
@@ -11714,10 +11795,6 @@
                         'solicitud_opcion_cabecera_origen'                   => trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_origen'])),
                         'solicitud_opcion_cabecera_nombre'                   => trim($rowMSSQL00['solicitud_opcion_cabecera_nombre']),
                         'solicitud_opcion_cabecera_tarifa_importe'           => $rowMSSQL00['solicitud_opcion_cabecera_tarifa_importe'],
-                        'solicitud_opcion_cabecera_visualiza_solicitante'    => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_solicitante']),
-                        'solicitud_opcion_cabecera_visualiza_jefatura'       => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_jefatura']),
-                        'solicitud_opcion_cabecera_visualiza_ejecutivo'      => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_ejecutivo']),
-                        'solicitud_opcion_cabecera_visualiza_proveedor'      => trim($rowMSSQL00['solicitud_opcion_cabecera_visualiza_proveedor']),
                         'solicitud_opcion_cabecera_reserva'                  => trim($rowMSSQL00['solicitud_opcion_cabecera_reserva']),
                         'solicitud_opcion_cabecera_comentario_1'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_1']),
                         'solicitud_opcion_cabecera_comentario_2'             => trim($rowMSSQL00['solicitud_opcion_cabecera_comentario_2']),
@@ -11728,7 +11805,7 @@
                         'solicitud_codigo'                                   => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                  => $rowMSSQL00['solicitud_periodo'],
                         'solicitud_motivo'                                   => trim($rowMSSQL00['solicitud_motivo']),
-                        'solicitud_pasaje'                                   => trim($rowMSSQL00['solicitud_pasaje']),
+                        'solicitud_vuelo'                                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_vuelo']))),  
                         'solicitud_hospedaje'                                => trim($rowMSSQL00['solicitud_hospedaje']),
                         'solicitud_traslado'                                 => trim($rowMSSQL00['solicitud_traslado']),
                         'solicitud_fecha_carga_1'                            => $solicitud_fecha_carga_1,
@@ -11736,7 +11813,6 @@
                         'solicitud_sap_centro_costo'                         => trim($rowMSSQL00['solicitud_sap_centro_costo']),
                         'solicitud_tarea_cantidad'                           => $rowMSSQL00['solicitud_tarea_cantidad'],
                         'solicitud_tarea_resuelta'                           => $rowMSSQL00['solicitud_tarea_resuelta'],
-                        'solicitud_tarea_porcentaje'                         => number_format((($rowMSSQL00['solicitud_tarea_resuelta'] * 100) / $rowMSSQL00['solicitud_tarea_cantidad']), 2, '.', ''),
                         'solicitud_observacion'                              => trim($rowMSSQL00['solicitud_observacion']),
 
                         'tipo_origen_codigo'                                 => $rowMSSQL00['tipo_origen_codigo'],
@@ -11807,7 +11883,7 @@
                         'solicitud_codigo'                                  => '',
                         'solicitud_periodo'                                 => '',
                         'solicitud_motivo'                                  => '',
-                        'solicitud_pasaje'                                  => '',
+                        'solicitud_vuelo'                                   => '', 
                         'solicitud_hospedaje'                               => '',
                         'solicitud_traslado'                                => '',
                         'solicitud_fecha_carga_1'                           => '',
@@ -11815,7 +11891,6 @@
                         'solicitud_sap_centro_costo'                        => '',
                         'solicitud_tarea_cantidad'                          => '',
                         'solicitud_tarea_resuelta'                          => '',
-                        'solicitud_tarea_porcentaje'                        => '',
                         'solicitud_observacion'                             => '',
 
                         'tipo_origen_codigo'                                => '',
