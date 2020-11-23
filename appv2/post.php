@@ -1633,7 +1633,7 @@
         return $json;
     });
 
-    $app->post('/v2/400/solicitud/opcion/cabecera', function($request) {
+    $app->post('/v2/400/solicitud/opcion/cabecera', function($request) {//20201123
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
@@ -1647,20 +1647,22 @@
         $val09      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_3']);
         $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
         $val11      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
+        $val12      = trim($request->getParsedBody()['solicitud_opcion_cabecera_origen']);
+        $val13      = $request->getParsedBody()['tipo_origen_parametro'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCSOC, SOLOPCOPC, SOLOPCTIM, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCPAT, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, OLOPCTSC, SOLOPCSOC, SOLOPCOPC, SOLOPCTIM, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCPAT, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP, SOLOPCORI, SOLOPCTOC) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TIPOSOLICITUDORIGEN' AND DOMFICPAR = ?))";
             $sql01  = "SELECT MAX(SOLOPCCOD) AS solicitud_opcion_cabecera_codigo FROM [via].[SOLOPC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $aud01, $aud03, $val12, $val13]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
