@@ -10836,7 +10836,7 @@
         if (isset($val01)){
             $sql00  = "SELECT 
                 a.SOLOPCCOD     AS      solicitud_opcion_cabecera_codigo,
-                a.SOLOPCORI     AS      soliciutd_opcion_cabecera_origen,
+                a.SOLOPCORI     AS      solicitud_opcion_cabecera_origen,
                 a.SOLOPCOPC     AS      solicitud_opcion_cabecera_nombre,
                 a.SOLOPCTIM     AS      solicitud_opcion_cabecera_tarifa_importe,
                 a.SOLOPCRES     AS      solicitud_opcion_cabecera_reserva,
@@ -10918,7 +10918,7 @@
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $detalle    = array(
                         'solicitud_opcion_cabecera_codigo'                  =>       $rowMSSQL00['solicitud_opcion_cabecera_codigo'],
-                        'soliciutd_opcion_cabecera_origen'                  =>       trim(strtoupper($rowMSSQL00['soliciutd_opcion_cabecera_origen'])),
+                        'solicitud_opcion_cabecera_origen'                  =>       trim(strtoupper($rowMSSQL00['solicitud_opcion_cabecera_origen'])),
                         'solicitud_opcion_cabecera_nombre'                  =>       trim($rowMSSQL00['solicitud_opcion_cabecera_nombre']),
                         'solicitud_opcion_cabecera_tarifa_importe'          =>       $rowMSSQL00['solicitud_opcion_cabecera_tarifa_importe'],
                         'solicitud_opcion_cabecera_reserva'                 =>       trim($rowMSSQL00['solicitud_opcion_cabecera_reserva']),
@@ -10990,7 +10990,7 @@
                 } else { 
                     $detalle    =   array(
                         'solicitud_opcion_cabecera_codigo'                   => '',
-                        'soliciutd_opcion_cabecera_origen'                  => '',
+                        'solicitud_opcion_cabecera_origen'                  => '',
                         'solicitud_opcion_cabecera_nombre'                   => '',
                         'solicitud_opcion_cabecera_tarifa_importe'           => '',
                         'solicitud_opcion_cabecera_visualiza_solicitante'    => '',
@@ -11391,7 +11391,7 @@
                 c.DOMFICOBS     AS      tipo_habitacion_observacion,
                 
                 d.SOLOPCCOD     AS      solicitud_opcion_cabecera_codigo,
-                d.SOLOPCORI     AS      soliciutd_opcion_cabecera_origen,
+                d.SOLOPCORI     AS      solicitud_opcion_cabecera_origen,
                 d.SOLOPCOPC     AS      solicitud_opcion_cabecera_nombre,
                 d.SOLOPCTIM     AS      solicitud_opcion_cabecera_tarifa_importe,
                 d.SOLOPCTVS     AS      solicitud_opcion_cabecera_visualiza_solicitante,
