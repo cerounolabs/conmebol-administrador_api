@@ -814,7 +814,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
             $sql00  = "UPDATE [via].[SOLOPV] SET SOLOPVAUS = ?,	SOLOPVAFH = GETDATE(), SOLOPVAIP = ? WHERE SOLOPVCOD = ?";
             $sql01  = "DELETE FROM [via].[SOLOPV] WHERE SOLOPVCOD = ?";
             
@@ -870,7 +870,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
             $sql00  = "UPDATE [via].[SOLOPH] SET SOLOPHAUS = ?,	SOLOPHAFH = GETDATE(), SOLOPHAIP = ? WHERE SOLOPHCOD = ?";
             $sql01  = "DELETE FROM [via].[SOLOPH] WHERE SOLOPHCOD = ?";
             
@@ -926,7 +926,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04)) {
             $sql00  = "UPDATE [via].[SOLOPT] SET SOLOPTAUS = ?,	SOLOPTAFH = GETDATE(), SOLOPTAIP = ? WHERE SOLOPTCOD = ?";
             $sql01  = "DELETE FROM [via].[SOLOPT] WHERE SOLOPTCOD = ?";
             

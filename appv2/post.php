@@ -1750,10 +1750,10 @@
     $app->post('/v2/400/solicitud/opcion/hospedaje', function($request) {
         require __DIR__.'/../src/connect.php';
 
-        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_habitacion_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_habitacion_parametro'];
         $val03      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
-        $val04      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_hospedaje']);
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_nombre']);
         $val05      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_direccion']);
         $val06      = $request->getParsedBody()['solicitud_opcion_hospedaje_fecha_checkin'];
         $val07      = $request->getParsedBody()['solicitud_opcion_hospedaje_fecha_checkout'];
