@@ -10834,7 +10834,7 @@
         $val01  = $request->getAttribute('codigo');
 
         if (isset($val01)){
-            $sql00  = "SELECT 
+            $sql00  = "SELECT
                 a.SOLOPCCOD     AS      solicitud_opcion_cabecera_codigo,
                 a.SOLOPCORI     AS      solicitud_opcion_cabecera_origen,
                 a.SOLOPCOPC     AS      solicitud_opcion_cabecera_nombre,
