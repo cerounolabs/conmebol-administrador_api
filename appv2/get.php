@@ -11746,7 +11746,7 @@
 
                 WHERE d.SOLOPCSOC = ?
                 
-                ORDER BY a.SOLOPHCOD";
+                ORDER BY a.SOLOPTCOD";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
