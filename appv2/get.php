@@ -11718,7 +11718,7 @@
                 INNER JOIN via.SOLOPC d ON a.SOLOPTOPC = d.SOLOPCCOD
                 INNER JOIN via.SOLFIC e ON d.SOLOPCSOC = e.SOLFICCOD
                 INNER JOIN adm.DOMFIC f ON d.SOLOPCTOC = f.DOMFICCOD
-                INNER JOIN adm.DOMIFC g ON a.SOLOPTTTC = g.DOMFICCOD
+                INNER JOIN adm.DOMFIC g ON a.SOLOPTTTC = g.DOMFICCOD
 
                 WHERE d.SOLOPCSOC = ?
                 
