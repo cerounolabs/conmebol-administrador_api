@@ -1712,7 +1712,7 @@
 
         if (isset($val01) && isset($val02) && isset($val03)) {
             $sql00  = "INSERT INTO [via].[SOLOPV] (SOLOPVEST, SOLOPVOPC, SOLOPVAEC, SOLOPVVUE, SOLOPVCOM, SOLOPVFEC, SOLOPVDES, SOLOPVHAS, SOLOPVSAL, SOLOPVLLE, SOLOPVOBS, SOLOPVAUS, SOLOPVAFH, SOLOPVAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            $sql01  = "SELECT MAX(SOLOPVCOD) AS solicitud_opcion_vuelo_codigo FROM [via].[  ]";
+            $sql01  = "SELECT MAX(SOLOPVCOD) AS solicitud_opcion_vuelo_codigo FROM [via].[SOLOPV]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
