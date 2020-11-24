@@ -11717,20 +11717,20 @@
                 $stmtMSSQL00->execute([$val01]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if ($rowMSSQL['solicitud_opcion_traslado_fecha_salida'] == '1900-01-01' || $rowMSSQL['solicitud_opcion_traslado_fecha_salida'] == null){
+                    if ($rowMSSQL00['solicitud_opcion_traslado_fecha_salida'] == '1900-01-01' || $rowMSSQL00['solicitud_opcion_traslado_fecha_salida'] == null){
                         $solicitud_opcion_traslado_fecha_salida_1 = '';
                         $solicitud_opcion_traslado_fecha_salida_2 = '';
                     } else {
-                        $solicitud_opcion_traslado_fecha_salida_1 = $rowMSSQL['solicitud_opcion_traslado_fecha_salida'];
-                        $solicitud_opcion_traslado_fecha_salida_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_opcion_traslado_fecha_salida']));
+                        $solicitud_opcion_traslado_fecha_salida_1 = $rowMSSQL00['solicitud_opcion_traslado_fecha_salida'];
+                        $solicitud_opcion_traslado_fecha_salida_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_opcion_traslado_fecha_salida']));
                     }
 
-                    if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
+                    if ($rowMSSQL00['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_carga'] == null){
                         $solicitud_fecha_carga_1 = '';
                         $solicitud_fecha_carga_2 = '';
                     } else {
-                        $solicitud_fecha_carga_1 = $rowMSSQL['solicitud_fecha_carga'];
-                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_fecha_carga']));
+                        $solicitud_fecha_carga_1 = $rowMSSQL00['solicitud_fecha_carga'];
+                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     }
 
                     $detalle    = array(
