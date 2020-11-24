@@ -1636,8 +1636,8 @@
     $app->post('/v2/400/solicitud/opcion/cabecera', function($request) {//20201123
         require __DIR__.'/../src/connect.php';
 
-        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];      
         $val04      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
         $val05      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
@@ -1712,7 +1712,7 @@
 
         if (isset($val01) && isset($val02) && isset($val03)) {
             $sql00  = "INSERT INTO [via].[SOLOPV] (SOLOPVEST, SOLOPVOPC, SOLOPVAEC, SOLOPVVUE, SOLOPVCOM, SOLOPVFEC, SOLOPVDES, SOLOPVHAS, SOLOPVSAL, SOLOPVLLE, SOLOPVOBS, SOLOPVAUS, SOLOPVAFH, SOLOPVAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            $sql01  = "SELECT MAX(SOLOPVCOD) AS solicitud_opcion_vuelo_codigo FROM [via].[SOLOPV]";
+            $sql01  = "SELECT MAX(SOLOPVCOD) AS solicitud_opcion_vuelo_codigo FROM [via].[  ]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();

@@ -11142,27 +11142,14 @@
 
                 e.AERFICCOD     AS      aerolinea_codigo,
                 e.AERFICORD     AS      aerolinea_orden,
-                e.AERFICNOM     AS      aerolinea_nombre,
-
-                f.DOMFICCOD     AS      tipo_origen_codigo,
-                f.DOMFICORD     AS      tipo_origen_orden,
-                f.DOMFICNOI     AS      tipo_origen_nombre_ingles,
-                f.DOMFICNOC     AS      tipo_origen_nombre_castellano,
-                f.DOMFICNOP     AS      tipo_origen_nombre_portugues,
-                f.DOMFICPAT     AS      tipo_origen_path,
-                f.DOMFICCSS     AS      tipo_origen_css,
-                f.DOMFICPAR     AS      tipo_origen_parametro,
-                f.DOMFICICO     AS      tipo_origen_icono,
-                f.DOMFICVAL     AS      tipo_origen_dominio,
-                f.DOMFICOBS     AS      tipo_origen_observacion
+                e.AERFICNOM     AS      aerolinea_nombre
 
                 FROM via.SOLOPV a
                 INNER JOIN adm.DOMFIC b ON a.SOLOPVEST = b.DOMFICCOD
                 INNER JOIN via.SOLOPC c ON a.SOLOPVOPC = c.SOLOPCCOD
                 INNER JOIN via.SOLFIC d ON c.SOLOPCSOC = d.SOLFICCOD
                 INNER JOIN via.AERFIC e ON a.SOLOPVAEC = e.AERFICCOD
-                INNER JOIN adm.DOMFIC f ON c.SOLOPCTOC = f.DOMFICCOD
-
+        
                 WHERE c.SOLOPCSOC = ?
                 
                 ORDER BY a.SOLOPVCOD";
@@ -11244,19 +11231,7 @@
                         'aerolinea_codigo'                                  => $rowMSSQL00['aerolinea_codigo'],
                         'aerolinea_orden'                                   => $rowMSSQL00['aerolinea_orden'],
                         'aerolinea_nombre'                                  => trim($rowMSSQL00['aerolinea_nombre']),
-                        'aerolinea_observacion'                             => trim($rowMSSQL00['aerolinea_observacion']),
-
-                        'tipo_origen_codigo'                                => $rowMSSQL00['tipo_origen_codigo'],
-                        'tipo_origen_orden'                                 => $rowMSSQL00['tipo_origen_orden'],
-                        'tipo_origen_nombre_ingles'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_ingles']))),
-                        'tipo_origen_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_castellano']))),
-                        'tipo_origen_nombre_portugues'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_portugues']))),
-                        'tipo_origen_path'                                  => trim(strtolower($rowMSSQL00['tipo_origen_path'])),
-                        'tipo_origen_css'                                   => trim(strtolower($rowMSSQL00['tipo_origen_css'])),
-                        'tipo_origen_parametro'                             => $rowMSSQL00['tipo_origen_parametro'],
-                        'tipo_origen_icono'                                 => trim(strtolower($rowMSSQL00['tipo_origen_icono'])),
-                        'tipo_origen_dominio'                               => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_dominio']))),
-                        'tipo_origen_observacion'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion'])))
+                        'aerolinea_observacion'                             => trim($rowMSSQL00['aerolinea_observacion'])
                     );
 
                     $result[]   = $detalle;
@@ -11312,19 +11287,7 @@
                         'solicitud_sap_centro_costo'                 => '',
                         'solicitud_tarea_cantidad'                   => '',
                         'solicitud_tarea_resuelta'                   => '',
-                        'solicitud_observacion'                      => '',
-
-                        'tipo_origen_codigo'                         => '',
-                        'tipo_origen_orden'                          => '',
-                        'tipo_origen_nombre_ingles'                  => '',
-                        'tipo_origen_nombre_castellano'              => '',
-                        'tipo_origen_nombre_portugues'               => '',
-                        'tipo_origen_path'                           => '',
-                        'tipo_origen_css'                            => '',
-                        'tipo_origen_parametro'                      => '',
-                        'tipo_origen_icono'                          => '',
-                        'tipo_origen_dominio'                        => '',
-                        'tipo_origen_observacion'                    => ''
+                        'solicitud_observacion'                      => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
