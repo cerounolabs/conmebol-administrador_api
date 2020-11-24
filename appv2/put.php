@@ -1064,14 +1064,13 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)){
-            $sql00 = "UPDATE [via].[SOLOPT] SET SOLOPTEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPTTVC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOVEHICULOTIPO' AND DOMFICPAR = ?), SOLOPTTTC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOTIPO' AND DOMFICPAR = ?), SOLOPTOPC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOTIPOOPCION' AND DOMFICPAR = ?), SOLOPTTRA = ?, SOLOPTTAR = ?, SOLOPTOBS = ?, SOLOPTAUS = ?, SOLOPTAFH = GETDATE(), [SOLOPTAIP = ?, SOLOPTCOM = ?, SOLOPTORI = ?, SOLOPTDES = ?, SOLOPTFSA = ?, SOLOPTHSA = ? 
-            WHERE SOLOPTCOD = ?";
+            $sql00 = "UPDATE [via].[SOLOPT] SET SOLOPTEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPTTVC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOVEHICULOTIPO' AND DOMFICPAR = ?), SOLOPTTTC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOTIPO' AND DOMFICPAR = ?), SOLOPTOPC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOTIPOOPCION' AND DOMFICPAR = ?), SOLOPTTRA = ?, SOLOPTTAR = ?, SOLOPTOBS = ?, SOLOPTAUS = ?, SOLOPTAFH = GETDATE(), SOLOPTAIP = ?, SOLOPTCOM = ?, SOLOPTORI = ?, SOLOPTDES = ?, SOLOPTFSA = ?, SOLOPTHSA = ? WHERE SOLOPTCOD = ?";
                                                                                                                                                      
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03, $val08, $val09, $val10, $val11, $val12, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -1092,8 +1091,6 @@
         
         return $json;
     });
-
-    
 
     $app->put('/v2/400/solicitud/opcion/vuelo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
