@@ -11408,28 +11408,28 @@
                 $stmtMSSQL00->execute([$val01]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if ($rowMSSQL['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL['solicitud_fecha_carga'] == null){
+                    if ($rowMSSQL00['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_carga'] == null){
                         $solicitud_fecha_carga_1 = '';
                         $solicitud_fecha_carga_2 = '';
                     } else {
-                        $solicitud_fecha_carga_1 = $rowMSSQL['solicitud_fecha_carga'];
-                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_fecha_carga']));
+                        $solicitud_fecha_carga_1 = $rowMSSQL00['solicitud_fecha_carga'];
+                        $solicitud_fecha_carga_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_carga']));
                     }
 
-                    if ($rowMSSQL['solicitud_opcion_hospedaje_fecha_desde'] == '1900-01-01' || $rowMSSQL['solicitud_opcion_hospedaje_fecha_desde'] == null){
+                    if ($rowMSSQL00['solicitud_opcion_hospedaje_fecha_desde'] == '1900-01-01' || $rowMSSQL00['solicitud_opcion_hospedaje_fecha_desde'] == null){
                         $solicitud_opcion_hospedaje_fecha_desde_1 = '';
                         $solicitud_opcion_hospedaje_fecha_desde_2 = '';
                     } else {
-                        $solicitud_opcion_hospedaje_fecha_desde_1 = $rowMSSQL['solicitud_opcion_hospedaje_fecha_desde'];
-                        $solicitud_opcion_hospedaje_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_opcion_hospedaje_fecha_desde']));
+                        $solicitud_opcion_hospedaje_fecha_desde_1 = $rowMSSQL00['solicitud_opcion_hospedaje_fecha_desde'];
+                        $solicitud_opcion_hospedaje_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_opcion_hospedaje_fecha_desde']));
                     }
 
-                    if ($rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta'] == '1900-01-01' || $rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta'] == null){
+                    if ($rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta'] == '1900-01-01' || $rowMSSQL00['solicitud_opcion_hospedaje_fecha_hasta'] == null){
                         $solicitud_opcion_hospedaje_fecha_hasta_1 = '';
                         $solicitud_opcion_hospedaje_fecha_hasta_2 = '';
                     } else {
-                        $solicitud_opcion_hospedaje_fecha_hasta_1 = $rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta'];
-                        $solicitud_opcion_hospedaje_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta']));
+                        $solicitud_opcion_hospedaje_fecha_hasta_1 = $rowMSSQL00['solicitud_opcion_hospedaje_fecha_hasta'];
+                        $solicitud_opcion_hospedaje_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_opcion_hospedaje_fecha_hasta']));
                     }
 
                     $detalle    = array(
