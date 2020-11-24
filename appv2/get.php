@@ -11698,7 +11698,19 @@
                 f.DOMFICPAR     AS      tipo_origen_parametro,
                 f.DOMFICICO     AS      tipo_origen_icono,
                 f.DOMFICVAL     AS      tipo_origen_dominio,
-                f.DOMFICOBS     AS      tipo_origen_observacion
+                f.DOMFICOBS     AS      tipo_origen_observacion,
+
+                g.DOMFICCOD     AS      tipo_traslado_codigo,
+                g.DOMFICORD     AS      tipo_traslado_orden,
+                g.DOMFICNOI     AS      tipo_traslado_nombre_ingles,
+                g.DOMFICNOC     AS      tipo_traslado_nombre_castellano,
+                g.DOMFICNOP     AS      tipo_traslado_nombre_portugues,
+                g.DOMFICPAT     AS      tipo_traslado_path,
+                g.DOMFICCSS     AS      tipo_traslado_css,
+                g.DOMFICPAR     AS      tipo_traslado_parametro,
+                g.DOMFICICO     AS      tipo_traslado_icono,
+                g.DOMFICVAL     AS      tipo_traslado_dominio,
+                g.DOMFICOBS     AS      tipo_traslado_observacion
                 
                 FROM via.SOLOPT a
                 INNER JOIN adm.DOMFIC b ON a.SOLOPTEST = b.DOMFICCOD
@@ -11706,6 +11718,7 @@
                 INNER JOIN via.SOLOPC d ON a.SOLOPTOPC = d.SOLOPCCOD
                 INNER JOIN via.SOLFIC e ON d.SOLOPCSOC = e.SOLFICCOD
                 INNER JOIN adm.DOMFIC f ON d.SOLOPCTOC = f.DOMFICCOD
+                INNER JOIN adm.DOMIFC g ON a.SOLOPTTTC = g.DOMFICCOD
 
                 WHERE d.SOLOPCSOC = ?
                 
@@ -11807,7 +11820,19 @@
                         'tipo_origen_parametro'                              => $rowMSSQL00['tipo_origen_parametro'],
                         'tipo_origen_icono'                                  => trim(strtolower($rowMSSQL00['tipo_origen_icono'])),
                         'tipo_origen_dominio'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_dominio']))),
-                        'tipo_origen_observacion'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion'])))
+                        'tipo_origen_observacion'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion']))),
+
+                        'tipo_traslado_codigo'                                 => $rowMSSQL00['tipo_traslado_codigo'],
+                        'tipo_traslado_orden'                                  => $rowMSSQL00['tipo_traslado_orden'],
+                        'tipo_traslado_nombre_ingles'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre_ingles']))),
+                        'tipo_traslado_nombre_castellano'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre_castellano']))),
+                        'tipo_traslado_nombre_portugues'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre_portugues']))),
+                        'tipo_traslado_path'                                   => trim(strtolower($rowMSSQL00['tipo_traslado_path'])),
+                        'tipo_traslado_css'                                    => trim(strtolower($rowMSSQL00['tipo_traslado_css'])),
+                        'tipo_traslado_parametro'                              => $rowMSSQL00['tipo_traslado_parametro'],
+                        'tipo_traslado_icono'                                  => trim(strtolower($rowMSSQL00['tipo_traslado_icono'])),
+                        'tipo_traslado_dominio'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_dominio']))),
+                        'tipo_traslado_observacion'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -11891,7 +11916,19 @@
                         'tipo_origen_parametro'                             => '',
                         'tipo_origen_icono'                                 => '',
                         'tipo_origen_dominio'                               => '',
-                        'tipo_origen_observacion'                           => ''
+                        'tipo_origen_observacion'                           => '',
+
+                        'tipo_traslado_codigo'                              => '',
+                        'tipo_traslado_orden'                               => '',
+                        'tipo_traslado_nombre_ingles'                       => '',
+                        'tipo_traslado_nombre_castellano'                   => '',
+                        'tipo_traslado_nombre_portugues'                    => '',
+                        'tipo_traslado_path'                                => '',
+                        'tipo_traslado_css'                                 => '',
+                        'tipo_traslado_parametro'                           => '',
+                        'tipo_traslado_icono'                               => '',
+                        'tipo_traslado_dominio'                             => '',
+                        'tipo_traslado_observacion'                         => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
