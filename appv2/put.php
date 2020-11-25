@@ -1232,8 +1232,8 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_documento_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_documento_codigo'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_pat']));
