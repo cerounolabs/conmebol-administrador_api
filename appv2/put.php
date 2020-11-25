@@ -960,13 +960,13 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/opcion/cabecera/{codigo}', function($request) {//20201105//VER
+    $app->put('/v2/400/solicitud/opcion/cabecera/{codigo}', function($request) {//20201105//20201124
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
-        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];      
         $val04      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
         $val05      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
@@ -976,10 +976,13 @@
         $val09      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_3']);
         $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
         $val11      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
+        $val12      = trim($request->getParsedBody()['solicitud_opcion_cabecera_origen']);
+        $val13      = $request->getParsedBody()['tipo_origen_parametro'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
+
 
         if (isset($val00) && isset($val00_1)) {
             switch ($val00_1) {
@@ -995,6 +998,11 @@
                     $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCSOC = ?";
                     $sql01  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
                     break;
+                    
+                case 4:
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
+                    $sql01  = "UPDATE [via].[SOLOPC] SET SOLOPCORI = 'E', SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ? AND EXISTS(SELECT *FROM via.SOLOPC WHERE SOLOPCSOC = ? AND SOLOPCTSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?) AND SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?) AND SOLOPCTOC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TIPOSOLICITUDORIGEN' AND DOMFICPAR = ?) AND SOLOPCCOD <> ?)";
+                break;
             }
             
             try {
@@ -1014,7 +1022,18 @@
                         $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
                         $stmtMSSQL00->execute([4, $aud01, $aud03, $val03]);
-                        $stmtMSSQL01->execute([$val01, $aud01, $aud03, $val00]);
+                        $stmtMSSQL01->execute([$val01, $val03, $aud01, $aud03, $val00]);
+
+                        $stmtMSSQL01->closeCursor();
+                        $stmtMSSQL01 = null;
+
+                        break;
+
+                    case 4:
+                        $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                        $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                        $stmtMSSQL01->execute([$aud01, $aud03, $val00, $val03, $val02, $val01, $val13, $val00]);
 
                         $stmtMSSQL01->closeCursor();
                         $stmtMSSQL01 = null;
