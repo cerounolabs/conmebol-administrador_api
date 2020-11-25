@@ -1694,7 +1694,7 @@
     $app->post('/v2/400/solicitud/opcion/vuelo', function($request) {
         require __DIR__.'/../src/connect.php';
 
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val03      = $request->getParsedBody()['aerolinea_codigo'];
         $val04      = trim($request->getParsedBody()['solicitud_opcion_vuelo_nombre']);
