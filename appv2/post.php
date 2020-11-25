@@ -1750,10 +1750,10 @@
     $app->post('/v2/400/solicitud/opcion/hospedaje', function($request) {
         require __DIR__.'/../src/connect.php';
 
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_habitacion_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_habitacion_codigo'];
         $val03      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
-        $val04      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_nombre']);
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_hospedaje']);
         $val05      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_direccion']);
         $val06      = $request->getParsedBody()['solicitud_opcion_hospedaje_fecha_checkin'];
         $val07      = $request->getParsedBody()['solicitud_opcion_hospedaje_fecha_checkout'];
@@ -1807,11 +1807,11 @@
     $app->post('/v2/400/solicitud/opcion/traslado', function($request) {//20201123 VER DOMINIO DE TIPO DE TRASLADO
         require __DIR__.'/../src/connect.php';
 
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_vehiculo_parametro'];
-        $val03      = $request->getParsedBody()['tipo_traslado_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
+        $val03      = $request->getParsedBody()['tipo_traslado_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
-        $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_nombre']);
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_traslado']);
         $val06      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
         $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
         $val08      = trim($request->getParsedBody()['solicitud_opcion_traslado_comentario']);

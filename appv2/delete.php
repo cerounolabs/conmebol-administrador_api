@@ -798,7 +798,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val03      = $request->getParsedBody()['aerolinea_codigo'];
         $val04      = trim($request->getParsedBody()['solicitud_opcion_vuelo_nombre']);
@@ -853,8 +853,8 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_habitacion_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_habitacion_codigo'];
         $val03      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val04      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_hospedaje']);
         $val05      = trim($request->getParsedBody()['solicitud_opcion_hospedaje_direccion']);
@@ -909,9 +909,9 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_vehiculo_parametro'];
-        $val03      = $request->getParsedBody()['tipo_traslado_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
+        $val03      = $request->getParsedBody()['tipo_traslado_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_nombre']);
         $val06      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
