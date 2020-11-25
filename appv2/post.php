@@ -1654,7 +1654,7 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03)) {
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val13)) {
             $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCTOC, SOLOPCSOC, SOLOPCOPC, SOLOPCTIM, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCPAT, SOLOPCORI, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TIPOSOLICITUDORIGEN' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLOPCCOD) AS solicitud_opcion_cabecera_codigo FROM [via].[SOLOPC]";
 
