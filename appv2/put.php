@@ -965,8 +965,9 @@
 
         $val00      = $request->getAttribute('codigo');
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
+        $val13      = $request->getParsedBody()['tipo_origen_parametro'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];      
         $val04      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
         $val05      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
@@ -977,7 +978,7 @@
         $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
         $val11      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
         $val12      = trim($request->getParsedBody()['solicitud_opcion_cabecera_origen']);
-        $val13      = $request->getParsedBody()['tipo_origen_parametro'];
+
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];

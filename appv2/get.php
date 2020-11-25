@@ -1154,6 +1154,7 @@
             a.SOLFICFCT         AS          solicitud_fecha_hora_talento,
             a.SOLFICIPT         AS          solicitud_ip_talento,
             a.SOLFICOBT         AS          solicitud_observacion_talento,
+
             a.SOLFICUSU         AS          auditoria_usuario,
             a.SOLFICFEC         AS          auditoria_fecha_hora,
             a.SOLFICDIP         AS          auditoria_ip,
@@ -4509,7 +4510,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud', function($request) {
+    $app->get('/v2/400/solicitud', function($request) {//AGREGAR1
         require __DIR__.'/../src/connect.php';
 
         $sql00  = "SELECT
