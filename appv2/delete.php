@@ -689,11 +689,11 @@
         return $json;
     });
 
-    $app->delete('/v2/400/solicitud/opcion/adjunto/{codigo}', function($request) {//20201103
+    $app->delete('/v2/400/solicitud/opcion/adjunto/{codigo}', function($request) {//20201103//20201125
         require __DIR__.'/../src/connect.php';
         $val00      = $request->getParsedBody()['codigo'];
-        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_documento_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_documento_parametro'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_adjunto_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_adjunto_pat']));

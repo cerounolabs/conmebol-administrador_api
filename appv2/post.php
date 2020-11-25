@@ -1864,8 +1864,8 @@
     $app->post('/v2/400/solicitud/opcion/adjunto', function($request) {//20201103
         require __DIR__.'/../src/connect.php';
 
-        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_documento_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_documento_parametro'];
         $val03      = $request->getParsedBody()['solicitud_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['solicitud_opcion_pat']));
