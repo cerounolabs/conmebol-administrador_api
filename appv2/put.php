@@ -1004,6 +1004,10 @@
                     $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ?";
                     $sql01  = "UPDATE [via].[SOLOPC] SET SOLOPCORI = 'E', SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ? AND EXISTS (SELECT * FROM via.SOLOPC b WHERE b.SOLOPCSOC = ? AND b.SOLOPCTSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?) AND b.SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?) AND b.SOLOPCTOC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TIPOSOLICITUDORIGEN' AND DOMFICPAR = ?) AND b.SOLOPCCOD <> ?)";
                 break;
+
+                case 5:
+                    $sql00  = "UPDATE [via].[SOLOPC] SET SOLOPCEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), SOLOPCTSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), SOLOPCTIM = ?, SOLOPCCO1 = ?, SOLOPCAUS = ?, SOLOPCAFH = GETDATE(), SOLOPCAIP = ? WHERE SOLOPCCOD = ? AND SOLOPCTOC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TIPOSOLICITUDORIGEN' AND DOMFICPAR = ?)";
+                break;
             }
             
             try {
@@ -1039,6 +1043,10 @@
                         $stmtMSSQL01->closeCursor();
                         $stmtMSSQL01 = null;
 
+                        break;
+                    
+                    case 5:
+                        $stmtMSSQL00->execute([$val01, $val02, $val05, $val07, $aud01, $aud03, $val00, $val13]);
                         break;
                 }
                 
