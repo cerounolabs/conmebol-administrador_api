@@ -11319,7 +11319,7 @@
         if(isset($val01)) {
             $sql00  = "SELECT 
                 a.SOLOPHCOD     AS      solicitud_opcion_hospedaje_codigo,
-                a.SOLOPHHOS     AS      solicitud_opcion_hospedaje_nombre,	
+                a.SOLOPHHOS     AS      solicitud_opcion_hospedaje_hospedaje,	
                 a.SOLOPHDIR     AS      solicitud_opcion_hospedaje_direccion,	
                 a.SOLOPHFIN	    AS      solicitud_opcion_hospedaje_fecha_desde,
                 a.SOLOPHFOU     AS      solicitud_opcion_hospedaje_fecha_hasta,  	
@@ -11435,7 +11435,7 @@
 
                     $detalle    = array(
                         'solicitud_opcion_hospedaje_codigo'                  => $rowMSSQL00['solicitud_opcion_hospedaje_codigo'],
-                        'solicitud_opcion_hospedaje_nombre'                  => trim($rowMSSQL00['solicitud_opcion_hospedaje_nombre']),
+                        'solicitud_opcion_hospedaje_hospedaje'               => trim($rowMSSQL00['solicitud_opcion_hospedaje_hospedaje']),
                         'solicitud_opcion_hospedaje_direccion'               => trim($rowMSSQL00['solicitud_opcion_hospedaje_direccion']),
                         'solicitud_opcion_hospedaje_fecha_desde_1'           => $solicitud_opcion_hospedaje_fecha_desde_1,
                         'solicitud_opcion_hospedaje_fecha_desde_2'           => $solicitud_opcion_hospedaje_fecha_desde_2,
@@ -11522,7 +11522,7 @@
                 } else {
                     $detalle = array(
                         'solicitud_opcion_hospedaje_codigo'                  => '',
-                        'solicitud_opcion_hospedaje_nombre'               => '',
+                        'solicitud_opcion_hospedaje_hospedaje'               => '',
                         'solicitud_opcion_hospedaje_direccion'               => '',
                         'solicitud_opcion_hospedaje_fecha_desde_1'           => '',
                         'solicitud_opcion_hospedaje_fecha_desde_2'           => '',
@@ -11628,7 +11628,7 @@
         if(isset($val01)) {
             $sql00  = "SELECT 
                 a.SOLOPTCOD     AS      solicitud_opcion_traslado_codigo,
-                a.SOLOPTTRA     AS      solicitud_opcion_traslado_nombre,	
+                a.SOLOPTTRA     AS      solicitud_opcion_traslado_traslado,	
                 a.SOLOPTTAR     AS      solicitud_opcion_traslado_tarifa_dia,
                 a.SOLOPTCOM     AS      solicitud_opcion_traslado_comentario,
                 a.SOLOPTORI     AS      solicitud_opcion_traslado_origen,
@@ -11749,7 +11749,7 @@
 
                     $detalle    = array(
                         'solicitud_opcion_traslado_codigo'                   => $rowMSSQL00['solicitud_opcion_traslado_codigo'],
-                        'solicitud_opcion_traslado_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcion_traslado_nombre']))),
+                        'solicitud_opcion_traslado_traslado'                   => trim(strtoupper(strtolower($rowMSSQL00['solicitud_opcion_traslado_traslado']))),
                         'solicitud_opcion_traslado_tarifa_dia'               => $rowMSSQL00['solicitud_opcion_traslado_tarifa_dia'],
                         'solicitud_opcion_traslado_comentario'               => trim($rowMSSQL00['solicitud_opcion_traslado_tarifa_dia']),
                         'solicitud_opcion_traslado_origen'                   => trim($rowMSSQL00['solicitud_opcion_traslado_tarifa_dia']),
@@ -11845,7 +11845,7 @@
                 } else {
                     $detalle = array(
                         'solicitud_opcion_traslado_codigo'                  => '',
-                        'solicitud_opcion_traslado_nombre'                  => '',
+                        'solicitud_opcion_traslado_traslado'                => '',
                         'solicitud_opcion_traslado_tarifa_dia'              => '',
                         'solicitud_opcion_traslado_comentario'              => '',
                         'solicitud_opcion_traslado_origen'                  => '',

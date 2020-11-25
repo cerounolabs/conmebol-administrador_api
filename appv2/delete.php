@@ -801,7 +801,7 @@
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val03      = $request->getParsedBody()['aerolinea_codigo'];
-        $val04      = trim($request->getParsedBody()['solicitud_opcion_vuelo_nombre']);
+        $val04      = trim($request->getParsedBody()['solicitud_opcion_vuelo_vuelo']);
         $val05      = trim($request->getParsedBody()['solicitud_opcion_vuelo_companhia']);
         $val06      = trim($request->getParsedBody()['solicitud_opcion_vuelo_fecha']);
         $val07      = trim($request->getParsedBody()['solicitud_opcion_vuelo_desde']);
@@ -913,7 +913,7 @@
         $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
         $val03      = $request->getParsedBody()['tipo_traslado_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
-        $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_nombre']);
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_traslado']);
         $val06      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
         $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
         $val08      = trim($request->getParsedBody()['solicitud_opcion_traslado_comentario']);
