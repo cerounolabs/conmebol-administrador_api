@@ -1027,7 +1027,7 @@
                         $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
                         $stmtMSSQL00->execute([4, $aud01, $aud03, $val03, $val02]);
-                        $stmtMSSQL01->execute([$val01, $val03, $aud01, $aud03, $val00]);
+                        $stmtMSSQL01->execute([$val01, $val03, $aud01, $aud03, $val00,$val02]);
 
                         $stmtMSSQL01->closeCursor();
                         $stmtMSSQL01 = null;
