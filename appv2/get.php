@@ -12871,7 +12871,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {//20201126
+    /*$app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {//20201126
         require __DIR__.'/../src/connect.php';
 
         $val00 = $request->getAttribute('codigo');
@@ -13004,7 +13004,31 @@
                         'tipo_estado_parametro'                            => $rowMSSQL01['tipo_estado_parametro'],
                         'tipo_estado_icono'                                => trim(strtolower($rowMSSQL01['tipo_estado_icono'])),
                         'tipo_estado_dominio'                              => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_dominio']))),
-                        'tipo_estado_observacion'                          => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_observacion']))) 
+                        'tipo_estado_observacion'                          => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_observacion']))),
+                    );
+
+                    $result_solicitud_opcion_vuelo[]   = $detalle;
+                }
+
+
+                while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
+                    $detalle = array(    
+                        'solicitud_opcion_cabecera_codigo'                 => $rowMSSQL01['solicitud_opcion_cabecera_codigo'],
+                        'solicitud_opcion_cabecera_nombre'                 => trim($rowMSSQL01['solicitud_opcion_cabecera_nombre']),
+                        'solicitud_opcion_cabecera_tarifa_importe'         => $rowMSSQL01['solicitud_opcion_cabecera_tarifa_importe'],
+                    
+                        'tipo_estado_codigo'                               => $rowMSSQL01['tipo_estado_codigo'],
+                        'tipo_estado_orden'                                 => $rowMSSQL01['tipo_estado_orden'],
+                        'tipo_estado_nombre_ingles'                        => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_nombre_ingles']))),
+                        'tipo_estado_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_nombre_castellano']))),
+                        'tipo_estado_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_nombre_portugues']))),
+                        'tipo_estado_path'                                 => trim(strtolower($rowMSSQL01['tipo_estado_path'])),
+                        'tipo_estado_css'                                  => trim(strtolower($rowMSSQL01['tipo_estado_css'])),
+                        'tipo_estado_parametro'                            => $rowMSSQL01['tipo_estado_parametro'],
+                        'tipo_estado_icono'                                => trim(strtolower($rowMSSQL01['tipo_estado_icono'])),
+                        'tipo_estado_dominio'                              => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_dominio']))),
+                        'tipo_estado_observacion'                          => trim(strtoupper(strtolower($rowMSSQL01['tipo_estado_observacion']))),
+                        'detalle'                                           => $result_solicitud_opcion_vuelo
                     );
 
                     $result_solicitud_cabecera[]   = $detalle;
@@ -13067,7 +13091,7 @@
         $connMSSQL  = null;
         
         return $json;
-    });
+    });*/
     
 /*MODULO VIAJE*/
 
