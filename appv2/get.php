@@ -12780,7 +12780,7 @@
                         'tipo_estado_observacion'                           => '' 
                     );
 
-                    /*$result_solicitud_cabecera[]   = $detalle;*/
+                    $result_solicitud_cabecera[]   = $detalle;
                 
 
                     header("Content-Type: application/json; charset=utf-8");
