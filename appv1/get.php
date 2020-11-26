@@ -3490,13 +3490,15 @@
         return $json;
     });
 
-    $app->get('/v1/200/comprobante/periodo/{periodo}/{mesdesde}/{meshasta}', function($request) {
+    $app->get('/v1/200/comprobante/periodo/{comprobante}/{periodo}/{mesdesde}/{meshasta}', function($request) {
         require __DIR__.'/../src/connect.php';
-        $val01  = $request->getAttribute('periodo');
-        $val02  = $request->getAttribute('mesdesde');
-        $val03  = $request->getAttribute('meshasta');
+
+        $val01  = $request->getAttribute('comprobante');
+        $val02  = $request->getAttribute('periodo');
+        $val03  = $request->getAttribute('mesdesde');
+        $val04  = $request->getAttribute('meshasta');
         
-        if (isset($val01) && isset($val02) && isset($val03)) {
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {
             $sql00  = "SELECT
                 a.COMFICCOD         AS          comprobante_codigo,
                 a.COMFICPER         AS          comprobante_periodo,
@@ -3546,7 +3548,7 @@
                 INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
 
-                WHERE a.COMFICPER = ? AND d.DOMFICPAR >= (SELECT e1.DOMFICPAR FROM adm.DOMFIC e1 WHERE e1.DOMFICCOD = ?) AND d.DOMFICPAR <= (SELECT e2.DOMFICPAR FROM adm.DOMFIC e2 WHERE e2.DOMFICCOD = ?)
+                WHERE a.COMFICTCC = ? AND a.COMFICPER = ? AND d.DOMFICPAR >= (SELECT e1.DOMFICPAR FROM adm.DOMFIC e1 WHERE e1.DOMFICCOD = ?) AND d.DOMFICPAR <= (SELECT e2.DOMFICPAR FROM adm.DOMFIC e2 WHERE e2.DOMFICCOD = ?)
                 
                 ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
 
@@ -3582,7 +3584,7 @@
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $nroDoc     = trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])));
