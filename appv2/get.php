@@ -12708,7 +12708,7 @@
 
                 if (isset($result_solicitud)){
                     header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result_solicitud), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 } else {
                     $detalle    = array(
                         'solicitud_codigo'                                  => '',
@@ -12759,7 +12759,7 @@
 
                 if (isset($result_solicitud_cabecera)){
                     header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result_solicitud_cabecera), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 } else {
                     $detalle    = array(
                         'solicitud_opcion_cabecera_codigo'                  => '',
