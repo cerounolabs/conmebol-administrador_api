@@ -3545,6 +3545,8 @@
                 INNER JOIN [adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
+
+                WHERE a.COMFICPER = ? AND d.DOMFICPAR >= ? AND d.DOMFICPAR <= ?
                 
                 ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
 
