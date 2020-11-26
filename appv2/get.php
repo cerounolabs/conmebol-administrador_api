@@ -4510,7 +4510,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud', function($request) {//AGREGAR1
+    $app->get('/v2/400/solicitud', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $sql00  = "SELECT
@@ -12611,6 +12611,132 @@
         }  else {
             header("Content-Type: application/json; charset=utf-8");
             $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {//20201126
+        require __DIR__.'/../src/connect.php';
+        $val00 = $request->getAttribute('documento');
+
+        $sql00  = "SELECT 
+            a.SOLFICCOD         AS          solicitud_codigo,
+            a.SOLFICMOT         AS          solicitud_motivo,
+            a.SOLFICSCC         AS          solicitud_sap_centro_costo,
+            
+            b1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+            a.SOLFICDNS         AS          solicitud_solicitante_documento,
+
+            b2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+            a.SOLFICDNJ         AS          solicitud_jefatura_documento,
+
+            b3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+            a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+
+            b4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+            a.SOLFICDNP         AS          solicitud_proveedor_documento,
+        
+            c.SOLOPCCOD         AS          solicitud_opcion_cabecera_codigo,         
+            c.SOLOPCOPC         AS          solicitud_opcion_cabecera_nombre,
+            c.SOLOPCTIM         AS          solicitud_opcion_cabecera_tarifa_importe,
+            
+            d.DOMFICCOD         AS          tipo_estado_codigo,
+            d.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            d.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            d.DOMFICNOP         AS          tipo_estado_nombre_portugues
+            
+            FROM via.SOLFIC a
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = b1.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = b2.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = b3.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = b4.CedulaEmpleado
+            INNER JOIN via.SOLOPC c ON a.SOLFICCOD = c.SOLOPCSOC
+            INNER JOIN adm.DOMFIC d ON c.SOLOPCEST = d.DOMFICCOD
+            /*INNER JOIN via.SOLVUE e ON a.SOLFICCOD = e.SOLVUESOC
+            INNER JOIN via.SOLOPV f ON f.SOLOPVOPC = c.SOLOPCCOD*/
+            WHERE a.SOLFICCOD = ?
+
+            ORDER BY a.SOLFICCOD";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute([$val00]);
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $detalle = array(    
+                    'solicitud_codigo'                                  => $rowMSSQL00['solicitud_codigo'],
+                    'solicitud_motivo'                                  => $rowMSSQL00['solicitud_motivo'],
+                    'solicitud_sap_centro_costo'                        => trim($rowMSSQL00['solicitud_sap_centro_costo']),
+
+                    'solicitud_solicitante_nombre'                      => trim($rowMSSQL00['solicitud_solicitante_nombre']),
+                    'solicitud_solicitante_documento'                   => trim($rowMSSQL00['solicitud_solicitante_documento']),
+
+                    'solicitud_jefatura_nombre'                         => trim($rowMSSQL00['solicitud_jefatura_nombre']),
+                    'solicitud_jefatura_documento'                      => trim($rowMSSQL00['solicitud_jefatura_documento']),
+
+                    'solicitud_ejecutivo_nombre'                        => trim($rowMSSQL00['solicitud_ejecutivo_nombre']),
+                    'solicitud_ejecutivo_documento'                     => trim($rowMSSQL00['solicitud_ejecutivo_documento']),
+
+                    'solicitud_proveedor_nombre'                        => trim($rowMSSQL00['solicitud_proveedor_nombre']),
+                    'solicitud_proveedor_documento'                     => trim($rowMSSQL00['solicitud_proveedor_documento']),
+
+                    'solicitud_opcion_cabecera_codigo'                  => $rowMSSQL00['solicitud_opcion_cabecera_codigo'],
+                    'solicitud_opcion_cabecera_nombre'                  => trim($rowMSSQL00['solicitud_opcion_cabecera_nombre']),
+                    'solicitud_opcion_cabecera_tarifa_importe'          => $rowMSSQL00['solicitud_opcion_cabecera_tarifa_importe'],
+                   
+                    'tipo_estado_codigo'                                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_nombre_ingles'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues'])))    
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'solicitud_codigo'                                  => '',
+                    'solicitud_motivo'                                  => '',
+                    'solicitud_sap_centro_costo'                        => '',
+
+                    'solicitud_solicitante_nombre'                      => '',
+                    'solicitud_solicitante_documento'                   => '',
+
+                    'solicitud_jefatura_nombre'                         => '',
+                    'solicitud_jefatura_documento'                      => '',
+
+                    'solicitud_ejecutivo_nombre'                        => '',
+                    'solicitud_ejecutivo_documento'                     => '',
+
+                    'solicitud_proveedor_nombre'                        => '',
+                    'solicitud_proveedor_documento'                     => '',
+
+                    'solicitud_opcion_cabecera_codigo'                  => '',
+                    'solicitud_opcion_cabecera_nombre'                  => '',
+                    'solicitud_opcion_cabecera_tarifa_importe'          => '',
+
+                    'tipo_estado_codigo'                                => '',
+                    'tipo_estado_nombre_ingles'                         => '',
+                    'tipo_estado_nombre_castellano'                     => '',
+                    'tipo_estado_nombre_portugues'                      => ''  
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
 
         $connMSSQL  = null;
