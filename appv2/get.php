@@ -12626,58 +12626,58 @@
         if (isset($val00)) {
 
             $sql00  = "SELECT 
-                a.SOLFICCOD         AS          solicitud_codigo,
-                a.SOLFICMOT         AS          solicitud_motivo,
-                a.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                
-                b1.NombreEmpleado   AS          solicitud_solicitante_nombre,
-                a.SOLFICDNS         AS          solicitud_solicitante_documento,
-
-                b2.NombreEmpleado   AS          solicitud_jefatura_nombre,
-                a.SOLFICDNJ         AS          solicitud_jefatura_documento,
-
-                b3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
-                a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
-
-                b4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                a.SOLFICDNP         AS          solicitud_proveedor_documento
+            a.SOLFICCOD         AS          solicitud_codigo,
+            a.SOLFICMOT         AS          solicitud_motivo,
+            a.SOLFICSCC         AS          solicitud_sap_centro_costo,
             
-                FROM via.SOLFIC a
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = b1.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = b2.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = b3.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = b4.CedulaEmpleado
+            b1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+            a.SOLFICDNS         AS          solicitud_solicitante_documento,
 
-                WHERE a.SOLFICCOD = ?
+            b2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+            a.SOLFICDNJ         AS          solicitud_jefatura_documento,
 
-                ORDER BY a.SOLFICCOD";
+            b3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+            a.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+
+            b4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+            a.SOLFICDNP         AS          solicitud_proveedor_documento
+        
+            FROM via.SOLFIC a
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b1 ON a.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = b1.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b2 ON a.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = b2.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b3 ON a.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = b3.CedulaEmpleado
+            LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b4 ON a.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = b4.CedulaEmpleado
+
+            WHERE a.SOLFICCOD = ?
+
+            ORDER BY a.SOLFICCOD";
 
             $sql01 = "SELECT 
-                a.SOLOPCCOD         AS          solicitud_opcion_cabecera_codigo,         
-                a.SOLOPCOPC         AS          solicitud_opcion_cabecera_nombre,
-                a.SOLOPCTIM         AS          solicitud_opcion_cabecera_tarifa_importe,
-                
-                b.DOMFICCOD         AS          tipo_estado_codigo,
-                b.DOMFICORD         AS          tipo_estado_orden,
-                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
-                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
-                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
-                b.DOMFICPAT         AS          tipo_estado_path,
-                b.DOMFICCSS         AS          tipo_estado_css,
-                b.DOMFICPAR         AS          tipo_estado_parametro,
-                b.DOMFICICO         AS          tipo_estado_icono,
-                b.DOMFICVAL         AS          tipo_estado_dominio,
-                b.DOMFICOBS         AS          tipo_estado_observacion,
-        
-                c.SOLFICCOD         AS          solicitud_codigo
-                FROM via.SOLOPC a
-                
-                INNER JOIN adm.DOMFIC b ON a.SOLOPCEST = b.DOMFICCOD
-                INNER JOIN via.SOLFIC c ON a.SOLOPCSOC = c.SOLFICCOD
-                
-                WHERE a.SOLOPCSOC = ?
-                
-                ORDER BY a.SOLOPCCOD DESC";
+            a.SOLOPCCOD         AS          solicitud_opcion_cabecera_codigo,         
+            a.SOLOPCOPC         AS          solicitud_opcion_cabecera_nombre,
+            a.SOLOPCTIM         AS          solicitud_opcion_cabecera_tarifa_importe,
+            
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICORD         AS          tipo_estado_orden,
+            b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
+            b.DOMFICOBS         AS          tipo_estado_observacion,
+    
+            c.SOLFICCOD         AS          solicitud_codigo
+            FROM via.SOLOPC a
+            
+            INNER JOIN adm.DOMFIC b ON a.SOLOPCEST = b.DOMFICCOD
+            INNER JOIN via.SOLFIC c ON a.SOLOPCSOC = c.SOLFICCOD
+            
+            WHERE a.SOLOPCSOC = ?
+            
+            ORDER BY a.SOLOPCCOD DESC";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
