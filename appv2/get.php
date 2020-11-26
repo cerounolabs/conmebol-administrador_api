@@ -12617,7 +12617,7 @@
         
         return $json;
     });
-
+/*
     $app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {//20201126
         require __DIR__.'/../src/connect.php';
 
@@ -12795,9 +12795,9 @@
                             'solicitud_cabecera'             => ''
                         );
 
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-                }
+                        header("Content-Type: application/json; charset=utf-8");
+                        $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    }
 
                 $stmtMSSQL00->closeCursor();
                 $stmtMSSQL00 = null;
@@ -12808,7 +12808,7 @@
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             {
-        }else {
+        }else { 
             header("Content-Type: application/json; charset=utf-8");
             $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
@@ -12817,6 +12817,7 @@
         
         return $json;
     });
+    */
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
