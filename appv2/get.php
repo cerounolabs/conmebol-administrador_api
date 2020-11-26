@@ -12766,7 +12766,6 @@
                         'solicitud_opcion_cabecera_nombre'                  => '',
                         'solicitud_opcion_cabecera_tarifa_importe'          => '',
 
-                        
                         'tipo_estado_codigo'                                => '',
                         'tipo_estado_orden'                                 => '',
                         'tipo_estado_nombre_ingles'                         => '',
@@ -12781,7 +12780,20 @@
                     );
 
                     $result_solicitud_cabecera[]   = $detalle;
-                
+                }
+                    $result = array(
+                        'solicitud'                          => $result_solicitud,
+                        'solicitud_cabecera'                 => $result_solicitud_cabecera
+                    );
+
+                    if (isset($result)){
+                        header("Content-Type: application/json; charset=utf-8");
+                        $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    } else {
+                        $detalle = array(
+                            'solicitud'                      => '',
+                            'solicitud_cabecera'             => ''
+                        );
 
                     header("Content-Type: application/json; charset=utf-8");
                     $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -12795,8 +12807,8 @@
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        } else {
+            {
+        }else {
             header("Content-Type: application/json; charset=utf-8");
             $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
