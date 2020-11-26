@@ -12679,8 +12679,8 @@
                 ORDER BY a.SOLOPCCOD DESC";
 
             try {
-                $result_solicitud           = '';
-                $result_solicitud_cabecera  = '';
+                $result_solicitud           = [];
+                $result_solicitud_cabecera  = [];
 
                 $connMSSQL  = getConnectionMSSQLv2();
 
