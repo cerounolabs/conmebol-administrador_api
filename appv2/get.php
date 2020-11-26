@@ -12652,7 +12652,7 @@
 
                 ORDER BY a.SOLFICCOD";
 
-            $sql00 = "SELECT 
+            $sql01 = "SELECT 
                 a.SOLOPCCOD         AS          solicitud_opcion_cabecera_codigo,         
                 a.SOLOPCOPC         AS          solicitud_opcion_cabecera_nombre,
                 a.SOLOPCTIM         AS          solicitud_opcion_cabecera_tarifa_importe,
