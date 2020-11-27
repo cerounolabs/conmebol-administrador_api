@@ -13066,11 +13066,11 @@
                 INNER JOIN adm.DOMFIC c ON a.SOLOPCTSC = c.DOMFICCOD
                 INNER JOIN adm.DOMFIC d ON a.SOLOPCTOC = d.DOMFICCOD
 
-                WHERE a.SOLOPCSOC = ? AND a.SOLOPCEST IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR IN (3,6))
+                WHERE a.SOLOPCSOC = ? AND a.SOLOPCEST IN (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICPAR IN (3, 6))
 
                 ORDER BY a.SOLOPCCOD";
 
-                $sql02  = "SELECT 
+            $sql02  = "SELECT 
                 a.SOLOPVCOD     AS      solicitud_opcion_vuelo_codigo,
                 a.SOLOPVVUE     AS      solicitud_opcion_vuelo_vuelo,	
                 a.SOLOPVCOM     AS      solicitud_opcion_vuelo_companhia,	
@@ -13109,7 +13109,7 @@
 
                 ORDER BY a.SOLOPVCOD";
 
-                $sql03 = "SELECT 
+            $sql03 = "SELECT 
                 a.SOLOPHCOD     AS      solicitud_opcion_hospedaje_codigo,
                 a.SOLOPHHOS     AS      solicitud_opcion_hospedaje_hospedaje,	
                 a.SOLOPHDIR     AS      solicitud_opcion_hospedaje_direccion,	
@@ -13149,7 +13149,6 @@
                 c.DOMFICVAL     AS      tipo_habitacion_dominio,
                 c.DOMFICOBS     AS      tipo_habitacion_observacion
                 
-              
                 FROM via.SOLOPH a
                 INNER JOIN adm.DOMFIC b ON a.SOLOPHEST = b.DOMFICCOD
                 INNER JOIN adm.DOMFIC c ON a.SOLOPHTHC = c.DOMFICCOD
@@ -13158,7 +13157,7 @@
 
                 ORDER BY a.SOLOPHCOD";
 
-                $sql04 = "SELECT 
+            $sql04 = "SELECT 
                 a.SOLOPTCOD     AS      solicitud_opcion_traslado_codigo,
                 a.SOLOPTTRA     AS      solicitud_opcion_traslado_traslado,	
                 a.SOLOPTTAR     AS      solicitud_opcion_traslado_tarifa_dia,
@@ -13214,8 +13213,8 @@
                 INNER JOIN adm.DOMFIC c ON a.SOLOPTTVC = c.DOMFICCOD
                 INNER JOIN adm.DOMFIC d ON a.SOLOPTTTC = d.DOMFICCOD
 
-                 WHERE a.SOLOPTOPC IN (SELECT a1.SOLOPCCOD FROM via.SOLOPC a1 WHERE a1.SOLOPCSOC = ? AND a1.SOLOPCEST IN (SELECT a2.DOMFICCOD FROM adm.DOMFIC a2 WHERE a2.DOMFICVAL = 'SOLICITUDESTADOOPCION' AND a2.DOMFICPAR IN (3,6)))
-                
+                WHERE a.SOLOPTOPC IN (SELECT a1.SOLOPCCOD FROM via.SOLOPC a1 WHERE a1.SOLOPCSOC = ? AND a1.SOLOPCEST IN (SELECT a2.DOMFICCOD FROM adm.DOMFIC a2 WHERE a2.DOMFICVAL = 'SOLICITUDESTADOOPCION' AND a2.DOMFICPAR IN (3,6)))
+
                 ORDER BY a.SOLOPTCOD";
 
 
@@ -13232,13 +13231,13 @@
                 $stmtMSSQL01    =   $connMSSQL->prepare($sql01);
                 $stmtMSSQL02    =   $connMSSQL->prepare($sql02);
                 $stmtMSSQL03    =   $connMSSQL->prepare($sql03);
-                $stmtMSSQL04    =   $connMSSQL->prepare($sql03);
+                $stmtMSSQL04    =   $connMSSQL->prepare($sql04);
 
-                $stmtMSSQL00    ->  execute([$val00]);
-                $stmtMSSQL01    ->  execute([$val00]);
-                $stmtMSSQL02    ->  execute([$val00]);
-                $stmtMSSQL03    ->  execute([$val00]);
-                $stmtMSSQL04    ->  execute([$val00]);
+                $stmtMSSQL00->execute([$val00]);
+                $stmtMSSQL01->execute([$val00]);
+                $stmtMSSQL02->execute([$val00]);
+                $stmtMSSQL03->execute([$val00]);
+                $stmtMSSQL04->execute([$val00]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
@@ -13528,7 +13527,7 @@
                         'tipo_vehiculo_path'                                 => trim(strtolower($rowMSSQL04['tipo_vehiculo_path'])),
                         'tipo_vehiculo_css'                                  => trim(strtolower($rowMSSQL04['tipo_vehiculo_css'])),
                         'tipo_vehiculo_parametro'                            => $rowMSSQL04['tipo_vehiculo_parametro'],
-                        'tipo_vehiculo_icono'                                => trim(strtolower($rowMSSQL00['tipo_vehiculo_icono'])),
+                        'tipo_vehiculo_icono'                                => trim(strtolower($rowMSSQL04['tipo_vehiculo_icono'])),
                         'tipo_vehiculo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_dominio']))),
                         'tipo_vehiculo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_observacion']))),
 
@@ -13605,7 +13604,6 @@
 
                     $result_solicitud_opcion_traslado[]   = $detalle;
                 }
-          
 
                 while ($rowMSSQL03 = $stmtMSSQL03->fetch()) {
 
@@ -13805,7 +13803,6 @@
                     $result_solicitud_opcion_vuelo[]   = $detalle;
                 }
 
-
                 while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
                     $detalle = array(    
                         'solicitud_opcion_cabecera_codigo'                  =>       $rowMSSQL01['solicitud_opcion_cabecera_codigo'],
@@ -13867,76 +13864,76 @@
                     $result_solicitud_opcion_cabecera[]   = $detalle;
                 }
 
-                    if (!isset($result_solicitud_opcion_cabecera)){
-                        $detalle    = array(
-                            'solicitud_opcion_cabecera_codigo'                  => '',
-                            'solicitud_opcion_cabecera_origen'                  => '',
-                            'solicitud_opcion_cabecera_nombre'                  => '',
-                            'solicitud_opcion_cabecera_tarifa_importe'          => '',
-                            'solicitud_opcion_cabecera_reserva'                 => '',
-                            'solicitud_opcion_cabecera_comentario_1'            => '',
-                            'solicitud_opcion_cabecera_comentario_2'            => '',
-                            'solicitud_opcion_cabecera_comentario_3'            => '',
-                            'solicitud_opcion_cabecera_comentario_4'            => '',
-                            'solicitud_opcion_cabecera_directorio'              => '',
+                if (!isset($result_solicitud_opcion_cabecera)){
+                    $detalle    = array(
+                        'solicitud_opcion_cabecera_codigo'                  => '',
+                        'solicitud_opcion_cabecera_origen'                  => '',
+                        'solicitud_opcion_cabecera_nombre'                  => '',
+                        'solicitud_opcion_cabecera_tarifa_importe'          => '',
+                        'solicitud_opcion_cabecera_reserva'                 => '',
+                        'solicitud_opcion_cabecera_comentario_1'            => '',
+                        'solicitud_opcion_cabecera_comentario_2'            => '',
+                        'solicitud_opcion_cabecera_comentario_3'            => '',
+                        'solicitud_opcion_cabecera_comentario_4'            => '',
+                        'solicitud_opcion_cabecera_directorio'              => '',
 
-                            'tipo_estado_codigo'                                => '',
-                            'tipo_estado_orden'                                 => '',
-                            'tipo_estado_nombre_ingles'                         => '',
-                            'tipo_estado_nombre_castellano'                     => '',
-                            'tipo_estado_nombre_portugues'                      => '',
-                            'tipo_estado_path'                                  => '',
-                            'tipo_estado_css'                                   => '',
-                            'tipo_estado_parametro'                             => '',
-                            'tipo_estado_icono'                                 => '',
-                            'tipo_estado_dominio'                               => '',
-                            'tipo_estado_observacion'                           => '',
+                        'tipo_estado_codigo'                                => '',
+                        'tipo_estado_orden'                                 => '',
+                        'tipo_estado_nombre_ingles'                         => '',
+                        'tipo_estado_nombre_castellano'                     => '',
+                        'tipo_estado_nombre_portugues'                      => '',
+                        'tipo_estado_path'                                  => '',
+                        'tipo_estado_css'                                   => '',
+                        'tipo_estado_parametro'                             => '',
+                        'tipo_estado_icono'                                 => '',
+                        'tipo_estado_dominio'                               => '',
+                        'tipo_estado_observacion'                           => '',
 
-                            'tipo_solicitud_codigo'                             => '',
-                            'tipo_solicitud_orden'                              => '',
-                            'tipo_solicitud_nombre_ingles'                      => '',
-                            'tipo_solicitud_nombre_castellano'                  => '',
-                            'tipo_solicitud_nombre_portugues'                   => '',
-                            'tipo_solicitud_path'                               => '',
-                            'tipo_solicitud_css'                                => '',
-                            'tipo_solicitud_parametro'                          => '',
-                            'tipo_solicitud_icono'                              => '',
-                            'tipo_solicitud_dominio'                            => '',
-                            'tipo_solicitud_observacion'                        => '',
-        
-                            
-                            'solicitud_codigo'                                  => '',
-                            'solicitud_periodo'                                 => '',
-                            'solicitud_motivo'                                  => '',
-                            'solicitud_vuelo'                                   => '',
-                            'solicitud_hospedaje'                               => '',
-                            'solicitud_traslado'                                => '',
-                            'solicitud_fecha_carga_1'                           => '',
-                            'solicitud_fecha_carga_2'                           => '',
-                            'solicitud_sap_centro_costo'                        => '', 
-                            'solicitud_tarea_cantidad'                          => '',
-                            'solicitud_tarea_resuelta'                          => '',
-                            'solicitud_observacion'                             => '',
+                        'tipo_solicitud_codigo'                             => '',
+                        'tipo_solicitud_orden'                              => '',
+                        'tipo_solicitud_nombre_ingles'                      => '',
+                        'tipo_solicitud_nombre_castellano'                  => '',
+                        'tipo_solicitud_nombre_portugues'                   => '',
+                        'tipo_solicitud_path'                               => '',
+                        'tipo_solicitud_css'                                => '',
+                        'tipo_solicitud_parametro'                          => '',
+                        'tipo_solicitud_icono'                              => '',
+                        'tipo_solicitud_dominio'                            => '',
+                        'tipo_solicitud_observacion'                        => '',
+    
+                        
+                        'solicitud_codigo'                                  => '',
+                        'solicitud_periodo'                                 => '',
+                        'solicitud_motivo'                                  => '',
+                        'solicitud_vuelo'                                   => '',
+                        'solicitud_hospedaje'                               => '',
+                        'solicitud_traslado'                                => '',
+                        'solicitud_fecha_carga_1'                           => '',
+                        'solicitud_fecha_carga_2'                           => '',
+                        'solicitud_sap_centro_costo'                        => '', 
+                        'solicitud_tarea_cantidad'                          => '',
+                        'solicitud_tarea_resuelta'                          => '',
+                        'solicitud_observacion'                             => '',
 
-                            'auditoria_usuario'                                 => '',
-                            'auditoria_fecha_hora'                              => '',
-                            'auditoria_ip'                                      => '',
+                        'auditoria_usuario'                                 => '',
+                        'auditoria_fecha_hora'                              => '',
+                        'auditoria_ip'                                      => '',
 
-                            'tipo_origen_codigo'                                => '',
-                            'tipo_origen_orden'                                 => '',
-                            'tipo_origen_nombre_ingles'                         => '',
-                            'tipo_origen_nombre_castellano'                     => '',
-                            'tipo_origen_nombre_portugues'                      => '',
-                            'tipo_origen_path'                                  => '',
-                            'tipo_origen_css'                                   => '',
-                            'tipo_origen_parametro'                             => '',
-                            'tipo_origen_icono'                                 => '',
-                            'tipo_origen_dominio'                               => '',
-                            'tipo_origen_observacion'                           => ''
-                        );
+                        'tipo_origen_codigo'                                => '',
+                        'tipo_origen_orden'                                 => '',
+                        'tipo_origen_nombre_ingles'                         => '',
+                        'tipo_origen_nombre_castellano'                     => '',
+                        'tipo_origen_nombre_portugues'                      => '',
+                        'tipo_origen_path'                                  => '',
+                        'tipo_origen_css'                                   => '',
+                        'tipo_origen_parametro'                             => '',
+                        'tipo_origen_icono'                                 => '',
+                        'tipo_origen_dominio'                               => '',
+                        'tipo_origen_observacion'                           => ''
+                    );
 
-                        $result_solicitud_opcion_cabecera[]   = $detalle;
-                    }
+                    $result_solicitud_opcion_cabecera[]   = $detalle;
+                }
 
                 $result = array(
                     'solicitud'                                             =>      $result_solicitud,
