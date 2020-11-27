@@ -13105,7 +13105,7 @@
                 INNER JOIN adm.DOMFIC b ON a.SOLOPVEST = b.DOMFICCOD
                 INNER JOIN via.AERFIC c ON a.SOLOPVAEC = c.AERFICCOD
 
-                WHERE a.SOLOPVOPC IN (SELECT a1.SOLOPCCOD FROM via.SOLOPC a1 WHERE a1.SOLOPCSOC = ? AND a1.SOLOPCEST IN (SELECT a2.DOMFICCOD FROM adm.DOMFIC a2 WHERE a2.DOMFICVAL = 'SOLICITUDESTADOOPCION' AND a2.DOMFICPAR IN (3,6)))
+                WHERE a.SOLOPVOPC = ?
 
                 ORDER BY a.SOLOPVCOD";
 
@@ -13153,7 +13153,7 @@
                 INNER JOIN adm.DOMFIC b ON a.SOLOPHEST = b.DOMFICCOD
                 INNER JOIN adm.DOMFIC c ON a.SOLOPHTHC = c.DOMFICCOD
 
-                WHERE a.SOLOPHOPC IN (SELECT a1.SOLOPCCOD FROM via.SOLOPC a1 WHERE a1.SOLOPCSOC = ? AND a1.SOLOPCEST IN (SELECT a2.DOMFICCOD FROM adm.DOMFIC a2 WHERE a2.DOMFICVAL = 'SOLICITUDESTADOOPCION' AND a2.DOMFICPAR IN (3,6)))
+                WHERE a.SOLOPHOPC = ?
 
                 ORDER BY a.SOLOPHCOD";
 
@@ -13213,7 +13213,7 @@
                 INNER JOIN adm.DOMFIC c ON a.SOLOPTTVC = c.DOMFICCOD
                 INNER JOIN adm.DOMFIC d ON a.SOLOPTTTC = d.DOMFICCOD
 
-                WHERE a.SOLOPTOPC IN (SELECT a1.SOLOPCCOD FROM via.SOLOPC a1 WHERE a1.SOLOPCSOC = ? AND a1.SOLOPCEST IN (SELECT a2.DOMFICCOD FROM adm.DOMFIC a2 WHERE a2.DOMFICVAL = 'SOLICITUDESTADOOPCION' AND a2.DOMFICPAR IN (3,6)))
+                WHERE a.SOLOPTOPC = ?
 
                 ORDER BY a.SOLOPTCOD";
 
@@ -13235,9 +13235,6 @@
 
                 $stmtMSSQL00->execute([$val00]);
                 $stmtMSSQL01->execute([$val00]);
-                $stmtMSSQL02->execute([$val00]);
-                $stmtMSSQL03->execute([$val00]);
-                $stmtMSSQL04->execute([$val00]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
@@ -13482,328 +13479,333 @@
                     $result_solicitud[]   = $detalle;
                 }
 
-                while ($rowMSSQL04 = $stmtMSSQL04->fetch()) {
-                    if ($rowMSSQL04['solicitud_opcion_traslado_fecha_salida'] == '1900-01-01' || $rowMSSQL04['solicitud_opcion_traslado_fecha_salida'] == null){
-                        $solicitud_opcion_traslado_fecha_salida_1 = '';
-                        $solicitud_opcion_traslado_fecha_salida_2 = '';
-                    } else {
-                        $solicitud_opcion_traslado_fecha_salida_1 = $rowMSSQL04['solicitud_opcion_traslado_fecha_salida'];
-                        $solicitud_opcion_traslado_fecha_salida_2 = date('d/m/Y', strtotime($rowMSSQL04['solicitud_opcion_traslado_fecha_salida']));
+                while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {//SOLOPCCOD = 33
+                    $solicitud_opcion_cabecera_codigo = $rowMSSQL01['solicitud_opcion_cabecera_codigo'];//33
+                    $stmtMSSQL02->execute([$solicitud_opcion_cabecera_codigo]);//33
+                    $stmtMSSQL03->execute([$solicitud_opcion_cabecera_codigo]);//33
+                    $stmtMSSQL04->execute([$solicitud_opcion_cabecera_codigo]);//33
+
+                    while ($rowMSSQL04 = $stmtMSSQL04->fetch()) {
+                        if ($rowMSSQL04['solicitud_opcion_traslado_fecha_salida'] == '1900-01-01' || $rowMSSQL04['solicitud_opcion_traslado_fecha_salida'] == null){
+                            $solicitud_opcion_traslado_fecha_salida_1 = '';
+                            $solicitud_opcion_traslado_fecha_salida_2 = '';
+                        } else {
+                            $solicitud_opcion_traslado_fecha_salida_1 = $rowMSSQL04['solicitud_opcion_traslado_fecha_salida'];
+                            $solicitud_opcion_traslado_fecha_salida_2 = date('d/m/Y', strtotime($rowMSSQL04['solicitud_opcion_traslado_fecha_salida']));
+                        }
+
+                        $detalle    = array(
+                            'solicitud_opcion_traslado_codigo'                      => $rowMSSQL04['solicitud_opcion_traslado_codigo'],
+                            'solicitud_opcion_traslado_traslado'                    => trim($rowMSSQL04['solicitud_opcion_traslado_traslado']),
+                            'solicitud_opcion_traslado_tarifa_dia'                  => $rowMSSQL04['solicitud_opcion_traslado_tarifa_dia'],
+                            'solicitud_opcion_traslado_comentario'                  => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
+                            'solicitud_opcion_traslado_origen'                      => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
+                            'solicitud_opcion_traslado_destino'                     => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
+                            'solicitud_opcion_traslado_fecha_salida_1'              => $solicitud_opcion_traslado_fecha_salida_1,
+                            'solicitud_opcion_traslado_fecha_salida_2'              => $solicitud_opcion_traslado_fecha_salida_2,
+                            'solicitud_opcion_traslado_hora_salida'                 => trim($rowMSSQL04['solicitud_opcion_traslado_hora_salida']),
+                            'solicitud_opcion_traslado_observacion'                 => trim($rowMSSQL04['solicitud_opcion_traslado_observacion']),
+
+                            'auditoria_usuario'                                     => trim($rowMSSQL04['auditoria_usuario']),
+                            'auditoria_fecha_hora'                                  => $rowMSSQL04['auditoria_fecha_hora'],
+                            'auditoria_ip'                                          => trim($rowMSSQL04['auditoria_ip']),
+
+                            'tipo_estado_codigo'                                    => $rowMSSQL04['tipo_estado_codigo'],
+                            'tipo_estado_orden'                                     => $rowMSSQL04['tipo_estado_orden'],
+                            'tipo_estado_nombre_ingles'                             => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_nombre_ingles']))),
+                            'tipo_estado_nombre_castellano'                         => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_nombre_castellano']))),
+                            'tipo_estado_nombre_portugues'                          => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_nombre_portugues']))),
+                            'tipo_estado_path'                                      => trim(strtolower($rowMSSQL04['tipo_estado_path'])),
+                            'tipo_estado_css'                                       => trim(strtolower($rowMSSQL04['tipo_estado_css'])),
+                            'tipo_estado_parametro'                                 => $rowMSSQL04['tipo_estado_parametro'],
+                            'tipo_estado_icono'                                     => trim(strtolower($rowMSSQL04['tipo_estado_icono'])),
+                            'tipo_estado_dominio'                                   => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_dominio']))),
+                            'tipo_estado_observacion'                               => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_observacion']))),
+
+                            'tipo_vehiculo_codigo'                                  => $rowMSSQL04['tipo_vehiculo_codigo'],
+                            'tipo_vehiculo_orden'                                   => $rowMSSQL04['tipo_vehiculo_orden'],
+                            'tipo_vehiculo_nombre_ingles'                           => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_nombre_ingles']))),
+                            'tipo_vehiculo_nombre_castellano'                       => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_nombre_castellano']))),
+                            'tipo_vehiculo_nombre_portugues'                        => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_nombre_portugues']))),
+                            'tipo_vehiculo_path'                                    => trim(strtolower($rowMSSQL04['tipo_vehiculo_path'])),
+                            'tipo_vehiculo_css'                                     => trim(strtolower($rowMSSQL04['tipo_vehiculo_css'])),
+                            'tipo_vehiculo_parametro'                               => $rowMSSQL04['tipo_vehiculo_parametro'],
+                            'tipo_vehiculo_icono'                                   => trim(strtolower($rowMSSQL04['tipo_vehiculo_icono'])),
+                            'tipo_vehiculo_dominio'                                 => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_dominio']))),
+                            'tipo_vehiculo_observacion'                             => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_observacion']))),
+
+                            'tipo_traslado_codigo'                                  => $rowMSSQL04['tipo_traslado_codigo'],
+                            'tipo_traslado_orden'                                   => $rowMSSQL04['tipo_traslado_orden'],
+                            'tipo_traslado_nombre_ingles'                           => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_nombre_ingles']))),
+                            'tipo_traslado_nombre_castellano'                       => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_nombre_castellano']))),
+                            'tipo_traslado_nombre_portugues'                        => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_nombre_portugues']))),
+                            'tipo_traslado_path'                                    => trim(strtolower($rowMSSQL04['tipo_traslado_path'])),
+                            'tipo_traslado_css'                                     => trim(strtolower($rowMSSQL04['tipo_traslado_css'])),
+                            'tipo_traslado_parametro'                               => $rowMSSQL04['tipo_traslado_parametro'],
+                            'tipo_traslado_icono'                                   => trim(strtolower($rowMSSQL04['tipo_traslado_icono'])),
+                            'tipo_traslado_dominio'                                 => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_dominio']))),
+                            'tipo_traslado_observacion'                             => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_observacion'])))
+                        );
+
+                        $result_solicitud_opcion_traslado[]   = $detalle;
                     }
 
-                    $detalle    = array(
-                        'solicitud_opcion_traslado_codigo'                      => $rowMSSQL04['solicitud_opcion_traslado_codigo'],
-                        'solicitud_opcion_traslado_traslado'                    => trim(strtoupper(strtolower($rowMSSQL04['solicitud_opcion_traslado_traslado']))),
-                        'solicitud_opcion_traslado_tarifa_dia'                  => $rowMSSQL04['solicitud_opcion_traslado_tarifa_dia'],
-                        'solicitud_opcion_traslado_comentario'                  => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
-                        'solicitud_opcion_traslado_origen'                      => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
-                        'solicitud_opcion_traslado_destino'                     => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
-                        'solicitud_opcion_traslado_fecha_salida_1'              => $solicitud_opcion_traslado_fecha_salida_1,
-                        'solicitud_opcion_traslado_fecha_salida_2'              => $solicitud_opcion_traslado_fecha_salida_2,
-                        'solicitud_opcion_traslado_hora_salida'                 => trim($rowMSSQL04['solicitud_opcion_traslado_hora_salida']),
-                        'solicitud_opcion_traslado_observacion'                 => trim(strtoupper(strtolower($rowMSSQL04['solicitud_opcion_traslado_observacion']))),
+                    if (!isset($result_solicitud_opcion_traslado)){
+                        $detalle    = array(
+                            'solicitud_opcion_traslado_codigo'                  => '',
+                            'solicitud_opcion_traslado_traslado'                => '',
+                            'solicitud_opcion_traslado_tarifa_dia'              => '',
+                            'solicitud_opcion_traslado_comentario'              => '',
+                            'solicitud_opcion_traslado_origen'                  => '',
+                            'solicitud_opcion_traslado_destino'                 => '',
+                            'solicitud_opcion_traslado_fecha_salida_1'          => '',
+                            'solicitud_opcion_traslado_fecha_salida_2'          => '',
+                            'solicitud_opcion_traslado_hora_salida'             => '',
+                            'solicitud_opcion_traslado_observacion'             => '',
 
-                        'auditoria_usuario'                                     => trim(strtoupper(strtolower($rowMSSQL04['auditoria_usuario']))),
-                        'auditoria_fecha_hora'                                  => $rowMSSQL04['auditoria_fecha_hora'],
-                        'auditoria_ip'                                          => trim(strtoupper(strtolower($rowMSSQL04['auditoria_ip']))),
+                            'auditoria_usuario'                                 => '',
+                            'auditoria_fecha_hora'                              => '',
+                            'auditoria_ip'                                      => '',
 
-                        'tipo_estado_codigo'                                    => $rowMSSQL04['tipo_estado_codigo'],
-                        'tipo_estado_orden'                                     => $rowMSSQL04['tipo_estado_orden'],
-                        'tipo_estado_nombre_ingles'                             => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_nombre_ingles']))),
-                        'tipo_estado_nombre_castellano'                         => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_nombre_castellano']))),
-                        'tipo_estado_nombre_portugues'                          => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_nombre_portugues']))),
-                        'tipo_estado_path'                                      => trim(strtolower($rowMSSQL04['tipo_estado_path'])),
-                        'tipo_estado_css'                                       => trim(strtolower($rowMSSQL04['tipo_estado_css'])),
-                        'tipo_estado_parametro'                                 => $rowMSSQL04['tipo_estado_parametro'],
-                        'tipo_estado_icono'                                     => trim(strtolower($rowMSSQL04['tipo_estado_icono'])),
-                        'tipo_estado_dominio'                                   => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_dominio']))),
-                        'tipo_estado_observacion'                               => trim(strtoupper(strtolower($rowMSSQL04['tipo_estado_observacion']))),
+                            'tipo_estado_codigo'                                => '',
+                            'tipo_estado_orden'                                 => '',
+                            'tipo_estado_nombre_ingles'                         => '',
+                            'tipo_estado_nombre_castellano'                     => '',
+                            'tipo_estado_nombre_portugues'                      => '',
+                            'tipo_estado_path'                                  => '',
+                            'tipo_estado_css'                                   => '',
+                            'tipo_estado_parametro'                             => '',
+                            'tipo_estado_icono'                                 => '',
+                            'tipo_estado_dominio'                               => '',
+                            'tipo_estado_observacion'                           => '',
 
-                        'tipo_vehiculo_codigo'                                  => $rowMSSQL04['tipo_vehiculo_codigo'],
-                        'tipo_vehiculo_orden'                                   => $rowMSSQL04['tipo_vehiculo_orden'],
-                        'tipo_vehiculo_nombre_ingles'                           => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_nombre_ingles']))),
-                        'tipo_vehiculo_nombre_castellano'                       => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_nombre_castellano']))),
-                        'tipo_vehiculo_nombre_portugues'                        => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_nombre_portugues']))),
-                        'tipo_vehiculo_path'                                    => trim(strtolower($rowMSSQL04['tipo_vehiculo_path'])),
-                        'tipo_vehiculo_css'                                     => trim(strtolower($rowMSSQL04['tipo_vehiculo_css'])),
-                        'tipo_vehiculo_parametro'                               => $rowMSSQL04['tipo_vehiculo_parametro'],
-                        'tipo_vehiculo_icono'                                   => trim(strtolower($rowMSSQL04['tipo_vehiculo_icono'])),
-                        'tipo_vehiculo_dominio'                                 => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_dominio']))),
-                        'tipo_vehiculo_observacion'                             => trim(strtoupper(strtolower($rowMSSQL04['tipo_vehiculo_observacion']))),
+                            'tipo_vehiculo_codigo'                              => '',
+                            'tipo_vehiculo_orden'                               => '',
+                            'tipo_vehiculo_nombre_ingles'                       => '',
+                            'tipo_vehiculo_nombre_castellano'                   => '',
+                            'tipo_vehiculo_nombre_portugues'                    => '',
+                            'tipo_vehiculo_path'                                => '',
+                            'tipo_vehiculo_css'                                 => '',
+                            'tipo_vehiculo_parametro'                           => '',
+                            'tipo_vehiculo_icono'                               => '',
+                            'tipo_vehiculo_dominio'                             => '',
+                            'tipo_vehiculo_observacion'                         => '',
 
-                        'tipo_traslado_codigo'                                  => $rowMSSQL04['tipo_traslado_codigo'],
-                        'tipo_traslado_orden'                                   => $rowMSSQL04['tipo_traslado_orden'],
-                        'tipo_traslado_nombre_ingles'                           => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_nombre_ingles']))),
-                        'tipo_traslado_nombre_castellano'                       => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_nombre_castellano']))),
-                        'tipo_traslado_nombre_portugues'                        => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_nombre_portugues']))),
-                        'tipo_traslado_path'                                    => trim(strtolower($rowMSSQL04['tipo_traslado_path'])),
-                        'tipo_traslado_css'                                     => trim(strtolower($rowMSSQL04['tipo_traslado_css'])),
-                        'tipo_traslado_parametro'                               => $rowMSSQL04['tipo_traslado_parametro'],
-                        'tipo_traslado_icono'                                   => trim(strtolower($rowMSSQL04['tipo_traslado_icono'])),
-                        'tipo_traslado_dominio'                                 => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_dominio']))),
-                        'tipo_traslado_observacion'                             => trim(strtoupper(strtolower($rowMSSQL04['tipo_traslado_observacion'])))
-                    );
+                            'tipo_traslado_codigo'                              => '',
+                            'tipo_traslado_orden'                               => '',
+                            'tipo_traslado_nombre_ingles'                       => '',
+                            'tipo_traslado_nombre_castellano'                   => '',
+                            'tipo_traslado_nombre_portugues'                    => '',
+                            'tipo_traslado_path'                                => '',
+                            'tipo_traslado_css'                                 => '',
+                            'tipo_traslado_parametro'                           => '',
+                            'tipo_traslado_icono'                               => '',
+                            'tipo_traslado_dominio'                             => '',
+                            'tipo_traslado_observacion'                         => ''
 
-                    $result_solicitud_opcion_traslado[]   = $detalle;
-                }
+                        );
 
-                if (!isset($result_solicitud_opcion_traslado)){
-                    $detalle    = array(
-                        'solicitud_opcion_traslado_codigo'                  => '',
-                        'solicitud_opcion_traslado_traslado'                => '',
-                        'solicitud_opcion_traslado_tarifa_dia'              => '',
-                        'solicitud_opcion_traslado_comentario'              => '',
-                        'solicitud_opcion_traslado_origen'                  => '',
-                        'solicitud_opcion_traslado_destino'                 => '',
-                        'solicitud_opcion_traslado_fecha_salida_1'          => '',
-                        'solicitud_opcion_traslado_fecha_salida_2'          => '',
-                        'solicitud_opcion_traslado_hora_salida'             => '',
-                        'solicitud_opcion_traslado_observacion'             => '',
-
-                        'auditoria_usuario'                                 => '',
-                        'auditoria_fecha_hora'                              => '',
-                        'auditoria_ip'                                      => '',
-
-                        'tipo_estado_codigo'                                => '',
-                        'tipo_estado_orden'                                 => '',
-                        'tipo_estado_nombre_ingles'                         => '',
-                        'tipo_estado_nombre_castellano'                     => '',
-                        'tipo_estado_nombre_portugues'                      => '',
-                        'tipo_estado_path'                                  => '',
-                        'tipo_estado_css'                                   => '',
-                        'tipo_estado_parametro'                             => '',
-                        'tipo_estado_icono'                                 => '',
-                        'tipo_estado_dominio'                               => '',
-                        'tipo_estado_observacion'                           => '',
-
-                        'tipo_vehiculo_codigo'                              => '',
-                        'tipo_vehiculo_orden'                               => '',
-                        'tipo_vehiculo_nombre_ingles'                       => '',
-                        'tipo_vehiculo_nombre_castellano'                   => '',
-                        'tipo_vehiculo_nombre_portugues'                    => '',
-                        'tipo_vehiculo_path'                                => '',
-                        'tipo_vehiculo_css'                                 => '',
-                        'tipo_vehiculo_parametro'                           => '',
-                        'tipo_vehiculo_icono'                               => '',
-                        'tipo_vehiculo_dominio'                             => '',
-                        'tipo_vehiculo_observacion'                         => '',
-
-                        'tipo_traslado_codigo'                              => '',
-                        'tipo_traslado_orden'                               => '',
-                        'tipo_traslado_nombre_ingles'                       => '',
-                        'tipo_traslado_nombre_castellano'                   => '',
-                        'tipo_traslado_nombre_portugues'                    => '',
-                        'tipo_traslado_path'                                => '',
-                        'tipo_traslado_css'                                 => '',
-                        'tipo_traslado_parametro'                           => '',
-                        'tipo_traslado_icono'                               => '',
-                        'tipo_traslado_dominio'                             => '',
-                        'tipo_traslado_observacion'                         => ''
-
-                    );
-
-                    $result_solicitud_opcion_traslado[]   = $detalle;
-                }
-
-                while ($rowMSSQL03 = $stmtMSSQL03->fetch()) {
-
-                    if ($rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde'] == '1900-01-01' || $rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde'] == null){
-                        $solicitud_opcion_hospedaje_fecha_desde_1 = '';
-                        $solicitud_opcion_hospedaje_fecha_desde_2 = '';
-                    } else {
-                        $solicitud_opcion_hospedaje_fecha_desde_1 = $rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde'];
-                        $solicitud_opcion_hospedaje_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde']));
+                        $result_solicitud_opcion_traslado[]   = $detalle;
                     }
 
-                    if ($rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta'] == '1900-01-01' || $rowMSSQL03['solicitud_opcion_hospedaje_fecha_hasta'] == null){
-                        $solicitud_opcion_hospedaje_fecha_hasta_1 = '';
-                        $solicitud_opcion_hospedaje_fecha_hasta_2 = '';
-                    } else {
-                        $solicitud_opcion_hospedaje_fecha_hasta_1 = $rowMSSQL03['solicitud_opcion_hospedaje_fecha_hasta'];
-                        $solicitud_opcion_hospedaje_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL03['solicitud_opcion_hospedaje_fecha_hasta']));
+                    while ($rowMSSQL03 = $stmtMSSQL03->fetch()) {
+
+                        if ($rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde'] == '1900-01-01' || $rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde'] == null){
+                            $solicitud_opcion_hospedaje_fecha_desde_1 = '';
+                            $solicitud_opcion_hospedaje_fecha_desde_2 = '';
+                        } else {
+                            $solicitud_opcion_hospedaje_fecha_desde_1 = $rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde'];
+                            $solicitud_opcion_hospedaje_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL03['solicitud_opcion_hospedaje_fecha_desde']));
+                        }
+
+                        if ($rowMSSQL['solicitud_opcion_hospedaje_fecha_hasta'] == '1900-01-01' || $rowMSSQL03['solicitud_opcion_hospedaje_fecha_hasta'] == null){
+                            $solicitud_opcion_hospedaje_fecha_hasta_1 = '';
+                            $solicitud_opcion_hospedaje_fecha_hasta_2 = '';
+                        } else {
+                            $solicitud_opcion_hospedaje_fecha_hasta_1 = $rowMSSQL03['solicitud_opcion_hospedaje_fecha_hasta'];
+                            $solicitud_opcion_hospedaje_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL03['solicitud_opcion_hospedaje_fecha_hasta']));
+                        }
+
+                        $detalle    = array(
+                            'solicitud_opcion_hospedaje_codigo'                  => $rowMSSQL03['solicitud_opcion_hospedaje_codigo'],
+                            'solicitud_opcion_hospedaje_hospedaje'               => trim($rowMSSQL03['solicitud_opcion_hospedaje_hospedaje']),
+                            'solicitud_opcion_hospedaje_direccion'               => trim($rowMSSQL03['solicitud_opcion_hospedaje_direccion']),
+                            'solicitud_opcion_hospedaje_fecha_desde_1'           => $solicitud_opcion_hospedaje_fecha_desde_1,
+                            'solicitud_opcion_hospedaje_fecha_desde_2'           => $solicitud_opcion_hospedaje_fecha_desde_2,
+                            'solicitud_opcion_hospedaje_fecha_hasta_1'           => $solicitud_opcion_hospedaje_fecha_hasta_1,
+                            'solicitud_opcion_hospedaje_fecha_hasta_2'           => $solicitud_opcion_hospedaje_fecha_hasta_2,
+                            'solicitud_opcion_hospedaje_cantidad'                => $rowMSSQL03['solicitud_opcion_hospedaje_cantidad'],
+                            'solicitud_opcion_hospedaje_tarifa_noche'            => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_noche'],
+                            'solicitud_opcion_hospedaje_tarifa_consumo'          => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_consumo'],
+                            'solicitud_opcion_hospedaje_tarifa_lavanderia'       => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_lavanderia'],
+                            'solicitud_opcion_hospedaje_tarifa_adicional'        => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_adicional'],
+                            'solicitud_opcion_hospedaje_observacion'             => trim($rowMSSQL03['solicitud_opcion_hospedaje_observacion']),
+
+                            'auditoria_usuario'                                  => trim($rowMSSQL03['auditoria_usuario']),
+                            'auditoria_fecha_hora'                               => $rowMSSQL03['auditoria_fecha_hora'],
+                            'auditoria_ip'                                       => trim($rowMSSQL03['auditoria_ip']),
+
+                            'tipo_estado_codigo'                                 => $rowMSSQL03['tipo_estado_codigo'],
+                            'tipo_estado_orden'                                  => $rowMSSQL03['tipo_estado_orden'],
+                            'tipo_estado_nombre_ingles'                          => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_nombre_ingles']))),
+                            'tipo_estado_nombre_castellano'                      => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_nombre_castellano']))),
+                            'tipo_estado_nombre_portugues'                       => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_nombre_portugues']))),
+                            'tipo_estado_path'                                   => trim(strtolower($rowMSSQL03['tipo_estado_path'])),
+                            'tipo_estado_css'                                    => trim(strtolower($rowMSSQL03['tipo_estado_css'])),
+                            'tipo_estado_parametro'                              => $rowMSSQL03['tipo_estado_parametro'],
+                            'tipo_estado_icono'                                  => trim(strtolower($rowMSSQL03['tipo_estado_icono'])),
+                            'tipo_estado_dominio'                                => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_dominio']))),
+                            'tipo_estado_observacion'                            => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_observacion']))),
+
+                            'tipo_habitacion_codigo'                             => $rowMSSQL03['tipo_habitacion_codigo'],
+                            'tipo_habitacion_orden'                              => $rowMSSQL03['tipo_habitacion_orden'],
+                            'tipo_habitacion_nombre_ingles'                      => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_nombre_ingles']))),
+                            'tipo_habitacion_nombre_castellano'                  => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_nombre_castellano']))),
+                            'tipo_habitacion_nombre_portugues'                   => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_nombre_portugues']))),
+                            'tipo_habitacion_path'                               => trim(strtolower($rowMSSQL03['tipo_habitacion_path'])),
+                            'tipo_habitacion_css'                                => trim(strtolower($rowMSSQL03['tipo_habitacion_css'])),
+                            'tipo_habitacion_parametro'                          => $rowMSSQL03['tipo_habitacion_parametro'],
+                            'tipo_habitacion_icono'                              => trim(strtolower($rowMSSQL03['tipo_habitacion_icono'])),
+                            'tipo_habitacion_dominio'                            => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_dominio']))),
+                            'tipo_habitacion_observacion'                        => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_observacion'])))
+                        );
+
+                        $result_solicitud_opcion_hospedaje[]   = $detalle;
                     }
 
-                    $detalle    = array(
-                        'solicitud_opcion_hospedaje_codigo'                  => $rowMSSQL03['solicitud_opcion_hospedaje_codigo'],
-                        'solicitud_opcion_hospedaje_hospedaje'               => trim($rowMSSQL03['solicitud_opcion_hospedaje_hospedaje']),
-                        'solicitud_opcion_hospedaje_direccion'               => trim($rowMSSQL03['solicitud_opcion_hospedaje_direccion']),
-                        'solicitud_opcion_hospedaje_fecha_desde_1'           => $solicitud_opcion_hospedaje_fecha_desde_1,
-                        'solicitud_opcion_hospedaje_fecha_desde_2'           => $solicitud_opcion_hospedaje_fecha_desde_2,
-                        'solicitud_opcion_hospedaje_fecha_hasta_1'           => $solicitud_opcion_hospedaje_fecha_hasta_1,
-                        'solicitud_opcion_hospedaje_fecha_hasta_2'           => $solicitud_opcion_hospedaje_fecha_hasta_2,
-                        'solicitud_opcion_hospedaje_cantidad'                => $rowMSSQL03['solicitud_opcion_hospedaje_cantidad'],
-                        'solicitud_opcion_hospedaje_tarifa_noche'            => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_noche'],
-                        'solicitud_opcion_hospedaje_tarifa_consumo'          => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_consumo'],
-                        'solicitud_opcion_hospedaje_tarifa_lavanderia'       => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_lavanderia'],
-                        'solicitud_opcion_hospedaje_tarifa_adicional'        => $rowMSSQL03['solicitud_opcion_hospedaje_tarifa_adicional'],
-                        'solicitud_opcion_hospedaje_observacion'             => trim($rowMSSQL03['solicitud_opcion_hospedaje_observacion']),
+                    if (!isset($result_solicitud_opcion_hospedaje)){
+                        $detalle    = array(
+                            'solicitud_opcion_hospedaje_codigo'                  => '',
+                            'solicitud_opcion_hospedaje_hospedaje'               => '',
+                            'solicitud_opcion_hospedaje_direccion'               => '',
+                            'solicitud_opcion_hospedaje_fecha_desde_1'           => '',
+                            'solicitud_opcion_hospedaje_fecha_desde_2'           => '',
+                            'solicitud_opcion_hospedaje_fecha_hasta_1'           => '',
+                            'solicitud_opcion_hospedaje_fecha_hasta_2'           => '',
+                            'solicitud_opcion_hospedaje_cantidad'                => '',
+                            'solicitud_opcion_hospedaje_tarifa_noche'            => '',
+                            'solicitud_opcion_hospedaje_tarifa_consumo'          => '',
+                            'solicitud_opcion_hospedaje_tarifa_lavanderia'       => '',
+                            'solicitud_opcion_hospedaje_tarifa_adicional'        => '',
+                            'solicitud_opcion_hospedaje_observacion'             => '',
 
-                        'auditoria_usuario'                                  => trim($rowMSSQL03['auditoria_usuario']),
-                        'auditoria_fecha_hora'                               => $rowMSSQL03['auditoria_fecha_hora'],
-                        'auditoria_ip'                                       => trim($rowMSSQL03['auditoria_ip']),
+                            'auditoria_usuario'                                  => '',
+                            'auditoria_fecha_hora'                               => '',
+                            'auditoria_ip'                                       => '',
 
-                        'tipo_estado_codigo'                                 => $rowMSSQL03['tipo_estado_codigo'],
-                        'tipo_estado_orden'                                  => $rowMSSQL03['tipo_estado_orden'],
-                        'tipo_estado_nombre_ingles'                          => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_nombre_ingles']))),
-                        'tipo_estado_nombre_castellano'                      => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_nombre_castellano']))),
-                        'tipo_estado_nombre_portugues'                       => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_nombre_portugues']))),
-                        'tipo_estado_path'                                   => trim(strtolower($rowMSSQL03['tipo_estado_path'])),
-                        'tipo_estado_css'                                    => trim(strtolower($rowMSSQL03['tipo_estado_css'])),
-                        'tipo_estado_parametro'                              => $rowMSSQL03['tipo_estado_parametro'],
-                        'tipo_estado_icono'                                  => trim(strtolower($rowMSSQL03['tipo_estado_icono'])),
-                        'tipo_estado_dominio'                                => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_dominio']))),
-                        'tipo_estado_observacion'                            => trim(strtoupper(strtolower($rowMSSQL03['tipo_estado_observacion']))),
+                            'tipo_estado_hospedaje_codigo'                       => '',
+                            'tipo_estado_hospedaje_orden'                        => '',
+                            'tipo_estado_hospedaje_nombre_ingles'                => '',
+                            'tipo_estado_hospedaje_nombre_castellano'            => '',
+                            'tipo_estado_hospedaje_nombre_portugues'             => '',
+                            'tipo_estado_hospedaje_path'                         => '',
+                            'tipo_estado_hospedaje_css'                          => '',
+                            'tipo_estado_hospedaje_parametro'                    => '',
+                            'tipo_estado_hospedaje_icono'                        => '',
+                            'tipo_estado_hospedaje_dominio'                      => '',
+                            'tipo_estado_hospedaje_observacion'                  => '',
 
-                        'tipo_habitacion_codigo'                             => $rowMSSQL03['tipo_habitacion_codigo'],
-                        'tipo_habitacion_orden'                              => $rowMSSQL03['tipo_habitacion_orden'],
-                        'tipo_habitacion_nombre_ingles'                      => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_nombre_ingles']))),
-                        'tipo_habitacion_nombre_castellano'                  => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_nombre_castellano']))),
-                        'tipo_habitacion_nombre_portugues'                   => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_nombre_portugues']))),
-                        'tipo_habitacion_path'                               => trim(strtolower($rowMSSQL03['tipo_habitacion_path'])),
-                        'tipo_habitacion_css'                                => trim(strtolower($rowMSSQL03['tipo_habitacion_css'])),
-                        'tipo_habitacion_parametro'                          => $rowMSSQL03['tipo_habitacion_parametro'],
-                        'tipo_habitacion_icono'                              => trim(strtolower($rowMSSQL03['tipo_habitacion_icono'])),
-                        'tipo_habitacion_dominio'                            => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_dominio']))),
-                        'tipo_habitacion_observacion'                        => trim(strtoupper(strtolower($rowMSSQL03['tipo_habitacion_observacion'])))
-                    );
+                            'tipo_habitacion_codigo'                             => '',
+                            'tipo_habitacion_orden'                              => '',
+                            'tipo_habitacion_nombre_ingles'                      => '',
+                            'tipo_habitacion_nombre_castellano'                  => '',
+                            'tipo_habitacion_nombre_portugues'                   => '',
+                            'tipo_habitacion_path'                               => '',
+                            'tipo_habitacion_css'                                => '',
+                            'tipo_habitacion_parametro'                          => '',
+                            'tipo_habitacion_icono'                              => '',
+                            'tipo_habitacion_dominio'                            => '',
+                            'tipo_habitacion_observacion'                        => ''
 
-                    $result_solicitud_opcion_hospedaje[]   = $detalle;
-                }
+                        );
 
-                if (!isset($result_solicitud_opcion_hospedaje)){
-                    $detalle    = array(
-                        'solicitud_opcion_hospedaje_codigo'                  => '',
-                        'solicitud_opcion_hospedaje_hospedaje'               => '',
-                        'solicitud_opcion_hospedaje_direccion'               => '',
-                        'solicitud_opcion_hospedaje_fecha_desde_1'           => '',
-                        'solicitud_opcion_hospedaje_fecha_desde_2'           => '',
-                        'solicitud_opcion_hospedaje_fecha_hasta_1'           => '',
-                        'solicitud_opcion_hospedaje_fecha_hasta_2'           => '',
-                        'solicitud_opcion_hospedaje_cantidad'                => '',
-                        'solicitud_opcion_hospedaje_tarifa_noche'            => '',
-                        'solicitud_opcion_hospedaje_tarifa_consumo'          => '',
-                        'solicitud_opcion_hospedaje_tarifa_lavanderia'       => '',
-                        'solicitud_opcion_hospedaje_tarifa_adicional'        => '',
-                        'solicitud_opcion_hospedaje_observacion'             => '',
+                        $result_solicitud_opcion_hospedaje[]   = $detalle;
+                    }
+            
+                    while ($rowMSSQL02 = $stmtMSSQL02->fetch()) {
+                        if ($rowMSSQL02['solicitud_opcion_vuelo_fecha'] == '1900-01-01' || $rowMSSQL02['solicitud_opcion_vuelo_fecha'] == null){
+                            $solicitud_opcion_vuelo_fecha_1 = '';
+                            $solicitud_opcion_vuelo_fecha_2 = '';
+                        } else {
+                            $solicitud_opcion_vuelo_fecha_1 = $rowMSSQL02['solicitud_opcion_vuelo_fecha'];
+                            $solicitud_opcion_vuelo_fecha_2 = date('d/m/Y', strtotime($rowMSSQL02['solicitud_opcion_vuelo_fecha']));
+                        }
 
-                        'auditoria_usuario'                                  => '',
-                        'auditoria_fecha_hora'                               => '',
-                        'auditoria_ip'                                       => '',
+                        $detalle    = array(
+                            'solicitud_opcion_vuelo_codigo'                      => $rowMSSQL02['solicitud_opcion_vuelo_codigo'],
+                            'solicitud_opcion_vuelo_vuelo'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_vuelo']),
+                            'solicitud_opcion_vuelo_companhia'                   => trim($rowMSSQL02['solicitud_opcion_vuelo_companhia']),
+                            'solicitud_opcion_vuelo_fecha_1'                     => $solicitud_opcion_vuelo_fecha_1,
+                            'solicitud_opcion_vuelo_fecha_2'                     => $solicitud_opcion_vuelo_fecha_2,
+                            'solicitud_opcion_vuelo_desde'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_desde']),
+                            'solicitud_opcion_vuelo_hasta'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_hasta']),
+                            'solicitud_opcion_vuelo_salida'                      => trim($rowMSSQL02['solicitud_opcion_vuelo_salida']),
+                            'solicitud_opcion_vuelo_llegada'                     => trim($rowMSSQL02['solicitud_opcion_vuelo_llegada']),
+                            'solicitud_opcion_vuelo_observacion'                 => trim($rowMSSQL02['solicitud_opcion_vuelo_observacion']),
 
-                        'tipo_estado_hospedaje_codigo'                       => '',
-                        'tipo_estado_hospedaje_orden'                        => '',
-                        'tipo_estado_hospedaje_nombre_ingles'                => '',
-                        'tipo_estado_hospedaje_nombre_castellano'            => '',
-                        'tipo_estado_hospedaje_nombre_portugues'             => '',
-                        'tipo_estado_hospedaje_path'                         => '',
-                        'tipo_estado_hospedaje_css'                          => '',
-                        'tipo_estado_hospedaje_parametro'                    => '',
-                        'tipo_estado_hospedaje_icono'                        => '',
-                        'tipo_estado_hospedaje_dominio'                      => '',
-                        'tipo_estado_hospedaje_observacion'                  => '',
+                            'auditoria_usuario'                                  => trim(strtoupper(strtolower($rowMSSQL02['auditoria_usuario']))),
+                            'auditoria_fecha_hora'                               => $rowMSSQL02['auditoria_fecha_hora'],
+                            'auditoria_ip'                                       => trim(strtoupper(strtolower($rowMSSQL02['auditoria_ip']))),
 
-                        'tipo_habitacion_codigo'                             => '',
-                        'tipo_habitacion_orden'                              => '',
-                        'tipo_habitacion_nombre_ingles'                      => '',
-                        'tipo_habitacion_nombre_castellano'                  => '',
-                        'tipo_habitacion_nombre_portugues'                   => '',
-                        'tipo_habitacion_path'                               => '',
-                        'tipo_habitacion_css'                                => '',
-                        'tipo_habitacion_parametro'                          => '',
-                        'tipo_habitacion_icono'                              => '',
-                        'tipo_habitacion_dominio'                            => '',
-                        'tipo_habitacion_observacion'                        => ''
+                            'tipo_estado_codigo'                                 => $rowMSSQL02['tipo_estado_codigo'],
+                            'tipo_estado_orden'                                  => $rowMSSQL02['tipo_estado_orden'],
+                            'tipo_estado_nombre_ingles'                          => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_nombre_ingles']))),
+                            'tipo_estado_nombre_castellano'                      => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_nombre_castellano']))),
+                            'tipo_estado_nombre_portugues'                       => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_nombre_portugues']))),
+                            'tipo_estado_path'                                   => trim(strtolower($rowMSSQL02['tipo_estado_path'])),
+                            'tipo_estado_css'                                    => trim(strtolower($rowMSSQL02['tipo_estado_css'])),
+                            'tipo_estado_parametro'                              => $rowMSSQL02['tipo_estado_parametro'],
+                            'tipo_estado_icono'                                  => trim(strtolower($rowMSSQL02['tipo_estado_icono'])),
+                            'tipo_estado_dominio'                                => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_dominio']))),
+                            'tipo_estado_observacion'                            => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_observacion']))),   
 
-                    );
+                            'aerolinea_codigo'                                   => $rowMSSQL02['aerolinea_codigo'],
+                            'aerolinea_orden'                                    => $rowMSSQL02['aerolinea_orden'],
+                            'aerolinea_nombre'                                   => trim($rowMSSQL02['aerolinea_nombre']),
+                            'aerolinea_observacion'                              => trim($rowMSSQL02['aerolinea_observacion'])
+                        );
 
-                    $result_solicitud_opcion_hospedaje[]   = $detalle;
-                }
-          
-                while ($rowMSSQL02 = $stmtMSSQL02->fetch()) {
-                    if ($rowMSSQL02['solicitud_opcion_vuelo_fecha'] == '1900-01-01' || $rowMSSQL02['solicitud_opcion_vuelo_fecha'] == null){
-                        $solicitud_opcion_vuelo_fecha_1 = '';
-                        $solicitud_opcion_vuelo_fecha_2 = '';
-                    } else {
-                        $solicitud_opcion_vuelo_fecha_1 = $rowMSSQL02['solicitud_opcion_vuelo_fecha'];
-                        $solicitud_opcion_vuelo_fecha_2 = date('d/m/Y', strtotime($rowMSSQL02['solicitud_opcion_vuelo_fecha']));
+                        $result_solicitud_opcion_vuelo[]   = $detalle;
                     }
 
-                    $detalle    = array(
-                        'solicitud_opcion_vuelo_codigo'                      => $rowMSSQL02['solicitud_opcion_vuelo_codigo'],
-                        'solicitud_opcion_vuelo_vuelo'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_vuelo']),
-                        'solicitud_opcion_vuelo_companhia'                   => trim($rowMSSQL02['solicitud_opcion_vuelo_companhia']),
-                        'solicitud_opcion_vuelo_fecha_1'                     => $solicitud_opcion_vuelo_fecha_1,
-                        'solicitud_opcion_vuelo_fecha_2'                     => $solicitud_opcion_vuelo_fecha_2,
-                        'solicitud_opcion_vuelo_desde'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_desde']),
-                        'solicitud_opcion_vuelo_hasta'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_hasta']),
-                        'solicitud_opcion_vuelo_salida'                      => trim($rowMSSQL02['solicitud_opcion_vuelo_salida']),
-                        'solicitud_opcion_vuelo_llegada'                     => trim($rowMSSQL02['solicitud_opcion_vuelo_llegada']),
-                        'solicitud_opcion_vuelo_observacion'                 => trim($rowMSSQL02['solicitud_opcion_vuelo_observacion']),
+                    if (!isset($result_solicitud_opcion_vuelo)){
+                        $detalle    = array(
+                            'solicitud_opcion_vuelo_codigo'                     => '',
+                            'solicitud_opcion_vuelo_vuelo'                      => '',
+                            'solicitud_opcion_vuelo_companhia'                  => '',
+                            'solicitud_opcion_vuelo_fecha_1'                    => '',
+                            'solicitud_opcion_vuelo_fecha_2'                    => '',
+                            'solicitud_opcion_vuelo_desde'                      => '',
+                            'solicitud_opcion_vuelo_hasta'                      => '',
+                            'solicitud_opcion_vuelo_salida_llegada'             => '',
+                            'solicitud_opcion_vuelo_observacion'                => '',
 
-                        'auditoria_usuario'                                  => trim(strtoupper(strtolower($rowMSSQL02['auditoria_usuario']))),
-                        'auditoria_fecha_hora'                               => $rowMSSQL02['auditoria_fecha_hora'],
-                        'auditoria_ip'                                       => trim(strtoupper(strtolower($rowMSSQL02['auditoria_ip']))),
+                            'auditoria_usuario'                                 => '',
+                            'auditoria_fecha_hora'                              => '',
+                            'auditoria_ip'                                      => '',
 
-                        'tipo_estado_codigo'                                 => $rowMSSQL02['tipo_estado_codigo'],
-                        'tipo_estado_orden'                                  => $rowMSSQL02['tipo_estado_orden'],
-                        'tipo_estado_nombre_ingles'                          => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_nombre_ingles']))),
-                        'tipo_estado_nombre_castellano'                      => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_nombre_castellano']))),
-                        'tipo_estado_nombre_portugues'                       => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_nombre_portugues']))),
-                        'tipo_estado_path'                                   => trim(strtolower($rowMSSQL02['tipo_estado_path'])),
-                        'tipo_estado_css'                                    => trim(strtolower($rowMSSQL02['tipo_estado_css'])),
-                        'tipo_estado_parametro'                              => $rowMSSQL02['tipo_estado_parametro'],
-                        'tipo_estado_icono'                                  => trim(strtolower($rowMSSQL02['tipo_estado_icono'])),
-                        'tipo_estado_dominio'                                => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_dominio']))),
-                        'tipo_estado_observacion'                            => trim(strtoupper(strtolower($rowMSSQL02['tipo_estado_observacion']))),   
+                            'tipo_estado_codigo'                                => '',
+                            'tipo_estado_orden'                                 => '',
+                            'tipo_estado_nombre_ingles'                         => '',
+                            'tipo_estado_nombre_castellano'                     => '',
+                            'tipo_estado_nombre_portugues'                      => '',
+                            'tipo_estado_path'                                  => '',
+                            'tipo_estado_css'                                   => '',
+                            'tipo_estado_parametro'                             => '',
+                            'tipo_estado_icono'                                 => '',
+                            'tipo_estado_dominio'                               => '',
+                            'tipo_estado_observacion'                           => '',
 
-                        'aerolinea_codigo'                                   => $rowMSSQL02['aerolinea_codigo'],
-                        'aerolinea_orden'                                    => $rowMSSQL02['aerolinea_orden'],
-                        'aerolinea_nombre'                                   => trim($rowMSSQL02['aerolinea_nombre']),
-                        'aerolinea_observacion'                              => trim($rowMSSQL02['aerolinea_observacion'])
-                    );
+                            'aerolinea_codigo'                                  =>'',
+                            'aerolinea_orden'                                   =>'',
+                            'aerolinea_nombre'                                  =>'',
+                            'aerolinea_observacion'                             =>''
+    
+                        );
 
-                    $result_solicitud_opcion_vuelo[]   = $detalle;
-                }
+                        $result_solicitud_opcion_vuelo[]   = $detalle;
+                    }
 
-                if (!isset($result_solicitud_opcion_vuelo)){
-                    $detalle    = array(
-                        'solicitud_opcion_vuelo_codigo'                     => '',
-                        'solicitud_opcion_vuelo_vuelo'                      => '',
-                        'solicitud_opcion_vuelo_companhia'                  => '',
-                        'solicitud_opcion_vuelo_fecha_1'                    => '',
-                        'solicitud_opcion_vuelo_fecha_2'                    => '',
-                        'solicitud_opcion_vuelo_desde'                      => '',
-                        'solicitud_opcion_vuelo_hasta'                      => '',
-                        'solicitud_opcion_vuelo_salida_llegada'             => '',
-                        'solicitud_opcion_vuelo_observacion'                => '',
-
-                        'auditoria_usuario'                                 => '',
-                        'auditoria_fecha_hora'                              => '',
-                        'auditoria_ip'                                      => '',
-
-                        'tipo_estado_codigo'                                => '',
-                        'tipo_estado_orden'                                 => '',
-                        'tipo_estado_nombre_ingles'                         => '',
-                        'tipo_estado_nombre_castellano'                     => '',
-                        'tipo_estado_nombre_portugues'                      => '',
-                        'tipo_estado_path'                                  => '',
-                        'tipo_estado_css'                                   => '',
-                        'tipo_estado_parametro'                             => '',
-                        'tipo_estado_icono'                                 => '',
-                        'tipo_estado_dominio'                               => '',
-                        'tipo_estado_observacion'                           => '',
-
-                        'aerolinea_codigo'                                  =>'',
-                        'aerolinea_orden'                                   =>'',
-                        'aerolinea_nombre'                                  =>'',
-                        'aerolinea_observacion'                             =>''
-  
-                    );
-
-                    $result_solicitud_opcion_vuelo[]   = $detalle;
-                }
-
-                while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
                     $detalle = array(    
                         'solicitud_opcion_cabecera_codigo'                  =>       $rowMSSQL01['solicitud_opcion_cabecera_codigo'],
                         'solicitud_opcion_cabecera_origen'                  =>       trim(strtoupper($rowMSSQL01['solicitud_opcion_cabecera_origen'])),
