@@ -13221,9 +13221,6 @@
             try {
                 $result_solicitud                   = [];
                 $result_solicitud_opcion_cabecera   = [];
-                $result_solicitud_opcion_vuelo      = [];
-                $result_solicitud_opcion_hospedaje  = [];
-                $result_solicitud_opcion_traslado   = [];
 
                 $connMSSQL      = getConnectionMSSQLv2();
 
@@ -13484,6 +13481,9 @@
                     $stmtMSSQL02->execute([$solicitud_opcion_cabecera_codigo]);//33
                     $stmtMSSQL03->execute([$solicitud_opcion_cabecera_codigo]);//33
                     $stmtMSSQL04->execute([$solicitud_opcion_cabecera_codigo]);//33
+                    $result_solicitud_opcion_vuelo      = [];
+                    $result_solicitud_opcion_hospedaje  = [];
+                    $result_solicitud_opcion_traslado   = [];
 
                     while ($rowMSSQL04 = $stmtMSSQL04->fetch()) {
                         if ($rowMSSQL04['solicitud_opcion_traslado_fecha_salida'] == '1900-01-01' || $rowMSSQL04['solicitud_opcion_traslado_fecha_salida'] == null){
