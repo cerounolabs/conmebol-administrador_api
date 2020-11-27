@@ -12871,7 +12871,7 @@
         return $json;
     });
 
-    /*$app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {
+    $app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val00  = $request->getAttribute('codigo');
@@ -13157,9 +13157,11 @@
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL02= $connMSSQL->prepare($sql02);
 
                 $stmtMSSQL00->execute([$val00]);
                 $stmtMSSQL01->execute([$val00]);
+                $stmtMSSQL02->execute([$val00]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
@@ -13405,7 +13407,7 @@
                 }
 
                                 
-                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                while ($rowMSSQL00 = $stmtMSSQL02->fetch()) {
                     if ($rowMSSQL00['solicitud_opcion_vuelo_fecha'] == '1900-01-01' || $rowMSSQL00['solicitud_opcion_vuelo_fecha'] == null){
                         $solicitud_opcion_vuelo_fecha_1 = '';
                         $solicitud_opcion_vuelo_fecha_2 = '';
@@ -13715,7 +13717,7 @@
         $connMSSQL  = null;
         
         return $json;
-    });*/
+    });
 
 
     
