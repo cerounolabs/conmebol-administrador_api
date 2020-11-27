@@ -12871,7 +12871,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {
+    /*$app->get('/v2/400/solicitud/reporte/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val00  = $request->getAttribute('codigo');
@@ -13715,7 +13715,7 @@
         $connMSSQL  = null;
         
         return $json;
-    });
+    });*/
 
 
     
