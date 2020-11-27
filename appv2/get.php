@@ -13493,7 +13493,7 @@
 
                     $detalle    = array(
                         'solicitud_opcion_traslado_codigo'                      => $rowMSSQL04['solicitud_opcion_traslado_codigo'],
-                        'solicitud_opcion_traslado_traslado'                    => trim(strtoupper(strtolower($rowMSSQL04['solicitud_opcion_traslado_traslado']))),
+                        'solicitud_opcion_traslado_traslado'                    => trim($rowMSSQL04['solicitud_opcion_traslado_traslado']),
                         'solicitud_opcion_traslado_tarifa_dia'                  => $rowMSSQL04['solicitud_opcion_traslado_tarifa_dia'],
                         'solicitud_opcion_traslado_comentario'                  => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
                         'solicitud_opcion_traslado_origen'                      => trim($rowMSSQL04['solicitud_opcion_traslado_tarifa_dia']),
@@ -13501,11 +13501,11 @@
                         'solicitud_opcion_traslado_fecha_salida_1'              => $solicitud_opcion_traslado_fecha_salida_1,
                         'solicitud_opcion_traslado_fecha_salida_2'              => $solicitud_opcion_traslado_fecha_salida_2,
                         'solicitud_opcion_traslado_hora_salida'                 => trim($rowMSSQL04['solicitud_opcion_traslado_hora_salida']),
-                        'solicitud_opcion_traslado_observacion'                 => trim(strtoupper(strtolower($rowMSSQL04['solicitud_opcion_traslado_observacion']))),
+                        'solicitud_opcion_traslado_observacion'                 => trim($rowMSSQL04['solicitud_opcion_traslado_observacion']),
 
-                        'auditoria_usuario'                                     => trim(strtoupper(strtolower($rowMSSQL04['auditoria_usuario']))),
+                        'auditoria_usuario'                                     => trim($rowMSSQL04['auditoria_usuario']),
                         'auditoria_fecha_hora'                                  => $rowMSSQL04['auditoria_fecha_hora'],
-                        'auditoria_ip'                                          => trim(strtoupper(strtolower($rowMSSQL04['auditoria_ip']))),
+                        'auditoria_ip'                                          => trim($rowMSSQL04['auditoria_ip']),
 
                         'tipo_estado_codigo'                                    => $rowMSSQL04['tipo_estado_codigo'],
                         'tipo_estado_orden'                                     => $rowMSSQL04['tipo_estado_orden'],
