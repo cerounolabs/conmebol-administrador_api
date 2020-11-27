@@ -13870,7 +13870,9 @@
                         'tipo_origen_dominio'                               =>       trim(strtoupper(strtolower($rowMSSQL01['tipo_origen_dominio']))),
                         'tipo_origen_observacion'                           =>       trim(strtoupper(strtolower($rowMSSQL01['tipo_origen_observacion']))),
                         'detalle_vuelo'                                     =>       $result_solicitud_opcion_vuelo,
-                        'detalle_hospedaje'                                 =>       $result_solicitud_opcion_hospedaje  
+                        'detalle_hospedaje'                                 =>       $result_solicitud_opcion_hospedaje,
+                        'detalle_traslado'                                  =>       $result_solicitud_opcion_traslado
+
                     );
 
                     $result_solicitud_opcion_cabecera[]   = $detalle;
