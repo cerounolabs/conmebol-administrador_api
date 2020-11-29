@@ -1981,7 +1981,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08) && isset($val09)) {
-            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC,RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICTCA, RENFICTRE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?)), ?, ?, ?, ?, ?, ?, (SELECT COUNT(DISTINCT(WRKDETTCC)) FROM wrk.WRKDET WHERE WRKDETWFC = (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?))), ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [con].[RENFIC] (RENFICEAC, RENFICECC, RENFICGEC, RENFICDEC, RENFICJEC, RENFICCAC, RENFICCIC, RENFICWFC, RENFICPER, RENFICENO, RENFICDNS, RENFICDNJ, RENFICFEC, RENFICEFE, RENFICTCA, RENFICTRE, RENFICOBS, RENFICAUS, RENFICAFH, RENFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?)), ?, ?, ?, ?, ?, ?, (SELECT COUNT(DISTINCT(WRKDETTCC)) FROM wrk.WRKDET WHERE WRKDETWFC = (SELECT WRKFICCOD FROM wrk.WRKFIC WHERE WRKFICTCC = ? AND WRKFICTWC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWMODULO' AND DOMFICPAR = ?))), ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(RENFICCOD) AS rendicion_codigo FROM [con].[RENFIC]";
 
             try {
@@ -2017,13 +2017,12 @@
         return $json;
     });
 
-    $app->post('/v2/500/rendicion/cabecera', function($request) {//20201110
+    $app->post('/v2/500/rendicion/cabecera', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_moneda_codigo'];
-
         $val04      = $request->getParsedBody()['tipo_factura_codigo'];
         $val05      = $request->getParsedBody()['tipo_condicion_codigo'];
         $val06      = $request->getParsedBody()['workflow_codigo'];
@@ -2032,18 +2031,18 @@
         $val09      = $request->getParsedBody()['rendicion_cabecera_timbrado_vencimiento'];
         $val10      = $request->getParsedBody()['rendicion_cabecera_factura_fecha'];
         $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_factura_numero'])));
-        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_factura_razonsocial'])));
+        $val12      = trim($request->getParsedBody()['rendicion_cabecera_factura_razonsocial']);
         $val13      = trim(strtolower($request->getParsedBody()['rendicion_cabecera_factura_adjunto']));
         $val14      = $request->getParsedBody()['rendicion_cabecera_factura_importe'];
-        $val15      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_cabecera_observacion'])));
-        $val16      = $request->getParsedBody()['rendicion_cabecera_factura_cambio'];
+        $val15      = trim($request->getParsedBody()['rendicion_cabecera_observacion']);
+        $val16      = $request->getParsedBody()['tipo_moneda_cambio'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {        
-            $sql00  = "INSERT INTO [con].[RENFCA] (RENFCAEAC, RENFCAECC, RENFCATMC, RENFCATFC, RENFCATCC, RENFCAWFC, RENFCAREC, RENFCATNR, RENFCATVE, RENFCAFFE, RENFCAFNU, RENFCAFRS, RENFCAFAD, RENFCAFTO, RENFCAOBS,RENFCAAUS, RENFCAAFH, RENFCAAIP,RENFCACAM) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURAMONEDA' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURATIPO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURACONDICION' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(),?, ?)";
+            $sql00  = "INSERT INTO [con].[RENFCA] (RENFCAEAC, RENFCAECC, RENFCATMC, RENFCATFC, RENFCATCC, RENFCAWFC, RENFCAREC, RENFCATNR, RENFCATVE, RENFCAFFE, RENFCAFNU, RENFCAFRS, RENFCAFAD, RENFCAFTO, RENFCAOBS,RENFCAAUS, RENFCAAFH, RENFCAAIP, RENFCACAM) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURAMONEDA' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURATIPO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURACONDICION' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(),?, ?)";
             $sql01  = "SELECT MAX(RENFCACOD) AS rendicion_cabecera_codigo FROM [con].[RENFCA]";
             
             try {
@@ -2079,7 +2078,7 @@
         return $json;
     });
 
-    $app->post('/v2/500/rendicion/detalle', function($request) {//20201110
+    $app->post('/v2/500/rendicion/detalle', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
@@ -2088,17 +2087,17 @@
         $val04      = $request->getParsedBody()['tipo_alerta_codigo'];
         $val05      = $request->getParsedBody()['workflow_codigo'];
         $val06      = $request->getParsedBody()['rendicion_cabecera_codigo'];
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_descripcion'])));
+        $val07      = trim($request->getParsedBody()['rendicion_detalle_descripcion']);
         $val08      = $request->getParsedBody()['rendicion_detalle_importe'];
         $val09      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
+        $val10      = trim($request->getParsedBody()['rendicion_detalle_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {        
-            $sql00  = "INSERT INTO [con].[RENFDE] (RENFDEEAC, RENFDEECC, RENFDETCC, RENFDETAC, RENFDEWFC, RENFDEFCC, RENFDEDES, RENFDEIMP, RENFDECSS, RENFDEOBS, RENFDEAUS, RENFDEAFH, RENFDEAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURAALERTA' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [con].[RENFDE] (RENFDEEAC, RENFDEECC, RENFDETCC, RENFDETAC, RENFDEWFC, RENFDEFCC, RENFDEDES, RENFDEIMP, RENFDECSS, RENFDEOBS, RENFDEAUS, RENFDEAFH, RENFDEAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURACONCEPTO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURAALERTA' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(RENFDECOD) AS rendicion_detalle_codigo FROM [con].[RENFDE]";
             
             try {
@@ -2134,57 +2133,7 @@
         return $json;
     });
 
-    $app->post('/v2/500/rendicion/comentario', function($request) {
-        require __DIR__.'/../src/connect.php';
-
-        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
-        $val02      = $request->getParsedBody()['estado_actual_codigo'];
-        $val03      = $request->getParsedBody()['workflow_codigo'];
-        $val04      = $request->getParsedBody()['rendicion_detalle_codigo'];
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_comentario_observacion'])));
-
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
-        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
-
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {        
-            $sql00  = "INSERT INTO [con].[RENFCO] (RENFCOEAC, RENFCOECC, RENFCOWFC, RENFCOFDC, RENFCOOBS, RENFCOAUS, RENFCOAFH, RENFCOAIP) VALUES (?, ?, ?, ?, ?, ?, GETDATE(), ?)";
-            $sql01  = "SELECT MAX(RENFCOCOD) AS rendicion_detalle_codigo FROM [con].[RENFCO]";
-            
-            try {
-                $connMSSQL  = getConnectionMSSQLv2();
-
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $aud01, $aud03]);
-
-                $stmtMSSQL01= $connMSSQL->prepare($sql01);
-                $stmtMSSQL01->execute();
-                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
-                $codigo     = $row_mssql01['rendicion_detalle_codigo'];
-
-                header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL01->closeCursor();
-
-                $stmtMSSQL00 = null;
-                $stmtMSSQL01 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        } else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
-
-    $app->post('/v2/500/rendicion/consulta', function($request) {//20201109
+    $app->post('/v2/500/rendicion/consulta', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
