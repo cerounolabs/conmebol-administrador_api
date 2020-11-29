@@ -16764,10 +16764,10 @@
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $detalle    = array(
                         'rendicion_detalle_codigo'                  => $rowMSSQL00['rendicion_detalle_codigo'],
-                        'rendicion_detalle_descripcion'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_detalle_descripcion']))),
+                        'rendicion_detalle_descripcion'             => trim($rowMSSQL00['rendicion_detalle_descripcion']),
                         'rendicion_detalle_importe'                 => number_format($rowMSSQL00['rendicion_detalle_importe'], 2, '.', ''),
-                        'rendicion_detalle_css'                     => trim(strtoupper(strtolower($rowMSSQL00['rendicion_detalle_css']))),
-                        'rendicion_detalle_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['rendicion_detalle_observacion']))),
+                        'rendicion_detalle_css'                     => trim(strtolower($rowMSSQL00['rendicion_detalle_css'])),
+                        'rendicion_detalle_observacion'             => trim($rowMSSQL00['rendicion_detalle_observacion']),
 
                         'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                      => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -17051,8 +17051,6 @@
                     'rendicion_consulta_comentario'             => trim($rowMSSQL00['rendicion_consulta_comentario']),    
                     'rendicion_consulta_fecha_hora_carga_1'     => $rendicion_consulta_fecha_hora_carga_1,
                     'rendicion_consulta_fecha_hora_carga_2'     => $rendicion_consulta_fecha_hora_carga_2,
-                    'tipo_estado_CSS'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_CSS']))),
-                    'tipo_estado_icono'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_icono']))),
 
                     'rendicion_codigo'                          => $rowMSSQL00['rendicion_codigo'],
                     'rendicion_periodo'                         => $rowMSSQL00['rendicion_periodo'],
