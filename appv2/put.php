@@ -1368,29 +1368,30 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_concepto_codigo'];
         $val04      = $request->getParsedBody()['tipo_alerta_codigo'];
         $val05      = $request->getParsedBody()['workflow_codigo'];
         $val06      = $request->getParsedBody()['rendicion_cabecera_codigo'];
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_descripcion'])));
+        $val07      = trim($request->getParsedBody()['rendicion_detalle_descripcion']);
         $val08      = $request->getParsedBody()['rendicion_detalle_importe'];
         $val09      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
+        $val10      = trim($request->getParsedBody()['rendicion_detalle_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {   
-            $sql00  = "UPDATE [con].[RENFDE] SET RENFDETCC = ?, RENFDEDES = ?, RENFDEIMP = ?, RENFDEOBS = ?, RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ?";
+            $sql00  = "UPDATE [con].[RENFDE] SET RENFDETCC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURACONCEPTO' AND DOMFICPAR = ?), RENFDETAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'FACTURAALERTA' AND DOMFICPAR = ?), RENFDEDES = ?, RENFDEIMP = ?, RENFDEOBS = ?, RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val03, $val07, $val08, $val10, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val03, $val04, $val07, $val08, $val10, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -1419,7 +1420,7 @@
         $val02      = $request->getParsedBody()['rendicion_codigo'];
         $val03      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_consulta_persona_documento'])));
         $val04      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_consulta_persona_nombre'])));
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_consulta_comentario'])));
+        $val05      = trim($request->getParsedBody()['rendicion_consulta_comentario']);
         $val06      = $request->getParsedBody()['rendicion_consulta_fecha_hora_carga'];
 
 
@@ -1454,55 +1455,8 @@
         
         return $json;
     });
-    
-    $app->put('/v2/500/rendicion/cabecera/workflow/{codigo}', function($request) {
-        require __DIR__.'/../src/connect.php';
 
-        $val00      = $request->getAttribute('codigo');
-        $val01      = $request->getParsedBody()['estado_anterior_codigo'];
-        $val02      = $request->getParsedBody()['estado_actual_codigo'];
-        $val03      = $request->getParsedBody()['tipo_concepto_codigo'];
-        $val04      = $request->getParsedBody()['tipo_alerta_codigo'];
-        $val05      = $request->getParsedBody()['workflow_codigo'];
-        $val06      = $request->getParsedBody()['rendicion_codigo'];
-        $val07      = $request->getParsedBody()['rendicion_cabecera_codigo'];
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_descripcion'])));
-        $val09      = $request->getParsedBody()['rendicion_detalle_importe'];
-        $val10      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
-
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
-        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
-
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {   
-            $sql00  = "UPDATE [con].[RENFCA] SET RENFCAEAC = ?, RENFCAECC = ?, RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCACOD = ? AND RENFCAWFC = ?";
-
-            try {
-                $connMSSQL  = getConnectionMSSQLv2();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val07, $val05]);
-
-                header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL00 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        } else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
-
-    $app->put('/v2/500/rendicion/detalle/workflow/{codigo}', function($request) {
+    $app->put('/v2/500/rendicion/workflow/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -1514,10 +1468,10 @@
         $val05      = $request->getParsedBody()['workflow_codigo'];
         $val06      = $request->getParsedBody()['rendicion_codigo'];
         $val07      = $request->getParsedBody()['rendicion_cabecera_codigo'];
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_descripcion'])));
+        $val08      = trim($request->getParsedBody()['rendicion_detalle_descripcion']);
         $val09      = $request->getParsedBody()['rendicion_detalle_importe'];
         $val10      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
-        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
+        $val11      = trim($request->getParsedBody()['rendicion_detalle_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];

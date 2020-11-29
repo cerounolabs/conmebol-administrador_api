@@ -967,22 +967,23 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['estado_anterior_codigo'];
         $val02      = $request->getParsedBody()['estado_actual_codigo'];
         $val03      = $request->getParsedBody()['tipo_concepto_codigo'];
         $val04      = $request->getParsedBody()['tipo_alerta_codigo'];
         $val05      = $request->getParsedBody()['workflow_codigo'];
         $val06      = $request->getParsedBody()['rendicion_cabecera_codigo'];
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_descripcion'])));
+        $val07      = trim($request->getParsedBody()['rendicion_detalle_descripcion']);
         $val08      = $request->getParsedBody()['rendicion_detalle_importe'];
         $val09      = trim(strtolower($request->getParsedBody()['rendicion_detalle_css']));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['rendicion_detalle_observacion'])));
+        $val10      = trim($request->getParsedBody()['rendicion_detalle_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {   
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val03) && isset($val04) && isset($val05) && isset($val06)) {  
             $sql00  = "UPDATE [con].[RENFDE] SET RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDECOD = ?";
             $sql01  = "DELETE [con].[RENFDE] WHERE RENFDECOD = ?";
             
