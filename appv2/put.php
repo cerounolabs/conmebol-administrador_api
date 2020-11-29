@@ -1487,18 +1487,26 @@
                     $sql04  = "UPDATE [con].[RENFIC] SET RENFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICAUS = ?, RENFICAFH = GETDATE(), RENFICAIP = ? WHERE RENFICCOD = ? AND RENFICWFC = ?";
         
                     break;
+
+                case 2:
+                    $sql00  = "UPDATE [con].[RENFDE] SET RENFDEEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFDEAUS = ?, RENFDEAFH = GETDATE(), RENFDEAIP = ? WHERE RENFDEFCC = (SELECT RENFCACOD FROM [con].[RENFCA] WHERE RENFCAREC = (SELECT RENFICCOD FROM [con].[RENFIC] WHERE RENFICCOD = ?))";
+                    $sql01  = "UPDATE [con].[RENFCA] SET RENFCAEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFCAAUS = ?, RENFCAAFH = GETDATE(), RENFCAAIP = ? WHERE RENFCAREC = (SELECT RENFICCOD FROM [con].[RENFIC] WHERE RENFICCOD = ?)";
+                    $sql02  = "UPDATE [con].[RENFIC] SET RENFICEAC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICECC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'WORKFLOWESTADO' AND DOMFICPAR = ?), RENFICAUS = ?, RENFICAFH = GETDATE(), RENFICAIP = ? WHERE RENFICCOD = ?";
+        
+                    break;
             } 
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL01= $connMSSQL->prepare($sql01);
-                $stmtMSSQL02= $connMSSQL->prepare($sql02);
-                $stmtMSSQL03= $connMSSQL->prepare($sql03);
-                $stmtMSSQL04= $connMSSQL->prepare($sql04);
 
                 switch ($val00_1) {
                     case 1:
+                        $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                        $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                        $stmtMSSQL02= $connMSSQL->prepare($sql02);
+                        $stmtMSSQL03= $connMSSQL->prepare($sql03);
+                        $stmtMSSQL04= $connMSSQL->prepare($sql04);
+
                         $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val00, $val05]);
 
                         $stmtMSSQL01->execute([$val07, $val05]);
@@ -1515,23 +1523,43 @@
                             $stmtMSSQL04->execute([$val01, $val02, $aud01, $aud03, $val06, $val05]);
                         }
 
+                        $stmtMSSQL00->closeCursor();
+                        $stmtMSSQL01->closeCursor();
+                        $stmtMSSQL02->closeCursor();
+                        $stmtMSSQL03->closeCursor();
+                        $stmtMSSQL04->closeCursor();
+        
+                        $stmtMSSQL00 = null;
+                        $stmtMSSQL01 = null;
+                        $stmtMSSQL02 = null;
+                        $stmtMSSQL03 = null;
+                        $stmtMSSQL04 = null;
+
+                        break;
+
+                    case 2:
+                        $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                        $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                        $stmtMSSQL02= $connMSSQL->prepare($sql02);
+
+                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val06]);
+                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val06]);
+                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val06]);
+                        
+
+                        $stmtMSSQL00->closeCursor();
+                        $stmtMSSQL01->closeCursor();
+                        $stmtMSSQL02->closeCursor();
+        
+                        $stmtMSSQL00 = null;
+                        $stmtMSSQL01 = null;
+                        $stmtMSSQL02 = null;
+
                         break;
                 }
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL01->closeCursor();
-                $stmtMSSQL02->closeCursor();
-                $stmtMSSQL03->closeCursor();
-                $stmtMSSQL04->closeCursor();
-
-                $stmtMSSQL00 = null;
-                $stmtMSSQL01 = null;
-                $stmtMSSQL02 = null;
-                $stmtMSSQL03 = null;
-                $stmtMSSQL04 = null;
             } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error UPDATE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
