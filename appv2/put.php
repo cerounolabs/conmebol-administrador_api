@@ -1543,8 +1543,8 @@
                         $stmtMSSQL02= $connMSSQL->prepare($sql02);
 
                         $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val06]);
-                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val06]);
-                        $stmtMSSQL00->execute([$val01, $val02, $aud01, $aud03, $val06]);
+                        $stmtMSSQL01->execute([$val01, $val02, $aud01, $aud03, $val06]);
+                        $stmtMSSQL02->execute([$val01, $val02, $aud01, $aud03, $val06]);
                         
 
                         $stmtMSSQL00->closeCursor();
