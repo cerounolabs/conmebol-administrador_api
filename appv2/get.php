@@ -14451,7 +14451,7 @@
                 INNER JOIN [wrk].[WRKFIC] h ON a.RENFICWFC = h.WRKFICCOD
                 INNER JOIN [adm].[DOMFIC] i ON a.RENFICEAC = i.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] j ON a.RENFICECC = j.DOMFICCOD
-                INNER JOIN [wrk].[WRKDET] k ON a.RENFICWFC = k.WRKDETWFC AND a.RENFICECC = k.WRKDETEAC
+                LEFT OUTER JOIN [wrk].[WRKDET] k ON a.RENFICWFC = k.WRKDETWFC AND a.RENFICEAC = k.WRKDETEAC AND a.RENFICECC = k.WRKDETECC
                 LEFT OUTER JOIN [adm].[DOMFIC] l ON k.WRKDETTPC = l.DOMFICCOD
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m1 ON a.RENFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = m1.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = m2.CedulaEmpleado
