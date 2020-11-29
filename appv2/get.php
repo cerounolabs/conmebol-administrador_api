@@ -14457,7 +14457,7 @@
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m2 ON a.RENFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = m2.CedulaEmpleado
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] m3 ON a.RENFICDNA COLLATE SQL_Latin1_General_CP1_CI_AS = m3.CedulaEmpleado
 
-                WHERE a.RENFICCOD = ? AND k.WRKDETCOD = (SELECT MIN(k1.WRKDETCOD) FROM [wrk].[WRKDET] k1 WHERE k1.WRKDETWFC = a.RENFICWFC AND k1.WRKDETEAC = a.RENFICECC)
+                WHERE a.RENFICCOD = ?
 
                 ORDER BY a.RENFICCOD DESC";
 
