@@ -3048,7 +3048,7 @@
                 $stmtMSSQL00->execute([$val00]);
                 $simbolo = '+';
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    $tarjeta_personal_telefono_completo = 'simbolo'.trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_castellano']))).''.trim($rowMSSQL00['tarjeta_personal_telefono_numero']);
+                    $tarjeta_personal_telefono_completo = '+'.trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_castellano']))).''.trim($rowMSSQL00['tarjeta_personal_telefono_numero']);
 
                     $detalle    = array(
                         'tarjeta_personal_telefono_codigo'          => $rowMSSQL00['tarjeta_personal_telefono_codigo'],
