@@ -395,7 +395,7 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tarjeta_personal_cantidad_parametro'];
+        $val02      = $request->getParsedBody()['tipo_cantidad_parametro'];
         $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
         $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
         $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
@@ -408,8 +408,8 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {  
-                $sql00  = "UPDATE SET [hum].[TPETEL] [hum].[TPEFIC] (TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ?) WHERE TPEFICCOD = ?";
+        if (isset($val00) && isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {  
+                $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -450,8 +450,8 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val03) &&  isset($val04)) {   
-                $sql00  = "UPDATE SET [hum].[TPERSO] (TPERSOEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), TPERSOORD = ?, TPERSOTRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), TPERSOTAC = ?, TPERSODIR = ?, TPERSOOBS = ?, TPERSOAUS = ?, TPERSOAFH = GETDATE(), TPERSOAIP = ?) WHERE TPERSOCOD = ?";
+        if (isset($val00) && isset($val01) && isset($val03) && isset($val04)) {   
+                $sql00  = "UPDATE [hum].[TPERSO] SET TPERSOEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), TPERSOORD = ?, TPERSOTRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), TPERSOTAC = ?, TPERSODIR = ?, TPERSOOBS = ?, TPERSOAUS = ?, TPERSOAFH = GETDATE(), TPERSOAIP = ? WHERE TPERSOCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -492,8 +492,8 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val03) &&  isset($val04)) {        
-                $sql00  = "UPDATE SET [hum].[TPETEL] (TPETELEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TELEFONOESTADO' AND DOMFICPAR = ?), TPETELORD = ?, TPETELTPC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PREFIJOCELULARTIPO' AND DOMFICPAR = ?), TPETELTAC = ?, TPETELVIS = ?, TPETELNUM = ?, TPETELOBS = ?, TPETELAUS = ?, TPETELAFH = GETDATE(), TPETELAIP = ?) WHERE TPETELCOD = ?";
+        if (isset($val00) && isset($val01) && isset($val03) && isset($val04)) {        
+                $sql00  = "UPDATE [hum].[TPETEL] SET TPETELEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TELEFONOESTADO' AND DOMFICPAR = ?), TPETELORD = ?, TPETELTPC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PREFIJOCELULARTIPO' AND DOMFICPAR = ?), TPETELTAC = ?, TPETELVIS = ?, TPETELNUM = ?, TPETELOBS = ?, TPETELAUS = ?, TPETELAFH = GETDATE(), TPETELAIP = ? WHERE TPETELCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();

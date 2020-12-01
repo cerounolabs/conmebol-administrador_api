@@ -514,7 +514,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tarjeta_personal_cantidad_parametro'];
+        $val02      = $request->getParsedBody()['tipo_cantidad_parametro'];
         $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
         $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
         $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
