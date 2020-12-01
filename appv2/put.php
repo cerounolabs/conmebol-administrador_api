@@ -259,6 +259,7 @@
         return $json;
     });
 
+/*MODULO PERMISO*/    
     $app->put('/v2/200/solicitudes/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -388,6 +389,50 @@
         
         return $json;
     });
+
+   /* $app->put('/v2/200/tarjeta/personal/redes/sociales{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tarjeta_personal_red_social_orden'];
+        $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
+        $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
+        $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
+        $val06      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val03) &&  isset($val04)) {   
+                $sql00  = "UPDATE SET [hum].[TPERSO] (TPERSOEST, TPERSOORD, TPERSOTRC, TPERSOTAC, TPERSODIR, TPERSOOBS, TPERSOAUS, TPERSOAFH, TPERSOAIP) WHERE SOLFICCOD = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val03, $val04, $val06, $aud01, $aud03, $val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });*/
+
+    
 
 /*MODULO WORKFLOW*/
     $app->put('/v2/300/workflow/cabecera/{codigo}', function($request) {
