@@ -3100,10 +3100,11 @@
                     $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 } else {
                     $detalle = array(
-                        'tarjeta_personal_red_social_codigo'        => '',
-                        'tarjeta_personal_red_social_orden'         => '',
-                        'tarjeta_personal_red_social_direccion'     => '',
-                        'tarjeta_personal_red_social_observacion'   => '',
+                        'tarjeta_personal_telefono_codigo'          => '',
+                        'tarjeta_personal_telefono_orden'           => '',
+                        'tarjeta_personal_telefono_visualizar'      => '',
+                        'tarjeta_personal_telefono_numero'          => '',
+                        'tarjeta_personal_telefono_completo'        => '',  
                         
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
