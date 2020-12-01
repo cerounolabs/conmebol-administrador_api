@@ -2215,7 +2215,7 @@
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
                 $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
-                $codigo     = $row_mssql01['red_social_codigo'];
+                $codigo     = $row_mssql01['tarjeta_personal_red_social_codigo'];
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
