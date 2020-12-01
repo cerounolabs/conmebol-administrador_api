@@ -481,6 +481,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
         $val02      = $request->getParsedBody()['tarjeta_personal_telefono_orden'];
         $val03      = $request->getParsedBody()['tipo_prefijo_parametro'];
         $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
