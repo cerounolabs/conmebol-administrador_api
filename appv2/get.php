@@ -2818,158 +2818,167 @@
         return $json;
     });
 
-    $app->get('/v2/200/tarjeta/personal/redes/sociales', function($request) {
+    $app->get('/v2/200/tarjeta/personal/redes/sociales/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
-        
-        $sql00  = "SELECT 
-            a.TPERSOCOD     AS          tarjeta_personal_red_social_codigo, 
-            a.TPERSOORD     AS          tarjeta_personal_red_social_orden,
-            a.TPERSODIR     AS          tarjeta_personal_red_social_direccion,
-            a.TPERSOOBS     AS          tarjeta_personal_red_social_observacion,
-            
-            a.TPERSOAUS     AS          auditoria_usuario,
-            a.TPERSOAFH     AS          auditoria_fecha_hora,
-            a.TPERSOAIP     AS          auditoria_ip,
-            
-            b.DOMFICCOD     AS          tipo_estado_codigo,
-            b.DOMFICORD     AS          tipo_estado_orden,
-            b.DOMFICNOI     AS          tipo_estado_ingles,
-            b.DOMFICNOC     AS          tipo_estado_castellano,
-            b.DOMFICNOP     AS          tipo_estado_portugues,
-            b.DOMFICPAT     AS          tipo_estado_path,
-            b.DOMFICCSS     AS          tipo_estado_css,
-            b.DOMFICPAR     AS          tipo_estado_parametro,
-            b.DOMFICICO     AS          tipo_estado_icono,
-            b.DOMFICVAL     AS          tipo_estado_dominio,
-            b.DOMFICOBS     AS          tipo_estado_observacion,
-            
-            c.DOMFICCOD     AS          tipo_red_social_codigo,
-            c.DOMFICORD     AS          tipo_red_social_orden,
-            c.DOMFICNOI     AS          tipo_red_social_ingles,
-            c.DOMFICNOC     AS          tipo_red_social_castellano,
-            c.DOMFICNOP     AS          tipo_red_social_portugues,
-            c.DOMFICPAT     AS          tipo_red_social_path,
-            c.DOMFICCSS     AS          tipo_red_social_css,
-            c.DOMFICPAR     AS          tipo_red_social_parametro,
-            c.DOMFICICO     AS          tipo_red_social_icono,
-            c.DOMFICVAL     AS          tipo_red_social_dominio,
-            c.DOMFICOBS     AS          tipo_red_social_observacion,
-            
-            d.TPEFICCOD     AS          tarjeta_personal_codigo,	
-            d.TPEFICORD     AS          tarjeta_personal_orden,  
-            d.TPEFICDNU     AS          tarjeta_personal_documento,     	
-            d.TPEFICOBS     AS          tarjeta_personal_observacion
-            
-            FROM [hum].TPERSO a
-            INNER JOIN [adm].DOMFIC b ON a.TPERSOEST = b.DOMFICCOD
-            INNER JOIN [adm].DOMFIC c ON a.TPERSOTRC = c.DOMFICCOD
-            INNER JOIN [hum].TPEFIC d ON a.TPERSOTAC = d.TPEFICCOD
-            
-            ORDER BY a.TPERSOCOD DESC";
 
-        try {
-            $connMSSQL  = getConnectionMSSQLv2();
+        $val00  = $request->getAttribute('codigo');
 
-            $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute();
-            
-            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $detalle    = array(
-                    'tarjeta_personal_red_social_codigo'        => $rowMSSQL00['tarjeta_personal_red_social_codigo'],
-                    'tarjeta_personal_red_social_orden'         => $rowMSSQL00['tarjeta_personal_red_social_orden'],
-                    'tarjeta_personal_red_social_direccion'     => trim(strtolower($rowMSSQL00['tarjeta_personal_red_social_direccion'])),
-                    'tarjeta_personal_red_social_observacion'   => trim($rowMSSQL00['tarjeta_personal_red_social_observacion']),
-                    
-                    'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
-                    'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                    'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+        if (isset($val00)) {
+            $sql00  = "SELECT 
+                a.TPERSOCOD     AS          tarjeta_personal_red_social_codigo, 
+                a.TPERSOORD     AS          tarjeta_personal_red_social_orden,
+                a.TPERSODIR     AS          tarjeta_personal_red_social_direccion,
+                a.TPERSOOBS     AS          tarjeta_personal_red_social_observacion,
+                
+                a.TPERSOAUS     AS          auditoria_usuario,
+                a.TPERSOAFH     AS          auditoria_fecha_hora,
+                a.TPERSOAIP     AS          auditoria_ip,
+                
+                b.DOMFICCOD     AS          tipo_estado_codigo,
+                b.DOMFICORD     AS          tipo_estado_orden,
+                b.DOMFICNOI     AS          tipo_estado_ingles,
+                b.DOMFICNOC     AS          tipo_estado_castellano,
+                b.DOMFICNOP     AS          tipo_estado_portugues,
+                b.DOMFICPAT     AS          tipo_estado_path,
+                b.DOMFICCSS     AS          tipo_estado_css,
+                b.DOMFICPAR     AS          tipo_estado_parametro,
+                b.DOMFICICO     AS          tipo_estado_icono,
+                b.DOMFICVAL     AS          tipo_estado_dominio,
+                b.DOMFICOBS     AS          tipo_estado_observacion,
+                
+                c.DOMFICCOD     AS          tipo_red_social_codigo,
+                c.DOMFICORD     AS          tipo_red_social_orden,
+                c.DOMFICNOI     AS          tipo_red_social_ingles,
+                c.DOMFICNOC     AS          tipo_red_social_castellano,
+                c.DOMFICNOP     AS          tipo_red_social_portugues,
+                c.DOMFICPAT     AS          tipo_red_social_path,
+                c.DOMFICCSS     AS          tipo_red_social_css,
+                c.DOMFICPAR     AS          tipo_red_social_parametro,
+                c.DOMFICICO     AS          tipo_red_social_icono,
+                c.DOMFICVAL     AS          tipo_red_social_dominio,
+                c.DOMFICOBS     AS          tipo_red_social_observacion,
+                
+                d.TPEFICCOD     AS          tarjeta_personal_codigo,	
+                d.TPEFICORD     AS          tarjeta_personal_orden,  
+                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICOBS     AS          tarjeta_personal_observacion
+                
+                FROM [hum].[TPERSO] a
+                INNER JOIN [adm].[DOMFIC] b ON a.TPERSOEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.TPERSOTRC = c.DOMFICCOD
+                INNER JOIN [hum].[TPEFIC] d ON a.TPERSOTAC = d.TPEFICCOD
 
-                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
-                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
-                    'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
-                    'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
-                    'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
-                    'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
-                    'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
-                    'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+                WHERE a.TPERSOTAC = ?
+                
+                ORDER BY a.TPERSOCOD DESC";
 
-                    'tipo_red_social_codigo'                    => $rowMSSQL00['tipo_red_social_codigo'],
-                    'tipo_red_social_orden'                     => $rowMSSQL00['tipo_red_social_orden'],
-                    'tipo_red_social_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_ingles']))),
-                    'tipo_red_social_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_castellano']))),
-                    'tipo_red_social_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_portugues']))),
-                    'tipo_red_social_parametro'                 => $rowMSSQL00['tipo_red_social_parametro'],
-                    'tipo_red_social_path'                      => trim(strtolower($rowMSSQL00['tipo_red_social_path'])),
-                    'tipo_red_social_icono'                     => trim(strtolower($rowMSSQL00['tipo_red_social_icono'])),
-                    'tipo_red_social_css'                       => trim(strtolower($rowMSSQL00['tipo_red_social_css'])),
-                    'tipo_red_social_dominio'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_dominio']))), 
-                    'tipo_red_social_observacion'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_observacion']))),
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
 
-                    'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
-                    'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
-                    'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
-                    'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
-                );
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'tarjeta_personal_red_social_codigo'        => $rowMSSQL00['tarjeta_personal_red_social_codigo'],
+                        'tarjeta_personal_red_social_orden'         => $rowMSSQL00['tarjeta_personal_red_social_orden'],
+                        'tarjeta_personal_red_social_direccion'     => trim(strtolower($rowMSSQL00['tarjeta_personal_red_social_direccion'])),
+                        'tarjeta_personal_red_social_observacion'   => trim($rowMSSQL00['tarjeta_personal_red_social_observacion']),
+                        
+                        'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
 
-                $result[]   = $detalle;
-            }
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
 
-            if (isset($result)){
+                        'tipo_red_social_codigo'                    => $rowMSSQL00['tipo_red_social_codigo'],
+                        'tipo_red_social_orden'                     => $rowMSSQL00['tipo_red_social_orden'],
+                        'tipo_red_social_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_ingles']))),
+                        'tipo_red_social_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_castellano']))),
+                        'tipo_red_social_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_portugues']))),
+                        'tipo_red_social_parametro'                 => $rowMSSQL00['tipo_red_social_parametro'],
+                        'tipo_red_social_path'                      => trim(strtolower($rowMSSQL00['tipo_red_social_path'])),
+                        'tipo_red_social_icono'                     => trim(strtolower($rowMSSQL00['tipo_red_social_icono'])),
+                        'tipo_red_social_css'                       => trim(strtolower($rowMSSQL00['tipo_red_social_css'])),
+                        'tipo_red_social_dominio'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_dominio']))), 
+                        'tipo_red_social_observacion'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_red_social_observacion']))),
+
+                        'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
+                        'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
+                        'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'tarjeta_personal_red_social_codigo'        => '',
+                        'tarjeta_personal_red_social_orden'         => '',
+                        'tarjeta_personal_red_social_direccion'     => '',
+                        'tarjeta_personal_red_social_observacion'   => '',
+                        
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_red_social_codigo'                    => '',
+                        'tipo_red_social_orden'                     => '',
+                        'tipo_red_social_ingles'                    => '',
+                        'tipo_red_social_castellano'                => '',
+                        'tipo_red_social_portugues'                 => '',
+                        'tipo_red_social_parametro'                 => '',
+                        'tipo_red_social_path'                      => '',
+                        'tipo_red_social_icono'                     => '',
+                        'tipo_red_social_css'                       => '',
+                        'tipo_red_social_dominio'                   => '', 
+                        'tipo_red_social_observacion'               => '',
+
+                        'tarjeta_personal_codigo'                   => '',
+                        'tarjeta_personal_orden'                    => '',
+                        'tarjeta_personal_documento'                => '',
+                        'tarjeta_personal_observacion'              => ''    
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            } else {
-                $detalle = array(
-                    'tarjeta_personal_red_social_codigo'        => '',
-                    'tarjeta_personal_red_social_orden'         => '',
-                    'tarjeta_personal_red_social_direccion'     => '',
-                    'tarjeta_personal_red_social_observacion'   => '',
-                    
-                    'auditoria_usuario'                         => '',
-                    'auditoria_fecha_hora'                      => '',
-                    'auditoria_ip'                              => '',
-
-                    'tipo_estado_codigo'                        => '',
-                    'tipo_estado_orden'                         => '',
-                    'tipo_estado_ingles'                        => '',
-                    'tipo_estado_castellano'                    => '',
-                    'tipo_estado_portugues'                     => '',
-                    'tipo_estado_parametro'                     => '',
-                    'tipo_estado_path'                          => '',
-                    'tipo_estado_icono'                         => '',
-                    'tipo_estado_css'                           => '',
-                    'tipo_estado_dominio'                       => '', 
-                    'tipo_estado_observacion'                   => '',
-
-                    'tipo_red_social_codigo'                    => '',
-                    'tipo_red_social_orden'                     => '',
-                    'tipo_red_social_ingles'                    => '',
-                    'tipo_red_social_castellano'                => '',
-                    'tipo_red_social_portugues'                 => '',
-                    'tipo_red_social_parametro'                 => '',
-                    'tipo_red_social_path'                      => '',
-                    'tipo_red_social_icono'                     => '',
-                    'tipo_red_social_css'                       => '',
-                    'tipo_red_social_dominio'                   => '', 
-                    'tipo_red_social_observacion'               => '',
-
-                    'tarjeta_personal_codigo'                   => '',
-                    'tarjeta_personal_orden'                    => '',
-                    'tarjeta_personal_documento'                => '',
-                    'tarjeta_personal_observacion'              => ''    
-                );
-
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             }
-
-            $stmtMSSQL00->closeCursor();
-            $stmtMSSQL00 = null;
-        } catch (PDOException $e) {
+        }  else {
             header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
 
         $connMSSQL  = null;
@@ -2977,160 +2986,169 @@
         return $json;
     });
 
-    $app->get('/v2/200/tarjeta/personal/telefono/prefijos', function($request) {
+    $app->get('/v2/200/tarjeta/personal/telefono/prefijos/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
+
+        $val00  = $request->getAttribute('codigo');
         
-        $sql00  = "SELECT 
-            a.TPETELCOD     AS          tarjeta_personal_telefono_codigo,
-            a.TPETELORD     AS          tarjeta_personal_telefono_orden,
-            a.TPETELVIS     AS          tarjeta_personal_telefono_visualizar,
-            a.TPETELNUM     AS          tarjeta_personal_telefono_numero,
-            a.TPETELOBS     AS          tarjeta_personal_telefono_observacion,
-            
-            a.TPETELAUS     AS          auditoria_usuario,
-            a.TPETELAFH     AS          auditoria_fecha_hora,
-            a.TPETELAIP     AS          auditoria_ip,
-            
-            b.DOMFICCOD     AS          tipo_estado_codigo,
-            b.DOMFICORD     AS          tipo_estado_orden,
-            b.DOMFICNOI     AS          tipo_estado_ingles,
-            b.DOMFICNOC     AS          tipo_estado_castellano,
-            b.DOMFICNOP     AS          tipo_estado_portugues,
-            b.DOMFICPAT     AS          tipo_estado_path,
-            b.DOMFICCSS     AS          tipo_estado_css,
-            b.DOMFICPAR     AS          tipo_estado_parametro,
-            b.DOMFICICO     AS          tipo_estado_icono,
-            b.DOMFICVAL     AS          tipo_estado_dominio,
-            b.DOMFICOBS     AS          tipo_estado_observacion,
-            
-            c.DOMFICCOD     AS          tipo_prefijo_codigo,
-            c.DOMFICORD     AS          tipo_prefijo_orden,
-            c.DOMFICNOI     AS          tipo_prefijo_ingles,
-            c.DOMFICNOC     AS          tipo_prefijo_castellano,
-            c.DOMFICNOP     AS          tipo_prefijo_portugues,
-            c.DOMFICPAT     AS          tipo_prefijo_path,
-            c.DOMFICCSS     AS          tipo_prefijo_css,
-            c.DOMFICPAR     AS          tipo_prefijo_parametro,
-            c.DOMFICICO     AS          tipo_prefijo_icono,
-            c.DOMFICVAL     AS          tipo_prefijo_dominio,
-            c.DOMFICOBS     AS          tipo_prefijo_observacion,
-            
-            d.TPEFICCOD     AS          tarjeta_personal_codigo,	
-            d.TPEFICORD     AS          tarjeta_personal_orden,  
-            d.TPEFICDNU     AS          tarjeta_personal_documento,     	
-            d.TPEFICOBS     AS          tarjeta_personal_observacion
-            
-            FROM [hum].TPETEL a
-            INNER JOIN [adm].DOMFIC b ON a.TPETELEST = b.DOMFICCOD
-            INNER JOIN [adm].DOMFIC c ON a.TPETELTPC = c.DOMFICCOD
-            INNER JOIN [hum].TPEFIC d ON a.TPETELTAC = d.TPEFICCOD
-            
-            ORDER BY a.TPETELCOD DESC";
+        if (isset($val00)) {
+            $sql00  = "SELECT 
+                a.TPETELCOD     AS          tarjeta_personal_telefono_codigo,
+                a.TPETELORD     AS          tarjeta_personal_telefono_orden,
+                a.TPETELVIS     AS          tarjeta_personal_telefono_visualizar,
+                a.TPETELNUM     AS          tarjeta_personal_telefono_numero,
+                a.TPETELOBS     AS          tarjeta_personal_telefono_observacion,
+                
+                a.TPETELAUS     AS          auditoria_usuario,
+                a.TPETELAFH     AS          auditoria_fecha_hora,
+                a.TPETELAIP     AS          auditoria_ip,
+                
+                b.DOMFICCOD     AS          tipo_estado_codigo,
+                b.DOMFICORD     AS          tipo_estado_orden,
+                b.DOMFICNOI     AS          tipo_estado_ingles,
+                b.DOMFICNOC     AS          tipo_estado_castellano,
+                b.DOMFICNOP     AS          tipo_estado_portugues,
+                b.DOMFICPAT     AS          tipo_estado_path,
+                b.DOMFICCSS     AS          tipo_estado_css,
+                b.DOMFICPAR     AS          tipo_estado_parametro,
+                b.DOMFICICO     AS          tipo_estado_icono,
+                b.DOMFICVAL     AS          tipo_estado_dominio,
+                b.DOMFICOBS     AS          tipo_estado_observacion,
+                
+                c.DOMFICCOD     AS          tipo_prefijo_codigo,
+                c.DOMFICORD     AS          tipo_prefijo_orden,
+                c.DOMFICNOI     AS          tipo_prefijo_ingles,
+                c.DOMFICNOC     AS          tipo_prefijo_castellano,
+                c.DOMFICNOP     AS          tipo_prefijo_portugues,
+                c.DOMFICPAT     AS          tipo_prefijo_path,
+                c.DOMFICCSS     AS          tipo_prefijo_css,
+                c.DOMFICPAR     AS          tipo_prefijo_parametro,
+                c.DOMFICICO     AS          tipo_prefijo_icono,
+                c.DOMFICVAL     AS          tipo_prefijo_dominio,
+                c.DOMFICOBS     AS          tipo_prefijo_observacion,
+                
+                d.TPEFICCOD     AS          tarjeta_personal_codigo,	
+                d.TPEFICORD     AS          tarjeta_personal_orden,  
+                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICOBS     AS          tarjeta_personal_observacion
+                
+                FROM [hum].TPETEL a
+                INNER JOIN [adm].DOMFIC b ON a.TPETELEST = b.DOMFICCOD
+                INNER JOIN [adm].DOMFIC c ON a.TPETELTPC = c.DOMFICCOD
+                INNER JOIN [hum].TPEFIC d ON a.TPETELTAC = d.TPEFICCOD
 
-        try {
-            $connMSSQL  = getConnectionMSSQLv2();
+                WHERE a.TPERSOTAC = ?
+                
+                ORDER BY a.TPETELCOD DESC";
 
-            $stmtMSSQL00= $connMSSQL->prepare($sql00);
-            $stmtMSSQL00->execute();
-            
-            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                $detalle    = array(
-                    'tarjeta_personal_telefono_codigo'          => $rowMSSQL00['tarjeta_personal_telefono_codigo'],
-                    'tarjeta_personal_telefono_orden'           => $rowMSSQL00['tarjeta_personal_telefono_orden'],
-                    'tarjeta_personal_telefono_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_telefono_visualizar']))),
-                    'tarjeta_personal_telefono_numero'          => trim($rowMSSQL00['tarjeta_personal_telefono_numero']),
-                    'tarjeta_personal_telefono_observacion'     => trim($rowMSSQL00['tarjeta_personal_telefono_observacion']),
-                    
-                    'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
-                    'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                    'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
 
-                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
-                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
-                    'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
-                    'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
-                    'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
-                    'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
-                    'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
-                    'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'tarjeta_personal_telefono_codigo'          => $rowMSSQL00['tarjeta_personal_telefono_codigo'],
+                        'tarjeta_personal_telefono_orden'           => $rowMSSQL00['tarjeta_personal_telefono_orden'],
+                        'tarjeta_personal_telefono_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_telefono_visualizar']))),
+                        'tarjeta_personal_telefono_numero'          => trim($rowMSSQL00['tarjeta_personal_telefono_numero']),
+                        'tarjeta_personal_telefono_observacion'     => trim($rowMSSQL00['tarjeta_personal_telefono_observacion']),
+                        
+                        'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
 
-                    'tipo_prefijo_codigo'                       => $rowMSSQL00['tipo_prefijo_codigo'],
-                    'tipo_prefijo_orden'                         => $rowMSSQL00['tipo_prefijo_orden'],
-                    'tipo_prefijo_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_ingles']))),
-                    'tipo_prefijo_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_castellano']))),
-                    'tipo_prefijo_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_portugues']))),
-                    'tipo_prefijo_parametro'                    => $rowMSSQL00['tipo_prefijo_parametro'],
-                    'tipo_prefijo_icono'                        => trim(strtolower($rowMSSQL00['tipo_prefijo_icono'])),
-                    'tipo_prefijo_path'                          => trim(strtolower($rowMSSQL00['tipo_prefijo_path'])),
-                    'tipo_prefijo_css'                          => trim(strtolower($rowMSSQL00['tipo_prefijo_css'])),
-                    'tipo_prefijo_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_dominio']))), 
-                    'tipo_prefijo_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_observacion']))),
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
 
-                    'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
-                    'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
-                    'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
-                    'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
-                );
+                        'tipo_prefijo_codigo'                       => $rowMSSQL00['tipo_prefijo_codigo'],
+                        'tipo_prefijo_orden'                         => $rowMSSQL00['tipo_prefijo_orden'],
+                        'tipo_prefijo_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_ingles']))),
+                        'tipo_prefijo_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_castellano']))),
+                        'tipo_prefijo_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_portugues']))),
+                        'tipo_prefijo_parametro'                    => $rowMSSQL00['tipo_prefijo_parametro'],
+                        'tipo_prefijo_icono'                        => trim(strtolower($rowMSSQL00['tipo_prefijo_icono'])),
+                        'tipo_prefijo_path'                          => trim(strtolower($rowMSSQL00['tipo_prefijo_path'])),
+                        'tipo_prefijo_css'                          => trim(strtolower($rowMSSQL00['tipo_prefijo_css'])),
+                        'tipo_prefijo_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_dominio']))), 
+                        'tipo_prefijo_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_prefijo_observacion']))),
 
-                $result[]   = $detalle;
-            }
+                        'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
+                        'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
+                        'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
+                    );
 
-            if (isset($result)){
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'tarjeta_personal_red_social_codigo'        => '',
+                        'tarjeta_personal_red_social_orden'         => '',
+                        'tarjeta_personal_red_social_direccion'     => '',
+                        'tarjeta_personal_red_social_observacion'   => '',
+                        
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_prefijo_codigo'                       => '',
+                        'tipo_prefijo_orden'                        => '',
+                        'tipo_prefijo_ingles'                       => '',
+                        'tipo_prefijo_castellano'                   => '',
+                        'tipo_prefijo_portugues'                    => '',
+                        'tipo_prefijo_parametro'                    => '',
+                        'tipo_prefijo_icono'                        => '',
+                        'tipo_prefijo_path'                         => '',
+                        'tipo_prefijo_css'                          => '',
+                        'tipo_prefijo_dominio'                      => '', 
+                        'tipo_prefijo_observacion'                  => '',
+
+                        'tarjeta_personal_codigo'                   => '',
+                        'tarjeta_personal_orden'                    => '',
+                        'tarjeta_personal_documento'                => '',
+                        'tarjeta_personal_observacion'              => ''    
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
                 header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            } else {
-                $detalle = array(
-                    'tarjeta_personal_red_social_codigo'        => '',
-                    'tarjeta_personal_red_social_orden'         => '',
-                    'tarjeta_personal_red_social_direccion'     => '',
-                    'tarjeta_personal_red_social_observacion'   => '',
-                    
-                    'auditoria_usuario'                         => '',
-                    'auditoria_fecha_hora'                      => '',
-                    'auditoria_ip'                              => '',
-
-                    'tipo_estado_codigo'                        => '',
-                    'tipo_estado_orden'                         => '',
-                    'tipo_estado_ingles'                        => '',
-                    'tipo_estado_castellano'                    => '',
-                    'tipo_estado_portugues'                     => '',
-                    'tipo_estado_parametro'                     => '',
-                    'tipo_estado_icono'                         => '',
-                    'tipo_estado_path'                          => '',
-                    'tipo_estado_css'                           => '',
-                    'tipo_estado_dominio'                       => '', 
-                    'tipo_estado_observacion'                   => '',
-
-                    'tipo_prefijo_codigo'                       => '',
-                    'tipo_prefijo_orden'                        => '',
-                    'tipo_prefijo_ingles'                       => '',
-                    'tipo_prefijo_castellano'                   => '',
-                    'tipo_prefijo_portugues'                    => '',
-                    'tipo_prefijo_parametro'                    => '',
-                    'tipo_prefijo_icono'                        => '',
-                    'tipo_prefijo_path'                         => '',
-                    'tipo_prefijo_css'                          => '',
-                    'tipo_prefijo_dominio'                      => '', 
-                    'tipo_prefijo_observacion'                  => '',
-
-                    'tarjeta_personal_codigo'                   => '',
-                    'tarjeta_personal_orden'                    => '',
-                    'tarjeta_personal_documento'                => '',
-                    'tarjeta_personal_observacion'              => ''    
-                );
-
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             }
-
-            $stmtMSSQL00->closeCursor();
-            $stmtMSSQL00 = null;
-        } catch (PDOException $e) {
+        }  else {
             header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
         }
 
         $connMSSQL  = null;
