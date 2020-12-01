@@ -510,7 +510,61 @@
     });
 
 /*MODULO PERMISOS*/
-    $app->post('/v2/200/tarjeta/personal/redes/sociales', function($request) {
+    $app->post('/v2/200/tarjetapersonal', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tarjeta_personal_cantidad_parametro'];
+        $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
+        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val08      = trim($request->getParsedBody()['tarjeta_personal_documento']);
+        $val09     = trim($request->getParsedBody()['tarjeta_personal_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {        
+            $sql00  = "INSERT INTO [hum].[TPEFIC] (TPEFICEST, TPEFICORD, TPEFICGEC, TPEFICDEC, TPEFICJEC, TPEFICCAC, TPEFICCNC, TPEFICDNU, TPEFICOBS, TPEFICAUS, TPEFICAFH, TPEFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(TPEFICCOD) AS tarjeta_personal_codigo FROM [hum].[TPEFIC]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['tarjeta_personal_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v2/200/tarjetapersonal/redsocial', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
@@ -561,7 +615,7 @@
         return $json;
     });
 
-    $app->post('/v2/200/tarjeta/personal/telefono/prefijos', function($request) {
+    $app->post('/v2/200/tarjetapersonal/telefonoprefijo', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
@@ -590,60 +644,6 @@
                 $stmtMSSQL01->execute();
                 $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
                 $codigo     = $row_mssql01['tarjeta_personal_telefono_codigo'];
-
-                header("Content-Type: application/json; charset=utf-8");
-                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL01->closeCursor();
-
-                $stmtMSSQL00 = null;
-                $stmtMSSQL01 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-            }
-        } else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
-
-        $connMSSQL  = null;
-        
-        return $json;
-    });
-
-    $app->post('/v2/200/tarjeta/personal', function($request) {
-        require __DIR__.'/../src/connect.php';
-
-        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tarjeta_personal_cantidad_parametro'];
-        $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
-        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
-        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
-        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
-        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val08      = trim($request->getParsedBody()['tarjeta_personal_documento']);
-        $val09     = trim($request->getParsedBody()['tarjeta_personal_observacion']);
-
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
-        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
-
-        if (isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {        
-            $sql00  = "INSERT INTO [hum].[TPEFIC] (TPEFICEST, TPEFICORD, TPEFICGEC, TPEFICDEC, TPEFICJEC, TPEFICCAC, TPEFICCNC, TPEFICDNU, TPEFICOBS, TPEFICAUS, TPEFICAFH, TPEFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), ?, ?, ?, GETDATE(), ?)";
-            $sql01  = "SELECT MAX(TPEFICCOD) AS tarjeta_personal_codigo FROM [hum].[TPEFIC]";
-            
-            try {
-                $connMSSQL  = getConnectionMSSQLv2();
-
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $aud01, $aud03]);
-
-                $stmtMSSQL01= $connMSSQL->prepare($sql01);
-                $stmtMSSQL01->execute();
-                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
-                $codigo     = $row_mssql01['tarjeta_personal_codigo'];
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
