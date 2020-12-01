@@ -3037,7 +3037,7 @@
                 INNER JOIN [adm].DOMFIC c ON a.TPETELTPC = c.DOMFICCOD
                 INNER JOIN [hum].TPEFIC d ON a.TPETELTAC = d.TPEFICCOD
 
-                WHERE a.TPERSOTAC = ?
+                WHERE a.TPETELTAC = ?
                 
                 ORDER BY a.TPETELCOD DESC";
 
