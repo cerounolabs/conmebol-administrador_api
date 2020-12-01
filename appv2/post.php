@@ -515,7 +515,7 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
         $val02      = $request->getParsedBody()['tarjeta_personal_red_social_orden'];
-        $val03      = $request->getParsedBody()['tipo_tarjeta_personal_red_social_parametro'];
+        $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
         $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
         $val06      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
@@ -566,7 +566,7 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
         $val02      = $request->getParsedBody()['tarjeta_personal_telefono_orden'];
-        $val03      = $request->getParsedBody()['tarjeta_personal_telefono_tipo_prefijo_parametro'];
+        $val03      = $request->getParsedBody()['tipo_prefijo_parametro'];
         $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
         $val05      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_telefono_visualizar']));
         $val06      = trim($request->getParsedBody()['tarjeta_personal_telefono_numero']);
@@ -577,7 +577,8 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val03) &&  isset($val04)) {        
-            $sql00  = "INSERT INTO [hum].[TPETEL] (TPETELEST, TPETELORD, TPETELTPC, TPETELTAC, TPETELVIS, TPETELNUM, TPETELOBS, TPETELAUS, TPETELAFH, TPETELAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TELEFONOESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [hum].[TPETEL] (TPETELEST, TPETELORD, TPETELTPC, TPETELTAC, TPETELVIS, TPETELNUM, TPETELOBS, TPETELAUS, TPETELAFH, TPETELAIP) 
+            VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TELEFONOESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(TPETELCOD) AS tarjeta_personal_telefono_codigo FROM [hum].[TPETEL]";
             
             try {
