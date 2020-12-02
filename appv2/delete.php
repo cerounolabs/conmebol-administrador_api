@@ -1076,20 +1076,18 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
-        $val02      = $request->getParsedBody()['tipo_cantidad_parametro'];
-        $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
-        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
-        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
-        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
-        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val08      = trim($request->getParsedBody()['tarjeta_personal_documento']);
-        $val09      = trim($request->getParsedBody()['tarjeta_personal_observacion']);
+        $val02      = $request->getParsedBody()['tarjeta_personal_telefono_orden'];
+        $val03      = $request->getParsedBody()['tipo_prefijo_parametro'];
+        $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
+        $val05      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_telefono_visualizar']));
+        $val06      = trim($request->getParsedBody()['tarjeta_personal_telefono_numero']);
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_telefono_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {  
+        if (isset($val01) && isset($val03) &&  isset($val04)) {      
             $sql00  = "UPDATE [hum].[TPETEL] SET TPETELAUS = ?, TPETELAFH = GETDATE(), TPETELAIP = ? WHERE TPETELCOD = ?";
             $sql01  = "DELETE [hum].[TPETEL] WHERE TPETELCOD = ?";
             
