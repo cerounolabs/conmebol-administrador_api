@@ -3711,7 +3711,6 @@
         
         return $json;
     });
-
 /*MODULO PORTAL PERMISO*/
     
 /*MODULO WORKFLOW*/
@@ -4144,6 +4143,8 @@
             a.WRKDETNOM         AS          workflow_detalle_tarea,
             a.WRKDETHOR         AS          workflow_detalle_hora,
             a.WRKDETNOT         AS          workflow_detalle_notifica,
+            a.WRKDETCSS         AS          workflow_detalle_css,
+            a.WRKDETICO         AS          workflow_detalle_icono,
             a.WRKDETOBS         AS          workflow_detalle_observacion,
 
             a.WRKDETAUS         AS          auditoria_usuario,
@@ -4205,6 +4206,8 @@
                     'workflow_detalle_tarea'            => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
                     'workflow_detalle_hora'             => $rowMSSQL00['workflow_detalle_hora'],
                     'workflow_detalle_notifica'         => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_notifica']))),
+                    'workflow_detalle_css'              => trim(strtolower($rowMSSQL00['workflow_detalle_css'])),
+                    'workflow_detalle_icono'            => trim(strtolower($rowMSSQL00['workflow_detalle_icono'])),
                     'workflow_detalle_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_observacion']))),
 
                     'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -4259,6 +4262,8 @@
                     'workflow_detalle_tarea'            => '',
                     'workflow_detalle_hora'             => '',
                     'workflow_detalle_notifica'         => '',
+                    'workflow_detalle_css'              => '',
+                    'workflow_detalle_icono'            => '',
                     'workflow_detalle_observacion'      => '',
 
                     'auditoria_usuario'                 => '',
@@ -4328,6 +4333,8 @@
                 a.WRKDETNOM         AS          workflow_detalle_tarea,
                 a.WRKDETHOR         AS          workflow_detalle_hora,
                 a.WRKDETNOT         AS          workflow_detalle_notifica,
+                a.WRKDETCSS         AS          workflow_detalle_css,
+                a.WRKDETICO         AS          workflow_detalle_icono,
                 a.WRKDETOBS         AS          workflow_detalle_observacion,
 
                 a.WRKDETAUS         AS          auditoria_usuario,
@@ -4391,6 +4398,8 @@
                         'workflow_detalle_tarea'            => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
                         'workflow_detalle_hora'             => $rowMSSQL00['workflow_detalle_hora'],
                         'workflow_detalle_notifica'         => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_notifica']))),
+                        'workflow_detalle_css'              => trim(strtolower($rowMSSQL00['workflow_detalle_css'])),
+                        'workflow_detalle_icono'            => trim(strtolower($rowMSSQL00['workflow_detalle_icono'])),
                         'workflow_detalle_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_observacion']))),
     
                         'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -4445,6 +4454,8 @@
                         'workflow_detalle_tarea'            => '',
                         'workflow_detalle_hora'             => '',
                         'workflow_detalle_notifica'         => '',
+                        'workflow_detalle_css'              => '',
+                        'workflow_detalle_icono'            => '',
                         'workflow_detalle_observacion'      => '',
     
                         'auditoria_usuario'                 => '',
@@ -4518,6 +4529,8 @@
                 a.WRKDETNOM         AS          workflow_detalle_tarea,
                 a.WRKDETHOR         AS          workflow_detalle_hora,
                 a.WRKDETNOT         AS          workflow_detalle_notifica,
+                a.WRKDETCSS         AS          workflow_detalle_css,
+                a.WRKDETICO         AS          workflow_detalle_icono,
                 a.WRKDETOBS         AS          workflow_detalle_observacion,
 
                 a.WRKDETAUS         AS          auditoria_usuario,
@@ -4581,6 +4594,8 @@
                         'workflow_detalle_tarea'            => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_tarea']))),
                         'workflow_detalle_hora'             => $rowMSSQL00['workflow_detalle_hora'],
                         'workflow_detalle_notifica'         => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_notifica']))),
+                        'workflow_detalle_css'              => trim(strtolower($rowMSSQL00['workflow_detalle_css'])),
+                        'workflow_detalle_icono'            => trim(strtolower($rowMSSQL00['workflow_detalle_icono'])),
                         'workflow_detalle_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['workflow_detalle_observacion']))),
     
                         'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
@@ -4635,6 +4650,8 @@
                         'workflow_detalle_tarea'            => '',
                         'workflow_detalle_hora'             => '',
                         'workflow_detalle_notifica'         => '',
+                        'workflow_detalle_css'              => '',
+                        'workflow_detalle_icono'            => '',
                         'workflow_detalle_observacion'      => '',
     
                         'auditoria_usuario'                 => '',
@@ -4695,7 +4712,6 @@
         
         return $json;
     });
-
 /*MODULO WORKFLOW*/
 
 /*MODULO VIAJE*/
