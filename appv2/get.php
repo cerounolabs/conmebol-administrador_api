@@ -3037,7 +3037,7 @@
 
         $val00  = $request->getAttribute('documento');
 
-        if (isset($val01)) {
+        if (isset($val00)) {
             $sql00  = "SELECT 
                 a.TPEFICCOD         AS          tarjeta_personal_codigo,	
                 a.TPEFICORD         AS          tarjeta_personal_orden,  
