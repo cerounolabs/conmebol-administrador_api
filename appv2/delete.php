@@ -905,22 +905,22 @@
         return $json;
     });
 
-    $app->delete('/v2/400/solicitud/opcion/traslado/{codigo}', function($request) {//20201124
+    $app->delete('/v2/400/solicitud/opcion/traslado/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
-        $val03      = $request->getParsedBody()['tipo_traslado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_traslado_codigo'];
+        $val03      = $request->getParsedBody()['tipo_vehiculo_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_traslado']);
-        $val06      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
-        $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
-        $val08      = trim($request->getParsedBody()['solicitud_opcion_traslado_comentario']);
-        $val09      = trim($request->getParsedBody()['solicitud_opcion_traslado_origen']);
-        $val10      = trim($request->getParsedBody()['solicitud_opcion_traslado_destino']);
-        $val11      = trim($request->getParsedBody()['solicitud_opcion_traslado_fecha_salida']);
-        $val12      = trim($request->getParsedBody()['solicitud_opcion_traslado_hora_salida']);
+        $val06      = trim($request->getParsedBody()['solicitud_opcion_traslado_salida']);
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_destino']);
+        $val08      = trim($request->getParsedBody()['solicitud_opcion_traslado_fecha_salida']);
+        $val09      = trim($request->getParsedBody()['solicitud_opcion_traslado_hora_salida']);
+        $val10      = trim($request->getParsedBody()['solicitud_opcion_traslado_comentario']);
+        $val11      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
+        $val12      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
