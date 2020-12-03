@@ -1019,7 +1019,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00 = "UPDATE [via].[SOLTRA] SET SOLTRAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLTRATTC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTRASLADOTIPO' AND DOMFICPAR = ?), SOLTRASOC = ?, SOLTRACOM = ?, SOLTRASAL = ?, SOLTRADES = ?, SOLTRAFSA = ?, SOLTRAHSA = ?, SOLTRAAUS = ?, SOLTRAAFH = GETDATE(), SOLTRAAIP = ? WHERE SOLTRACOD = ?";
+            $sql00 = "UPDATE [via].[SOLTRA] SET SOLTRAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLTRATTC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPOTRASLADO' AND DOMFICPAR = ?), SOLTRASOC = ?, SOLTRACOM = ?, SOLTRASAL = ?, SOLTRADES = ?, SOLTRAFSA = ?, SOLTRAHSA = ?, SOLTRAAUS = ?, SOLTRAAFH = GETDATE(), SOLTRAAIP = ? WHERE SOLTRACOD = ?";
                                                                                                                                                      
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
