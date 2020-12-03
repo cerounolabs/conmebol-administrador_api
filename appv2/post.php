@@ -1963,35 +1963,35 @@
         return $json;
     });
 
-    $app->post('/v2/400/solicitud/opcion/traslado', function($request) {//20201123 
+    $app->post('/v2/400/solicitud/opcion/traslado', function($request) { 
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_vehiculo_codigo'];
-        $val03      = $request->getParsedBody()['tipo_traslado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_traslado_codigo'];
+        $val03      = $request->getParsedBody()['tipo_vehiculo_codigo'];
         $val04      = $request->getParsedBody()['solicitud_opcion_cabecera_codigo'];
         $val05      = trim($request->getParsedBody()['solicitud_opcion_traslado_traslado']);
-        $val06      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
-        $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
-        $val08      = trim($request->getParsedBody()['solicitud_opcion_traslado_comentario']);
-        $val09      = trim($request->getParsedBody()['solicitud_opcion_traslado_origen']);
-        $val10      = trim($request->getParsedBody()['solicitud_opcion_traslado_destino']);
-        $val11      = trim($request->getParsedBody()['solicitud_opcion_traslado_fecha_salida']);
-        $val12      = trim($request->getParsedBody()['solicitud_opcion_traslado_hora_salida']);
+        $val06      = trim($request->getParsedBody()['solicitud_opcion_traslado_salida']);
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_traslado_destino']);
+        $val08      = trim($request->getParsedBody()['solicitud_opcion_traslado_fecha_salida']);
+        $val09      = trim($request->getParsedBody()['solicitud_opcion_traslado_hora_salida']);
+        $val10      = trim($request->getParsedBody()['solicitud_opcion_traslado_comentario']);
+        $val11      = $request->getParsedBody()['solicitud_opcion_traslado_tarifa_dia'];
+        $val12      = trim($request->getParsedBody()['solicitud_opcion_traslado_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {
-            $sql00  = "INSERT INTO [via].[SOLOPT] (SOLOPTEST, SOLOPTTVC, SOLOPTTTC, SOLOPTOPC, SOLOPTTRA, SOLOPTTAR, SOLOPTOBS, SOLOPTAUS, SOLOPTAFH, SOLOPTAIP, SOLOPTCOM, SOLOPTORI, SOLOPTDES, SOLOPTFSA, SOLOPTHSA) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOVEHICULOTIPO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TRASLADOTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, GETDATE(), ?, ?, ?, ?, ?, ?)";
+            $sql00  = "INSERT INTO [via].[SOLOPT] (SOLOPTEST, SOLOPTTTC, SOLOPTTVC, SOLOPTOPC, SOLOPTTRA, SOLOPTSAL, SOLOPTDES, SOLOPTFSA, SOLOPTHSA, SOLOPTCOM, SOLOPTTAR, SOLOPTOBS, SOLOPTAUS, SOLOPTAFH, SOLOPTAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPOTRASLADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPOVEHICULO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLOPTCOD) AS solicitud_opcion_traslado_codigo FROM [via].[SOLOPT]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03, $val08,  $val09,  $val10,  $val11,  $val12]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
