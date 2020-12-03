@@ -1693,7 +1693,7 @@
         $val02      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_traslado_codigo'])));
         $val03      = $request->getParsedBody()['solicitud_codigo'];
         $val04      = trim($request->getParsedBody()['solicitud_detalle_traslado_comentario']);
-        $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_origen']);
+        $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_salida']);
         $val06      = trim($request->getParsedBody()['solicitud_detalle_traslado_destino']);
         $val07      = $request->getParsedBody()['solicitud_detalle_traslado_fecha'];
         $val08      = $request->getParsedBody()['solicitud_detalle_traslado_hora'];
@@ -1703,7 +1703,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03)) {
-            $sql00  = "INSERT INTO [via].[SOLTRA] (SOLTRAEST, SOLVUETTC, SOLTRASOC, SOLTRACOM, SOLTRASAL, SOLTRADES, SOLTRAFSA, SOLTRAHSA, SOLTRAAUS, SOLTRAAFH, SOLTRAAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLTRA] (SOLTRAEST, SOLTRATTC, SOLTRASOC, SOLTRACOM, SOLTRASAL, SOLTRADES, SOLTRAFSA, SOLTRAHSA, SOLTRAAUS, SOLTRAAFH, SOLTRAAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTRASLADOTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLTRACOD) AS solicitud_detalle_traslado_codigo FROM [via].[SOLTRA]";
             
             try {
@@ -2345,5 +2345,3 @@
         return $json;
     });
 /*MODULO RENDICION*/
-
-
