@@ -13167,7 +13167,7 @@
                 f.DOMFICPAR     AS      tipo_origen_parametro,
                 f.DOMFICICO     AS      tipo_origen_icono,
                 f.DOMFICVAL     AS      tipo_origen_dominio,
-                f.DOMFICOBS     AS      tipo_origen_observacion
+                f.DOMFICOBS     AS      tipo_origen_observacion,
 
                 g.SOLFICCOD     AS      solicitud_codigo,
                 g.SOLFICPER     AS      solicitud_periodo,
@@ -13187,7 +13187,7 @@
                 INNER JOIN adm.DOMFIC d ON a.SOLOPTTVC = d.DOMFICCOD
                 INNER JOIN via.SOLOPC e ON a.SOLOPTOPC = e.SOLOPCCOD
                 INNER JOIN adm.DOMFIC f ON e.SOLOPCTOC = f.DOMFICCOD
-                INNER JOIN via.SOLFIC g ON d.SOLOPCSOC = g.SOLFICCOD
+                INNER JOIN via.SOLFIC g ON e.SOLOPCSOC = g.SOLFICCOD
 
                 WHERE e.SOLOPCSOC = ?
                 
