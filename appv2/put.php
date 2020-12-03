@@ -259,7 +259,7 @@
         return $json;
     });
 
-/*MODULO PERMISO*/    
+/*MODULO PERMISO*/
     $app->put('/v2/200/solicitudes/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -519,8 +519,9 @@
         
         return $json;
     });
+/*MODULO PERMISO*/
 
-    /*MODULO WORKFLOW*/
+/*MODULO WORKFLOW*/
     $app->put('/v2/300/workflow/cabecera/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -1000,7 +1001,7 @@
         return $json;
     });
 
-    $app->put('/v2/400/solicitud/detalle/traslado/{codigo}', function($request) {//20201102
+    $app->put('/v2/400/solicitud/detalle/traslado/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -1008,7 +1009,7 @@
         $val02      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_traslado_codigo'])));
         $val03      = $request->getParsedBody()['solicitud_codigo']; 
         $val04      = trim($request->getParsedBody()['solicitud_detalle_traslado_comentario']);
-        $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_origen']);
+        $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_salida']);
         $val06      = trim($request->getParsedBody()['solicitud_detalle_traslado_destino']);
         $val07      = $request->getParsedBody()['solicitud_detalle_traslado_fecha'];
         $val08      = $request->getParsedBody()['solicitud_detalle_traslado_hora'];
@@ -1018,7 +1019,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val02) && isset($val03)) {
-            $sql00 = "UPDATE [via].[SOLTRA] SET SOLTRAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLVUETTC = ?, SOLTRASOC = ?, SOLTRACOM = ?, SOLTRASAL = ?, SOLTRADES = ?, SOLTRAFSA = ?, SOLTRAHSA = ?, SOLTRAAUS = ?, SOLTRAAFH = GETDATE(), SOLTRAAIP = ? WHERE SOLTRACOD = ?";
+            $sql00 = "UPDATE [via].[SOLTRA] SET SOLTRAEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLTRATTC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTRASLADOTIPO' AND DOMFICPAR = ?), SOLTRASOC = ?, SOLTRACOM = ?, SOLTRASAL = ?, SOLTRADES = ?, SOLTRAFSA = ?, SOLTRAHSA = ?, SOLTRAAUS = ?, SOLTRAAFH = GETDATE(), SOLTRAAIP = ? WHERE SOLTRACOD = ?";
                                                                                                                                                      
             try {
                 $connMSSQL  = getConnectionMSSQLv2();

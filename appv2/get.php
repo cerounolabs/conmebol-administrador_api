@@ -11807,65 +11807,74 @@
             $sql00  = "SELECT 
                 a.SOLTRACOD         AS          solicitud_detalle_traslado_codigo,
                 a.SOLTRACOM         AS          solicitud_detalle_traslado_comentario,
-                a.SOLTRASAL         AS          solicitud_detalle_traslado_origen,
+                a.SOLTRASAL         AS          solicitud_detalle_traslado_salida,
                 a.SOLTRADES         AS          solicitud_detalle_traslado_destino,
                 a.SOLTRAFSA         AS          solicitud_detalle_traslado_fecha,
                 a.SOLTRAHSA         AS          solicitud_detalle_traslado_hora,
-
-                a.SOLVUETTC         AS          tipo_traslado_codigo,
-
-                CASE
-                  WHEN a.SOLVUETTC = 'I' THEN 'TRASLADO IN'
-                  WHEN a.SOLVUETTC = 'O' THEN 'TRASLADO OUT'
-                  WHEN a.SOLVUETTC = 'T' THEN 'OTROS TRASLADOS'
-                END AS tipo_traslado_nombre,
 
                 a.SOLTRAAUS         AS          auditoria_usuario,
                 a.SOLTRAAFH         AS          auditoria_fecha_hora,
                 a.SOLTRAAIP         AS          auditoria_ip,
 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
                 b.DOMFICNOI         AS          tipo_estado_ingles,
                 b.DOMFICNOC         AS          tipo_estado_castellano,
                 b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
                 b.DOMFICPAR         AS          tipo_estado_parametro,
                 b.DOMFICICO         AS          tipo_estado_icono,
-                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
 
-                c.SOLFICCOD         AS          solicitud_codigo,
-                c.SOLFICPER         AS          solicitud_periodo,
-                c.SOLFICMOT         AS          solicitud_motivo,
-                c.SOLFICVUE         AS          solicitud_vuelo,
-                c.SOLFICHOS         AS          solicitud_hospedaje,
-                c.SOLFICTRA         AS          solicitud_traslado,
-                c.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
-                c.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
-                c.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
-                c.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
-                c.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
-                c.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
-                c.SOLFICFEC         AS          solicitud_fecha_carga,
-                c.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                c.SOLFICTCA         AS          solicitud_tarea_cantidad,
-                c.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                c.SOLFICOBS         AS          solicitud_observacion,
+                c.DOMFICCOD         AS          tipo_traslado_codigo,
+                c.DOMFICORD         AS          tipo_traslado_orden,
+                c.DOMFICNOI         AS          tipo_traslado_ingles,
+                c.DOMFICNOC         AS          tipo_traslado_castellano,
+                c.DOMFICNOP         AS          tipo_traslado_portugues,
+                c.DOMFICPAT         AS          tipo_traslado_path,
+                c.DOMFICCSS         AS          tipo_traslado_css,
+                c.DOMFICPAR         AS          tipo_traslado_parametro,
+                c.DOMFICICO         AS          tipo_traslado_icono,
+                c.DOMFICVAL         AS          tipo_traslado_dominio,
+                c.DOMFICOBS         AS          tipo_traslado_observacion,
 
-                h1.NombreEmpleado   AS          solicitud_solicitante_nombre,
-                c.SOLFICDNS         AS          solicitud_solicitante_documento,
-                h2.NombreEmpleado   AS          solicitud_jefatura_nombre,
-                c.SOLFICDNJ         AS          solicitud_jefatura_documento,
-                h3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
-                c.SOLFICDNE         AS          solicitud_ejecutivo_documento,
-                h4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                c.SOLFICDNP         AS          solicitud_proveedor_documento
+                d.SOLFICCOD         AS          solicitud_codigo,
+                d.SOLFICPER         AS          solicitud_periodo,
+                d.SOLFICMOT         AS          solicitud_motivo,
+                d.SOLFICVUE         AS          solicitud_vuelo,
+                d.SOLFICHOS         AS          solicitud_hospedaje,
+                d.SOLFICTRA         AS          solicitud_traslado,
+                d.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
+                d.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
+                d.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
+                d.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
+                d.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+                d.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
+                d.SOLFICFEC         AS          solicitud_fecha_carga,
+                d.SOLFICSCC         AS          solicitud_sap_centro_costo,
+                d.SOLFICTCA         AS          solicitud_tarea_cantidad,
+                d.SOLFICTRE         AS          solicitud_tarea_resuelta,
+                d.SOLFICOBS         AS          solicitud_observacion,
+
+                d1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                d.SOLFICDNS         AS          solicitud_solicitante_documento,
+                d2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                d.SOLFICDNJ         AS          solicitud_jefatura_documento,
+                d3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                d.SOLFICDNE         AS          solicitud_ejecutivo_documento,
+                d4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                d.SOLFICDNP         AS          solicitud_proveedor_documento
                 
                 FROM via.SOLTRA a
                 INNER JOIN adm.DOMFIC b ON a.SOLTRAEST = b.DOMFICCOD
-                INNER JOIN via.SOLFIC c ON a.SOLTRASOC = c.SOLFICCOD
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h1 ON c.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = h1.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h2 ON c.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = h2.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h3 ON c.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = h3.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h4 ON c.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = h4.CedulaEmpleado
+                INNER JOIN adm.DOMFIC c ON a.SOLTRATTC = c.DOMFICCOD
+                INNER JOIN via.SOLFIC d ON a.SOLTRASOC = d.SOLFICCOD
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] d1 ON d.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = d1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] d2 ON d.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = d2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] d3 ON d.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = d3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] d4 ON d.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = d4.CedulaEmpleado
                 
                 WHERE a.SOLTRASOC = ?";
 
@@ -11875,7 +11884,6 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-
                     if ($rowMSSQL00['solicitud_detalle_traslado_fecha'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_traslado_fecha'] == null){
                         $solicitud_detalle_traslado_fecha_1 = '';
                         $solicitud_detalle_traslado_fecha_2 = '';
@@ -11895,26 +11903,39 @@
                     $detalle = array(
                         'solicitud_detalle_traslado_codigo'                         => $rowMSSQL00['solicitud_detalle_traslado_codigo'],
                         'solicitud_detalle_traslado_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_comentario']))),
-                        'solicitud_detalle_traslado_origen'                         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_origen']))),
+                        'solicitud_detalle_traslado_salida'                         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_salida']))),
                         'solicitud_detalle_traslado_destino'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_destino']))),
                         'solicitud_detalle_traslado_fecha_1'                        => $solicitud_detalle_traslado_fecha_1,
                         'solicitud_detalle_traslado_fecha_2'                        => $solicitud_detalle_traslado_fecha_2,
                         'solicitud_detalle_traslado_hora'                           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_hora']))),
 
-                        'tipo_traslado_codigo'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_codigo']))),
-                        'tipo_traslado_nombre'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_nombre']))),
-                        
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                         'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                                         => $rowMSSQL00['tipo_estado_orden'],
                         'tipo_estado_ingles'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
                         'tipo_estado_castellano'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
                         'tipo_estado_portugues'                                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_path'                                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
                         'tipo_estado_parametro'                                     => $rowMSSQL00['tipo_estado_parametro'],
                         'tipo_estado_icono'                                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
-                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                        'tipo_estado_observacion'                                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+                        
+                        'tipo_traslado_codigo'                                      => $rowMSSQL00['tipo_traslado_codigo'],
+                        'tipo_traslado_orden'                                       => $rowMSSQL00['tipo_traslado_orden'],
+                        'tipo_traslado_ingles'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_ingles']))),
+                        'tipo_traslado_castellano'                                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_castellano']))),
+                        'tipo_traslado_portugues'                                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_portugues']))),
+                        'tipo_traslado_path'                                        => trim(strtolower($rowMSSQL00['tipo_traslado_path'])),
+                        'tipo_traslado_css'                                         => trim(strtolower($rowMSSQL00['tipo_traslado_css'])),
+                        'tipo_traslado_parametro'                                   => $rowMSSQL00['tipo_traslado_parametro'],
+                        'tipo_traslado_icono'                                       => trim(strtolower($rowMSSQL00['tipo_traslado_icono'])),
+                        'tipo_traslado_dominio'                                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_dominio']))),
+                        'tipo_traslado_observacion'                                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_traslado_observacion']))),
 
                         'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
@@ -11943,7 +11964,6 @@
                         'solicitud_proveedor_nombre'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
                         'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion'])))
-
                     );
 
                     $result[]   = $detalle;
@@ -11956,26 +11976,39 @@
                     $detalle    = array(
                         'solicitud_detalle_traslado_codigo'                 => '',            
                         'solicitud_detalle_traslado_comentario'             => '',       
-                        'solicitud_detalle_traslado_origen'                 => '',        
+                        'solicitud_detalle_traslado_salida'                 => '',        
                         'solicitud_detalle_traslado_destino'                => '',        
                         'solicitud_detalle_traslado_fecha_1'                => '',      
                         'solicitud_detalle_traslado_fecha_2'                => '',    
-                        'solicitud_detalle_traslado_hora'                   => '',     
+                        'solicitud_detalle_traslado_hora'                   => '',
 
-                        'tipo_traslado_codigo'                              => '',
-                        'tipo_traslado_nombre'                              => '',     
-                        
                         'auditoria_usuario'                                 => '',
                         'auditoria_fecha_hora'                              => '',
                         'auditoria_ip'                                      => '',
 
                         'tipo_estado_codigo'                                => '',
+                        'tipo_estado_orden'                                 => '',
                         'tipo_estado_ingles'                                => '',
                         'tipo_estado_castellano'                            => '',
                         'tipo_estado_portugues'                             => '',
+                        'tipo_estado_path'                                  => '',
+                        'tipo_estado_css'                                   => '',
                         'tipo_estado_parametro'                             => '',
                         'tipo_estado_icono'                                 => '',
-                        'tipo_estado_css'                                   => '',
+                        'tipo_estado_dominio'                               => '',
+                        'tipo_estado_observacion'                           => '',
+
+                        'tipo_traslado_codigo'                              => '',
+                        'tipo_traslado_orden'                               => '',
+                        'tipo_traslado_ingles'                              => '',
+                        'tipo_traslado_castellano'                          => '',
+                        'tipo_traslado_portugues'                           => '',
+                        'tipo_traslado_path'                                => '',
+                        'tipo_traslado_css'                                 => '',
+                        'tipo_traslado_parametro'                           => '',
+                        'tipo_traslado_icono'                               => '',
+                        'tipo_traslado_dominio'                             => '',
+                        'tipo_traslado_observacion'                         => '',
 
                         'solicitud_periodo'                                 => '',
                         'solicitud_motivo'                                  => '',
