@@ -394,6 +394,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
         $val02      = $request->getParsedBody()['tipo_cantidad_parametro'];
         $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
@@ -408,13 +409,32 @@
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {  
-                $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
+        if (isset($val00) && isset($val00_1)) { 
+            $sql00  = "";
 
+            switch ($val00_1) {
+                case 1:
+                    $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
+                    break;
+
+                case 2;
+                    $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICOBS = ? TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
+                break;
+
+            } 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $aud01, $aud03, $val00]);
+
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $aud01, $aud03, $val00]);
+                    break;
+
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $val09, $aud01, $aud03, $val00]);
+                    break;
+                }
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
