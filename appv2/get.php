@@ -12562,7 +12562,7 @@
         if(isset($val01)) {
             $sql00  = "SELECT 
                 a.SOLOPVCOD     AS      solicitud_opcion_vuelo_codigo,
-                a.SOLOPVVUE     AS      solicitud_opcion_vuelo_vuelo,	
+                a.SOLOPVVUE     AS      solicitud_opcion_vuelo_nombre,	
                 a.SOLOPVCOM     AS      solicitud_opcion_vuelo_companhia,	
                 a.SOLOPVFEC	    AS      solicitud_opcion_vuelo_fecha,
                 a.SOLOPVDES     AS      solicitud_opcion_vuelo_desde,  	
@@ -12630,14 +12630,6 @@
                 $stmtMSSQL00->execute([$val01]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if ($rowMSSQL00['solicitud_opcion_vuelo_fecha'] == '1900-01-01' || $rowMSSQL00['solicitud_opcion_vuelo_fecha'] == null){
-                        $solicitud_opcion_vuelo_fecha_1 = '';
-                        $solicitud_opcion_vuelo_fecha_2 = '';
-                    } else {
-                        $solicitud_opcion_vuelo_fecha_1 = $rowMSSQL00['solicitud_opcion_vuelo_fecha'];
-                        $solicitud_opcion_vuelo_fecha_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_opcion_vuelo_fecha']));
-                    }
-
                     if ($rowMSSQL00['solicitud_fecha_carga'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_carga'] == null){
                         $solicitud_fecha_carga_1 = '';
                         $solicitud_fecha_carga_2 = '';
@@ -12648,10 +12640,9 @@
 
                     $detalle    = array(
                         'solicitud_opcion_vuelo_codigo'                      => $rowMSSQL00['solicitud_opcion_vuelo_codigo'],
-                        'solicitud_opcion_vuelo_vuelo'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_vuelo']),
+                        'solicitud_opcion_vuelo_nombre'                      => trim($rowMSSQL00['solicitud_opcion_vuelo_nombre']),
                         'solicitud_opcion_vuelo_companhia'                   => trim($rowMSSQL00['solicitud_opcion_vuelo_companhia']),
-                        'solicitud_opcion_vuelo_fecha_1'                     => $solicitud_opcion_vuelo_fecha_1,
-                        'solicitud_opcion_vuelo_fecha_2'                     => $solicitud_opcion_vuelo_fecha_2,
+                        'solicitud_opcion_vuelo_fecha'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_fecha']),
                         'solicitud_opcion_vuelo_desde'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_desde']),
                         'solicitud_opcion_vuelo_hasta'                       => trim($rowMSSQL00['solicitud_opcion_vuelo_hasta']),
                         'solicitud_opcion_vuelo_salida'                      => trim($rowMSSQL00['solicitud_opcion_vuelo_salida']),
@@ -12713,10 +12704,9 @@
                 } else {
                     $detalle = array(
                         'solicitud_opcion_vuelo_codigo'              => '',
-                        'solicitud_opcion_vuelo_vuelo'               => '',
+                        'solicitud_opcion_vuelo_nombre'              => '',
                         'solicitud_opcion_vuelo_companhia'           => '',
-                        'solicitud_opcion_vuelo_fecha_1'             => '',
-                        'solicitud_opcion_vuelo_fecha_2'             => '',
+                        'solicitud_opcion_vuelo_fecha'               => '',
                         'solicitud_opcion_vuelo_desde'               => '',
                         'solicitud_opcion_vuelo_hasta'               => '',
                         'solicitud_opcion_vuelo_salida_llegada'      => '',
@@ -14287,7 +14277,7 @@
 
             $sql02  = "SELECT 
                 a.SOLOPVCOD     AS      solicitud_opcion_vuelo_codigo,
-                a.SOLOPVVUE     AS      solicitud_opcion_vuelo_vuelo,	
+                a.SOLOPVVUE     AS      solicitud_opcion_vuelo_nombre,	
                 a.SOLOPVCOM     AS      solicitud_opcion_vuelo_companhia,	
                 a.SOLOPVFEC	    AS      solicitud_opcion_vuelo_fecha,
                 a.SOLOPVDES     AS      solicitud_opcion_vuelo_desde,  	
@@ -14948,7 +14938,7 @@
 
                         $detalle    = array(
                             'solicitud_opcion_vuelo_codigo'                      => $rowMSSQL02['solicitud_opcion_vuelo_codigo'],
-                            'solicitud_opcion_vuelo_vuelo'                       => trim($rowMSSQL02['solicitud_opcion_vuelo_vuelo']),
+                            'solicitud_opcion_vuelo_nombre'                      => trim($rowMSSQL02['solicitud_opcion_vuelo_nombre']),
                             'solicitud_opcion_vuelo_companhia'                   => trim($rowMSSQL02['solicitud_opcion_vuelo_companhia']),
                             'solicitud_opcion_vuelo_fecha_1'                     => $solicitud_opcion_vuelo_fecha_1,
                             'solicitud_opcion_vuelo_fecha_2'                     => $solicitud_opcion_vuelo_fecha_2,
@@ -14986,7 +14976,7 @@
                     if (!isset($result_solicitud_opcion_vuelo)){
                         $detalle    = array(
                             'solicitud_opcion_vuelo_codigo'                     => '',
-                            'solicitud_opcion_vuelo_vuelo'                      => '',
+                            'solicitud_opcion_vuelo_nombre'                     => '',
                             'solicitud_opcion_vuelo_companhia'                  => '',
                             'solicitud_opcion_vuelo_fecha_1'                    => '',
                             'solicitud_opcion_vuelo_fecha_2'                    => '',
