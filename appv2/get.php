@@ -9260,12 +9260,13 @@
                 a.DOMFICCOD         AS          tipo_estado_codigo,
                 a.DOMFICNOC         AS          tipo_estado_nombre,
                 a.DOMFICCSS         AS          tipo_estado_css,
+                a.DOMFICPAR         AS          tipo_estado_parametro,
                 COUNT(*)            AS          tipo_estado_cantidad
                 FROM adm.DOMFIC a 
                 INNER JOIN via.SOLFIC b ON a.DOMFICCOD = b.SOLFICEST
                 WHERE DOMFICVAL = 'SOLICITUDESTADO' AND b.SOLFICDNE = ? 
                 
-                GROUP BY a.DOMFICCOD, a.DOMFICNOC, a.DOMFICCSS ";
+                GROUP BY a.DOMFICCOD, a.DOMFICNOC, a.DOMFICCSS, a.DOMFICPAR";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -9277,6 +9278,7 @@
                         'tipo_estado_codigo'                    => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_nombre'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre']))),
                         'tipo_estado_css'                       => trim($rowMSSQL00['tipo_estado_css']),
+                        'tipo_estado_parametro'                 => $rowMSSQL00['tipo_estado_parametro'],
                         'tipo_estado_cantidad'                  => $rowMSSQL00['tipo_estado_cantidad']
                     );
     
@@ -9291,6 +9293,7 @@
                         'tipo_estado_codigo'                    => '',
                         'tipo_estado_nombre'                    => '',
                         'tipo_estado_css'                       => '',
+                        'tipo_estado_parametro'                 => '',
                         'tipo_estado_cantidad'                  => ''
                     );
 
