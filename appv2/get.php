@@ -3121,7 +3121,7 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
-                        'tarjeta_personal_email'                    => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_email']))),
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
                         'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre']),
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
                         
