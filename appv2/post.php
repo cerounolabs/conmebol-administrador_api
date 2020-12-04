@@ -1756,7 +1756,7 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val03) && isset($val08)) {
-            $sql00  = "INSERT INTO [via].[SOLCON] (SOLCONEST, SOLCONTCT, SOLCONSOC, SOLCONTSC, SOLCONPDO, SOLCONPNO, SOLVUEFEC, SOLCONOBS, SOLCONAUS, SOLCONAFH, SOLCONAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOCONSULTA' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDCONSULTA' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?,GETDATE(), ?)";
+            $sql00  = "INSERT INTO [via].[SOLCON] (SOLCONEST, SOLCONTCT, SOLCONSOC, SOLCONTSC, SOLCONPDO, SOLCONPNO, SOLVUEFEC, SOLCONOBS, SOLCONAUS, SOLCONAFH, SOLCONAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOCONSULTA' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPOCONSULTA' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?,GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLCONCOD) AS solicitud_consulta_codigo FROM [via].[SOLCON]";
 
             try {
@@ -1792,36 +1792,36 @@
         return $json;
     });
 
-    $app->post('/v2/400/solicitud/opcion/cabecera', function($request) {//20201123
+    $app->post('/v2/400/solicitud/opcion/cabecera', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
-        $val13      = $request->getParsedBody()['tipo_origen_parametro'];
-        $val03      = $request->getParsedBody()['solicitud_codigo'];      
-        $val04      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
-        $val05      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
-        $val06      = trim($request->getParsedBody()['solicitud_opcion_cabecera_reserva']);
-        $val07      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_1']);
-        $val08      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_2']);
-        $val09      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_3']);
-        $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
-        $val11      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
-        $val12      = trim($request->getParsedBody()['solicitud_opcion_cabecera_origen']); 
+        $val03      = $request->getParsedBody()['tipo_origen_parametro'];
+        $val04      = $request->getParsedBody()['solicitud_codigo'];      
+        $val05      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
+        $val06      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
+        $val07      = trim($request->getParsedBody()['solicitud_opcion_cabecera_reserva']);
+        $val08      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_1']);
+        $val09      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_2']);
+        $val10      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_3']);
+        $val11      = trim($request->getParsedBody()['solicitud_opcion_cabecera_comentario_4']);
+        $val12      = trim(strtolower($request->getParsedBody()['solicitud_opcion_cabecera_directorio']));
+        $val13      = trim($request->getParsedBody()['solicitud_opcion_cabecera_origen']); 
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val03) && isset($val13)) {
-            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCTOC, SOLOPCSOC, SOLOPCOPC, SOLOPCTIM, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCPAT, SOLOPCORI, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TIPOSOLICITUDORIGEN' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {
+            $sql00  = "INSERT INTO [via].[SOLOPC] (SOLOPCEST, SOLOPCTSC, SOLOPCTOC, SOLOPCSOC, SOLOPCOPC, SOLOPCTIM, SOLOPCRES, SOLOPCCO1, SOLOPCCO2, SOLOPCCO3, SOLOPCCO4, SOLOPCPAT, SOLOPCORI, SOLOPCAUS, SOLOPCAFH, SOLOPCAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADOOPCION' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDTIPOORIGEN' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(SOLOPCCOD) AS solicitud_opcion_cabecera_codigo FROM [via].[SOLOPC]";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val13, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();
