@@ -1797,7 +1797,7 @@
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
-        $val03      = $request->getParsedBody()['tipo_origen_parametro'];
+        $val03      = $request->getParsedBody()['tipo_origen_codigo'];
         $val04      = $request->getParsedBody()['solicitud_codigo'];      
         $val05      = trim($request->getParsedBody()['solicitud_opcion_cabecera_nombre']);
         $val06      = $request->getParsedBody()['solicitud_opcion_cabecera_tarifa_importe'];
