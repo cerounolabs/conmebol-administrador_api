@@ -1026,7 +1026,7 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_traslado_codigo'])));
+        $val02      = $request->getParsedBody()['tipo_traslado_codigo'];
         $val03      = $request->getParsedBody()['solicitud_codigo']; 
         $val04      = trim($request->getParsedBody()['solicitud_detalle_traslado_comentario']);
         $val05      = trim($request->getParsedBody()['solicitud_detalle_traslado_salida']);

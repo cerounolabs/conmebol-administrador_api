@@ -11798,7 +11798,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/detalle/traslado/{codigo}', function($request) {//20201102
+    $app->get('/v2/400/solicitud/detalle/traslado/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01  = $request->getAttribute('codigo');
@@ -11902,9 +11902,9 @@
 
                     $detalle = array(
                         'solicitud_detalle_traslado_codigo'                         => $rowMSSQL00['solicitud_detalle_traslado_codigo'],
-                        'solicitud_detalle_traslado_comentario'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_comentario']))),
-                        'solicitud_detalle_traslado_salida'                         => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_salida']))),
-                        'solicitud_detalle_traslado_destino'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_destino']))),
+                        'solicitud_detalle_traslado_comentario'                     => trim($rowMSSQL00['solicitud_detalle_traslado_comentario']),
+                        'solicitud_detalle_traslado_salida'                         => trim($rowMSSQL00['solicitud_detalle_traslado_salida']),
+                        'solicitud_detalle_traslado_destino'                        => trim($rowMSSQL00['solicitud_detalle_traslado_destino']),
                         'solicitud_detalle_traslado_fecha_1'                        => $solicitud_detalle_traslado_fecha_1,
                         'solicitud_detalle_traslado_fecha_2'                        => $solicitud_detalle_traslado_fecha_2,
                         'solicitud_detalle_traslado_hora'                           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_detalle_traslado_hora']))),
