@@ -3045,6 +3045,7 @@
                 a.TPEFICCOD         AS          tarjeta_personal_codigo,	
                 a.TPEFICORD         AS          tarjeta_personal_orden,  
                 a.TPEFICDNU         AS          tarjeta_personal_documento, 
+                a.TPEFICEMA         AS          tarjeta_personal_email,
                 h.NombreEmpleado    AS          tarjeta_personal_nombre,	
                 a.TPEFICOBS         AS          tarjeta_personal_observacion,
                     
@@ -3120,12 +3121,13 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_email'                    => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_email']))),
                         'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre']),
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
                         
-                        'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                        'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
 
                         'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
@@ -3184,6 +3186,7 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
+                        'tarjeta_personal_email'                    => '',    
                         'tarjeta_personal_nombre'                   => '',
                         'tarjeta_personal_observacion'              => '', 
                         
