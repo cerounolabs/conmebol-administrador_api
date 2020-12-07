@@ -464,19 +464,20 @@
         $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
         $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
-        $val06      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
+        $val06      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_visualizar']));
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00) && isset($val01) && isset($val03) && isset($val04)) {   
-                $sql00  = "UPDATE [hum].[TPERSO] SET TPERSOEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), TPERSOORD = ?, TPERSOTRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), TPERSOTAC = ?, TPERSODIR = ?, TPERSOOBS = ?, TPERSOAUS = ?, TPERSOAFH = GETDATE(), TPERSOAIP = ? WHERE TPERSOCOD = ?";
+                $sql00  = "UPDATE [hum].[TPERSO] SET TPERSOEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), TPERSOORD = ?, TPERSOTRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), TPERSOTAC = ?, TPERSODIR = ?, TPERSOVIS = ?, TPERSOOBS = ?, TPERSOAUS = ?, TPERSOAFH = GETDATE(), TPERSOAIP = ? WHERE TPERSOCOD = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $aud01, $aud03, $val00]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
