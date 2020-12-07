@@ -565,7 +565,7 @@
         return $json;
     });
 
-    $app->post('cd', function($request) {
+    $app->post('/v2/200/tarjetapersonal/redsocial', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
