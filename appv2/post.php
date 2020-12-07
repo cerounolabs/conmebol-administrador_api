@@ -573,8 +573,8 @@
         $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
         $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
-        $val06      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_visualizar']));
-        $val07      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_red_social_observacion']));
+        $val06      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_red_social_visualizar']));
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
