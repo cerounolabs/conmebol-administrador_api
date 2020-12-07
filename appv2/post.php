@@ -573,21 +573,22 @@
         $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
         $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
         $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
-        $val06      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
+        $val06      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_visualizar']));
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val03) &&  isset($val04)) {        
-            $sql00  = "INSERT INTO [hum].[TPERSO] (TPERSOEST, TPERSOORD, TPERSOTRC, TPERSOTAC, TPERSODIR, TPERSOOBS, TPERSOAUS, TPERSOAFH, TPERSOAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [hum].[TPERSO] (TPERSOEST, TPERSOORD, TPERSOTRC, TPERSOTAC, TPERSODIR, TPERSOVIS, TPERSOOBS, TPERSOAUS, TPERSOAFH, TPERSOAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(TPERSOCOD) AS tarjeta_personal_red_social_codigo FROM [hum].[TPERSO]";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();

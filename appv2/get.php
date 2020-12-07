@@ -3271,6 +3271,7 @@
                 a.TPERSOCOD     AS          tarjeta_personal_red_social_codigo, 
                 a.TPERSOORD     AS          tarjeta_personal_red_social_orden,
                 a.TPERSODIR     AS          tarjeta_personal_red_social_direccion,
+                a.TPERSOVIS     AS          tarjeta_personal_red_social_visualizar,
                 a.TPERSOOBS     AS          tarjeta_personal_red_social_observacion,
                 
                 a.TPERSOAUS     AS          auditoria_usuario,
@@ -3326,11 +3327,12 @@
                         'tarjeta_personal_red_social_codigo'        => $rowMSSQL00['tarjeta_personal_red_social_codigo'],
                         'tarjeta_personal_red_social_orden'         => $rowMSSQL00['tarjeta_personal_red_social_orden'],
                         'tarjeta_personal_red_social_direccion'     => trim(strtolower($rowMSSQL00['tarjeta_personal_red_social_direccion'])),
+                        'tarjeta_personal_red_social_visualizar'    => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_red_social_visualizar']))),
                         'tarjeta_personal_red_social_observacion'   => trim($rowMSSQL00['tarjeta_personal_red_social_observacion']),
                         
-                        'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                        'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
 
                         'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
@@ -3373,6 +3375,7 @@
                         'tarjeta_personal_red_social_codigo'        => '',
                         'tarjeta_personal_red_social_orden'         => '',
                         'tarjeta_personal_red_social_direccion'     => '',
+                        'tarjeta_personal_red_social_visualizar'    => '',
                         'tarjeta_personal_red_social_observacion'   => '',
                         
                         'auditoria_usuario'                         => '',
@@ -3439,6 +3442,7 @@
                 a.TPERSOCOD     AS          tarjeta_personal_red_social_codigo, 
                 a.TPERSOORD     AS          tarjeta_personal_red_social_orden,
                 a.TPERSODIR     AS          tarjeta_personal_red_social_direccion,
+                a.TPERSOVIS     AS          tarjeta_personal_red_social_visualizar,
                 a.TPERSOOBS     AS          tarjeta_personal_red_social_observacion,
                 
                 a.TPERSOAUS     AS          auditoria_usuario,
@@ -3494,11 +3498,12 @@
                         'tarjeta_personal_red_social_codigo'        => $rowMSSQL00['tarjeta_personal_red_social_codigo'],
                         'tarjeta_personal_red_social_orden'         => $rowMSSQL00['tarjeta_personal_red_social_orden'],
                         'tarjeta_personal_red_social_direccion'     => trim(strtolower($rowMSSQL00['tarjeta_personal_red_social_direccion'])),
+                        'tarjeta_personal_red_social_visualizar'    => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_red_social_visualizar']))),
                         'tarjeta_personal_red_social_observacion'   => trim($rowMSSQL00['tarjeta_personal_red_social_observacion']),
                         
-                        'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                        'auditoria_ip'                              => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
 
                         'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
                         'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
