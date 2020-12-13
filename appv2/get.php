@@ -2826,7 +2826,11 @@
             a.TPEFICORD         AS          tarjeta_personal_orden,  
             a.TPEFICDNU         AS          tarjeta_personal_documento, 
             a.TPEFICEMA         AS          tarjeta_personal_email,
-            h.NombreEmpleado    AS          tarjeta_personal_nombre,	
+            h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
+            h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
+            h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
+            h.APELLIDOMATERNO   AS          tarjeta_personal_apellido2,
+            h.FECHANACIMIENTO   AS          tarjeta_personal_fecha_nacimiento,
             a.TPEFICOBS         AS          tarjeta_personal_observacion,
                 
             a.TPEFICAUS         AS          auditoria_usuario,         	        
@@ -2895,12 +2899,22 @@
             $stmtMSSQL00->execute();
             
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if ($rowMSSQL00['tarjeta_personal_fecha_nacimiento'] == '1900-01-01' || $rowMSSQL00['tarjeta_personal_fecha_nacimiento'] == null){
+                    $tarjeta_personal_fecha_nacimiento_1 = '';
+                    $tarjeta_personal_fecha_nacimiento_2 = '';
+                } else {
+                    $tarjeta_personal_fecha_nacimiento_1 = $rowMSSQL00['tarjeta_personal_fecha_nacimiento'];
+                    $tarjeta_personal_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['tarjeta_personal_fecha_nacimiento']));
+                }
+
                 $detalle    = array(
                     'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                     'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                     'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                     'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
-                    'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre']),
+                    'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).' '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                    'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
+                    'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                     'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
                     
                     'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
@@ -2966,6 +2980,8 @@
                     'tarjeta_personal_documento'                => '',
                     'tarjeta_personal_email'                    => '',
                     'tarjeta_personal_nombre'                   => '',
+                    'tarjeta_personal_fecha_nacimiento_1'       => '',
+                    'tarjeta_personal_fecha_nacimiento_2'       => '',
                     'tarjeta_personal_observacion'              => '', 
                     
                     'auditoria_usuario'                         => '',
@@ -3046,7 +3062,11 @@
                 a.TPEFICORD         AS          tarjeta_personal_orden,  
                 a.TPEFICDNU         AS          tarjeta_personal_documento, 
                 a.TPEFICEMA         AS          tarjeta_personal_email,
-                h.NombreEmpleado    AS          tarjeta_personal_nombre,	
+                h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
+                h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
+                h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
+                h.APELLIDOMATERNO   AS          tarjeta_personal_apellido2,
+                h.FECHANACIMIENTO   AS          tarjeta_personal_fecha_nacimiento,
                 a.TPEFICOBS         AS          tarjeta_personal_observacion,
                     
                 a.TPEFICAUS         AS          auditoria_usuario,         	        
@@ -3117,12 +3137,22 @@
                 $stmtMSSQL00->execute([$val00]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['tarjeta_personal_fecha_nacimiento'] == '1900-01-01' || $rowMSSQL00['tarjeta_personal_fecha_nacimiento'] == null){
+                        $tarjeta_personal_fecha_nacimiento_1 = '';
+                        $tarjeta_personal_fecha_nacimiento_2 = '';
+                    } else {
+                        $tarjeta_personal_fecha_nacimiento_1 = $rowMSSQL00['tarjeta_personal_fecha_nacimiento'];
+                        $tarjeta_personal_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['tarjeta_personal_fecha_nacimiento']));
+                    }
+    
                     $detalle    = array(
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                         'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
-                        'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre']),
+                        'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).' '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                        'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
+                        'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
                         
                         'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
@@ -3188,6 +3218,8 @@
                         'tarjeta_personal_documento'                => '',
                         'tarjeta_personal_email'                    => '',    
                         'tarjeta_personal_nombre'                   => '',
+                        'tarjeta_personal_fecha_nacimiento_1'       => '',
+                        'tarjeta_personal_fecha_nacimiento_2'       => '',
                         'tarjeta_personal_observacion'              => '', 
                         
                         'auditoria_usuario'                         => '',
@@ -3272,7 +3304,11 @@
                 a.TPEFICORD         AS          tarjeta_personal_orden,  
                 a.TPEFICDNU         AS          tarjeta_personal_documento, 
                 a.TPEFICEMA         AS          tarjeta_personal_email,
-                h.NombreEmpleado    AS          tarjeta_personal_nombre,	
+                h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
+                h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
+                h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
+                h.APELLIDOMATERNO   AS          tarjeta_personal_apellido2,
+                h.FECHANACIMIENTO   AS          tarjeta_personal_fecha_nacimiento,
                 a.TPEFICOBS         AS          tarjeta_personal_observacion,
                     
                 a.TPEFICAUS         AS          auditoria_usuario,         	        
@@ -3343,12 +3379,22 @@
                 $stmtMSSQL00->execute([$val00]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['tarjeta_personal_fecha_nacimiento'] == '1900-01-01' || $rowMSSQL00['tarjeta_personal_fecha_nacimiento'] == null){
+                        $tarjeta_personal_fecha_nacimiento_1 = '';
+                        $tarjeta_personal_fecha_nacimiento_2 = '';
+                    } else {
+                        $tarjeta_personal_fecha_nacimiento_1 = $rowMSSQL00['tarjeta_personal_fecha_nacimiento'];
+                        $tarjeta_personal_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['tarjeta_personal_fecha_nacimiento']));
+                    }
+    
                     $detalle    = array(
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                         'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
-                        'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre']),
+                        'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).' '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                        'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
+                        'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
                         
                         'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
@@ -3414,6 +3460,8 @@
                         'tarjeta_personal_documento'                => '',
                         'tarjeta_personal_email'                    => '',    
                         'tarjeta_personal_nombre'                   => '',
+                        'tarjeta_personal_fecha_nacimiento_1'       => '',
+                        'tarjeta_personal_fecha_nacimiento_2'       => '',
                         'tarjeta_personal_observacion'              => '', 
                         
                         'auditoria_usuario'                         => '',
