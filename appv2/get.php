@@ -2321,9 +2321,6 @@
     $app->get('/v2/200/comprobante/codigobarra', function($request) {
         require __DIR__.'/../src/connect.php';
         
-        $val01  = $request->getAttribute('codigo');
-        
-        if (isset($val01)) {
             $sql00  = "SELECT
                 a.COMFICCOD         AS          comprobante_codigo,
                 a.COMFICPER         AS          comprobante_periodo,
@@ -2558,10 +2555,6 @@
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             }
-        }  else {
-            header("Content-Type: application/json; charset=utf-8");
-            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-        }
 
         $connMSSQL  = null;
         
