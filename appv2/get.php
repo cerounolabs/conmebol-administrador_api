@@ -2321,245 +2321,245 @@
     $app->get('/v2/200/comprobante/codigobarra', function($request) {
         require __DIR__.'/../src/connect.php';
         
-            $sql00  = "SELECT
-                a.COMFICCOD         AS          comprobante_codigo,
-                a.COMFICPER         AS          comprobante_periodo,
-                a.COMFICDOC         AS          comprobante_documento,
-                a.COMFICADJ         AS          comprobante_adjunto,
-                a.COMFICOBS         AS          comprobante_observacion,
-                a.COMFICUSU         AS          auditoria_usuario,
-                a.COMFICFEC         AS          auditoria_fecha_hora,
-                a.COMFICDIP         AS          auditoria_ip,
+        $sql00  = "SELECT
+            a.COMFICCOD         AS          comprobante_codigo,
+            a.COMFICPER         AS          comprobante_periodo,
+            a.COMFICDOC         AS          comprobante_documento,
+            a.COMFICADJ         AS          comprobante_adjunto,
+            a.COMFICOBS         AS          comprobante_observacion,
+            a.COMFICUSU         AS          auditoria_usuario,
+            a.COMFICFEC         AS          auditoria_fecha_hora,
+            a.COMFICDIP         AS          auditoria_ip,
 
-                b.DOMFICCOD         AS          tipo_estado_codigo,
-                b.DOMFICORD         AS          tipo_estado_orden,
-                b.DOMFICPAR         AS          tipo_estado_parametro,
-                b.DOMFICNOI         AS          tipo_estado_ingles,
-                b.DOMFICNOC         AS          tipo_estado_castellano,
-                b.DOMFICNOP         AS          tipo_estado_portugues,
-                b.DOMFICPAT         AS          tipo_estado_path,
-                b.DOMFICCSS         AS          tipo_estado_css,
-                b.DOMFICICO         AS          tipo_estado_icono,
-                b.DOMFICVAL         AS          tipo_estado_dominio,
-                b.DOMFICOBS         AS          tipo_estado_observacion,
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICORD         AS          tipo_estado_orden,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
+            b.DOMFICOBS         AS          tipo_estado_observacion,
 
-                c.DOMFICCOD         AS          tipo_comprobante_codigo,
-                c.DOMFICORD         AS          tipo_comprobante_orden,
-                c.DOMFICPAR         AS          tipo_comprobante_parametro,
-                c.DOMFICNOI         AS          tipo_comprobante_ingles,
-                c.DOMFICNOC         AS          tipo_comprobante_castellano,
-                c.DOMFICNOP         AS          tipo_comprobante_portugues,
-                c.DOMFICPAT         AS          tipo_comprobante_path,
-                c.DOMFICCSS         AS          tipo_comprobante_css,
-                c.DOMFICICO         AS          tipo_comprobante_icono,
-                c.DOMFICVAL         AS          tipo_comprobante_dominio,
+            c.DOMFICCOD         AS          tipo_comprobante_codigo,
+            c.DOMFICORD         AS          tipo_comprobante_orden,
+            c.DOMFICPAR         AS          tipo_comprobante_parametro,
+            c.DOMFICNOI         AS          tipo_comprobante_ingles,
+            c.DOMFICNOC         AS          tipo_comprobante_castellano,
+            c.DOMFICNOP         AS          tipo_comprobante_portugues,
+            c.DOMFICPAT         AS          tipo_comprobante_path,
+            c.DOMFICCSS         AS          tipo_comprobante_css,
+            c.DOMFICICO         AS          tipo_comprobante_icono,
+            c.DOMFICVAL         AS          tipo_comprobante_dominio,
 
-                d.DOMFICCOD         AS          tipo_mes_codigo,
-                d.DOMFICORD         AS          tipo_mes_orden,
-                d.DOMFICPAR         AS          tipo_mes_parametro,
-                d.DOMFICNOI         AS          tipo_mes_ingles,
-                d.DOMFICNOC         AS          tipo_mes_castellano,
-                d.DOMFICNOP         AS          tipo_mes_portugues,
-                d.DOMFICPAT         AS          tipo_mes_path,
-                d.DOMFICCSS         AS          tipo_mes_css,
-                d.DOMFICICO         AS          tipo_mes_icono,
-                d.DOMFICVAL         AS          tipo_mes_dominio
+            d.DOMFICCOD         AS          tipo_mes_codigo,
+            d.DOMFICORD         AS          tipo_mes_orden,
+            d.DOMFICPAR         AS          tipo_mes_parametro,
+            d.DOMFICNOI         AS          tipo_mes_ingles,
+            d.DOMFICNOC         AS          tipo_mes_castellano,
+            d.DOMFICNOP         AS          tipo_mes_portugues,
+            d.DOMFICPAT         AS          tipo_mes_path,
+            d.DOMFICCSS         AS          tipo_mes_css,
+            d.DOMFICICO         AS          tipo_mes_icono,
+            d.DOMFICVAL         AS          tipo_mes_dominio
 
-                FROM [hum].[COMFIC] a
-                INNER JOIN [adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
+            FROM [hum].[COMFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
 
-                WHERE (b.DOMFICVAL = 'COMPROBANTEESTADO' AND b.DOMFICPAR = 2) AND (c.DOMFICVAL = 'COMPROBANTETIPO' AND c.DOMFICPAR = 1)
-                
-                ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
+            WHERE (b.DOMFICVAL = 'COMPROBANTEESTADO' AND b.DOMFICPAR = 2) AND (c.DOMFICVAL = 'COMPROBANTETIPO' AND c.DOMFICPAR = 1)
+            
+            ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
 
-            $sql01  = "SELECT
-                a.CedulaEmpleado            AS          documento,
-                a.ApellidoPaterno           AS          apellido_1,
-                a.ApellidoMaterno           AS          apellido_2,
-                a.PrimerNombre              AS          nombre_1,
-                a.SegundoNombre             AS          nombre_2,
-                a.NombreEmpleado            AS          nombre_completo,
-                a.Sexo                      AS          tipo_sexo_codigo,
-                a.EstadoCivil               AS          estado_civil_codigo,
-                a.Email                     AS          email,
-                a.FechaNacimiento           AS          fecha_nacimiento,
-                a.CodigoCargo               AS          cargo_codigo,
-                a.Cargo                     AS          cargo_nombre,
-                a.CodigoGerencia            AS          gerencia_codigo,
-                a.Gerencia                  AS          gerencia_nombre,
-                a.CodigoDepto               AS          departamento_codigo,
-                a.Departamento              AS          departamento_nombre,         
-                a.CodCargoSuperior          AS          superior_cargo_codigo,
-                a.NombreCargoSuperior       AS          superior_cargo_nombre,
-                a.Manager                   AS          superior_manager_nombre,
-                a.EmailManager              AS          superior_manager_email
+        $sql01  = "SELECT
+            a.CedulaEmpleado            AS          documento,
+            a.ApellidoPaterno           AS          apellido_1,
+            a.ApellidoMaterno           AS          apellido_2,
+            a.PrimerNombre              AS          nombre_1,
+            a.SegundoNombre             AS          nombre_2,
+            a.NombreEmpleado            AS          nombre_completo,
+            a.Sexo                      AS          tipo_sexo_codigo,
+            a.EstadoCivil               AS          estado_civil_codigo,
+            a.Email                     AS          email,
+            a.FechaNacimiento           AS          fecha_nacimiento,
+            a.CodigoCargo               AS          cargo_codigo,
+            a.Cargo                     AS          cargo_nombre,
+            a.CodigoGerencia            AS          gerencia_codigo,
+            a.Gerencia                  AS          gerencia_nombre,
+            a.CodigoDepto               AS          departamento_codigo,
+            a.Departamento              AS          departamento_nombre,         
+            a.CodCargoSuperior          AS          superior_cargo_codigo,
+            a.NombreCargoSuperior       AS          superior_cargo_nombre,
+            a.Manager                   AS          superior_manager_nombre,
+            a.EmailManager              AS          superior_manager_email
 
-                FROM [CSF].[dbo].[empleados_AxisONE] a
+            FROM [CSF].[dbo].[empleados_AxisONE] a
 
-                WHERE a.CedulaEmpleado = ?";
+            WHERE a.CedulaEmpleado = ?";
 
-            try {
-                $connMSSQL  = getConnectionMSSQLv2();
-                
-                $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$val01]);
+            $stmtMSSQL00->execute([$val01]);
 
-                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    $nroDoc     = trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])));
-                    $stmtMSSQL01->execute([$nroDoc]);
-                    $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $nroDoc     = trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])));
+                $stmtMSSQL01->execute([$nroDoc]);
+                $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
 
-                    $periodo    = $rowMSSQL00['comprobante_periodo'];
-                    $mes        = $rowMSSQL00['tipo_mes_parametro'];
-                    $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
+                $periodo    = $rowMSSQL00['comprobante_periodo'];
+                $mes        = $rowMSSQL00['tipo_mes_parametro'];
+                $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
 
-                    if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
-                    } else {
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
-                    }
-
-                    $detalle    = array(
-                        'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
-                        'comprobante_codigo_barra'          => trim(strtoupper(strtolower($comprobante_codigo_barra))),
-                        'comprobante_periodo'               => $rowMSSQL00['comprobante_periodo'],
-                        'comprobante_colaborador'           => trim(strtoupper(strtolower($rowMSSQL01['nombre_completo']))),
-                        'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
-                        'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
-                        'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
-
-                        'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL01['auditoria_usuario']))),
-                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
-                        'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL01['auditoria_ip']))),
-
-                        'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
-                        'tipo_estado_orden'                 => $rowMSSQL00['tipo_estado_orden'],
-                        'tipo_estado_parametro'             => $rowMSSQL00['tipo_estado_parametro'],
-                        'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                        'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                        'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
-                        'tipo_estado_path'                  => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
-                        'tipo_estado_css'                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
-                        'tipo_estado_icono'                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
-                        'tipo_estado_dominio'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
-                        'tipo_estado_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
-
-                        'tipo_comprobante_codigo'           => $rowMSSQL00['tipo_comprobante_codigo'],
-                        'tipo_comprobante_orden'            => $rowMSSQL00['tipo_comprobante_orden'],
-                        'tipo_comprobante_parametro'        => $rowMSSQL00['tipo_comprobante_parametro'],
-                        'tipo_comprobante_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_ingles']))),
-                        'tipo_comprobante_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_castellano']))),
-                        'tipo_comprobante_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_portugues']))),
-                        'tipo_comprobante_path'             => trim(strtolower($rowMSSQL00['tipo_comprobante_path'])),
-                        'tipo_comprobante_css'              => trim(strtolower($rowMSSQL00['tipo_comprobante_css'])),
-                        'tipo_comprobante_icono'            => trim(strtolower($rowMSSQL00['tipo_comprobante_icono'])),
-                        'tipo_comprobante_dominio'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_dominio']))),
-                        'tipo_comprobante_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_observacion']))),
-
-                        'tipo_mes_codigo'                   => $rowMSSQL00['tipo_mes_codigo'],
-                        'tipo_mes_orden'                    => $rowMSSQL00['tipo_mes_orden'],
-                        'tipo_mes_parametro'                => $rowMSSQL00['tipo_mes_parametro'],
-                        'tipo_mes_ingles'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_ingles']))),
-                        'tipo_mes_castellano'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano']))),
-                        'tipo_mes_portugues'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_portugues']))),
-                        'tipo_mes_path'                     => trim(strtolower($rowMSSQL00['tipo_mes_path'])),
-                        'tipo_mes_css'                      => trim(strtolower($rowMSSQL00['tipo_mes_css'])),
-                        'tipo_mes_icono'                    => trim(strtolower($rowMSSQL00['tipo_mes_icono'])),
-                        'tipo_mes_dominio'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_dominio']))),
-                        'tipo_mes_observacion'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_observacion']))),
-
-                        'tipo_gerencia_codigo'              => $rowMSSQL01['gerencia_codigo'],
-                        'tipo_gerencia_nombre'              => trim(strtoupper(strtolower($rowMSSQL01['gerencia_nombre']))),
-
-                        'tipo_departamento_codigo'          => $rowMSSQL01['departamento_codigo'],
-                        'tipo_departamento_nombre'          => trim(strtoupper(strtolower($rowMSSQL01['departamento_nombre'])))
-                    );
-
-                    $result[]   = $detalle;
-                }
-
-                if (isset($result)){
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
+                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                 } else {
-                    $detalle    = array(
-                        'comprobante_codigo'                => '',
-                        'comprobante_codigo_barra'          => '',
-                        'comprobante_periodo'               => '',
-                        'comprobante_colaborador'           => '',
-                        'comprobante_documento'             => '',
-                        'comprobante_adjunto'               => '',
-                        'comprobante_observacion'           => '',
-
-                        'auditoria_usuario'                 => '',
-                        'auditoria_fecha_hora'              => '',
-                        'auditoria_ip'                      => '',
-
-                        'tipo_estado_codigo'                => '',
-                        'tipo_estado_orden'                 => '',
-                        'tipo_estado_parametro'             => '',
-                        'tipo_estado_ingles'                => '',
-                        'tipo_estado_castellano'            => '',
-                        'tipo_estado_portugues'             => '',
-                        'tipo_estado_path'                  => '',
-                        'tipo_estado_css'                   => '',
-                        'tipo_estado_icono'                 => '',
-                        'tipo_estado_dominio'               => '',
-                        'tipo_estado_observacion'           => '',
-
-                        'tipo_comprobante_codigo'           => '',
-                        'tipo_comprobante_orden'            => '',
-                        'tipo_comprobante_parametro'        => '',
-                        'tipo_comprobante_ingles'           => '',
-                        'tipo_comprobante_castellano'       => '',
-                        'tipo_comprobante_portugues'        => '',
-                        'tipo_comprobante_path'             => '',
-                        'tipo_comprobante_css'              => '',
-                        'tipo_comprobante_icono'            => '',
-                        'tipo_comprobante_dominio'          => '',
-                        'tipo_comprobante_observacion'      => '',
-
-                        'tipo_mes_codigo'                   => '',
-                        'tipo_mes_orden'                    => '',
-                        'tipo_mes_parametro'                => '',
-                        'tipo_mes_ingles'                   => '',
-                        'tipo_mes_castellano'               => '',
-                        'tipo_mes_portugues'                => '',
-                        'tipo_mes_path'                     => '',
-                        'tipo_mes_css'                      => '',
-                        'tipo_mes_icono'                    => '',
-                        'tipo_mes_dominio'                  => '',
-                        'tipo_mes_observacion'              => '',
-
-                        'tipo_gerencia_codigo'              => '',
-                        'tipo_gerencia_nombre'              => '',
-
-                        'tipo_departamento_codigo'          => '',
-                        'tipo_departamento_nombre'          => ''
-                    );
-
-                    header("Content-Type: application/json; charset=utf-8");
-                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                 }
 
-                $stmtMSSQL00->closeCursor();
-                $stmtMSSQL01->closeCursor();
+                $detalle    = array(
+                    'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
+                    'comprobante_codigo_barra'          => trim(strtoupper(strtolower($comprobante_codigo_barra))),
+                    'comprobante_periodo'               => $rowMSSQL00['comprobante_periodo'],
+                    'comprobante_colaborador'           => trim(strtoupper(strtolower($rowMSSQL01['nombre_completo']))),
+                    'comprobante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento']))),
+                    'comprobante_adjunto'               => trim(strtolower($rowMSSQL00['comprobante_adjunto'])),
+                    'comprobante_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['comprobante_observacion']))),
 
-                $stmtMSSQL00 = null;
-                $stmtMSSQL01 = null;
-            } catch (PDOException $e) {
-                header("Content-Type: application/json; charset=utf-8");
-                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                    'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL01['auditoria_usuario']))),
+                    'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
+                    'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL01['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_orden'                 => $rowMSSQL00['tipo_estado_orden'],
+                    'tipo_estado_parametro'             => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_path'                  => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                    'tipo_estado_css'                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                    'tipo_estado_icono'                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_dominio'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                    'tipo_estado_observacion'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                    'tipo_comprobante_codigo'           => $rowMSSQL00['tipo_comprobante_codigo'],
+                    'tipo_comprobante_orden'            => $rowMSSQL00['tipo_comprobante_orden'],
+                    'tipo_comprobante_parametro'        => $rowMSSQL00['tipo_comprobante_parametro'],
+                    'tipo_comprobante_ingles'           => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_ingles']))),
+                    'tipo_comprobante_castellano'       => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_castellano']))),
+                    'tipo_comprobante_portugues'        => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_portugues']))),
+                    'tipo_comprobante_path'             => trim(strtolower($rowMSSQL00['tipo_comprobante_path'])),
+                    'tipo_comprobante_css'              => trim(strtolower($rowMSSQL00['tipo_comprobante_css'])),
+                    'tipo_comprobante_icono'            => trim(strtolower($rowMSSQL00['tipo_comprobante_icono'])),
+                    'tipo_comprobante_dominio'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_dominio']))),
+                    'tipo_comprobante_observacion'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_comprobante_observacion']))),
+
+                    'tipo_mes_codigo'                   => $rowMSSQL00['tipo_mes_codigo'],
+                    'tipo_mes_orden'                    => $rowMSSQL00['tipo_mes_orden'],
+                    'tipo_mes_parametro'                => $rowMSSQL00['tipo_mes_parametro'],
+                    'tipo_mes_ingles'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_ingles']))),
+                    'tipo_mes_castellano'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_castellano']))),
+                    'tipo_mes_portugues'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_portugues']))),
+                    'tipo_mes_path'                     => trim(strtolower($rowMSSQL00['tipo_mes_path'])),
+                    'tipo_mes_css'                      => trim(strtolower($rowMSSQL00['tipo_mes_css'])),
+                    'tipo_mes_icono'                    => trim(strtolower($rowMSSQL00['tipo_mes_icono'])),
+                    'tipo_mes_dominio'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_dominio']))),
+                    'tipo_mes_observacion'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_mes_observacion']))),
+
+                    'tipo_gerencia_codigo'              => $rowMSSQL01['gerencia_codigo'],
+                    'tipo_gerencia_nombre'              => trim(strtoupper(strtolower($rowMSSQL01['gerencia_nombre']))),
+
+                    'tipo_departamento_codigo'          => $rowMSSQL01['departamento_codigo'],
+                    'tipo_departamento_nombre'          => trim(strtoupper(strtolower($rowMSSQL01['departamento_nombre'])))
+                );
+
+                $result[]   = $detalle;
             }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'comprobante_codigo'                => '',
+                    'comprobante_codigo_barra'          => '',
+                    'comprobante_periodo'               => '',
+                    'comprobante_colaborador'           => '',
+                    'comprobante_documento'             => '',
+                    'comprobante_adjunto'               => '',
+                    'comprobante_observacion'           => '',
+
+                    'auditoria_usuario'                 => '',
+                    'auditoria_fecha_hora'              => '',
+                    'auditoria_ip'                      => '',
+
+                    'tipo_estado_codigo'                => '',
+                    'tipo_estado_orden'                 => '',
+                    'tipo_estado_parametro'             => '',
+                    'tipo_estado_ingles'                => '',
+                    'tipo_estado_castellano'            => '',
+                    'tipo_estado_portugues'             => '',
+                    'tipo_estado_path'                  => '',
+                    'tipo_estado_css'                   => '',
+                    'tipo_estado_icono'                 => '',
+                    'tipo_estado_dominio'               => '',
+                    'tipo_estado_observacion'           => '',
+
+                    'tipo_comprobante_codigo'           => '',
+                    'tipo_comprobante_orden'            => '',
+                    'tipo_comprobante_parametro'        => '',
+                    'tipo_comprobante_ingles'           => '',
+                    'tipo_comprobante_castellano'       => '',
+                    'tipo_comprobante_portugues'        => '',
+                    'tipo_comprobante_path'             => '',
+                    'tipo_comprobante_css'              => '',
+                    'tipo_comprobante_icono'            => '',
+                    'tipo_comprobante_dominio'          => '',
+                    'tipo_comprobante_observacion'      => '',
+
+                    'tipo_mes_codigo'                   => '',
+                    'tipo_mes_orden'                    => '',
+                    'tipo_mes_parametro'                => '',
+                    'tipo_mes_ingles'                   => '',
+                    'tipo_mes_castellano'               => '',
+                    'tipo_mes_portugues'                => '',
+                    'tipo_mes_path'                     => '',
+                    'tipo_mes_css'                      => '',
+                    'tipo_mes_icono'                    => '',
+                    'tipo_mes_dominio'                  => '',
+                    'tipo_mes_observacion'              => '',
+
+                    'tipo_gerencia_codigo'              => '',
+                    'tipo_gerencia_nombre'              => '',
+
+                    'tipo_departamento_codigo'          => '',
+                    'tipo_departamento_nombre'          => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL01->closeCursor();
+
+            $stmtMSSQL00 = null;
+            $stmtMSSQL01 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
 
         $connMSSQL  = null;
         
         return $json;
-    });
+    }); 
 
     $app->get('/v2/200/comprobante/periodo/{comprobante}/{periodo}/{mesdesde}/{meshasta}', function($request) {
         require __DIR__.'/../src/connect.php';
