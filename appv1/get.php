@@ -3347,9 +3347,9 @@
                 $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
 
                 if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.'0'.$mes."'".$comprobante;
+                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                 } else {
-                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.$mes."'".$comprobante;
+                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                 }
 
                 $detalle    = array(
@@ -3596,9 +3596,9 @@
                     $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
 
                     if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.'0'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                     } else {
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                     }
 
                     $detalle    = array(
@@ -3846,9 +3846,9 @@
                     $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
 
                     if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.'0'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                     } else {
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                     }
 
                     $detalle    = array(

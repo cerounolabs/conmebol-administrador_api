@@ -2076,6 +2076,7 @@
         return $json;
     });
 
+
     $app->get('/v2/200/comprobante', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -2127,7 +2128,6 @@
             INNER JOIN [adm].[DOMFIC] b ON a.COMFICEST = b.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
-
             
             ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
 
@@ -2175,9 +2175,9 @@
                 $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
 
                 if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.'0'.$mes."'".$comprobante;
+                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                 } else {
-                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.$mes."'".$comprobante;
+                    $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                 }
 
                 $detalle    = array(
@@ -2245,6 +2245,7 @@
             } else {
                 $detalle    = array(
                     'comprobante_codigo'                => '',
+                    'comprobante_codigo_barra'          => '',
                     'comprobante_periodo'               => '',
                     'comprobante_colaborador'           => '',
                     'comprobante_documento'             => '',
@@ -2317,14 +2318,15 @@
         return $json;
     });
 
-    $app->get('/v2/200/comprobante/periodo/{periodo}/{mesdesde}/{meshasta}', function($request) {
+    $app->get('/v2/200/comprobante/periodo/{comprobante}/{periodo}/{mesdesde}/{meshasta}', function($request) {
         require __DIR__.'/../src/connect.php';
 
-        $val01  = $request->getAttribute('periodo');
-        $val02  = $request->getAttribute('mesdesde');
-        $val03  = $request->getAttribute('meshasta');
+        $val01  = $request->getAttribute('comprobante');
+        $val02  = $request->getAttribute('periodo');
+        $val03  = $request->getAttribute('mesdesde');
+        $val04  = $request->getAttribute('meshasta');
         
-        if (isset($val01) && isset($val02) && isset($val03)) {
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val04)) {
             $sql00  = "SELECT
                 a.COMFICCOD         AS          comprobante_codigo,
                 a.COMFICPER         AS          comprobante_periodo,
@@ -2374,7 +2376,7 @@
                 INNER JOIN [adm].[DOMFIC] c ON a.COMFICTCC = c.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] d ON a.COMFICTMC = d.DOMFICCOD
 
-                WHERE a.COMFICPER = ? AND d.DOMFICPAR >= ? AND d.DOMFICPAR <= ?
+                WHERE a.COMFICTCC = ? AND a.COMFICPER = ? AND d.DOMFICPAR >= (SELECT e1.DOMFICPAR FROM adm.DOMFIC e1 WHERE e1.DOMFICCOD = ?) AND d.DOMFICPAR <= (SELECT e2.DOMFICPAR FROM adm.DOMFIC e2 WHERE e2.DOMFICCOD = ?)
                 
                 ORDER BY a.COMFICPER ASC, a.COMFICTMC ASC";
 
@@ -2410,7 +2412,7 @@
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $nroDoc     = trim(strtoupper(strtolower($rowMSSQL00['comprobante_documento'])));
@@ -2422,9 +2424,9 @@
                     $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
 
                     if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.'0'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                     } else {
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                     }
 
                     $detalle    = array(
@@ -2492,6 +2494,7 @@
                 } else {
                     $detalle    = array(
                         'comprobante_codigo'                => '',
+                        'comprobante_codigo_barra'          => '',
                         'comprobante_periodo'               => '',
                         'comprobante_colaborador'           => '',
                         'comprobante_documento'             => '',
@@ -2558,7 +2561,6 @@
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
             }
-
         }  else {
             header("Content-Type: application/json; charset=utf-8");
             $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -2670,13 +2672,13 @@
                     $periodo    = $rowMSSQL00['comprobante_periodo'];
                     $mes        = $rowMSSQL00['tipo_mes_parametro'];
                     $comprobante= $rowMSSQL00['tipo_comprobante_parametro'];
-    
+
                     if ($rowMSSQL00['tipo_mes_parametro'] > 0 && $rowMSSQL00['tipo_mes_parametro'] < 10){
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.'0'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.'0'.$mes."'".$comprobante;
                     } else {
-                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'/'.$mes."'".$comprobante;
+                        $comprobante_codigo_barra = $nroDoc."'".$periodo.'-'.$mes."'".$comprobante;
                     }
-    
+
                     $detalle    = array(
                         'comprobante_codigo'                => $rowMSSQL00['comprobante_codigo'],
                         'comprobante_codigo_barra'          => trim(strtoupper(strtolower($comprobante_codigo_barra))),
@@ -2742,6 +2744,7 @@
                 } else {
                     $detalle    = array(
                         'comprobante_codigo'                => '',
+                        'comprobante_codigo_barra'          => '',
                         'comprobante_periodo'               => '',
                         'comprobante_colaborador'           => '',
                         'comprobante_documento'             => '',
