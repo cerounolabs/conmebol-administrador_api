@@ -3064,7 +3064,6 @@
         return $json;
     });
 
-
     $app->get('/v2/200/tarjetapersonal/listado', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -3160,6 +3159,8 @@
                     'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                     'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
                     'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                    'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
+                    'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
                     'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
                     'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                     'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
@@ -3227,6 +3228,8 @@
                     'tarjeta_personal_documento'                => '',
                     'tarjeta_personal_email'                    => '',
                     'tarjeta_personal_nombre'                   => '',
+                    'tarjeta_personal_nombre1'                  => '',
+                    'tarjeta_personal_apellido1'                => '',
                     'tarjeta_personal_fecha_nacimiento_1'       => '',
                     'tarjeta_personal_fecha_nacimiento_2'       => '',
                     'tarjeta_personal_observacion'              => '', 
@@ -3398,6 +3401,8 @@
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                         'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
                         'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                        'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
+                        'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
                         'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
                         'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
@@ -3465,6 +3470,8 @@
                         'tarjeta_personal_documento'                => '',
                         'tarjeta_personal_email'                    => '',    
                         'tarjeta_personal_nombre'                   => '',
+                        'tarjeta_personal_nombre1'                  => '',
+                        'tarjeta_personal_apellido1'                => '',
                         'tarjeta_personal_fecha_nacimiento_1'       => '',
                         'tarjeta_personal_fecha_nacimiento_2'       => '',
                         'tarjeta_personal_observacion'              => '', 
@@ -3640,6 +3647,8 @@
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                         'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
                         'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                        'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
+                        'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
                         'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
                         'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
@@ -3707,6 +3716,8 @@
                         'tarjeta_personal_documento'                => '',
                         'tarjeta_personal_email'                    => '',    
                         'tarjeta_personal_nombre'                   => '',
+                        'tarjeta_personal_nombre1'                  => '',
+                        'tarjeta_personal_apellido1'                => '',
                         'tarjeta_personal_fecha_nacimiento_1'       => '',
                         'tarjeta_personal_fecha_nacimiento_2'       => '',
                         'tarjeta_personal_observacion'              => '', 
@@ -3759,7 +3770,6 @@
                         'tipo_cargo_codigo_referencia'              => '',
                         'tipo_cargo_nombre'                         => ''
 
-    
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
