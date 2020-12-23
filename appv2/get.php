@@ -3075,7 +3075,7 @@
             a.TPEFICNOV         AS          tarjeta_personal_nombre_visualizar,
             a.TPEFICAPV         AS          tarjeta_personal_apellido_visualizar,
             h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
-            h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
+            h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,   
             h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
             h.APELLIDOMATERNO   AS          tarjeta_personal_apellido2,
             h.FECHANACIMIENTO   AS          tarjeta_personal_fecha_nacimiento,
@@ -3155,6 +3155,18 @@
                     $tarjeta_personal_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['tarjeta_personal_fecha_nacimiento']));
                 }
 
+                if ($rowMSSQL00['tarjeta_personal_nombre_visualizar'] == 'P'){
+                    $tarjeta_personal_nombre = trim($rowMSSQL00['tarjeta_personal_nombre1']);
+                } else {
+                    $tarjeta_personal_nombre = trim($rowMSSQL00['tarjeta_personal_nombre2']);
+                }
+
+                if ($rowMSSQL00['tarjeta_personal_apellido_visualizar'] == 'P'){
+                    $tarjeta_personal_nombre = $tarjeta_personal_nombre.' '.trim($rowMSSQL00['tarjeta_personal_apellido1']);
+                } else {
+                    $tarjeta_personal_nombre = $tarjeta_personal_nombre.' '.trim($rowMSSQL00['tarjeta_personal_apellido2']);
+                }
+
                 $detalle    = array(
                     'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                     'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
@@ -3162,9 +3174,11 @@
                     'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
                     'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
                     'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
-                    'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                    'tarjeta_personal_nombre'                   => $tarjeta_personal_nombre,
                     'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
+                    'tarjeta_personal_nombre2'                  => trim($rowMSSQL00['tarjeta_personal_nombre2']),
                     'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
+                    'tarjeta_personal_apellido2'                => trim($rowMSSQL00['tarjeta_personal_apellido2']),
                     'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
                     'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                     'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
@@ -3236,6 +3250,7 @@
                     'tarjeta_personal_nombre'                   => '',
                     'tarjeta_personal_nombre1'                  => '',
                     'tarjeta_personal_apellido1'                => '',
+                    'tarjeta_personal_apellido2'                => '',
                     'tarjeta_personal_fecha_nacimiento_1'       => '',
                     'tarjeta_personal_fecha_nacimiento_2'       => '',
                     'tarjeta_personal_observacion'              => '', 
@@ -3497,7 +3512,9 @@
                         'tarjeta_personal_apellido_visualizar'      => '',   
                         'tarjeta_personal_nombre'                   => '',
                         'tarjeta_personal_nombre1'                  => '',
+                        'tarjeta_personal_nombre2'                  => '',
                         'tarjeta_personal_apellido1'                => '',
+                        'tarjeta_personal_apellido2'                => '',
                         'tarjeta_personal_fecha_nacimiento_1'       => '',
                         'tarjeta_personal_fecha_nacimiento_2'       => '',
                         'tarjeta_personal_observacion'              => '', 
