@@ -3072,6 +3072,8 @@
             a.TPEFICORD         AS          tarjeta_personal_orden,  
             a.TPEFICDNU         AS          tarjeta_personal_documento, 
             a.TPEFICEMA         AS          tarjeta_personal_email,
+            a.TPEFICNOV         AS          tarjeta_personal_nombre_visualizar,
+            a.TPEFICAPV         AS          tarjeta_personal_apellido_visualizar,
             h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
             h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
             h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
@@ -3158,6 +3160,8 @@
                     'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                     'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                     'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                    'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                    'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
                     'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
                     'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
                     'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
@@ -3227,6 +3231,8 @@
                     'tarjeta_personal_orden'                    => '',
                     'tarjeta_personal_documento'                => '',
                     'tarjeta_personal_email'                    => '',
+                    'tarjeta_personal_nombre_visualizar'        => '',
+                    'tarjeta_personal_apellido_visualizar'      => '',
                     'tarjeta_personal_nombre'                   => '',
                     'tarjeta_personal_nombre1'                  => '',
                     'tarjeta_personal_apellido1'                => '',
@@ -3301,10 +3307,10 @@
         return $json;
     });
 
-    $app->get('/v2/200/tarjetapersonal/codigo/{documento}', function($request) {
+    $app->get('/v2/200/tarjetapersonal/codigo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
-        $val00  = $request->getAttribute('documento');
+        $val00  = $request->getAttribute('codigo');
 
         if (isset($val00)) {
             $sql00  = "SELECT 
@@ -3312,6 +3318,8 @@
                 a.TPEFICORD         AS          tarjeta_personal_orden,  
                 a.TPEFICDNU         AS          tarjeta_personal_documento, 
                 a.TPEFICEMA         AS          tarjeta_personal_email,
+                a.TPEFICNOV         AS          tarjeta_personal_nombre_visualizar,
+                a.TPEFICAPV         AS          tarjeta_personal_apellido_visualizar,
                 h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
                 h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
                 h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
@@ -3394,15 +3402,31 @@
                         $tarjeta_personal_fecha_nacimiento_1 = $rowMSSQL00['tarjeta_personal_fecha_nacimiento'];
                         $tarjeta_personal_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['tarjeta_personal_fecha_nacimiento']));
                     }
+
+                    if ($rowMSSQL00['tarjeta_personal_nombre_visualizar'] == 'P'){
+                        $tarjeta_personal_nombre = trim($rowMSSQL00['tarjeta_personal_nombre1']);
+                    } else {
+                        $tarjeta_personal_nombre = trim($rowMSSQL00['tarjeta_personal_nombre2']);
+                    }
+
+                    if ($rowMSSQL00['tarjeta_personal_apellido_visualizar'] == 'P'){
+                        $tarjeta_personal_nombre = $tarjeta_personal_nombre.' '.trim($rowMSSQL00['tarjeta_personal_apellido1']);
+                    } else {
+                        $tarjeta_personal_nombre = $tarjeta_personal_nombre.' '.trim($rowMSSQL00['tarjeta_personal_apellido2']);
+                    }
     
                     $detalle    = array(
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                         'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
-                        'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
+                        'tarjeta_personal_nombre'                   => $tarjeta_personal_nombre,
                         'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
+                        'tarjeta_personal_nombre2'                  => trim($rowMSSQL00['tarjeta_personal_nombre2']),
                         'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
+                        'tarjeta_personal_apellido2'                => trim($rowMSSQL00['tarjeta_personal_apellido2']),
                         'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
                         'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
@@ -3468,7 +3492,9 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
-                        'tarjeta_personal_email'                    => '',    
+                        'tarjeta_personal_email'                    => '', 
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',   
                         'tarjeta_personal_nombre'                   => '',
                         'tarjeta_personal_nombre1'                  => '',
                         'tarjeta_personal_apellido1'                => '',
@@ -3558,6 +3584,8 @@
                 a.TPEFICORD         AS          tarjeta_personal_orden,  
                 a.TPEFICDNU         AS          tarjeta_personal_documento, 
                 a.TPEFICEMA         AS          tarjeta_personal_email,
+                a.TPEFICNOV         AS          tarjeta_personal_nombre_visualizar,
+                a.TPEFICAPV         AS          tarjeta_personal_apellido_visualizar,
                 h.PRIMERNOMBRE      AS          tarjeta_personal_nombre1,
                 h.SEGUNDONOMBRE     AS          tarjeta_personal_nombre2,
                 h.APELLIDOPATERNO   AS          tarjeta_personal_apellido1,
@@ -3640,15 +3668,31 @@
                         $tarjeta_personal_fecha_nacimiento_1 = $rowMSSQL00['tarjeta_personal_fecha_nacimiento'];
                         $tarjeta_personal_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['tarjeta_personal_fecha_nacimiento']));
                     }
+
+                    if ($rowMSSQL00['tarjeta_personal_nombre_visualizar'] == 'P'){
+                        $tarjeta_personal_nombre = trim($rowMSSQL00['tarjeta_personal_nombre1']);
+                    } else {
+                        $tarjeta_personal_nombre = trim($rowMSSQL00['tarjeta_personal_nombre2']);
+                    }
+
+                    if ($rowMSSQL00['tarjeta_personal_apellido_visualizar'] == 'P'){
+                        $tarjeta_personal_nombre = $tarjeta_personal_nombre.' '.trim($rowMSSQL00['tarjeta_personal_apellido1']);
+                    } else {
+                        $tarjeta_personal_nombre = $tarjeta_personal_nombre.' '.trim($rowMSSQL00['tarjeta_personal_apellido2']);
+                    }
     
                     $detalle    = array(
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
                         'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
-                        'tarjeta_personal_nombre'                   => trim($rowMSSQL00['tarjeta_personal_nombre1']).' '.trim($rowMSSQL00['tarjeta_personal_nombre2']).', '.trim($rowMSSQL00['tarjeta_personal_apellido1']).' '.trim($rowMSSQL00['tarjeta_personal_apellido2']),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
+                        'tarjeta_personal_nombre'                   => $tarjeta_personal_nombre,
                         'tarjeta_personal_nombre1'                  => trim($rowMSSQL00['tarjeta_personal_nombre1']),
+                        'tarjeta_personal_nombre2'                  => trim($rowMSSQL00['tarjeta_personal_nombre2']),
                         'tarjeta_personal_apellido1'                => trim($rowMSSQL00['tarjeta_personal_apellido1']),
+                        'tarjeta_personal_apellido2'                => trim($rowMSSQL00['tarjeta_personal_apellido2']),
                         'tarjeta_personal_fecha_nacimiento_1'       => $tarjeta_personal_fecha_nacimiento_1,
                         'tarjeta_personal_fecha_nacimiento_2'       => $tarjeta_personal_fecha_nacimiento_2,
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion']),
@@ -3715,6 +3759,8 @@
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
                         'tarjeta_personal_email'                    => '',    
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
                         'tarjeta_personal_nombre'                   => '',
                         'tarjeta_personal_nombre1'                  => '',
                         'tarjeta_personal_apellido1'                => '',
@@ -3835,7 +3881,10 @@
                 
                 d.TPEFICCOD     AS          tarjeta_personal_codigo,	
                 d.TPEFICORD     AS          tarjeta_personal_orden,  
-                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICDNU     AS          tarjeta_personal_documento, 
+                d.TPEFICEMA     AS          tarjeta_personal_email,
+                d.TPEFICNOV     AS          tarjeta_personal_nombre_visualizar,
+                d.TPEFICAPV     AS          tarjeta_personal_apellido_visualizar,    	
                 d.TPEFICOBS     AS          tarjeta_personal_observacion
                 
                 FROM [hum].[TPERSO] a
@@ -3892,6 +3941,9 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
                     );
 
@@ -3940,7 +3992,10 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
-                        'tarjeta_personal_observacion'              => ''    
+                        'tarjeta_personal_email'                    => '',
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
+                        'tarjeta_personal_observacion'              => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -4006,7 +4061,10 @@
                 
                 d.TPEFICCOD     AS          tarjeta_personal_codigo,	
                 d.TPEFICORD     AS          tarjeta_personal_orden,  
-                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICDNU     AS          tarjeta_personal_documento, 
+                d.TPEFICEMA     AS          tarjeta_personal_email,
+                d.TPEFICNOV     AS          tarjeta_personal_nombre_visualizar,
+                d.TPEFICAPV     AS          tarjeta_personal_apellido_visualizar,    	
                 d.TPEFICOBS     AS          tarjeta_personal_observacion
                 
                 FROM [hum].[TPERSO] a
@@ -4063,6 +4121,9 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
                     );
 
@@ -4111,7 +4172,10 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
-                        'tarjeta_personal_observacion'              => ''    
+                        'tarjeta_personal_email'                    => '',
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
+                        'tarjeta_personal_observacion'              => '' 
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -4177,7 +4241,10 @@
                 
                 d.TPEFICCOD     AS          tarjeta_personal_codigo,	
                 d.TPEFICORD     AS          tarjeta_personal_orden,  
-                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICDNU     AS          tarjeta_personal_documento, 
+                d.TPEFICEMA     AS          tarjeta_personal_email,
+                d.TPEFICNOV     AS          tarjeta_personal_nombre_visualizar,
+                d.TPEFICAPV     AS          tarjeta_personal_apellido_visualizar,    	
                 d.TPEFICOBS     AS          tarjeta_personal_observacion
                 
                 FROM [hum].[TPERSO] a
@@ -4234,7 +4301,10 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
-                        'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
+                        'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])         
                     );
 
                     $result[]   = $detalle;
@@ -4281,6 +4351,9 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
+                        'tarjeta_personal_email'                    => '',
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
                         'tarjeta_personal_observacion'              => ''    
                     );
 
@@ -4347,7 +4420,10 @@
                 
                 d.TPEFICCOD     AS          tarjeta_personal_codigo,	
                 d.TPEFICORD     AS          tarjeta_personal_orden,  
-                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICDNU     AS          tarjeta_personal_documento, 
+                d.TPEFICEMA     AS          tarjeta_personal_email,
+                d.TPEFICNOV     AS          tarjeta_personal_nombre_visualizar,
+                d.TPEFICAPV     AS          tarjeta_personal_apellido_visualizar,    	
                 d.TPEFICOBS     AS          tarjeta_personal_observacion
                 
                 FROM [hum].TPETEL a
@@ -4407,7 +4483,10 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
-                        'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
+                        'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])         
                     );
 
                     $result[]   = $detalle;
@@ -4455,7 +4534,11 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
-                        'tarjeta_personal_observacion'              => ''    
+                        'tarjeta_personal_email'                    => '',
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
+                        'tarjeta_personal_observacion'              => ''
+  
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -4521,7 +4604,10 @@
                 
                 d.TPEFICCOD     AS          tarjeta_personal_codigo,	
                 d.TPEFICORD     AS          tarjeta_personal_orden,  
-                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICDNU     AS          tarjeta_personal_documento, 
+                d.TPEFICEMA     AS          tarjeta_personal_email,
+                d.TPEFICNOV     AS          tarjeta_personal_nombre_visualizar,
+                d.TPEFICAPV     AS          tarjeta_personal_apellido_visualizar,    	
                 d.TPEFICOBS     AS          tarjeta_personal_observacion
                 
                 FROM [hum].TPETEL a
@@ -4581,6 +4667,9 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
                     );
 
@@ -4629,7 +4718,10 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
-                        'tarjeta_personal_observacion'              => ''    
+                        'tarjeta_personal_email'                    => '',
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
+                        'tarjeta_personal_observacion'              => ''   
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -4695,7 +4787,10 @@
                 
                 d.TPEFICCOD     AS          tarjeta_personal_codigo,	
                 d.TPEFICORD     AS          tarjeta_personal_orden,  
-                d.TPEFICDNU     AS          tarjeta_personal_documento,     	
+                d.TPEFICDNU     AS          tarjeta_personal_documento, 
+                d.TPEFICEMA     AS          tarjeta_personal_email,
+                d.TPEFICNOV     AS          tarjeta_personal_nombre_visualizar,
+                d.TPEFICAPV     AS          tarjeta_personal_apellido_visualizar,    	
                 d.TPEFICOBS     AS          tarjeta_personal_observacion
                 
                 FROM [hum].TPETEL a
@@ -4755,6 +4850,9 @@
                         'tarjeta_personal_codigo'                   => $rowMSSQL00['tarjeta_personal_codigo'],
                         'tarjeta_personal_orden'                    => $rowMSSQL00['tarjeta_personal_orden'],
                         'tarjeta_personal_documento'                => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_documento']))),
+                        'tarjeta_personal_email'                    => trim(strtolower($rowMSSQL00['tarjeta_personal_email'])),
+                        'tarjeta_personal_nombre_visualizar'        => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_nombre_visualizar']))),
+                        'tarjeta_personal_apellido_visualizar'      => trim(strtoupper(strtolower($rowMSSQL00['tarjeta_personal_apellido_visualizar']))),
                         'tarjeta_personal_observacion'              => trim($rowMSSQL00['tarjeta_personal_observacion'])        
                     );
 
@@ -4803,6 +4901,9 @@
                         'tarjeta_personal_codigo'                   => '',
                         'tarjeta_personal_orden'                    => '',
                         'tarjeta_personal_documento'                => '',
+                        'tarjeta_personal_email'                    => '',
+                        'tarjeta_personal_nombre_visualizar'        => '',
+                        'tarjeta_personal_apellido_visualizar'      => '',
                         'tarjeta_personal_observacion'              => ''    
                     );
 

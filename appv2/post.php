@@ -522,21 +522,23 @@
         $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
         $val08      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_documento']));
         $val09      = trim(strtolower($request->getParsedBody()['tarjeta_personal_email']));
-        $val10     =  trim($request->getParsedBody()['tarjeta_personal_observacion']);
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_nombre_visualizar'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_apellido_visualizar'])));
+        $val12     =  trim($request->getParsedBody()['tarjeta_personal_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {        
-            $sql00  = "INSERT INTO [hum].[TPEFIC] (TPEFICEST, TPEFICORD, TPEFICGEC, TPEFICDEC, TPEFICJEC, TPEFICCAC, TPEFICCNC, TPEFICDNU, TPEFICEMA, TPEFICOBS, TPEFICAUS, TPEFICAFH, TPEFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), ?, ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [hum].[TPEFIC] (TPEFICEST, TPEFICORD, TPEFICGEC, TPEFICDEC, TPEFICJEC, TPEFICCAC, TPEFICCNC, TPEFICDNU, TPEFICEMA, TPEFICNOV, TPEFICAPV, TPEFICOBS, TPEFICAUS, TPEFICAFH, TPEFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), ?, ?, ?, ?, GETDATE(), ?)";
             $sql01  = "SELECT MAX(TPEFICCOD) AS tarjeta_personal_codigo FROM [hum].[TPEFIC]";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $val10, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $val10, $val11, $val12, $aud01, $aud03]);
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute();

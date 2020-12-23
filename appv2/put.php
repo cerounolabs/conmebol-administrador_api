@@ -402,8 +402,11 @@
         $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
         $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
         $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val08      = trim($request->getParsedBody()['tarjeta_personal_documento']);
-        $val09      = trim($request->getParsedBody()['tarjeta_personal_observacion']);
+        $val08      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_documento']));
+        $val09      = trim(strtolower($request->getParsedBody()['tarjeta_personal_email']));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_nombre_visualizar'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_apellido_visualizar'])));
+        $val12     =  trim($request->getParsedBody()['tarjeta_personal_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -414,7 +417,7 @@
 
             switch ($val00_1) {
                 case 1:
-                    $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
+                    $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICNOV, = ?, TPEFICAPV = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
                     break;
 
                 case 2;
@@ -428,11 +431,11 @@
 
                 switch ($val00_1) {
                     case 1:
-                        $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val10, $val11, $val12, $aud01, $aud03, $val00]);
                     break;
 
                     case 2:
-                        $stmtMSSQL00->execute([$val01, $val09, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $val12, $aud01, $aud03, $val00]);
                     break;
                 }
 
