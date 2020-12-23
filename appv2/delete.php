@@ -1030,8 +1030,11 @@
         $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
         $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
         $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
-        $val08      = trim($request->getParsedBody()['tarjeta_personal_documento']);
-        $val09      = trim($request->getParsedBody()['tarjeta_personal_observacion']);
+        $val08      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_documento']));
+        $val09      = trim(strtolower($request->getParsedBody()['tarjeta_personal_email']));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_nombre_visualizar'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_apellido_visualizar'])));
+        $val12     =  trim($request->getParsedBody()['tarjeta_personal_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];

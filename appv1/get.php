@@ -3,22 +3,33 @@
         require __DIR__.'/../src/connect.php';
         
         $sql00  = "SELECT
-        a.DOMFICCOD         AS          tipo_codigo,
-        a.DOMFICORD         AS          tipo_orden,
-        a.DOMFICNOI         AS          tipo_nombre_ingles,
-        a.DOMFICNOC         AS          tipo_nombre_castellano,
-        a.DOMFICNOP         AS          tipo_nombre_portugues,
-        a.DOMFICPAT         AS          tipo_path,
-        a.DOMFICVAL         AS          tipo_dominio,
-        a.DOMFICOBS         AS          tipo_observacion,
-        a.DOMFICUSU         AS          auditoria_usuario,
-        a.DOMFICFEC         AS          auditoria_fecha_hora,
-        a.DOMFICDIP         AS          auditoria_ip,
+            a.DOMFICCOD         AS          tipo_codigo,
+            a.DOMFICORD         AS          tipo_orden,
+            a.DOMFICNOI         AS          tipo_nombre_ingles,
+            a.DOMFICNOC         AS          tipo_nombre_castellano,
+            a.DOMFICNOP         AS          tipo_nombre_portugues,
+            a.DOMFICPAT         AS          tipo_path,
+            a.DOMFICCSS         AS          tipo_css,
+            a.DOMFICPAR         AS          tipo_parametro,
+            a.DOMFICICO         AS          tipo_icono,
+            a.DOMFICVAL         AS          tipo_dominio,
+            a.DOMFICOBS         AS          tipo_observacion,
 
-        b.DOMFICCOD         AS          tipo_estado_codigo,
-        b.DOMFICNOI         AS          tipo_estado_ingles,
-        b.DOMFICNOC         AS          tipo_estado_castellano,
-        b.DOMFICNOP         AS          tipo_estado_portugues
+            a.DOMFICUSU         AS          auditoria_usuario,
+            a.DOMFICFEC         AS          auditoria_fecha_hora,
+            a.DOMFICDIP         AS          auditoria_ip,
+
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICORD         AS          tipo_estado_orden,
+            b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
+            b.DOMFICOBS         AS          tipo_estado_observacion
         
         FROM [adm].[DOMFIC] a
         INNER JOIN [adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
@@ -33,20 +44,32 @@
             while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                 $detalle    = array(
                     'tipo_codigo'                               => $rowMSSQL00['tipo_codigo'],
-                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
                     'tipo_orden'                                => $rowMSSQL00['tipo_orden'],
                     'tipo_nombre_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_ingles']))),
                     'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
                     'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
                     'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                    'tipo_css'                                  => trim(strtolower($rowMSSQL00['tipo_css'])),
+                    'tipo_parametro'                            => $rowMSSQL00['tipo_parametro'],
+                    'tipo_icono'                                => trim(strtolower($rowMSSQL00['tipo_icono'])),
                     'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
                     'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
+
                     'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip'])))
+                    'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                    'tipo_estado_nombre_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                    'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                    'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                    'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                    'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion'])))
                 );
 
                 $result[]   = $detalle;
@@ -69,9 +92,23 @@
                     'tipo_path'                                 => '',
                     'tipo_dominio'                              => '',
                     'tipo_observacion'                          => '',
+
                     'auditoria_usuario'                         => '',
                     'auditoria_fecha_hora'                      => '',
-                    'auditoria_ip'                              => ''
+                    'auditoria_ip'                              => '',
+
+                    'tipo_estado_codigo'                        => '',
+                    'tipo_estado_orden'                         => '',
+                    'tipo_estado_nombre_ingles'                 => '',
+                    'tipo_estado_nombre_castellano'             => '',
+                    'tipo_estado_nombre_portugues'              => '',
+                    'tipo_estado_path'                          => '',
+                    'tipo_estado_css'                           => '',
+                    'tipo_estado_parametro'                     => '',
+                    'tipo_estado_icono'                         => '',
+                    'tipo_estado_dominio'                       => '',
+                    'tipo_estado_observacion'                   => ''
+
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -97,22 +134,33 @@
         
         if (isset($val01)) {
             $sql00  = "SELECT
-                a.DOMFICCOD         AS          tipo_codigo,
-                a.DOMFICORD         AS          tipo_orden,
-                a.DOMFICNOI         AS          tipo_nombre_ingles,
-                a.DOMFICNOC         AS          tipo_nombre_castellano,
-                a.DOMFICNOP         AS          tipo_nombre_portugues,
-                a.DOMFICPAT         AS          tipo_path,
-                a.DOMFICVAL         AS          tipo_dominio,
-                a.DOMFICOBS         AS          tipo_observacion,
+                a.DOMFICCOD         AS          tipo_estado_codigo,
+                a.DOMFICORD         AS          tipo_estado_orden,
+                a.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+                a.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+                a.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                a.DOMFICPAT         AS          tipo_estado_path,
+                a.DOMFICCSS         AS          tipo_estado_css,
+                a.DOMFICPAR         AS          tipo_estado_parametro,
+                a.DOMFICICO         AS          tipo_estado_icono,
+                a.DOMFICVAL         AS          tipo_estado_dominio,
+                a.DOMFICOBS         AS          tipo_estado_observacion,
+
                 a.DOMFICUSU         AS          auditoria_usuario,
                 a.DOMFICFEC         AS          auditoria_fecha_hora,
                 a.DOMFICDIP         AS          auditoria_ip,
 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
-                b.DOMFICNOI         AS          tipo_estado_ingles,
-                b.DOMFICNOC         AS          tipo_estado_castellano,
-                b.DOMFICNOP         AS          tipo_estado_portugues
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion
                 
                 FROM [adm].[DOMFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.DOMFICEST = b.DOMFICCOD
@@ -129,20 +177,32 @@
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     $detalle    = array(
                         'tipo_codigo'                               => $rowMSSQL00['tipo_codigo'],
-                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
                         'tipo_orden'                                => $rowMSSQL00['tipo_orden'],
                         'tipo_nombre_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_ingles']))),
                         'tipo_nombre_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_castellano']))),
                         'tipo_nombre_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_nombre_portugues']))),
                         'tipo_path'                                 => trim(strtolower($rowMSSQL00['tipo_path'])),
+                        'tipo_css'                                  => trim(strtolower($rowMSSQL00['tipo_css'])),
+                        'tipo_parametro'                            => $rowMSSQL00['tipo_parametro'],
+                        'tipo_icono'                                => trim(strtolower($rowMSSQL00['tipo_icono'])),
                         'tipo_dominio'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio']))),
                         'tipo_observacion'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_observacion']))),
+    
                         'auditoria_usuario'                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
-                        'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip'])))
+                        'auditoria_ip'                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+    
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_nombre_ingles'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                        'tipo_estado_nombre_castellano'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                        'tipo_estado_nombre_portugues'              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion'])))
                     );
 
                     $result[]   = $detalle;
@@ -165,9 +225,22 @@
                         'tipo_path'                                 => '',
                         'tipo_dominio'                              => '',
                         'tipo_observacion'                          => '',
+    
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
-                        'auditoria_ip'                              => ''
+                        'auditoria_ip'                              => '',
+    
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_nombre_ingles'                 => '',
+                        'tipo_estado_nombre_castellano'             => '',
+                        'tipo_estado_nombre_portugues'              => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_dominio'                       => '',
+                        'tipo_estado_observacion'                   => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -310,23 +383,38 @@
         a.DOMSUBAIP         AS          auditoria_ip,
 
         b.DOMFICCOD         AS          tipo_estado_codigo,
-        b.DOMFICNOI         AS          tipo_estado_ingles,
-        b.DOMFICNOC         AS          tipo_estado_castellano,
-        b.DOMFICNOP         AS          tipo_estado_portugues,
+        b.DOMFICORD         AS          tipo_estado_orden,
+        b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+        b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+        b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+        b.DOMFICPAT         AS          tipo_estado_path,
+        b.DOMFICCSS         AS          tipo_estado_css,
+        b.DOMFICPAR         AS          tipo_estado_parametro,
+        b.DOMFICICO         AS          tipo_estado_icono,
+        b.DOMFICVAL         AS          tipo_estado_dominio,
+        b.DOMFICOBS         AS          tipo_estado_observacion,
 
         c.DOMFICCOD         AS          tipo_dominio1_codigo,
+        c.DOMFICORD         AS          tipo_dominio1_orden,
         c.DOMFICNOI         AS          tipo_dominio1_nombre_ingles,
         c.DOMFICNOC         AS          tipo_dominio1_nombre_castellano,
         c.DOMFICNOP         AS          tipo_dominio1_nombre_portugues,
         c.DOMFICPAT         AS          tipo_dominio1_path,
+        c.DOMFICCSS         AS          tipo_dominio1_css,
+        c.DOMFICPAR         AS          tipo_dominio1_parametro,
+        c.DOMFICICO         AS          tipo_dominio1_icono,
         c.DOMFICVAL         AS          tipo_dominio1_dominio,
         c.DOMFICOBS         AS          tipo_dominio1_observacion,
 
         d.DOMFICCOD         AS          tipo_dominio2_codigo,
+        d.DOMFICORD         AS          tipo_dominio2_orden,
         d.DOMFICNOI         AS          tipo_dominio2_nombre_ingles,
         d.DOMFICNOC         AS          tipo_dominio2_nombre_castellano,
         d.DOMFICNOP         AS          tipo_dominio2_nombre_portugues,
         d.DOMFICPAT         AS          tipo_dominio2_path,
+        d.DOMFICCSS         AS          tipo_dominio2_css,
+        d.DOMFICPAR         AS          tipo_dominio2_parametro,
+        d.DOMFICICO         AS          tipo_dominio2_icono,
         d.DOMFICVAL         AS          tipo_dominio2_dominio,
         d.DOMFICOBS         AS          tipo_dominio2_observacion
         
