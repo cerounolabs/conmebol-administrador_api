@@ -527,3 +527,160 @@
         
         return $json;
     });
+
+/*MODULO PERMISO*/
+
+    $app->put('/v1/200/tarjetapersonal/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_cantidad_parametro'];
+        $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
+        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val08      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_documento']));
+        $val09      = trim(strtolower($request->getParsedBody()['tarjeta_personal_email']));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_nombre_visualizar'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_apellido_visualizar'])));
+        $val12     =  trim($request->getParsedBody()['tarjeta_personal_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val00_1)) { 
+            $sql00  = "";
+
+            switch ($val00_1) {
+                case 1:
+                    $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICORD = ?, TPEFICGEC = ?, TPEFICDEC = ?, TPEFICJEC = ?, TPEFICCAC = ?, TPEFICCNC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), TPEFICDNU = ?, TPEFICNOV = ?, TPEFICAPV = ?, TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
+                    break;
+
+                case 2;
+                    $sql00  = "UPDATE [hum].[TPEFIC] SET TPEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), TPEFICOBS = ?, TPEFICAUS = ?, TPEFICAFH = GETDATE(), TPEFICAIP = ? WHERE TPEFICCOD = ?";
+                break;
+
+            } 
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val10, $val11, $val12, $aud01, $aud03, $val00]);
+                    break;
+
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $val12, $aud01, $aud03, $val00]);
+                    break;
+                }
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->put('/v1/200/tarjetapersonal/redesocial/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tarjeta_personal_red_social_orden'];
+        $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
+        $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
+        $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
+        $val06      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_red_social_visualizar']));
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val03) && isset($val04)) {   
+                $sql00  = "UPDATE [hum].[TPERSO] SET TPERSOEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), TPERSOORD = ?, TPERSOTRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), TPERSOTAC = ?, TPERSODIR = ?, TPERSOVIS = ?, TPERSOOBS = ?, TPERSOAUS = ?, TPERSOAFH = GETDATE(), TPERSOAIP = ? WHERE TPERSOCOD = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03, $val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->put('/v1/200/tarjetapersonal/telefonoprefijo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tarjeta_personal_telefono_orden'];
+        $val03      = $request->getParsedBody()['tipo_prefijo_parametro'];
+        $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
+        $val05      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_telefono_visualizar']));
+        $val06      = trim($request->getParsedBody()['tarjeta_personal_telefono_numero']);
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_telefono_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val01) && isset($val03) && isset($val04)) {        
+                $sql00  = "UPDATE [hum].[TPETEL] SET TPETELEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TELEFONOESTADO' AND DOMFICPAR = ?), TPETELORD = ?, TPETELTPC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PREFIJOCELULARTIPO' AND DOMFICPAR = ?), TPETELTAC = ?, TPETELVIS = ?, TPETELNUM = ?, TPETELOBS = ?, TPETELAUS = ?, TPETELAFH = GETDATE(), TPETELAIP = ? WHERE TPETELCOD = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03, $val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+/*MODULO PERMISO*/

@@ -668,7 +668,7 @@
                             $auxHor .= ($diff->i > 1) ? $diff->i.':00' : $diff->i . ':00';
                         }
 
-                        $SOLAXICON  = get_format($auxHor);
+                       // $SOLAXICON  = get_format($auxHor);
                     }
 
                     if (trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3'])) == 'DSM' && trim(strtoupper($rowMSSQL01['tipo_solicitud_codigo'])) == 'I') {
@@ -1453,3 +1453,167 @@
         
         return $json;
     });
+
+    /*MODULO PERMISOS*/
+    $app->post('/v1/200/tarjetapersonal', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_cantidad_parametro'];
+        $val03      = $request->getParsedBody()['tarjeta_personal_orden'];
+        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val06      = $request->getParsedBody()['tipo_jefatura_codigo'];
+        $val07      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val08      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_documento']));
+        $val09      = trim(strtolower($request->getParsedBody()['tarjeta_personal_email']));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_nombre_visualizar'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['tarjeta_personal_apellido_visualizar'])));
+        $val12     =  trim($request->getParsedBody()['tarjeta_personal_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07) && isset($val08)) {        
+            $sql00  = "INSERT INTO [hum].[TPEFIC] (TPEFICEST, TPEFICORD, TPEFICGEC, TPEFICDEC, TPEFICJEC, TPEFICCAC, TPEFICCNC, TPEFICDNU, TPEFICEMA, TPEFICNOV, TPEFICAPV, TPEFICOBS, TPEFICAUS, TPEFICAFH, TPEFICAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALESTADO' AND DOMFICPAR = ?), ?, ?,?, ?, ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TARJETAPERSONALCANTIDAD' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?,GETDATE(), ?)";                                                                                                                                                                                            
+            $sql01  = "SELECT MAX(TPEFICCOD) AS tarjeta_personal_codigo FROM [hum].[TPEFIC]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val03, $val04, $val05, $val06, $val07, $val02, $val08, $val09, $val10, $val11, $val12, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['tarjeta_personal_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v1/200/tarjetapersonal/redsocial', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tarjeta_personal_red_social_orden'];
+        $val03      = $request->getParsedBody()['tipo_red_social_parametro'];
+        $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
+        $val05      = trim(strtolower($request->getParsedBody()['tarjeta_personal_red_social_direccion']));
+        $val06      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_red_social_visualizar']));
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_red_social_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val03) &&  isset($val04)) {        
+            $sql00  = "INSERT INTO [hum].[TPERSO] (TPERSOEST, TPERSOORD, TPERSOTRC, TPERSOTAC, TPERSODIR, TPERSOVIS, TPERSOOBS, TPERSOAUS, TPERSOAFH, TPERSOAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'REDSOCIALTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(TPERSOCOD) AS tarjeta_personal_red_social_codigo FROM [hum].[TPERSO]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['tarjeta_personal_red_social_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->post('/v1/200/tarjetapersonal/telefonoprefijo', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tarjeta_personal_telefono_orden'];
+        $val03      = $request->getParsedBody()['tipo_prefijo_parametro'];
+        $val04      = $request->getParsedBody()['tarjeta_personal_codigo'];
+        $val05      = trim(strtoupper($request->getParsedBody()['tarjeta_personal_telefono_visualizar']));
+        $val06      = trim($request->getParsedBody()['tarjeta_personal_telefono_numero']);
+        $val07      = trim($request->getParsedBody()['tarjeta_personal_telefono_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val03) &&  isset($val04)) {        
+            $sql00  = "INSERT INTO [hum].[TPETEL] (TPETELEST, TPETELORD, TPETELTPC, TPETELTAC, TPETELVIS, TPETELNUM, TPETELOBS, TPETELAUS, TPETELAFH, TPETELAIP) VALUES ((SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TELEFONOESTADO' AND DOMFICPAR = ?), ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PREFIJOCELULARTIPO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(TPETELCOD) AS tarjeta_personal_telefono_codigo FROM [hum].[TPETEL]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03]);
+
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['tarjeta_personal_telefono_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    /*MODULO PERMISOS*/
