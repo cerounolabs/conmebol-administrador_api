@@ -1075,9 +1075,7 @@
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
 
-                    WHERE a.CedulaEmpleado = ? AND 
-                    (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500')))";
-
+                    WHERE a.CedulaEmpleado = ?";
             } elseif ($val01 == '2') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1109,9 +1107,7 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE b.CedulaEmpleado = ? AND
-                    (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
-
+                    WHERE b.CedulaEmpleado = ?";
             } elseif ($val01 == '3') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1141,12 +1137,7 @@
                     a.EmailManager              AS          superior_manager_email
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
-                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
-                    
-                    WHERE
-                    (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500'))) AND
-                    (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
-
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
             } elseif ($val01 == '4') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1178,10 +1169,7 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ? AND
-                    (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500'))) AND
-                    (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
-
+                    WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?";
             } elseif ($val01 == '5') {
                 $sql00  = "SELECT
                     c.IDEmpleado                AS          codigo,
@@ -1214,9 +1202,7 @@
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
 
-                    WHERE a.CedulaEmpleado = ? AND
-                    (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500'))) AND
-                    (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
+                    WHERE a.CedulaEmpleado = ?";
             }
 
             if ($val03 == 'I' || $val03 == 'A' || $val03 == 'P' || $val03 == 'C') {
@@ -1266,7 +1252,6 @@
                     WHERE a.SOLFICDOC = ? AND a.SOLFICEST = ?
                     
                     ORDER BY a.SOLFICCOD DESC";
-
             } elseif ($val03 == 'PC') {
                 $val03  = 'C';
                 $sql01  = "SELECT
@@ -1315,7 +1300,6 @@
                     WHERE a.SOLFICDOC = ? AND (a.SOLFICEST = 'P' OR a.SOLFICEST = ?) AND a.SOLFICUST <> ''
                     
                     ORDER BY a.SOLFICCOD DESC";
-
             } elseif ($val03 == 'T') {
                 $sql01  = "SELECT
                     a.SOLFICCOD         AS          solicitud_codigo,
@@ -1364,7 +1348,7 @@
                     
                     ORDER BY a.SOLFICCOD DESC";
             }
-
+            
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 
