@@ -1841,8 +1841,11 @@
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
             
             WHERE
-            (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500'))) AND
-            (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
+            (
+                (a.Estado = 'V' OR (a.Estado = 'N' AND (a.CedulaEmpleado = '798293' OR a.CedulaEmpleado = '1421530' OR a.CedulaEmpleado = '7951461' OR a.CedulaEmpleado = '574039' OR a.CedulaEmpleado = '17388982-7' OR a.CedulaEmpleado = '426942' OR a.CedulaEmpleado = '530962500'))) 
+                OR
+                (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))
+            )";
 
         try {
             $connMSSQL  = getConnectionMSSQLv1();
