@@ -2006,7 +2006,7 @@
                 FROM [CSF].[dbo].[empleados_AxisONE] a
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                WHERE a.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
+                WHERE a.CedulaEmpleado = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
