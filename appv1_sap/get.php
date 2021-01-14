@@ -2337,7 +2337,7 @@
                 FROM [CSF].[dbo].[empleados_AxisONE] a
                 INNER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                WHERE b.CedulaEmpleado = ? AND a.Estado = 'V' AND b.Estado = 'V'";
+                WHERE b.CedulaEmpleado = ?";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
