@@ -1107,7 +1107,7 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE b.CedulaEmpleado = ?";
+                    WHERE b.CedulaEmpleado = ? AND b.Estado = 'V'";
             } elseif ($val01 == '3') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1137,7 +1137,9 @@
                     a.EmailManager              AS          superior_manager_email
 
                     FROM [CSF].[dbo].[empleados_AxisONE] a
-                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo";
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                    
+                    WHERE b.Estado = 'V'";
             } elseif ($val01 == '4') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
@@ -1169,7 +1171,7 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?";
+                    WHERE (a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?) AND b.Estado = 'V'";
             } elseif ($val01 == '5') {
                 $sql00  = "SELECT
                     c.IDEmpleado                AS          codigo,
@@ -1202,7 +1204,7 @@
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
 
-                    WHERE a.CedulaEmpleado = ?";
+                    WHERE a.CedulaEmpleado = ? AND b.Estado = 'V' AND c.Estado = 'V'";
             }
 
             if ($val03 == 'I' || $val03 == 'A' || $val03 == 'P' || $val03 == 'C') {
