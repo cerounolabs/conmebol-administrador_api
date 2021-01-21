@@ -1078,36 +1078,36 @@
                     WHERE a.CedulaEmpleado = ?";
             } elseif ($val01 == '2') {
                 $sql00  = "SELECT
-                    a.IDEmpleado                AS          codigo,
-                    a.Estado                    AS          estado,
-                    a.CedulaEmpleado            AS          documento,
-                    a.ApellidoPaterno           AS          apellido_1,
-                    a.ApellidoMaterno           AS          apellido_2,
-                    a.PrimerNombre              AS          nombre_1,
-                    a.SegundoNombre             AS          nombre_2,
-                    a.NombreEmpleado            AS          nombre_completo,
-                    a.Sexo                      AS          tipo_sexo_codigo,
-                    a.EstadoCivil               AS          estado_civil_codigo,
-                    a.Email                     AS          email,
-                    a.FechaNacimiento           AS          fecha_nacimiento,
-                    a.IDUsuario                 AS          usuario_id,
-                    a.UsuarioSAP                AS          usuario_sap,
-                    a.IDTarjeta                 AS          tarjeta_id,
-                    a.CodigoCargo               AS          cargo_codigo,
-                    a.Cargo                     AS          cargo_nombre,
-                    a.CodigoGerencia            AS          gerencia_codigo,
-                    a.Gerencia                  AS          gerencia_nombre,
-                    a.CodigoDepto               AS          departamento_codigo,
-                    a.Departamento              AS          departamento_nombre,
-                    a.CodCargoSuperior          AS          superior_cargo_codigo,
-                    a.NombreCargoSuperior       AS          superior_cargo_nombre,
-                    a.Manager                   AS          superior_manager_nombre,
-                    a.EmailManager              AS          superior_manager_email
+                a.IDEmpleado                AS          codigo,
+                a.Estado                    AS          estado,
+                a.CedulaEmpleado            AS          documento,
+                a.ApellidoPaterno           AS          apellido_1,
+                a.ApellidoMaterno           AS          apellido_2,
+                a.PrimerNombre              AS          nombre_1,
+                a.SegundoNombre             AS          nombre_2,
+                a.NombreEmpleado            AS          nombre_completo,
+                a.Sexo                      AS          tipo_sexo_codigo,
+                a.EstadoCivil               AS          estado_civil_codigo,
+                a.Email                     AS          email,
+                a.FechaNacimiento           AS          fecha_nacimiento,
+                a.IDUsuario                 AS          usuario_id,
+                a.UsuarioSAP                AS          usuario_sap,
+                a.IDTarjeta                 AS          tarjeta_id,
+                a.CodigoCargo               AS          cargo_codigo,
+                a.Cargo                     AS          cargo_nombre,
+                a.CodigoGerencia            AS          gerencia_codigo,
+                a.Gerencia                  AS          gerencia_nombre,
+                a.CodigoDepto               AS          departamento_codigo,
+                a.Departamento              AS          departamento_nombre,
+                a.CodCargoSuperior          AS          superior_cargo_codigo,
+                a.NombreCargoSuperior       AS          superior_cargo_nombre,
+                a.Manager                   AS          superior_manager_nombre,
+                a.EmailManager              AS          superior_manager_email
 
-                    FROM [CSF].[dbo].[empleados_AxisONE] a
-                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
 
-                    WHERE b.CedulaEmpleado = ? AND b.Estado = 'V'";
+                WHERE b.CedulaEmpleado = ? AND (b.Estado = 'V' OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
             } elseif ($val01 == '3') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
