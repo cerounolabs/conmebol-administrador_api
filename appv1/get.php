@@ -1139,7 +1139,7 @@
                     FROM [CSF].[dbo].[empleados_AxisONE] a
                     LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodCargoSuperior = b.CodigoCargo
                     
-                    WHERE b.Estado = 'V'";
+                    WHERE (b.Estado = 'V' OR b.Estado is null OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
             } elseif ($val01 == '4') {
                 $sql00  = "SELECT
                     a.IDEmpleado                AS          codigo,
