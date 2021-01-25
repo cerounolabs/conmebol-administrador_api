@@ -224,6 +224,7 @@
         $val05      = $request->getParsedBody()['solicitud_fecha_hora'];
         $val06      = $request->getParsedBody()['solicitud_ip'];
         $val07      = $request->getParsedBody()['tipo_accion_codigo'];
+        $val08      = $request->getParsedBody()['solicitud_documento_jefe'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -236,10 +237,24 @@
                 $sql00  = "UPDATE [hum].[SOLFIC] SET SOLFICEST = ?, SOLFICOBT = ?, SOLFICUST = ?, SOLFICFCT = GETDATE(), SOLFICIPT = ?, SOLFICUSU = ?, SOLFICFEC = GETDATE(), SOLFICDIP = ? WHERE SOLFICCOD = ?";
             }
 
+            if ($val07 === 'X'){
+                $sql00  = "UPDATE [hum].[SOLFIC] SET SOLFICDOJ = ?, SOLFICUSU = ?, SOLFICFEC = GETDATE(), SOLFICDIP = ? WHERE SOLFICCOD = ?";
+            }
+
             try {
                 $connMSSQL  = getConnectionMSSQLv1();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val03, $val04, $val06, $aud01, $aud03, $val00]);
+
+                switch ($val07) {
+                    case 'X':
+                        $stmtMSSQL00->execute([$val08, $aud01, $aud03, $val00]);
+                        break;
+                    
+                    default:
+                        $stmtMSSQL00->execute([$val01, $val03, $val04, $val06, $aud01, $aud03, $val00]);
+                        break;
+                }
+                
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
