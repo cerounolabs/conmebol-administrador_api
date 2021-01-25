@@ -2561,25 +2561,21 @@
         if (isset($val01)) {
         
             $sql00  = "SELECT
-            a.CODE                  AS          marcacion_codigo,
-            a.NAME                  AS          marcacion_codigo_nombre,
-            a.U_CODEMP              AS          marcacion_colaborador_codigo,
-            a.U_CODTAR              AS          marcacion_tarjeta_codigo,
-            a.U_FE                  AS          marcacion_entrada_oficina_fecha,
-            a.U_HE                  AS          marcacion_entrada_oficina_hora,
-            a.U_FS                  AS          marcacion_salida_almuerzo_fecha,
-            a.U_HS                  AS          marcacion_salida_almuerzo_hora,
-            a.U_FEOR                AS          marcacion_entrada_almuerzo_fecha,
-            a.U_HEOR                AS          marcacion_entrada_almuerzo_hora,
-            a.U_FSOR                AS          marcacion_salida_oficina_fecha,
-            a.U_HSOR                AS          marcacion_salida_oficina_hora,
-            a.U_COMENT              AS          marcacion_comentario
-            
-            FROM [CSF].[dbo].[@A1A_MARCAS] a
+                a.U_CODEMP              AS          marcacion_colaborador_codigo,
+                a.FECHA                 AS          marcacion_entrada_oficina_fecha,
+                a.ENTRADA               AS          marcacion_entrada_oficina_hora,
+                a.FECHA                 AS          marcacion_salida_almuerzo_fecha,
+                a.SALIDAALMUERZO        AS          marcacion_salida_almuerzo_hora,
+                a.FECHA					AS          marcacion_entrada_almuerzo_fecha,
+                a.ENTRADAALMUERZO       AS          marcacion_entrada_almuerzo_hora,
+                a.FECHA                 AS          marcacion_salida_oficina_fecha,
+                a.SALIDA                AS          marcacion_salida_oficina_hora
+                
+                FROM [CSF].[dbo].[VI_MARCACIONES] a
 
-            WHERE a.U_CODEMP = ?
+                WHERE a.U_CODEMP = ?
 
-            ORDER BY a.CODE DESC";
+                ORDER BY a.FECHA DESC";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -2593,10 +2589,10 @@
                     $marcacion_salida_oficina_hora  = (strlen(trim($rowMSSQL['marcacion_salida_oficina_hora'])) > 3 ? date("H:i", strtotime(trim($rowMSSQL['marcacion_salida_oficina_hora']))) : (trim($rowMSSQL['marcacion_salida_oficina_hora']) != null ? date("H:i", strtotime('0'.trim($rowMSSQL['marcacion_salida_oficina_hora']))) : '<span style="background:#eb4c4c; color:#fff; padding:10px;">SIN MARCACIÓN </span>'));
                     
                     $detalle    = array(
-                        'marcacion_codigo'                          => $rowMSSQL['marcacion_codigo'],
-                        'marcacion_codigo_nombre'                   => $rowMSSQL['marcacion_codigo_nombre'],
+                        'marcacion_codigo'                          => '',
+                        'marcacion_codigo_nombre'                   => '',
                         'marcacion_colaborador_codigo'              => trim(strtoupper($rowMSSQL['marcacion_colaborador_codigo'])),
-                        'marcacion_tarjeta_codigo'                  => trim(strtoupper($rowMSSQL['marcacion_tarjeta_codigo'])),
+                        'marcacion_tarjeta_codigo'                  => '',
                         'marcacion_entrada_oficina_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_entrada_oficina_fecha'])),
                         'marcacion_entrada_oficina_hora'            => $marcacion_entrada_oficina_hora,
                         'marcacion_salida_almuerzo_fecha'           => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_almuerzo_fecha'])),
@@ -2605,7 +2601,7 @@
                         'marcacion_entrada_almuerzo_hora'           => $marcacion_entrada_almuerzo_hora,
                         'marcacion_salida_oficina_fecha'            => date("d/m/Y", strtotime($rowMSSQL['marcacion_salida_oficina_fecha'])),
                         'marcacion_salida_oficina_hora'             => $marcacion_salida_oficina_hora,
-                        'marcacion_comentario'                      => $rowMSSQL['marcacion_comentario']       
+                        'marcacion_comentario'                      => ''       
                     );
 
                     $result[]   = $detalle;
