@@ -1174,37 +1174,36 @@
                     WHERE (a.CedulaEmpleado = ? OR b.CedulaEmpleado = ?) AND (b.Estado = 'V' OR  b.Estado IS NULL OR (b.Estado = 'N' AND (b.CedulaEmpleado = '798293' OR b.CedulaEmpleado = '1421530' OR b.CedulaEmpleado = '7951461' OR b.CedulaEmpleado = '574039' OR b.CedulaEmpleado = '17388982-7' OR b.CedulaEmpleado = '426942' OR b.CedulaEmpleado = '530962500')))";
             } elseif ($val01 == '5') {
                 $sql00  = "SELECT
-                    c.IDEmpleado                AS          codigo,
-                    c.Estado                    AS          estado,
-                    c.CedulaEmpleado            AS          documento,
-                    c.ApellidoPaterno           AS          apellido_1,
-                    c.ApellidoMaterno           AS          apellido_2,
-                    c.PrimerNombre              AS          nombre_1,
-                    c.SegundoNombre             AS          nombre_2,
-                    c.NombreEmpleado            AS          nombre_completo,
-                    c.Sexo                      AS          tipo_sexo_codigo,
-                    c.EstadoCivil               AS          estado_civil_codigo,
-                    c.Email                     AS          email,
-                    c.FechaNacimiento           AS          fecha_nacimiento,
-                    c.IDUsuario                 AS          usuario_id,
-                    c.UsuarioSAP                AS          usuario_sap,
-                    c.IDTarjeta                 AS          tarjeta_id,
-                    c.CodigoCargo               AS          cargo_codigo,
-                    c.Cargo                     AS          cargo_nombre,
-                    c.CodigoGerencia            AS          gerencia_codigo,
-                    c.Gerencia                  AS          gerencia_nombre,
-                    c.CodigoDepto               AS          departamento_codigo,
-                    c.Departamento              AS          departamento_nombre,
-                    c.CodCargoSuperior          AS          superior_cargo_codigo,
-                    c.NombreCargoSuperior       AS          superior_cargo_nombre,
-                    c.Manager                   AS          superior_manager_nombre,
-                    c.EmailManager              AS          superior_manager_email
+                    b.IDEmpleado                AS          codigo,
+                    b.Estado                    AS          estado,
+                    b.CedulaEmpleado            AS          documento,
+                    b.ApellidoPaterno           AS          apellido_1,
+                    b.ApellidoMaterno           AS          apellido_2,
+                    b.PrimerNombre              AS          nombre_1,
+                    b.SegundoNombre             AS          nombre_2,
+                    b.NombreEmpleado            AS          nombre_completo,
+                    b.Sexo                      AS          tipo_sexo_codigo,
+                    b.EstadoCivil               AS          estado_civil_codigo,
+                    b.Email                     AS          email,
+                    b.FechaNacimiento           AS          fecha_nacimiento,
+                    b.IDUsuario                 AS          usuario_id,
+                    b.UsuarioSAP                AS          usuario_sap,
+                    b.IDTarjeta                 AS          tarjeta_id,
+                    b.CodigoCargo               AS          cargo_codigo,
+                    b.Cargo                     AS          cargo_nombre,
+                    b.CodigoGerencia            AS          gerencia_codigo,
+                    b.Gerencia                  AS          gerencia_nombre,
+                    b.CodigoDepto               AS          departamento_codigo,
+                    b.Departamento              AS          departamento_nombre,
+                    b.CodCargoSuperior          AS          superior_cargo_codigo,
+                    b.NombreCargoSuperior       AS          superior_cargo_nombre,
+                    b.Manager                   AS          superior_manager_nombre,
+                    b.EmailManager              AS          superior_manager_email
 
-                    FROM [CSF].[dbo].[empleados_AxisONE] a
-                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.CodigoCargo = b.CodCargoSuperior
-                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] c ON b.CodigoCargo = c.CodCargoSuperior
-
-                    WHERE a.CedulaEmpleado = ? AND b.Estado = 'V' AND c.Estado = 'V'";
+                    FROM [hum].[SOLFIC] a
+                    LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] b ON a.SOLFICDOC COLLATE SQL_Latin1_General_CP1_CI_AS = b.CedulaEmpleado
+                    
+                    WHERE a.SOLFICDOJ = ?";
             }
 
             if ($val03 == 'I' || $val03 == 'A' || $val03 == 'P' || $val03 == 'C') {
