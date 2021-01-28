@@ -4411,12 +4411,12 @@
             g.U_NOMBRE          AS          tipo_cargo_nombre
             
             FROM [hum].TPEFIC a
-            INNER JOIN [adm].DOMFIC b ON a.TPEFICEST = b.DOMFICCOD
-            INNER JOIN [adm].DOMFIC c ON a.TPEFICCNC = c.DOMFICCOD
-            INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
-            INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
-            INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
-            INNER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
+            LEFT OUTER JOIN [adm].DOMFIC b ON a.TPEFICEST = b.DOMFICCOD
+            LEFT OUTER JOIN [adm].DOMFIC c ON a.TPEFICCNC = c.DOMFICCOD
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
             LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h ON a.TPEFICDNU COLLATE SQL_Latin1_General_CP1_CI_AS = h.CedulaEmpleado
             
             ORDER BY a.TPEFICCOD DESC";
