@@ -699,7 +699,7 @@
             $sql00  = "INSERT INTO [hum].[SOLFIC] (SOLFICEST, SOLFICTST, SOLFICDOC, SOLFICFH1, SOLFICFH2, SOLFICFHC, SOLFICHO1, SOLFICHO2, SOLFICHOC, SOLFICPER, SOLFICDOJ, SOLFICADJ, SOLFICAD2, SOLFICAD3, SOLFICAD4, SOLFICUSC, SOLFICFCC, SOLFICIPC, SOLFICOBC, SOLFICUSU, SOLFICFEC, SOLFICDIP)
                                            SELECT          ?,         ?,         ?,        ?,          ?,         ?,        ?,          ?,         ?,        ?,          ?,         ?,         ?,        ?,          ?,        ?,  GETDATE(),        ?,         ?,         ?,  GETDATE(),     ? 
                                            WHERE NOT EXISTS(SELECT * FROM [hum].[SOLFIC] WHERE SOLFICEST = ? AND SOLFICTST = ? AND SOLFICDOC = ? AND SOLFICFH1 = ?)";
-            $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [hum].[SOLFIC] WHERE SOLFICEST = ? AND SOLFICTST = ? AND SOLFICDOC = ?";
+            $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [hum].[SOLFIC]";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
