@@ -706,7 +706,7 @@
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12_1, $val12_2, $val12_3, $val12_4, $aud01, $aud03, $val13, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12_1, $val12_2, $val12_3, $val12_4, $aud01, $aud03, $val13, $aud01, $aud03, $val01, $val02, $val03, $val04]);
                 
                 $stmtMSSQL01->execute([$val01, $val02, $val03]);
                 $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
