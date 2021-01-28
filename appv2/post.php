@@ -696,7 +696,9 @@
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val01) && isset($val02) && isset($val04)) {
-            $sql00  = "INSERT INTO [hum].[SOLFIC] (SOLFICEST, SOLFICTST, SOLFICDOC, SOLFICFH1, SOLFICFH2, SOLFICFHC, SOLFICHO1, SOLFICHO2, SOLFICHOC, SOLFICPER, SOLFICDOJ, SOLFICADJ, SOLFICAD2, SOLFICAD3, SOLFICAD4, SOLFICUSC, SOLFICFCC, SOLFICIPC, SOLFICOBC, SOLFICUSU, SOLFICFEC, SOLFICDIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?, ?, ?, GETDATE(), ?)";
+            $sql00  = "INSERT INTO [hum].[SOLFIC] (SOLFICEST, SOLFICTST, SOLFICDOC, SOLFICFH1, SOLFICFH2, SOLFICFHC, SOLFICHO1, SOLFICHO2, SOLFICHOC, SOLFICPER, SOLFICDOJ, SOLFICADJ, SOLFICAD2, SOLFICAD3, SOLFICAD4, SOLFICUSC, SOLFICFCC, SOLFICIPC, SOLFICOBC, SOLFICUSU, SOLFICFEC, SOLFICDIP
+                                           SELECT          ?,         ?,         ?,        ?,          ?,         ?,        ?,          ?,         ?,        ?,          ?,         ?,         ?,        ?,          ?,        ?,  GETDATE()),        ?,         ?,         ?,  GETDATE(),     ? 
+            WHERE NOT EXISTS(SELECT * FROM [hum].[SOLFIC] WHERE SOLFICEST = ? AND SOLFICTST = ? AND SOLFICDOC = ? AND SOLFICFH1 = ?)";
             $sql01  = "SELECT MAX(SOLFICCOD) AS solicitud_codigo FROM [hum].[SOLFIC] WHERE SOLFICEST = ? AND SOLFICTST = ? AND SOLFICDOC = ?";
             
             try {
