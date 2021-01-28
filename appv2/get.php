@@ -1588,7 +1588,10 @@
                     a.SOLFICHO1         AS          solicitud_hora_desde,
                     a.SOLFICHO2         AS          solicitud_hora_hasta,
                     a.SOLFICHOC         AS          solicitud_hora_cantidad,
-                    a.SOLFICADJ         AS          solicitud_adjunto,
+                    a.SOLFICADJ         AS          solicitud_adjunto1,
+                    a.SOLFICAD2         AS          solicitud_adjunto2,
+                    a.SOLFICAD3         AS          solicitud_adjunto3,
+                    a.SOLFICAD4         AS          solicitud_adjunto4, 
                     a.SOLFICUSC         AS          solicitud_usuario_colaborador,
                     a.SOLFICFCC         AS          solicitud_fecha_hora_colaborador,
                     a.SOLFICIPC         AS          solicitud_ip_colaborador, 
@@ -1636,7 +1639,10 @@
                     a.SOLFICHO1         AS          solicitud_hora_desde,
                     a.SOLFICHO2         AS          solicitud_hora_hasta,
                     a.SOLFICHOC         AS          solicitud_hora_cantidad,
-                    a.SOLFICADJ         AS          solicitud_adjunto,
+                    a.SOLFICADJ         AS          solicitud_adjunto1,
+                    a.SOLFICAD2         AS          solicitud_adjunto2,
+                    a.SOLFICAD3         AS          solicitud_adjunto3,
+                    a.SOLFICAD4         AS          solicitud_adjunto4, 
                     a.SOLFICUSC         AS          solicitud_usuario_colaborador,
                     a.SOLFICFCC         AS          solicitud_fecha_hora_colaborador,
                     a.SOLFICIPC         AS          solicitud_ip_colaborador, 
@@ -1683,7 +1689,10 @@
                     a.SOLFICHO1         AS          solicitud_hora_desde,
                     a.SOLFICHO2         AS          solicitud_hora_hasta,
                     a.SOLFICHOC         AS          solicitud_hora_cantidad,
-                    a.SOLFICADJ         AS          solicitud_adjunto,
+                    a.SOLFICADJ         AS          solicitud_adjunto1,
+                    a.SOLFICAD2         AS          solicitud_adjunto2,
+                    a.SOLFICAD3         AS          solicitud_adjunto3,
+                    a.SOLFICAD4         AS          solicitud_adjunto4, 
                     a.SOLFICUSC         AS          solicitud_usuario_colaborador,
                     a.SOLFICFCC         AS          solicitud_fecha_hora_colaborador,
                     a.SOLFICIPC         AS          solicitud_ip_colaborador, 
@@ -1722,7 +1731,7 @@
             }
             
             try {
-                $connMSSQL  = getConnectionMSSQLv2();
+                $connMSSQL  = getConnectionMSSQLv1();
                 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
@@ -1800,7 +1809,10 @@
                             'solicitud_hora_desde'              => trim(strtoupper($rowMSSQL01['solicitud_hora_desde'])),
                             'solicitud_hora_hasta'              => trim(strtoupper($rowMSSQL01['solicitud_hora_hasta'])),
                             'solicitud_hora_cantidad'           => $rowMSSQL01['solicitud_hora_cantidad'],
-                            'solicitud_adjunto'                 => trim(strtolower($rowMSSQL01['solicitud_adjunto'])),
+                            'solicitud_adjunto1'                => trim(strtolower($rowMSSQL01['solicitud_adjunto1'])),
+                            'solicitud_adjunto2'                => trim(strtolower($rowMSSQL01['solicitud_adjunto2'])),
+                            'solicitud_adjunto3'                => trim(strtolower($rowMSSQL01['solicitud_adjunto3'])),
+                            'solicitud_adjunto4'                => trim(strtolower($rowMSSQL01['solicitud_adjunto4'])),
                             'solicitud_usuario_colaborador'     => trim(strtoupper($rowMSSQL01['solicitud_usuario_colaborador'])),
                             'solicitud_fecha_hora_colaborador'  => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_colaborador'])),
                             'solicitud_ip_colaborador'          => trim(strtoupper($rowMSSQL01['solicitud_ip_colaborador'])),
@@ -1844,7 +1856,10 @@
                         'solicitud_hora_desde'              => '',
                         'solicitud_hora_hasta'              => '',
                         'solicitud_hora_cantidad'           => '',
-                        'solicitud_adjunto'                 => '',
+                        'solicitud_adjunto1'                => '',
+                        'solicitud_adjunto2'                => '',
+                        'solicitud_adjunto3'                => '',
+                        'solicitud_adjunto4'                => '',
                         'solicitud_usuario_colaborador'     => '',
                         'solicitud_fecha_hora_colaborador'  => '',
                         'solicitud_ip_colaborador'          => '',
