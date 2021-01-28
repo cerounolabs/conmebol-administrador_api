@@ -1178,7 +1178,10 @@
             a.SOLFICHO1         AS          solicitud_hora_desde,
             a.SOLFICHO2         AS          solicitud_hora_hasta,
             a.SOLFICHOC         AS          solicitud_hora_cantidad,
-            a.SOLFICADJ         AS          solicitud_adjunto,
+            a.SOLFICADJ         AS          solicitud_adjunto1,
+            a.SOLFICAD2         AS          solicitud_adjunto2,
+            a.SOLFICAD3         AS          solicitud_adjunto3,
+            a.SOLFICAD4         AS          solicitud_adjunto4,    
             a.SOLFICUSC         AS          solicitud_usuario_colaborador,
             a.SOLFICFCC         AS          solicitud_fecha_hora_colaborador,
             a.SOLFICIPC         AS          solicitud_ip_colaborador, 
@@ -1191,7 +1194,6 @@
             a.SOLFICFCT         AS          solicitud_fecha_hora_talento,
             a.SOLFICIPT         AS          solicitud_ip_talento,
             a.SOLFICOBT         AS          solicitud_observacion_talento,
-
             a.SOLFICUSU         AS          auditoria_usuario,
             a.SOLFICFEC         AS          auditoria_fecha_hora,
             a.SOLFICDIP         AS          auditoria_ip,
@@ -1273,7 +1275,7 @@
                         $tipo_solicitud_nombre  = 'PERMISO';
                         $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
                         break;
-    
+
                     case 'I':
                         $tipo_solicitud_nombre  = 'INASISTENCIA';
                         $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
@@ -1307,7 +1309,10 @@
                     'solicitud_hora_desde'              => trim(strtoupper($rowMSSQL01['solicitud_hora_desde'])),
                     'solicitud_hora_hasta'              => trim(strtoupper($rowMSSQL01['solicitud_hora_hasta'])),
                     'solicitud_hora_cantidad'           => $rowMSSQL01['solicitud_hora_cantidad'],
-                    'solicitud_adjunto'                 => trim(strtolower($rowMSSQL01['solicitud_adjunto'])),
+                    'solicitud_adjunto1'                => trim(strtolower($rowMSSQL01['solicitud_adjunto1'])),
+                    'solicitud_adjunto2'                => trim(strtolower($rowMSSQL01['solicitud_adjunto2'])),
+                    'solicitud_adjunto3'                => trim(strtolower($rowMSSQL01['solicitud_adjunto3'])),
+                    'solicitud_adjunto4'                => trim(strtolower($rowMSSQL01['solicitud_adjunto4'])),
                     'solicitud_usuario_colaborador'     => trim(strtoupper($rowMSSQL01['solicitud_usuario_colaborador'])),
                     'solicitud_fecha_hora_colaborador'  => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_colaborador'])),
                     'solicitud_ip_colaborador'          => trim(strtoupper($rowMSSQL01['solicitud_ip_colaborador'])),
@@ -1354,7 +1359,10 @@
                     'solicitud_hora_desde'              => '',
                     'solicitud_hora_hasta'              => '',
                     'solicitud_hora_cantidad'           => '',
-                    'solicitud_adjunto'                 => '',
+                    'solicitud_adjunto1'                => '',
+                    'solicitud_adjunto2'                => '',
+                    'solicitud_adjunto3'                => '',
+                    'solicitud_adjunto4'                => '',
                     'solicitud_usuario_colaborador'     => '',
                     'solicitud_fecha_hora_colaborador'  => '',
                     'solicitud_ip_colaborador'          => '',
