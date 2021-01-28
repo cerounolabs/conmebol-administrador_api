@@ -685,10 +685,10 @@
         $val09      = $request->getParsedBody()['solicitud_hora_cantidad'];
         $val10      = $request->getParsedBody()['solicitud_periodo'];
         $val11      = $request->getParsedBody()['solicitud_documento_jefe'];
-        $val12_1    = $request->getParsedBody()['solicitud_adjunto_1'];
-        $val12_2    = $request->getParsedBody()['solicitud_adjunto_2'];
-        $val12_3    = $request->getParsedBody()['solicitud_adjunto_3'];
-        $val12_4    = $request->getParsedBody()['solicitud_adjunto_4'];
+        $val12_1    = $request->getParsedBody()['solicitud_adjunto1'];
+        $val12_2    = $request->getParsedBody()['solicitud_adjunto2'];
+        $val12_3    = $request->getParsedBody()['solicitud_adjunto3'];
+        $val12_4    = $request->getParsedBody()['solicitud_adjunto4'];
         $val13      = $request->getParsedBody()['solicitud_observacion_colaborador'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
