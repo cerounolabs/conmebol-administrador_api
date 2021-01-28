@@ -1731,7 +1731,7 @@
             }
             
             try {
-                $connMSSQL  = getConnectionMSSQLv1();
+                $connMSSQL  = getConnectionMSSQLv2();
                 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
