@@ -4691,10 +4691,10 @@
                 FROM [hum].TPEFIC a
                 INNER JOIN [adm].DOMFIC b ON a.TPEFICEST = b.DOMFICCOD
                 INNER JOIN [adm].DOMFIC c ON a.TPEFICCNC = c.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h ON a.TPEFICDNU COLLATE SQL_Latin1_General_CP1_CI_AS = h.CedulaEmpleado
 
                 WHERE a.TPEFICCOD = ?
@@ -4959,10 +4959,10 @@
                 FROM [hum].TPEFIC a
                 INNER JOIN [adm].DOMFIC b ON a.TPEFICEST = b.DOMFICCOD
                 INNER JOIN [adm].DOMFIC c ON a.TPEFICCNC = c.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h ON a.TPEFICDNU COLLATE SQL_Latin1_General_CP1_CI_AS = h.CedulaEmpleado
 
                 WHERE a.TPEFICDNU = ?
@@ -5225,10 +5225,10 @@
                 FROM [hum].TPEFIC a
                 INNER JOIN [adm].DOMFIC b ON a.TPEFICEST = b.DOMFICCOD
                 INNER JOIN [adm].DOMFIC c ON a.TPEFICCNC = c.DOMFICCOD
-                INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.TPEFICGEC = d.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.TPEFICDEC = e.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.TPEFICJEC = f.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] g ON a.TPEFICCAC = g.U_CODIGO
                 LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h ON a.TPEFICDNU COLLATE SQL_Latin1_General_CP1_CI_AS = h.CedulaEmpleado
 
                 WHERE a.TPEFICDNU = ? AND a.TPEFICEST = (SELECT a1.DOMFICCOD FROM [adm].DOMFIC a1 WHERE a1.DOMFICVAL = 'TARJETAPERSONALESTADO' AND a1.DOMFICPAR = 2)
