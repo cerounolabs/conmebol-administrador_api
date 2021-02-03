@@ -2533,6 +2533,35 @@
                 $tipo_permiso_nombre= $rowMSSQL02['tipo_permiso_nombre'];
                 $solicitud_persona  = $rowMSSQL03['nombre_completo'];
 
+                $solicitud_adjunto1 = trim(strtolower($rowMSSQL01['solicitud_adjunto1']));
+                $solicitud_adjunto2 = trim(strtolower($rowMSSQL01['solicitud_adjunto2']));
+                $solicitud_adjunto3 = trim(strtolower($rowMSSQL01['solicitud_adjunto3']));
+                $solicitud_adjunto4 = trim(strtolower($rowMSSQL01['solicitud_adjunto4']));
+
+                if ($solicitud_adjunto1 == $solicitud_adjunto2){
+                    $solicitud_adjunto2 = '';
+                }
+
+                if ($solicitud_adjunto1 == $solicitud_adjunto3){
+                    $solicitud_adjunto3 = '';
+                }
+
+                if ($solicitud_adjunto1 == $solicitud_adjunto4){
+                    $solicitud_adjunto4 = '';
+                }
+
+                if ($solicitud_adjunto2 == $solicitud_adjunto3){
+                    $solicitud_adjunto3 = '';
+                }
+
+                if ($solicitud_adjunto2 == $solicitud_adjunto4){
+                    $solicitud_adjunto4 = '';
+                }
+
+                if ($solicitud_adjunto3 == $solicitud_adjunto4){
+                    $solicitud_adjunto4 = '';
+                }
+
                 $detalle    = array(
                     'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                     'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
@@ -2549,10 +2578,10 @@
                     'solicitud_hora_desde'              => trim(strtoupper($rowMSSQL01['solicitud_hora_desde'])),
                     'solicitud_hora_hasta'              => trim(strtoupper($rowMSSQL01['solicitud_hora_hasta'])),
                     'solicitud_hora_cantidad'           => $rowMSSQL01['solicitud_hora_cantidad'],
-                    'solicitud_adjunto1'                => trim(strtolower($rowMSSQL01['solicitud_adjunto1'])),
-                    'solicitud_adjunto2'                => trim(strtolower($rowMSSQL01['solicitud_adjunto2'])),
-                    'solicitud_adjunto3'                => trim(strtolower($rowMSSQL01['solicitud_adjunto3'])),
-                    'solicitud_adjunto4'                => trim(strtolower($rowMSSQL01['solicitud_adjunto4'])),
+                    'solicitud_adjunto1'                => $solicitud_adjunto1,
+                    'solicitud_adjunto2'                => $solicitud_adjunto2,
+                    'solicitud_adjunto3'                => $solicitud_adjunto3,
+                    'solicitud_adjunto4'                => $solicitud_adjunto4,
                     'solicitud_usuario_colaborador'     => trim(strtoupper($rowMSSQL01['solicitud_usuario_colaborador'])),
                     'solicitud_fecha_hora_colaborador'  => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_colaborador'])),
                     'solicitud_ip_colaborador'          => trim(strtoupper($rowMSSQL01['solicitud_ip_colaborador'])),
@@ -3033,7 +3062,36 @@
 
                         $tipo_permiso_nombre= $rowMSSQL02['tipo_permiso_nombre'];
                         $solicitud_persona  = $rowMSSQL00['nombre_completo'];
-    
+
+                        $solicitud_adjunto1 = trim(strtolower($rowMSSQL01['solicitud_adjunto1']));
+                        $solicitud_adjunto2 = trim(strtolower($rowMSSQL01['solicitud_adjunto2']));
+                        $solicitud_adjunto3 = trim(strtolower($rowMSSQL01['solicitud_adjunto3']));
+                        $solicitud_adjunto4 = trim(strtolower($rowMSSQL01['solicitud_adjunto4']));
+
+                        if ($solicitud_adjunto1 == $solicitud_adjunto2){
+                            $solicitud_adjunto2 = '';
+                        }
+
+                        if ($solicitud_adjunto1 == $solicitud_adjunto3){
+                            $solicitud_adjunto3 = '';
+                        }
+
+                        if ($solicitud_adjunto1 == $solicitud_adjunto4){
+                            $solicitud_adjunto4 = '';
+                        }
+
+                        if ($solicitud_adjunto2 == $solicitud_adjunto3){
+                            $solicitud_adjunto3 = '';
+                        }
+
+                        if ($solicitud_adjunto2 == $solicitud_adjunto4){
+                            $solicitud_adjunto4 = '';
+                        }
+
+                        if ($solicitud_adjunto3 == $solicitud_adjunto4){
+                            $solicitud_adjunto4 = '';
+                        }
+
                         $detalle    = array(
                             'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                             'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
@@ -3050,10 +3108,10 @@
                             'solicitud_hora_desde'              => trim(strtoupper($rowMSSQL01['solicitud_hora_desde'])),
                             'solicitud_hora_hasta'              => trim(strtoupper($rowMSSQL01['solicitud_hora_hasta'])),
                             'solicitud_hora_cantidad'           => $rowMSSQL01['solicitud_hora_cantidad'],
-                            'solicitud_adjunto1'                => trim(strtolower($rowMSSQL01['solicitud_adjunto1'])),
-                            'solicitud_adjunto2'                => trim(strtolower($rowMSSQL01['solicitud_adjunto2'])),
-                            'solicitud_adjunto3'                => trim(strtolower($rowMSSQL01['solicitud_adjunto3'])),
-                            'solicitud_adjunto4'                => trim(strtolower($rowMSSQL01['solicitud_adjunto4'])),
+                            'solicitud_adjunto1'                => $solicitud_adjunto1,
+                            'solicitud_adjunto2'                => $solicitud_adjunto2,
+                            'solicitud_adjunto3'                => $solicitud_adjunto3,
+                            'solicitud_adjunto4'                => $solicitud_adjunto4,
                             'solicitud_usuario_colaborador'     => trim(strtoupper($rowMSSQL01['solicitud_usuario_colaborador'])),
                             'solicitud_fecha_hora_colaborador'  => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_colaborador'])),
                             'solicitud_ip_colaborador'          => trim(strtoupper($rowMSSQL01['solicitud_ip_colaborador'])),
