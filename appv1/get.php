@@ -2677,6 +2677,287 @@
         return $json;
     });
 
+    $app->get('/v1/200/solicitudes/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getAttribute('codigo');
+
+        if (isset($val01) && isset($val02)) { 
+            $sql01  = "SELECT
+                a.SOLFICCOD         AS          solicitud_codigo,
+                a.SOLFICEST         AS          solicitud_estado_codigo,
+                a.SOLFICDOC         AS          solicitud_documento,
+                a.SOLFICFH1         AS          solicitud_fecha_desde,
+                a.SOLFICFH2         AS          solicitud_fecha_hasta,
+                a.SOLFICFHC         AS          solicitud_fecha_cantidad,
+                a.SOLFICHO1         AS          solicitud_hora_desde,
+                a.SOLFICHO2         AS          solicitud_hora_hasta,
+                a.SOLFICHOC         AS          solicitud_hora_cantidad,
+                a.SOLFICADJ         AS          solicitud_adjunto1,
+                a.SOLFICAD2         AS          solicitud_adjunto2,
+                a.SOLFICAD3         AS          solicitud_adjunto3,
+                a.SOLFICAD4         AS          solicitud_adjunto4,
+                a.SOLFICUSC         AS          solicitud_usuario_colaborador,
+                a.SOLFICFCC         AS          solicitud_fecha_hora_colaborador,
+                a.SOLFICIPC         AS          solicitud_ip_colaborador, 
+                a.SOLFICOBC         AS          solicitud_observacion_colaborador,
+                a.SOLFICUSS         AS          solicitud_usuario_superior,
+                a.SOLFICFCS         AS          solicitud_fecha_hora_superior,
+                a.SOLFICIPS         AS          solicitud_ip_superior,
+                a.SOLFICOBS         AS          solicitud_observacion_superior,
+                a.SOLFICUST         AS          solicitud_usuario_talento,
+                a.SOLFICFCT         AS          solicitud_fecha_hora_talento,
+                a.SOLFICIPT         AS          solicitud_ip_talento,
+                a.SOLFICOBT         AS          solicitud_observacion_talento,
+                a.SOLFICUSU         AS          auditoria_usuario,
+                a.SOLFICFEC         AS          auditoria_fecha_hora,
+                a.SOLFICDIP         AS          auditoria_ip,
+
+                b.DOMSOLCOD         AS          tipo_permiso_codigo,
+                b.DOMSOLEST         AS          tipo_estado_codigo,
+                b.DOMSOLTST         AS          tipo_solicitud_codigo,
+                b.DOMSOLPC1         AS          tipo_permiso_codigo1,
+                b.DOMSOLPC2         AS          tipo_permiso_codigo2,
+                b.DOMSOLPC3         AS          tipo_permiso_codigo3,
+                b.DOMSOLORD         AS          tipo_orden_numero,
+                b.DOMSOLDIC         AS          tipo_dia_cantidad,
+                b.DOMSOLDIO         AS          tipo_dia_corrido,
+                b.DOMSOLDIU         AS          tipo_dia_unidad,
+                b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                b.DOMSOLOBS         AS          tipo_observacion
+
+                FROM [hum].[SOLFIC] a
+                INNER JOIN [adm].[DOMSOL] b ON a.SOLFICTST = b.DOMSOLCOD
+                
+                WHERE a.SOLFICCOD = ?";
+
+            $sql03  = "SELECT
+                a.CedulaEmpleado            AS          documento,
+                a.ApellidoPaterno           AS          apellido_1,
+                a.ApellidoMaterno           AS          apellido_2,
+                a.PrimerNombre              AS          nombre_1,
+                a.SegundoNombre             AS          nombre_2,
+                a.NombreEmpleado            AS          nombre_completo,
+                a.Sexo                      AS          tipo_sexo_codigo,
+                a.EstadoCivil               AS          estado_civil_codigo,
+                a.Email                     AS          email,
+                a.FechaNacimiento           AS          fecha_nacimiento,
+                a.CodigoCargo               AS          cargo_codigo,
+                a.Cargo                     AS          cargo_nombre,
+                a.CodigoGerencia            AS          gerencia_codigo,
+                a.Gerencia                  AS          gerencia_nombre,
+                a.CodigoDepto               AS          departamento_codigo,
+                a.Departamento              AS          departamento_nombre,         
+                a.CodCargoSuperior          AS          superior_cargo_codigo,
+                a.NombreCargoSuperior       AS          superior_cargo_nombre,
+                a.Manager                   AS          superior_manager_nombre,
+                a.EmailManager              AS          superior_manager_email
+
+                FROM [CSF].[dbo].[empleados_AxisONE] a
+
+                WHERE a.CedulaEmpleado = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute([$val01]);
+
+                while ($rowMSSQL01 = $stmtMSSQL01->fetch()) {
+                    switch ($rowMSSQL01['solicitud_estado_codigo']) {
+                        case 'I':
+                            $solicitud_estado_nombre = 'INGRESADO';
+                            break;
+                        
+                        case 'A':
+                            $solicitud_estado_nombre = 'AUTORIZADO';
+                            break;
+                        
+                        case 'P':
+                            $solicitud_estado_nombre = 'APROBADO';
+                            break;
+
+                        case 'C':
+                            $solicitud_estado_nombre = 'ANULADO';
+                            break;
+                    }
+
+                    switch ($rowMSSQL01['tipo_solicitud_codigo']) {
+                        case 'L':
+                            $tipo_solicitud_nombre  = 'LICENCIA';
+                            $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TILC] WHERE U_CODIGO = ?";
+                            break;
+                        
+                        case 'P':
+                            $tipo_solicitud_nombre  = 'PERMISO';
+                            $sql02                  = "SELECT U_NOMBRE AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIPE] WHERE U_CODIGO = ?";
+                            break;
+
+                        case 'I':
+                            $tipo_solicitud_nombre  = 'INASISTENCIA';
+                            $sql02                  = "SELECT U_DESAMP AS tipo_permiso_nombre FROM [CSF].[dbo].[@A1A_TIIN] WHERE U_CODIGO = ?";
+                            break;
+                    }
+
+                    $stmtMSSQL02= $connMSSQL->prepare($sql02);
+                    $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
+                    $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
+
+                    $stmtMSSQL03= $connMSSQL->prepare($sql03);
+                    $stmtMSSQL03->execute([trim(strtoupper($rowMSSQL01['solicitud_documento']))]);
+                    $rowMSSQL03 = $stmtMSSQL03->fetch(PDO::FETCH_ASSOC);
+
+                    $tipo_permiso_nombre= $rowMSSQL02['tipo_permiso_nombre'];
+                    $solicitud_persona  = $rowMSSQL03['nombre_completo'];
+
+                    $solicitud_adjunto1 = trim(strtolower($rowMSSQL01['solicitud_adjunto1']));
+                    $solicitud_adjunto2 = trim(strtolower($rowMSSQL01['solicitud_adjunto2']));
+                    $solicitud_adjunto3 = trim(strtolower($rowMSSQL01['solicitud_adjunto3']));
+                    $solicitud_adjunto4 = trim(strtolower($rowMSSQL01['solicitud_adjunto4']));
+
+                    if ($solicitud_adjunto1 == $solicitud_adjunto2){
+                        $solicitud_adjunto2 = '';
+                    }
+
+                    if ($solicitud_adjunto1 == $solicitud_adjunto3){
+                        $solicitud_adjunto3 = '';
+                    }
+
+                    if ($solicitud_adjunto1 == $solicitud_adjunto4){
+                        $solicitud_adjunto4 = '';
+                    }
+
+                    if ($solicitud_adjunto2 == $solicitud_adjunto3){
+                        $solicitud_adjunto3 = '';
+                    }
+
+                    if ($solicitud_adjunto2 == $solicitud_adjunto4){
+                        $solicitud_adjunto4 = '';
+                    }
+
+                    if ($solicitud_adjunto3 == $solicitud_adjunto4){
+                        $solicitud_adjunto4 = '';
+                    }
+
+                    $detalle    = array(
+                        'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
+                        'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                        'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
+                        'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
+                        'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
+                        'solicitud_documento'               => trim(strtoupper($rowMSSQL01['solicitud_documento'])),
+                        'solicitud_persona'                 => trim(strtoupper($solicitud_persona)),
+                        'solicitud_fecha_desde_1'           => $rowMSSQL01['solicitud_fecha_desde'],
+                        'solicitud_fecha_desde_2'           => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_desde'])),
+                        'solicitud_fecha_hasta_1'           => $rowMSSQL01['solicitud_fecha_hasta'],
+                        'solicitud_fecha_hasta_2'           => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hasta'])),
+                        'solicitud_fecha_cantidad'          => $rowMSSQL01['solicitud_fecha_cantidad'],
+                        'solicitud_hora_desde'              => trim(strtoupper($rowMSSQL01['solicitud_hora_desde'])),
+                        'solicitud_hora_hasta'              => trim(strtoupper($rowMSSQL01['solicitud_hora_hasta'])),
+                        'solicitud_hora_cantidad'           => $rowMSSQL01['solicitud_hora_cantidad'],
+                        'solicitud_adjunto1'                => $solicitud_adjunto1,
+                        'solicitud_adjunto2'                => $solicitud_adjunto2,
+                        'solicitud_adjunto3'                => $solicitud_adjunto3,
+                        'solicitud_adjunto4'                => $solicitud_adjunto4,
+                        'solicitud_usuario_colaborador'     => trim(strtoupper($rowMSSQL01['solicitud_usuario_colaborador'])),
+                        'solicitud_fecha_hora_colaborador'  => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_colaborador'])),
+                        'solicitud_ip_colaborador'          => trim(strtoupper($rowMSSQL01['solicitud_ip_colaborador'])),
+                        'solicitud_observacion_colaborador' => trim(strtoupper($rowMSSQL01['solicitud_observacion_colaborador'])),
+                        'solicitud_usuario_superior'        => trim(strtoupper($rowMSSQL01['solicitud_usuario_superior'])),
+                        'solicitud_fecha_hora_superior'     => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_superior'])),
+                        'solicitud_ip_superior'             => trim(strtoupper($rowMSSQL01['solicitud_ip_superior'])),
+                        'solicitud_observacion_superior'    => trim(strtoupper($rowMSSQL01['solicitud_observacion_superior'])),
+                        'solicitud_usuario_talento'         => trim(strtoupper($rowMSSQL01['solicitud_usuario_talento'])),
+                        'solicitud_fecha_hora_talento'      => date("d/m/Y", strtotime($rowMSSQL01['solicitud_fecha_hora_talento'])),
+                        'solicitud_ip_talento'              => trim(strtoupper($rowMSSQL01['solicitud_ip_talento'])),
+                        'solicitud_observacion_talento'     => trim(strtoupper($rowMSSQL01['solicitud_observacion_talento'])),
+                        'auditoria_usuario'                 => trim(strtoupper($rowMSSQL01['auditoria_usuario'])),
+                        'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL01['auditoria_fecha_hora'])),
+                        'auditoria_ip'                      => trim(strtoupper($rowMSSQL01['auditoria_ip'])),
+
+                        'gerencia_codigo'                   => $rowMSSQL03['gerencia_codigo'],
+                        'gerencia_nombre'                   => trim(strtoupper($rowMSSQL03['gerencia_nombre'])),
+                        'tipo_sexo_codigo'                  => trim(strtoupper($rowMSSQL03['tipo_sexo_codigo'])),
+                        'colaborador_edad'                  => date('Y') - date('Y', strtotime($rowMSSQL03['fecha_nacimiento'])),
+                        'departamento_codigo'               => $rowMSSQL03['departamento_codigo'],
+                        'departamento_nombre'               => trim(strtoupper($rowMSSQL03['departamento_nombre']))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'tipo_solicitud_codigo'             => '',
+                        'tipo_permiso_nombre'               => '',
+                        'solicitud_codigo'                  => '',
+                        'solicitud_estado_codigo'           => '',
+                        'solicitud_estado_nombre'           => '',
+                        'solicitud_documento'               => '',
+                        'solicitud_fecha_desde_1'           => '',
+                        'solicitud_fecha_desde_2'           => '',
+                        'solicitud_fecha_hasta_1'           => '',
+                        'solicitud_fecha_hasta_2'           => '',
+                        'solicitud_fecha_cantidad'          => '',
+                        'solicitud_hora_desde'              => '',
+                        'solicitud_hora_hasta'              => '',
+                        'solicitud_hora_cantidad'           => '',
+                        'solicitud_adjunto1'                => '',
+                        'solicitud_adjunto2'                => '',
+                        'solicitud_adjunto3'                => '',
+                        'solicitud_adjunto4'                => '',
+                        'solicitud_usuario_colaborador'     => '',
+                        'solicitud_fecha_hora_colaborador'  => '',
+                        'solicitud_ip_colaborador'          => '',
+                        'solicitud_observacion_colaborador' => '',
+                        'solicitud_usuario_superior'        => '',
+                        'solicitud_fecha_hora_superior'     => '',
+                        'solicitud_ip_superior'             => '',
+                        'solicitud_observacion_superior'    => '',
+                        'solicitud_usuario_talento'         => '',
+                        'solicitud_fecha_hora_talento'      => '',
+                        'solicitud_ip_talento'              => '',
+                        'solicitud_observacion_talento'     => '',
+                        'auditoria_usuario'                 => '',
+                        'auditoria_fecha_hora'              => '',
+                        'auditoria_ip'                      => '',
+                        'gerencia_codigo'                   => '',
+                        'gerencia_nombre'                   => '',
+                        'tipo_sexo_codigo'                  => '',
+                        'colaborador_edad'                  => '',
+                        'departamento_codigo'               => '',
+                        'departamento_nombre'               => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL01->closeCursor();
+                $stmtMSSQL01 = null;
+
+                $stmtMSSQL02->closeCursor();
+                $stmtMSSQL02 = null;
+
+                $stmtMSSQL03->closeCursor();
+                $stmtMSSQL03 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
     $app->get('/v1/200/solicitudes/{tipo}/{codigo}/{estado}', function($request) {
         require __DIR__.'/../src/connect.php';
         
