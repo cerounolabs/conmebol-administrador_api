@@ -2682,7 +2682,7 @@
 
         $val01      = $request->getAttribute('codigo');
 
-        if (isset($val01) && isset($val02)) { 
+        if (isset($val01)) { 
             $sql01  = "SELECT
                 a.SOLFICCOD         AS          solicitud_codigo,
                 a.SOLFICEST         AS          solicitud_estado_codigo,
