@@ -2351,3 +2351,65 @@
         return $json;
     });
 /*MODULO RENDICION*/
+
+/*MODULO OFICIAL*/
+    $app->post('/v2/600/persona/ficha', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_sexo_codigo'];
+        $val03      = $request->getParsedBody()['localidad_nacionalidad_codigo'];
+        $val04      = $request->getParsedBody()['persona_orden'];
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['persona_funcionario'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre1'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre2'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido1'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido2'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido3'])));
+        $val11      = $request->getParsedBody()['persona_fecha_nacimiento'];
+        $val12      = trim(strtolower($request->getParsedBody()['persona_email']));
+        $val13      = trim(strtolower($request->getParsedBody()['persona_foto']));
+        $val14      = $request->getParsedBody()['persona_fecha_carga'];
+        $val15      = trim($request->getParsedBody()['persona_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val06) && isset($val08)) {        
+            $sql00  = "INSERT INTO [ofi].[PERFIC] (PERFICEST, PERFICTSC, PERFICNAC, PERFICORD, PERFICFUN, PERFICNO1, PERFICNO2, PERFICAP1, PERFICAP2, PERFICAP3, PERFICFNA, PERFICEMA, PERFICFOT, PERFICOBS, PERFICFEC, PERFICAUS, PERFICAFH, PERFICAIP) VALUES ((SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'PERSONASEXO' AND DOMFICPAR = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?, GETDATE(), ?)";
+            $sql01  = "SELECT MAX(PERFICCOD) AS persona_codigo FROM [ofi].[PERFIC]";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val15, $aud01, $aud03]);
+                
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $codigo     = $row_mssql01['persona_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $codigo), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+/*MODULO OFICIAL*/

@@ -20781,3 +20781,450 @@
         return $json;
     });
 /*MODULO RENDICION*/
+
+/*MODULO OFICIAL*/
+    $app->get('/v2/600/persona/ficha/listado', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $sql00  = "SELECT
+            a.PERFICCOD         AS          persona_codigo,
+            a.PERFICORD         AS          persona_orden,
+            a.PERFICFUN         AS          persona_funcionario,
+            a.PERFICNO1         AS          persona_nombre1,
+            a.PERFICNO2         AS          persona_nombre2,
+            a.PERFICAP1         AS          persona_apellido1,
+            a.PERFICAP2         AS          persona_apellido2,
+            a.PERFICAP3         AS          persona_apellido3,
+            a.PERFICFNA         AS          persona_fecha_nacimiento,
+            a.PERFICEMA         AS          persona_email,
+            a.PERFICFOT         AS          persona_foto,
+            a.PERFICFEC         AS          persona_fecha_carga,
+            a.PERFICOBS         AS          persona_observacion,
+
+            a.PERFICAUS         AS          auditoria_usuario,
+            a.PERFICAFH         AS          auditoria_fecha_hora,
+            a.PERFICAIP         AS          auditoria_ip,
+
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICORD         AS          tipo_estado_orden,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
+            b.DOMFICOBS         AS          tipo_estado_observacion,
+
+            c.DOMFICCOD         AS          tipo_sexo_codigo,
+            c.DOMFICORD         AS          tipo_sexo_orden,
+            c.DOMFICNOI         AS          tipo_sexo_ingles,
+            c.DOMFICNOC         AS          tipo_sexo_castellano,
+            c.DOMFICNOP         AS          tipo_sexo_portugues,
+            c.DOMFICPAT         AS          tipo_sexo_path,
+            c.DOMFICCSS         AS          tipo_sexo_css,
+            c.DOMFICPAR         AS          tipo_sexo_parametro,
+            c.DOMFICICO         AS          tipo_sexo_icono,
+            c.DOMFICVAL         AS          tipo_sexo_dominio,
+            c.DOMFICOBS         AS          tipo_sexo_observacion,
+
+            d.LOCPAICOD         AS          localidad_nacionalidad_codigo,
+            d.LOCPAIORD         AS          localidad_nacionalidad_orden,
+            d.LOCPAINOM         AS          localidad_nacionalidad_nombre,
+            d.LOCPAIPAT         AS          localidad_nacionalidad_path,
+            d.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
+            d.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
+            d.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3
+
+            FROM [ofi].[PERFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.PERFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.PERFICTSC = c.DOMFICCOD
+            INNER JOIN [adm].[LOCPAI] d ON a.PERFICNAC = d.LOCPAICOD
+
+            ORDER BY a.PERFICCOD DESC";
+            
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                $persona_completo = '';
+
+                if ($rowMSSQL00['persona_nombre1'] != '' || $rowMSSQL00['persona_nombre1'] != NULL) {
+                    $persona_completo = trim(strtoupper(strtolower($rowMSSQL00['persona_nombre1'])));
+                }
+
+                if ($rowMSSQL00['persona_nombre2'] != '' || $rowMSSQL00['persona_nombre2'] != NULL) {
+                    $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_nombre2'])));
+                }
+
+                if ($rowMSSQL00['persona_apellido1'] != '' || $rowMSSQL00['persona_apellido1'] != NULL) {
+                    $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_apellido1'])));
+                }
+
+                if ($rowMSSQL00['persona_apellido2'] != '' || $rowMSSQL00['persona_apellido2'] != NULL) {
+                    $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_apellido2'])));
+                }
+
+                if ($rowMSSQL00['persona_apellido3'] != '' || $rowMSSQL00['persona_apellido3'] != NULL) {
+                    $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_apellido3'])));
+                }
+
+                $detalle    = array(
+                    'persona_codigo'                        => $rowMSSQL00['persona_codigo'],
+                    'persona_orden'                         => $rowMSSQL00['persona_orden'],
+                    'persona_funcionario'                   => trim(strtoupper(strtolower($rowMSSQL00['persona_funcionario']))),
+                    'persona_completo'                      => $persona_completo,
+                    'persona_nombre1'                       => trim(strtoupper(strtolower($rowMSSQL00['persona_nombre1']))),
+                    'persona_nombre2'                       => trim(strtoupper(strtolower($rowMSSQL00['persona_nombre2']))),
+                    'persona_apellido1'                     => trim(strtoupper(strtolower($rowMSSQL00['persona_apellido1']))),
+                    'persona_apellido2'                     => trim(strtoupper(strtolower($rowMSSQL00['persona_apellido2']))),
+                    'persona_apellido3'                     => trim(strtoupper(strtolower($rowMSSQL00['persona_apellido3']))),
+                    'persona_fecha_nacimiento'              => date("d/m/Y", strtotime($rowMSSQL00['persona_fecha_nacimiento'])),
+                    'persona_email'                         => trim(strtolower($rowMSSQL00['persona_email'])),
+                    'persona_foto'                          => trim(strtolower($rowMSSQL00['persona_foto'])),
+                    'persona_fecha_carga'                   => date("d/m/Y", strtotime($rowMSSQL00['persona_fecha_carga'])),
+                    'persona_observacion'                   => trim($rowMSSQL00['persona_observacion']),
+
+                    'auditoria_usuario'                     => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                    'auditoria_fecha_hora'                  => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                    'auditoria_ip'                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                    'tipo_estado_codigo'                    => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_orden'                     => $rowMSSQL00['tipo_estado_orden'],
+                    'tipo_estado_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_path'                      => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                    'tipo_estado_css'                       => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                    'tipo_estado_parametro'                 => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                     => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_dominio'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                    'tipo_estado_observacion'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                    'tipo_cargo_codigo'                     => $rowMSSQL00['tipo_cargo_codigo'],
+                    'tipo_cargo_orden'                      => $rowMSSQL00['tipo_cargo_orden'],
+                    'tipo_cargo_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_ingles']))),
+                    'tipo_cargo_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_castellano']))),
+                    'tipo_cargo_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_portugues']))),
+                    'tipo_cargo_path'                       => trim(strtolower($rowMSSQL00['tipo_cargo_path'])),
+                    'tipo_cargo_css'                        => trim(strtolower($rowMSSQL00['tipo_cargo_css'])),
+                    'tipo_cargo_parametro'                  => $rowMSSQL00['tipo_cargo_parametro'],
+                    'tipo_cargo_icono'                      => trim(strtolower($rowMSSQL00['tipo_cargo_icono'])),
+                    'tipo_cargo_dominio'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_dominio']))),
+                    'tipo_cargo_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_observacion']))),
+
+                    'localidad_nacionalidad_codigo'         => $rowMSSQL00['localidad_nacionalidad_codigo'],
+                    'localidad_nacionalidad_orden'          => $rowMSSQL00['localidad_nacionalidad_orden'],
+                    'localidad_nacionalidad_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_nombre']))),
+                    'localidad_nacionalidad_path'           => trim(strtolower($rowMSSQL00['localidad_nacionalidad_path'])),
+                    'localidad_nacionalidad_iso_char2'      => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char2']))),
+                    'localidad_nacionalidad_iso_char3'      => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char3']))),
+                    'localidad_nacionalidad_iso_num3'       => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_num3'])))
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle    = array(
+                    'persona_codigo'                        => '',
+                    'persona_orden'                         => '',
+                    'persona_funcionario'                   => '',
+                    'persona_completo'                      => '',
+                    'persona_nombre1'                       => '',
+                    'persona_nombre2'                       => '',
+                    'persona_apellido1'                     => '',
+                    'persona_apellido2'                     => '',
+                    'persona_apellido3'                     => '',
+                    'persona_fecha_nacimiento'              => '',
+                    'persona_email'                         => '',
+                    'persona_foto'                          => '',
+                    'persona_fecha_carga'                   => '',
+                    'persona_observacion'                   => '',
+
+                    'auditoria_usuario'                     => '',
+                    'auditoria_fecha_hora'                  => '',
+                    'auditoria_ip'                          => '',
+
+                    'tipo_estado_codigo'                    => '',
+                    'tipo_estado_orden'                     => '',
+                    'tipo_estado_ingles'                    => '',
+                    'tipo_estado_castellano'                => '',
+                    'tipo_estado_portugues'                 => '',
+                    'tipo_estado_path'                      => '',
+                    'tipo_estado_css'                       => '',
+                    'tipo_estado_parametro'                 => '',
+                    'tipo_estado_icono'                     => '',
+                    'tipo_estado_dominio'                   => '',
+                    'tipo_estado_observacion'               => '',
+
+                    'tipo_cargo_codigo'                     => '',
+                    'tipo_cargo_orden'                      => '',
+                    'tipo_cargo_ingles'                     => '',
+                    'tipo_cargo_castellano'                 => '',
+                    'tipo_cargo_portugues'                  => '',
+                    'tipo_cargo_path'                       => '',
+                    'tipo_cargo_css'                        => '',
+                    'tipo_cargo_parametro'                  => '',
+                    'tipo_cargo_icono'                      => '',
+                    'tipo_cargo_dominio'                    => '',
+                    'tipo_cargo_observacion'                => '',
+
+                    'localidad_nacionalidad_codigo'         => '',
+                    'localidad_nacionalidad_orden'          => '',
+                    'localidad_nacionalidad_nombre'         => '',
+                    'localidad_nacionalidad_path'           => '',
+                    'localidad_nacionalidad_iso_char2'      => '',
+                    'localidad_nacionalidad_iso_char3'      => '',
+                    'localidad_nacionalidad_iso_num3'       => ''
+                );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/600/persona/ficha/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01  = $request->getAttribute('codigo');
+
+        if (isset($val01) && !empty($val01)) {
+            $sql00  = "SELECT
+                a.PERFICCOD         AS          persona_codigo,
+                a.PERFICORD         AS          persona_orden,
+                a.PERFICFUN         AS          persona_funcionario,
+                a.PERFICNO1         AS          persona_nombre1,
+                a.PERFICNO2         AS          persona_nombre2,
+                a.PERFICAP1         AS          persona_apellido1,
+                a.PERFICAP2         AS          persona_apellido2,
+                a.PERFICAP3         AS          persona_apellido3,
+                a.PERFICFNA         AS          persona_fecha_nacimiento,
+                a.PERFICEMA         AS          persona_email,
+                a.PERFICFOT         AS          persona_foto,
+                a.PERFICFEC         AS          persona_fecha_carga,
+                a.PERFICOBS         AS          persona_observacion,
+
+                a.PERFICAUS         AS          auditoria_usuario,
+                a.PERFICAFH         AS          auditoria_fecha_hora,
+                a.PERFICAIP         AS          auditoria_ip,
+
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
+
+                c.DOMFICCOD         AS          tipo_sexo_codigo,
+                c.DOMFICORD         AS          tipo_sexo_orden,
+                c.DOMFICNOI         AS          tipo_sexo_ingles,
+                c.DOMFICNOC         AS          tipo_sexo_castellano,
+                c.DOMFICNOP         AS          tipo_sexo_portugues,
+                c.DOMFICPAT         AS          tipo_sexo_path,
+                c.DOMFICCSS         AS          tipo_sexo_css,
+                c.DOMFICPAR         AS          tipo_sexo_parametro,
+                c.DOMFICICO         AS          tipo_sexo_icono,
+                c.DOMFICVAL         AS          tipo_sexo_dominio,
+                c.DOMFICOBS         AS          tipo_sexo_observacion,
+
+                d.LOCPAICOD         AS          localidad_pais_codigo,
+                d.LOCPAIORD         AS          localidad_pais_orden,
+                d.LOCPAINOM         AS          localidad_pais_nombre,
+                d.LOCPAIPAT         AS          localidad_pais_path,
+                d.LOCPAIIC2         AS          localidad_pais_iso_char2,
+                d.LOCPAIIC3         AS          localidad_pais_iso_char3,
+                d.LOCPAIIN3         AS          localidad_pais_iso_num3
+
+                FROM [ofi].[PERFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.PERFICEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.PERFICTSC = c.DOMFICCOD
+                INNER JOIN [adm].[LOCPAI] d ON a.PERFICNAC = d.LOCPAICOD
+
+                WHERE a.PERFICCOD = ?
+
+                ORDER BY a.PERFICCOD DESC";
+                
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $persona_completo = '';
+
+                    if ($rowMSSQL00['persona_nombre1'] != '' || $rowMSSQL00['persona_nombre1'] != NULL) {
+                        $persona_completo = trim(strtoupper(strtolower($rowMSSQL00['persona_nombre1'])));
+                    }
+
+                    if ($rowMSSQL00['persona_nombre2'] != '' || $rowMSSQL00['persona_nombre2'] != NULL) {
+                        $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_nombre2'])));
+                    }
+
+                    if ($rowMSSQL00['persona_apellido1'] != '' || $rowMSSQL00['persona_apellido1'] != NULL) {
+                        $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_apellido1'])));
+                    }
+
+                    if ($rowMSSQL00['persona_apellido2'] != '' || $rowMSSQL00['persona_apellido2'] != NULL) {
+                        $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_apellido2'])));
+                    }
+
+                    if ($rowMSSQL00['persona_apellido3'] != '' || $rowMSSQL00['persona_apellido3'] != NULL) {
+                        $persona_completo = $persona_completo.' '.trim(strtoupper(strtolower($rowMSSQL00['persona_apellido3'])));
+                    }
+
+                    $detalle    = array(
+                        'persona_codigo'                        => $rowMSSQL00['persona_codigo'],
+                        'persona_orden'                         => $rowMSSQL00['persona_orden'],
+                        'persona_funcionario'                   => trim(strtoupper(strtolower($rowMSSQL00['persona_funcionario']))),
+                        'persona_completo'                      => $persona_completo,
+                        'persona_nombre1'                       => trim(strtoupper(strtolower($rowMSSQL00['persona_nombre1']))),
+                        'persona_nombre2'                       => trim(strtoupper(strtolower($rowMSSQL00['persona_nombre2']))),
+                        'persona_apellido1'                     => trim(strtoupper(strtolower($rowMSSQL00['persona_apellido1']))),
+                        'persona_apellido2'                     => trim(strtoupper(strtolower($rowMSSQL00['persona_apellido2']))),
+                        'persona_apellido3'                     => trim(strtoupper(strtolower($rowMSSQL00['persona_apellido3']))),
+                        'persona_fecha_nacimiento'              => date("d/m/Y", strtotime($rowMSSQL00['persona_fecha_nacimiento'])),
+                        'persona_email'                         => trim(strtolower($rowMSSQL00['persona_email'])),
+                        'persona_foto'                          => trim(strtolower($rowMSSQL00['persona_foto'])),
+                        'persona_fecha_carga'                   => date("d/m/Y", strtotime($rowMSSQL00['persona_fecha_carga'])),
+                        'persona_observacion'                   => trim($rowMSSQL00['persona_observacion']),
+
+                        'auditoria_usuario'                     => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
+                        'auditoria_fecha_hora'                  => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
+
+                        'tipo_estado_codigo'                    => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                     => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_path'                      => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                       => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_parametro'                 => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                     => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_dominio'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                        'tipo_estado_observacion'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                        'tipo_cargo_codigo'                     => $rowMSSQL00['tipo_cargo_codigo'],
+                        'tipo_cargo_orden'                      => $rowMSSQL00['tipo_cargo_orden'],
+                        'tipo_cargo_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_ingles']))),
+                        'tipo_cargo_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_castellano']))),
+                        'tipo_cargo_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_portugues']))),
+                        'tipo_cargo_path'                       => trim(strtolower($rowMSSQL00['tipo_cargo_path'])),
+                        'tipo_cargo_css'                        => trim(strtolower($rowMSSQL00['tipo_cargo_css'])),
+                        'tipo_cargo_parametro'                  => $rowMSSQL00['tipo_cargo_parametro'],
+                        'tipo_cargo_icono'                      => trim(strtolower($rowMSSQL00['tipo_cargo_icono'])),
+                        'tipo_cargo_dominio'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_dominio']))),
+                        'tipo_cargo_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_observacion']))),
+
+                        'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
+                        'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
+                        'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                        'localidad_pais_path'                   => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                        'localidad_pais_iso_char2'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                        'localidad_pais_iso_char3'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                        'localidad_pais_iso_num3'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3'])))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'persona_codigo'                        => '',
+                        'persona_orden'                         => '',
+                        'persona_funcionario'                   => '',
+                        'persona_completo'                      => '',
+                        'persona_nombre1'                       => '',
+                        'persona_nombre2'                       => '',
+                        'persona_apellido1'                     => '',
+                        'persona_apellido2'                     => '',
+                        'persona_apellido3'                     => '',
+                        'persona_fecha_nacimiento'              => '',
+                        'persona_email'                         => '',
+                        'persona_foto'                          => '',
+                        'persona_fecha_carga'                   => '',
+                        'persona_observacion'                   => '',
+
+                        'auditoria_usuario'                     => '',
+                        'auditoria_fecha_hora'                  => '',
+                        'auditoria_ip'                          => '',
+
+                        'tipo_estado_codigo'                    => '',
+                        'tipo_estado_orden'                     => '',
+                        'tipo_estado_ingles'                    => '',
+                        'tipo_estado_castellano'                => '',
+                        'tipo_estado_portugues'                 => '',
+                        'tipo_estado_path'                      => '',
+                        'tipo_estado_css'                       => '',
+                        'tipo_estado_parametro'                 => '',
+                        'tipo_estado_icono'                     => '',
+                        'tipo_estado_dominio'                   => '',
+                        'tipo_estado_observacion'               => '',
+
+                        'tipo_cargo_codigo'                     => '',
+                        'tipo_cargo_orden'                      => '',
+                        'tipo_cargo_ingles'                     => '',
+                        'tipo_cargo_castellano'                 => '',
+                        'tipo_cargo_portugues'                  => '',
+                        'tipo_cargo_path'                       => '',
+                        'tipo_cargo_css'                        => '',
+                        'tipo_cargo_parametro'                  => '',
+                        'tipo_cargo_icono'                      => '',
+                        'tipo_cargo_dominio'                    => '',
+                        'tipo_cargo_observacion'                => '',
+
+                        'localidad_pais_codigo'                 => '',
+                        'localidad_pais_orden'                  => '',
+                        'localidad_pais_nombre'                 => '',
+                        'localidad_pais_path'                   => '',
+                        'localidad_pais_iso_char2'              => '',
+                        'localidad_pais_iso_char3'              => '',
+                        'localidad_pais_iso_num3'               => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+/*MODULO OFICIAL*/

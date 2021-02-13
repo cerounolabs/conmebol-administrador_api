@@ -1173,3 +1173,70 @@
         return $json;
     });
 /*MODULO PERMISO*/
+
+/*MODULO OFICIAL*/
+    $app->delete('/v2/600/persona/ficha/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_codigo'];
+        $val02      = $request->getParsedBody()['tipo_sexo_codigo'];
+        $val03      = $request->getParsedBody()['localidad_nacionalidad_codigo'];
+        $val04      = $request->getParsedBody()['persona_orden'];
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['persona_funcionario'])));
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre1'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre2'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido1'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido2'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido3'])));
+        $val11      = $request->getParsedBody()['persona_fecha_nacimiento'];
+        $val12      = trim(strtolower($request->getParsedBody()['persona_email']));
+        $val13      = trim(strtolower($request->getParsedBody()['persona_foto']));
+        $val14      = $request->getParsedBody()['persona_fecha_carga'];
+        $val15      = trim($request->getParsedBody()['persona_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val00_1) && isset($val01) && isset($val02) && isset($val03) && isset($val06) && isset($val08)) {  
+            try {
+                $sql00  = "UPDATE [ofi].[PERFIC] SET
+                    PERFICAUS = ?,
+                    PERFICAFH = GETDATE(),
+                    PERFICAIP = ?
+                    WHERE PERFICCOD = ?";
+
+                $sql01  = "DELETE FROM [ofi].[PERFIC] WHERE PERFICCOD = ?";
+
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$aud01, $aud03, $val00]);
+                $stmtMSSQL01->execute([$val00]);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success DELETE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error DELETE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+/*MODULO OFICIAL*/
