@@ -21201,13 +21201,13 @@
                         'tipo_rol_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))),
                         'tipo_rol_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
 
-                        'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
-                        'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
-                        'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
-                        'localidad_pais_path'                   => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
-                        'localidad_pais_iso_char2'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
-                        'localidad_pais_iso_char3'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
-                        'localidad_pais_iso_num3'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3'])))
+                        'localidad_nacionalidad_codigo'         => $rowMSSQL00['localidad_nacionalidad_codigo'],
+                        'localidad_nacionalidad_orden'          => $rowMSSQL00['localidad_nacionalidad_orden'],
+                        'localidad_nacionalidad_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_nombre']))),
+                        'localidad_nacionalidad_path'           => trim(strtolower($rowMSSQL00['localidad_nacionalidad_path'])),
+                        'localidad_nacionalidad_iso_char2'      => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char2']))),
+                        'localidad_nacionalidad_iso_char3'      => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char3']))),
+                        'localidad_nacionalidad_iso_num3'       => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_num3'])))
                     );
 
                     $result[]   = $detalle;
@@ -21273,13 +21273,13 @@
                         'tipo_rol_dominio'                      => '',
                         'tipo_rol_observacion'                  => '',
 
-                        'localidad_pais_codigo'                 => '',
-                        'localidad_pais_orden'                  => '',
-                        'localidad_pais_nombre'                 => '',
-                        'localidad_pais_path'                   => '',
-                        'localidad_pais_iso_char2'              => '',
-                        'localidad_pais_iso_char3'              => '',
-                        'localidad_pais_iso_num3'               => ''
+                        'localidad_nacionalidad_codigo'         => '',
+                        'localidad_nacionalidad_orden'          => '',
+                        'localidad_nacionalidad_nombre'         => '',
+                        'localidad_nacionalidad_path'           => '',
+                        'localidad_nacionalidad_iso_char2'      => '',
+                        'localidad_nacionalidad_iso_char3'      => '',
+                        'localidad_nacionalidad_iso_num3'       => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
@@ -21465,13 +21465,13 @@
                         'tipo_rol_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))),
                         'tipo_rol_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
 
-                        'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
-                        'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
-                        'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
-                        'localidad_pais_path'                   => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
-                        'localidad_pais_iso_char2'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
-                        'localidad_pais_iso_char3'              => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
-                        'localidad_pais_iso_num3'               => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3'])))
+                        'localidad_nacionalidad_codigo'         => $rowMSSQL00['localidad_nacionalidad_codigo'],
+                        'localidad_nacionalidad_orden'          => $rowMSSQL00['localidad_nacionalidad_orden'],
+                        'localidad_nacionalidad_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_nombre']))),
+                        'localidad_nacionalidad_path'           => trim(strtolower($rowMSSQL00['localidad_nacionalidad_path'])),
+                        'localidad_nacionalidad_iso_char2'      => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char2']))),
+                        'localidad_nacionalidad_iso_char3'      => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char3']))),
+                        'localidad_nacionalidad_iso_num3'       => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_num3'])))
                     );
 
                     $result[]   = $detalle;
@@ -21537,13 +21537,13 @@
                         'tipo_rol_dominio'                      => '',
                         'tipo_rol_observacion'                  => '',
 
-                        'localidad_pais_codigo'                 => '',
-                        'localidad_pais_orden'                  => '',
-                        'localidad_pais_nombre'                 => '',
-                        'localidad_pais_path'                   => '',
-                        'localidad_pais_iso_char2'              => '',
-                        'localidad_pais_iso_char3'              => '',
-                        'localidad_pais_iso_num3'               => ''
+                        'localidad_nacionalidad_codigo'         => '',
+                        'localidad_nacionalidad_orden'          => '',
+                        'localidad_nacionalidad_nombre'         => '',
+                        'localidad_nacionalidad_path'           => '',
+                        'localidad_nacionalidad_iso_char2'      => '',
+                        'localidad_nacionalidad_iso_char3'      => '',
+                        'localidad_nacionalidad_iso_num3'       => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
