@@ -1182,25 +1182,26 @@
         $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
         $val02      = $request->getParsedBody()['tipo_sexo_codigo'];
-        $val03      = $request->getParsedBody()['localidad_nacionalidad_codigo'];
-        $val04      = $request->getParsedBody()['persona_orden'];
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['persona_colaborador'])));
-        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre1'])));
-        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre2'])));
-        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido1'])));
-        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido2'])));
-        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido3'])));
-        $val11      = $request->getParsedBody()['persona_fecha_nacimiento'];
-        $val12      = trim(strtolower($request->getParsedBody()['persona_email']));
-        $val13      = trim(strtolower($request->getParsedBody()['persona_foto']));
-        $val14      = $request->getParsedBody()['persona_fecha_carga'];
-        $val15      = trim($request->getParsedBody()['persona_observacion']);
+        $val03      = $request->getParsedBody()['tipo_rol_codigo'];
+        $val04      = $request->getParsedBody()['localidad_nacionalidad_codigo'];
+        $val05      = $request->getParsedBody()['persona_orden'];
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['persona_colaborador'])));
+        $val07      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre1'])));
+        $val08      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre2'])));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido1'])));
+        $val10      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido2'])));
+        $val11      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido3'])));
+        $val12      = $request->getParsedBody()['persona_fecha_nacimiento'];
+        $val13      = trim(strtolower($request->getParsedBody()['persona_email']));
+        $val14      = trim(strtolower($request->getParsedBody()['persona_foto']));
+        $val15      = $request->getParsedBody()['persona_fecha_carga'];
+        $val16      = trim($request->getParsedBody()['persona_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val00) && isset($val00_1) && isset($val01) && isset($val02) && isset($val03) && isset($val06) && isset($val08)) {  
+        if (isset($val00) && isset($val00_1)) {  
             try {
                 $sql00  = "UPDATE [ofi].[PERFIC] SET
                     PERFICAUS = ?,

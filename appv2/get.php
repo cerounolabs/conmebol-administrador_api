@@ -20829,18 +20829,31 @@
             c.DOMFICVAL         AS          tipo_sexo_dominio,
             c.DOMFICOBS         AS          tipo_sexo_observacion,
 
-            d.LOCPAICOD         AS          localidad_nacionalidad_codigo,
-            d.LOCPAIORD         AS          localidad_nacionalidad_orden,
-            d.LOCPAINOM         AS          localidad_nacionalidad_nombre,
-            d.LOCPAIPAT         AS          localidad_nacionalidad_path,
-            d.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
-            d.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
-            d.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3
+            d.DOMFICCOD         AS          tipo_rol_codigo,
+            d.DOMFICORD         AS          tipo_rol_orden,
+            d.DOMFICNOI         AS          tipo_rol_ingles,
+            d.DOMFICNOC         AS          tipo_rol_castellano,
+            d.DOMFICNOP         AS          tipo_rol_portugues,
+            d.DOMFICPAT         AS          tipo_rol_path,
+            d.DOMFICCSS         AS          tipo_rol_css,
+            d.DOMFICPAR         AS          tipo_rol_parametro,
+            d.DOMFICICO         AS          tipo_rol_icono,
+            d.DOMFICVAL         AS          tipo_rol_dominio,
+            d.DOMFICOBS         AS          tipo_rol_observacion,
+
+            e.LOCPAICOD         AS          localidad_nacionalidad_codigo,
+            e.LOCPAIORD         AS          localidad_nacionalidad_orden,
+            e.LOCPAINOM         AS          localidad_nacionalidad_nombre,
+            e.LOCPAIPAT         AS          localidad_nacionalidad_path,
+            e.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
+            e.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
+            e.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3
 
             FROM [ofi].[PERFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.PERFICEST = b.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] c ON a.PERFICTSC = c.DOMFICCOD
-            INNER JOIN [adm].[LOCPAI] d ON a.PERFICNAC = d.LOCPAICOD
+            INNER JOIN [adm].[DOMFIC] d ON a.PERFICTRC = d.DOMFICCOD
+            INNER JOIN [adm].[LOCPAI] e ON a.PERFICNAC = e.LOCPAICOD
 
             ORDER BY a.PERFICCOD DESC";
             
@@ -20916,6 +20929,18 @@
                     'tipo_sexo_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_sexo_dominio']))),
                     'tipo_sexo_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_sexo_observacion']))),
 
+                    'tipo_rol_codigo'                       => $rowMSSQL00['tipo_rol_codigo'],
+                    'tipo_rol_orden'                        => $rowMSSQL00['tipo_rol_orden'],
+                    'tipo_rol_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                    'tipo_rol_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                    'tipo_rol_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                    'tipo_rol_path'                         => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                    'tipo_rol_css'                          => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                    'tipo_rol_parametro'                    => $rowMSSQL00['tipo_rol_parametro'],
+                    'tipo_rol_icono'                        => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                    'tipo_rol_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))),
+                    'tipo_rol_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
+
                     'localidad_nacionalidad_codigo'         => $rowMSSQL00['localidad_nacionalidad_codigo'],
                     'localidad_nacionalidad_orden'          => $rowMSSQL00['localidad_nacionalidad_orden'],
                     'localidad_nacionalidad_nombre'         => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_nombre']))),
@@ -20975,6 +21000,18 @@
                     'tipo_sexo_icono'                       => '',
                     'tipo_sexo_dominio'                     => '',
                     'tipo_sexo_observacion'                 => '',
+
+                    'tipo_rol_codigo'                       => '',
+                    'tipo_rol_orden'                        => '',
+                    'tipo_rol_ingles'                       => '',
+                    'tipo_rol_castellano'                   => '',
+                    'tipo_rol_portugues'                    => '',
+                    'tipo_rol_path'                         => '',
+                    'tipo_rol_css'                          => '',
+                    'tipo_rol_parametro'                    => '',
+                    'tipo_rol_icono'                        => '',
+                    'tipo_rol_dominio'                      => '',
+                    'tipo_rol_observacion'                  => '',
 
                     'localidad_nacionalidad_codigo'         => '',
                     'localidad_nacionalidad_orden'          => '',
@@ -21050,18 +21087,31 @@
                 c.DOMFICVAL         AS          tipo_sexo_dominio,
                 c.DOMFICOBS         AS          tipo_sexo_observacion,
 
-                d.LOCPAICOD         AS          localidad_pais_codigo,
-                d.LOCPAIORD         AS          localidad_pais_orden,
-                d.LOCPAINOM         AS          localidad_pais_nombre,
-                d.LOCPAIPAT         AS          localidad_pais_path,
-                d.LOCPAIIC2         AS          localidad_pais_iso_char2,
-                d.LOCPAIIC3         AS          localidad_pais_iso_char3,
-                d.LOCPAIIN3         AS          localidad_pais_iso_num3
+                d.DOMFICCOD         AS          tipo_rol_codigo,
+                d.DOMFICORD         AS          tipo_rol_orden,
+                d.DOMFICNOI         AS          tipo_rol_ingles,
+                d.DOMFICNOC         AS          tipo_rol_castellano,
+                d.DOMFICNOP         AS          tipo_rol_portugues,
+                d.DOMFICPAT         AS          tipo_rol_path,
+                d.DOMFICCSS         AS          tipo_rol_css,
+                d.DOMFICPAR         AS          tipo_rol_parametro,
+                d.DOMFICICO         AS          tipo_rol_icono,
+                d.DOMFICVAL         AS          tipo_rol_dominio,
+                d.DOMFICOBS         AS          tipo_rol_observacion,
+
+                e.LOCPAICOD         AS          localidad_nacionalidad_codigo,
+                e.LOCPAIORD         AS          localidad_nacionalidad_orden,
+                e.LOCPAINOM         AS          localidad_nacionalidad_nombre,
+                e.LOCPAIPAT         AS          localidad_nacionalidad_path,
+                e.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
+                e.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
+                e.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3
 
                 FROM [ofi].[PERFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.PERFICEST = b.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] c ON a.PERFICTSC = c.DOMFICCOD
-                INNER JOIN [adm].[LOCPAI] d ON a.PERFICNAC = d.LOCPAICOD
+                INNER JOIN [adm].[DOMFIC] d ON a.PERFICTRC = d.DOMFICCOD
+                INNER JOIN [adm].[LOCPAI] e ON a.PERFICNAC = e.LOCPAICOD
 
                 WHERE a.PERFICCOD = ?
 
@@ -21139,6 +21189,18 @@
                         'tipo_sexo_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_sexo_dominio']))),
                         'tipo_sexo_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_sexo_observacion']))),
 
+                        'tipo_rol_codigo'                       => $rowMSSQL00['tipo_rol_codigo'],
+                        'tipo_rol_orden'                        => $rowMSSQL00['tipo_rol_orden'],
+                        'tipo_rol_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                        'tipo_rol_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                        'tipo_rol_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                        'tipo_rol_path'                         => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                        'tipo_rol_css'                          => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                        'tipo_rol_parametro'                    => $rowMSSQL00['tipo_rol_parametro'],
+                        'tipo_rol_icono'                        => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                        'tipo_rol_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))),
+                        'tipo_rol_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
+
                         'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
                         'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
                         'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
@@ -21198,6 +21260,18 @@
                         'tipo_sexo_icono'                       => '',
                         'tipo_sexo_dominio'                     => '',
                         'tipo_sexo_observacion'                 => '',
+
+                        'tipo_rol_codigo'                       => '',
+                        'tipo_rol_orden'                        => '',
+                        'tipo_rol_ingles'                       => '',
+                        'tipo_rol_castellano'                   => '',
+                        'tipo_rol_portugues'                    => '',
+                        'tipo_rol_path'                         => '',
+                        'tipo_rol_css'                          => '',
+                        'tipo_rol_parametro'                    => '',
+                        'tipo_rol_icono'                        => '',
+                        'tipo_rol_dominio'                      => '',
+                        'tipo_rol_observacion'                  => '',
 
                         'localidad_pais_codigo'                 => '',
                         'localidad_pais_orden'                  => '',
@@ -21277,18 +21351,31 @@
                 c.DOMFICVAL         AS          tipo_sexo_dominio,
                 c.DOMFICOBS         AS          tipo_sexo_observacion,
 
-                d.LOCPAICOD         AS          localidad_pais_codigo,
-                d.LOCPAIORD         AS          localidad_pais_orden,
-                d.LOCPAINOM         AS          localidad_pais_nombre,
-                d.LOCPAIPAT         AS          localidad_pais_path,
-                d.LOCPAIIC2         AS          localidad_pais_iso_char2,
-                d.LOCPAIIC3         AS          localidad_pais_iso_char3,
-                d.LOCPAIIN3         AS          localidad_pais_iso_num3
+                d.DOMFICCOD         AS          tipo_rol_codigo,
+                d.DOMFICORD         AS          tipo_rol_orden,
+                d.DOMFICNOI         AS          tipo_rol_ingles,
+                d.DOMFICNOC         AS          tipo_rol_castellano,
+                d.DOMFICNOP         AS          tipo_rol_portugues,
+                d.DOMFICPAT         AS          tipo_rol_path,
+                d.DOMFICCSS         AS          tipo_rol_css,
+                d.DOMFICPAR         AS          tipo_rol_parametro,
+                d.DOMFICICO         AS          tipo_rol_icono,
+                d.DOMFICVAL         AS          tipo_rol_dominio,
+                d.DOMFICOBS         AS          tipo_rol_observacion,
+
+                e.LOCPAICOD         AS          localidad_nacionalidad_codigo,
+                e.LOCPAIORD         AS          localidad_nacionalidad_orden,
+                e.LOCPAINOM         AS          localidad_nacionalidad_nombre,
+                e.LOCPAIPAT         AS          localidad_nacionalidad_path,
+                e.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
+                e.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
+                e.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3
 
                 FROM [ofi].[PERFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.PERFICEST = b.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] c ON a.PERFICTSC = c.DOMFICCOD
-                INNER JOIN [adm].[LOCPAI] d ON a.PERFICNAC = d.LOCPAICOD
+                INNER JOIN [adm].[DOMFIC] d ON a.PERFICTRC = d.DOMFICCOD
+                INNER JOIN [adm].[LOCPAI] e ON a.PERFICNAC = e.LOCPAICOD
 
                 WHERE a.PERFICFUN = ?
 
@@ -21366,6 +21453,18 @@
                         'tipo_sexo_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_sexo_dominio']))),
                         'tipo_sexo_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_sexo_observacion']))),
 
+                        'tipo_rol_codigo'                       => $rowMSSQL00['tipo_rol_codigo'],
+                        'tipo_rol_orden'                        => $rowMSSQL00['tipo_rol_orden'],
+                        'tipo_rol_ingles'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                        'tipo_rol_castellano'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                        'tipo_rol_portugues'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                        'tipo_rol_path'                         => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                        'tipo_rol_css'                          => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                        'tipo_rol_parametro'                    => $rowMSSQL00['tipo_rol_parametro'],
+                        'tipo_rol_icono'                        => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                        'tipo_rol_dominio'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))),
+                        'tipo_rol_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
+
                         'localidad_pais_codigo'                 => $rowMSSQL00['localidad_pais_codigo'],
                         'localidad_pais_orden'                  => $rowMSSQL00['localidad_pais_orden'],
                         'localidad_pais_nombre'                 => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
@@ -21425,6 +21524,18 @@
                         'tipo_sexo_icono'                       => '',
                         'tipo_sexo_dominio'                     => '',
                         'tipo_sexo_observacion'                 => '',
+
+                        'tipo_rol_codigo'                       => '',
+                        'tipo_rol_orden'                        => '',
+                        'tipo_rol_ingles'                       => '',
+                        'tipo_rol_castellano'                   => '',
+                        'tipo_rol_portugues'                    => '',
+                        'tipo_rol_path'                         => '',
+                        'tipo_rol_css'                          => '',
+                        'tipo_rol_parametro'                    => '',
+                        'tipo_rol_icono'                        => '',
+                        'tipo_rol_dominio'                      => '',
+                        'tipo_rol_observacion'                  => '',
 
                         'localidad_pais_codigo'                 => '',
                         'localidad_pais_orden'                  => '',
