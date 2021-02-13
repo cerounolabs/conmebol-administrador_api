@@ -1754,7 +1754,7 @@
         $val02      = $request->getParsedBody()['tipo_sexo_codigo'];
         $val03      = $request->getParsedBody()['localidad_nacionalidad_codigo'];
         $val04      = $request->getParsedBody()['persona_orden'];
-        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['persona_funcionario'])));
+        $val05      = trim(strtoupper(strtolower($request->getParsedBody()['persona_colaborador'])));
         $val06      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre1'])));
         $val07      = trim(strtoupper(strtolower($request->getParsedBody()['persona_nombre2'])));
         $val08      = trim(strtoupper(strtolower($request->getParsedBody()['persona_apellido1'])));
