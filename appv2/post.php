@@ -1,4 +1,5 @@
 <?php
+/*MODULO PARAMETROS*/
     $app->post('/v2/login', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -180,23 +181,24 @@
         $val02      = $request->getParsedBody()['tipo_dominio2_codigo'];
         $val03      = $request->getParsedBody()['tipo_estado_codigo'];
         $val04      = $request->getParsedBody()['tipo_orden'];
-        $val05      = $request->getParsedBody()['tipo_path'];
-        $val06      = $request->getParsedBody()['tipo_css'];
-        $val07      = $request->getParsedBody()['tipo_parametro'];
-        $val08      = $request->getParsedBody()['tipo_dominio'];
-        $val09      = $request->getParsedBody()['tipo_observacion'];
+        $val05      = $request->getParsedBody()['tipo_parametro'];
+        $val06      = trim(strtolower($request->getParsedBody()['tipo_icono']));
+        $val07      = trim(strtolower($request->getParsedBody()['tipo_css']));
+        $val08      = trim(strtolower($request->getParsedBody()['tipo_path']));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_dominio'])));
+        $val10      = trim($request->getParsedBody()['tipo_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val04) && isset($val08)) {    
-            $sql00  = "INSERT INTO [adm].[DOMSUB] (DOMSUBCO1, DOMSUBCO2, DOMSUBEST, DOMSUBORD, DOMSUBPAT, DOMSUBCSS, DOMSUBPAR, DOMSUBVAL, DOMSUBOBS, DOMSUBAUS, DOMSUBAFE, DOMSUBAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val05) && isset($val09)) {    
+            $sql00  = "INSERT INTO [adm].[DOMSUB] (DOMSUBCO1, DOMSUBCO2, DOMSUBEST, DOMSUBORD, DOMSUBPAR, DOMSUBICO, DOMSUBCSS, DOMSUBPAT, DOMSUBVAL, DOMSUBOBS, DOMSUBAUS, DOMSUBAFE, DOMSUBAIP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $aud01, $aud03]);
+                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -508,6 +510,7 @@
         
         return $json;
     });
+/*MODULO PARAMETROS*/
 
 /*MODULO PERMISOS*/
     $app->post('/v2/200/tarjetapersonal', function($request) {
