@@ -20790,7 +20790,7 @@
 /*MODULO RENDICION*/
 
 /*MODULO OFICIAL*/
-    $app->get('/v2/600/persona/ficha/listado', function($request) {
+    $app->get('/v2/600/colaborador/ficha/listado', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $sql00  = "SELECT
@@ -21045,7 +21045,7 @@
         return $json;
     });
 
-    $app->get('/v2/600/persona/ficha/codigo/{codigo}', function($request) {
+    $app->get('/v2/600/colaborador/ficha/codigo/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
@@ -21309,7 +21309,7 @@
         return $json;
     });
 
-    $app->get('/v2/600/persona/ficha/colaborador/{codigo}', function($request) {
+    $app->get('/v2/600/colaborador/ficha/colaborador/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo');
