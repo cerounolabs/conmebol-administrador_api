@@ -485,7 +485,7 @@
                     'tipo_dominio1_dominio'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_dominio']))),
                     'tipo_dominio1_observacion'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio1_observacion']))),
 
-                    'tipo_dominio2_codigo'                      => $rowMSSQL00['tipo_dominio__codigo'],
+                    'tipo_dominio2_codigo'                      => $rowMSSQL00['tipo_dominio_codigo'],
                     'tipo_dominio2_orden'                       => $rowMSSQL00['tipo_dominio2_orden'],
                     'tipo_dominio2_parametro'                   => $rowMSSQL00['tipo_dominio2_parametro'],
                     'tipo_dominio2_nombre_ingles'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_dominio2_nombre_ingles']))),
