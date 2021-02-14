@@ -1,4 +1,5 @@
 <?php
+/*MODULO PARAMETRO*/
     $app->put('/v2/100/dominio/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
@@ -53,23 +54,35 @@
         $val02      = $request->getParsedBody()['tipo_dominio2_codigo'];
         $val03      = $request->getParsedBody()['tipo_estado_codigo'];
         $val04      = $request->getParsedBody()['tipo_orden'];
-        $val05      = $request->getParsedBody()['tipo_path'];
-        $val06      = $request->getParsedBody()['tipo_css'];
-        $val07      = $request->getParsedBody()['tipo_parametro'];
-        $val08      = $request->getParsedBody()['tipo_dominio'];
-        $val09      = $request->getParsedBody()['tipo_observacion'];
+        $val05      = $request->getParsedBody()['tipo_parametro'];
+        $val06      = trim(strtolower($request->getParsedBody()['tipo_icono']));
+        $val07      = trim(strtolower($request->getParsedBody()['tipo_css']));
+        $val08      = trim(strtolower($request->getParsedBody()['tipo_path']));
+        $val09      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_dominio'])));
+        $val10      = trim($request->getParsedBody()['tipo_observacion']);
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val02) && isset($val08)) {
-            $sql00  = "UPDATE [adm].[DOMSUB] SET DOMSUBEST = ?, DOMSUBORD = ?, DOMSUBPAT = ?, DOMSUBCSS = ?, DOMSUBPAR = ?, DOMSUBOBS = ?, DOMSUBAUS = ?, DOMSUBAFE = GETDATE(), DOMSUBAIP = ? WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
+        if (isset($val01) && isset($val02) && isset($val03) && isset($val05) && isset($val09)) { 
+            $sql00  = "UPDATE [adm].[DOMSUB] SET 
+                DOMSUBEST = ?,
+                DOMSUBORD = ?,
+                DOMSUBPAR = ?,
+                DOMSUBICO = ?,
+                DOMSUBCSS = ?,
+                DOMSUBPAT = ?,
+                DOMSUBOBS = ?,
+                DOMSUBAUS = ?,
+                DOMSUBAFE = GETDATE(),
+                DOMSUBAIP = ?
+                WHERE DOMSUBCO1 = ? AND DOMSUBCO2 = ? AND DOMSUBVAL = ?";
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val03, $val04, $val05, $val06, $val07, $val09, $aud01, $aud03, $val01, $val02, $val07]);
+                $stmtMSSQL00->execute([$val03, $val04, $val05, $val06, $val07, $val08, $val10, $aud01, $aud03, $val01, $val02, $val09]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -258,6 +271,7 @@
         
         return $json;
     });
+/*MODULO PARAMETRO*/
 
 /*MODULO PERMISO*/
     $app->put('/v2/200/solicitudes/{codigo}', function($request) {
@@ -1778,25 +1792,25 @@
                 switch ($val00_1) {
                     case 1:
                         $sql00  = "UPDATE [ofi].[PERFIC] SET 
-                        PERFICEST = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAESTADO' AND DOMFICPAR = ?),
-                        PERFICTSC = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'PERSONASEXO' AND DOMFICPAR = ?),
-                        PERFICTRC = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAROL' AND DOMFICPAR = ?),
-                        PERFICNAC = ?,
-                        PERFICORD = ?,
-                        PERFICFUN = ?,
-                        PERFICNO1 = ?,
-                        PERFICNO2 = ?,
-                        PERFICAP1 = ?,
-                        PERFICAP2 = ?,
-                        PERFICAP3 = ?,
-                        PERFICFNA = ?,
-                        PERFICEMA = ?,
-                        PERFICFOT = ?,
-                        PERFICOBS = ?,
-                        PERFICAUS = ?,
-                        PERFICAFH = GETDATE(),
-                        PERFICAIP = ?
-                        WHERE PERFICCOD = ?";
+                            PERFICEST = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAESTADO' AND DOMFICPAR = ?),
+                            PERFICTSC = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'PERSONASEXO' AND DOMFICPAR = ?),
+                            PERFICTRC = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAROL' AND DOMFICPAR = ?),
+                            PERFICNAC = ?,
+                            PERFICORD = ?,
+                            PERFICFUN = ?,
+                            PERFICNO1 = ?,
+                            PERFICNO2 = ?,
+                            PERFICAP1 = ?,
+                            PERFICAP2 = ?,
+                            PERFICAP3 = ?,
+                            PERFICFNA = ?,
+                            PERFICEMA = ?,
+                            PERFICFOT = ?,
+                            PERFICOBS = ?,
+                            PERFICAUS = ?,
+                            PERFICAFH = GETDATE(),
+                            PERFICAIP = ?
+                            WHERE PERFICCOD = ?";
 
                         $stmtMSSQL00= $connMSSQL->prepare($sql00);
                         $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $val11, $val12, $val13, $val14, $val16, $aud01, $aud03, $val00]);
@@ -1807,12 +1821,12 @@
 
                     case 2:
                         $sql00  = "UPDATE [ofi].[PERFIC] SET 
-                        PERFICEST = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAESTADO' AND DOMFICPAR = ?),
-                        PERFICOBS = ?,
-                        PERFICAUS = ?,
-                        PERFICAFH = GETDATE(),
-                        PERFICAIP = ?
-                        WHERE PERFICCOD = ?";
+                            PERFICEST = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'OFICIALPERSONAESTADO' AND DOMFICPAR = ?),
+                            PERFICOBS = ?,
+                            PERFICAUS = ?,
+                            PERFICAFH = GETDATE(),
+                            PERFICAIP = ?
+                            WHERE PERFICCOD = ?";
 
                         $stmtMSSQL00= $connMSSQL->prepare($sql00);
                         $stmtMSSQL00->execute([$val01, $val16, $aud01, $aud03, $val00]);
