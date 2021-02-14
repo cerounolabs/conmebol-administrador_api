@@ -2356,7 +2356,7 @@
 /*MODULO RENDICION*/
 
 /*MODULO OFICIAL*/
-    $app->post('/v2/600/persona/ficha', function($request) {
+    $app->post('/v2/600/colaborador/ficha', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];

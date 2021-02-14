@@ -1759,7 +1759,7 @@
 /*MODULO RENDICION*/
 
 /*MODULO OFICIAL*/
-    $app->put('/v2/600/persona/ficha/{codigo}', function($request) {
+    $app->put('/v2/600/colaborador/ficha/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
