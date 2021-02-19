@@ -2358,7 +2358,7 @@
         return $json;
     });
 
-    $app->get('/v2/200/exportar/tipo/{codigo}/{estado}', function($request) {
+    $app->get('/v2/200/solicitudessap/listado/{codigo}/{estado}', function($request) {
         require __DIR__.'/../src/connect.php';
         
         $val01      = $request->getAttribute('codigo');
