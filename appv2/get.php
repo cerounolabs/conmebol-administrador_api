@@ -2395,7 +2395,9 @@
 
                     FROM [hum].[SOLAXI] a
 
-                    WHERE a.SOLAXIEST = ? AND a.SOLAXIEST = ?";
+                    WHERE a.SOLAXIEST = ? AND a.SOLAXIEST = ?
+
+                    ORDER BY a.SOLAXICOD DESC";
                     
             }else{
                 $sql00  = "SELECT
@@ -2438,13 +2440,16 @@
                     b.SOLFICAD3         AS          solicitud_adjunto3,
                     b.SOLFICAD4         AS          solicitud_adjunto4,
                     b.SOLFICOBC         AS          solicitud_observacion_colaborador,
-                    b.SOLFICOBS         AS          solicitud_observacion_superior
+                    b.SOLFICOBS         AS          solicitud_observacion_superior,
+                    b.SOLFICOBT         AS          solicitud_observacion_talento
             
                     FROM [hum].[SOLAXI] a
 
                     INNER JOIN [hum].[SOLFIC] b ON a.SOLAXICAB = b.SOLFICCOD 
                     
-                    WHERE b.SOLFICTST = ? AND a.SOLAXIEST = ?";
+                    WHERE b.SOLFICTST = ? AND a.SOLAXIEST = ?
+                    
+                    ORDER BY a.SOLAXICOD DESC";
             }
 
             try {
@@ -2454,16 +2459,69 @@
                 $stmtMSSQL00->execute([$val01, $val02]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+
+                    if ($rowMSSQL00['solicitud_detalle_fecha_desde'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_fecha_desde'] == null){
+                        $solicitud_detalle_fecha_desde_1 = '';
+                        $solicitud_detalle_fecha_desde_2 = '';
+                    } else {
+                        $solicitud_detalle_fecha_desde_1 = $rowMSSQL00['solicitud_detalle_fecha_desde'];
+                        $solicitud_detalle_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_fecha_desde']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_fecha_hasta'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_fecha_hasta'] == null){
+                        $solicitud_detalle_fecha_hasta_1 = '';
+                        $solicitud_detalle_fecha_hasta_2 = '';
+                    } else {
+                        $solicitud_detalle_fecha_hasta_1 = $rowMSSQL00['solicitud_detalle_fecha_hasta'];
+                        $solicitud_detalle_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_fecha_hasta']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_aplicacion_desde'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_aplicacion_desde'] == null){
+                        $solicitud_detalle_aplicacion_desde_1 = '';
+                        $solicitud_detalle_aplicacion_desde_2 = '';
+                    } else {
+                        $solicitud_detalle_aplicacion_desde_1 = $rowMSSQL00['solicitud_detalle_aplicacion_desde'];
+                        $solicitud_detalle_aplicacion_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_aplicacion_desde']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_aplicacion_hasta'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_aplicacion_hasta'] == null){
+                        $solicitud_detalle_aplicacion_hasta_1 = '';
+                        $solicitud_detalle_aplicacion_desde_2 = '';
+                    } else {
+                        $solicitud_detalle_aplicacion_hasta_1 = $rowMSSQL00['solicitud_detalle_aplicacion_hasta'];
+                        $solicitud_detalle_aplicacion_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_aplicacion_hasta']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_fecha_desde'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_desde'] == null){
+                        $solicitud_fecha_desde_1 = '';
+                        $solicitud_fecha_desde_2 = '';
+                    } else {
+                        $solicitud_fecha_desde_1 = $rowMSSQL00['solicitud_fecha_desde'];
+                        $solicitud_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_desde']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_fecha_hasta'] == '1900-01-01' || $rowMSSQL00['solicitud_fecha_hasta'] == null){
+                        $solicitud_fecha_hasta_1 = '';
+                        $solicitud_fecha_hasta_2 = '';
+                    } else {
+                        $solicitud_fecha_hasta_1 = $rowMSSQL00['solicitud_fecha_hasta'];
+                        $solicitud_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_fecha_hasta']));
+                    }
+
                     $detalle    = array(
                         'solicitud_detalle_codigo'                      => $rowMSSQL00['solicitud_detalle_codigo'],
                         'solicitud_detalle_cabecera'                    => $rowMSSQL00['solicitud_detalle_cabecera'],
                         'solicitud_detalle_estado'                      => trim(strtoupper($rowMSSQL00['solicitud_detalle_estado'])),
                         'solicitud_detalle_solicitud'                   => trim(strtoupper($rowMSSQL00['solicitud_detalle_solicitud'])),
                         'solicitud_detalle_empleado'                    => trim(strtoupper($rowMSSQL00['solicitud_detalle_empleado'])),
-                        'solicitud_detalle_fecha_desde'                 => date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_fecha_desde'])),
-                        'solicitud_detalle_fecha_hasta'                 => date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_fecha_hasta'])),
-                        'solicitud_detalle_aplicacion_desde'            => date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_aplicacion_desde'])),
-                        'solicitud_detalle_aplicacion_hasta'            => date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_aplicacion_hasta'])),
+                        'solicitud_detalle_fecha_desde_1'               => $solicitud_detalle_fecha_desde_1,
+                        'solicitud_detalle_fecha_desde_2'               => $solicitud_detalle_fecha_desde_2,
+                        'solicitud_detalle_fecha_hasta_1'               => $solicitud_detalle_fecha_hasta_1,
+                        'solicitud_detalle_fecha_hasta_2'               => $solicitud_detalle_fecha_hasta_2,
+                        'solicitud_detalle_aplicacion_desde_1'          => $solicitud_detalle_aplicacion_desde_1,
+                        'solicitud_detalle_aplicacion_desde_2'          => $solicitud_detalle_aplicacion_desde_2,
+                        'solicitud_detalle_aplicacion_hasta_1'          => $solicitud_detalle_aplicacion_hasta_1,
+                        'solicitud_detalle_aplicacion_hasta_2'          => $solicitud_detalle_aplicacion_hasta_2,
                         'solicitud_detalle_cantidad_dia'                => $rowMSSQL00['solicitud_detalle_cantidad_dia'],
                         'solicitud_detalle_tipo'                        => trim(strtoupper($rowMSSQL00['solicitud_detalle_tipo'])),
                         'solicitud_detalle_cantidad_diaria'             => $rowMSSQL00['solicitud_detalle_cantidad_diaria'],
@@ -2475,9 +2533,30 @@
                         'solicitud_detalle_evento'                      => trim(strtoupper($rowMSSQL00['solicitud_detalle_evento'])),
                         'solicitud_detalle_origen'                      => trim(strtoupper($rowMSSQL00['solicitud_detalle_origen'])),
                         'solicitud_detalle_grupo'                       => $rowMSSQL00['solicitud_detalle_grupo'],
+
                         'auditoria_usuario'                             => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
                         'auditoria_fecha_hora'                          => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
-                        'auditoria_ip'                                  => trim(strtoupper($rowMSSQL00['auditoria_ip']))
+                        'auditoria_ip'                                  => trim(strtoupper($rowMSSQL00['auditoria_ip'])),
+
+                        'solicitud_codigo'                              => $rowMSSQL00['solicitud_codigo'],
+                        'solicitud_estado_codigo'                       => $rowMSSQL00['solicitud_estado_codigo'],
+                        'solicitud_estado_nombre'                       => trim(strtoupper(['solicitud_estado_nombre'])),
+                        'solicitud_documento'                           => trim(strtoupper($rowMSSQL00['solicitud_documento'])),
+                        'solicitud_fecha_desde_1'                       => $solicitud_fecha_desde_1,
+                        'solicitud_fecha_desde_2'                       => $solicitud_fecha_desde_2,
+                        'solicitud_fecha_hasta_1'                       => $solicitud_fecha_hasta_1,
+                        'solicitud_fecha_hasta_2'                       => $solicitud_fecha_hasta_2,
+                        'solicitud_fecha_cantidad'                      => $rowMSSQL00['solicitud_fecha_cantidad'],
+                        'solicitud_hora_desde'                          => trim(strtoupper($rowMSSQL00['solicitud_hora_desde'])),
+                        'solicitud_hora_hasta'                          => trim(strtoupper($rowMSSQL00['solicitud_hora_hasta'])),
+                        'solicitud_hora_cantidad'                       => $rowMSSQL00['solicitud_hora_cantidad'],
+                        'solicitud_adjunto1'                            => trim(strtolower($rowMSSQL00['solicitud_adjunto1'])),
+                        'solicitud_adjunto2'                            => trim(strtolower($rowMSSQL00['solicitud_adjunto2'])),
+                        'solicitud_adjunto3'                            => trim(strtolower($rowMSSQL00['solicitud_adjunto3'])),
+                        'solicitud_adjunto4'                            => trim(strtolower($rowMSSQL00['solicitud_adjunto4'])),
+                        'solicitud_observacion_colaborador'             => trim(strtoupper($rowMSSQL00['solicitud_observacion_colaborador'])),
+                        'solicitud_observacion_superior'                => trim(strtoupper($rowMSSQL00['solicitud_observacion_superior'])),
+                        'solicitud_observacion_talento'                 => trim(strtoupper($rowMSSQL00['solicitud_observacion_talento']))
                     );
 
                     $result[]   = $detalle;
@@ -2508,9 +2587,31 @@
                         'solicitud_detalle_evento'                      => '',
                         'solicitud_detalle_origen'                      => '',
                         'solicitud_detalle_grupo'                       => '',
+
                         'auditoria_usuario'                             => '',
                         'auditoria_fecha_hora'                          => '',
-                        'auditoria_ip'                                  => ''
+                        'auditoria_ip'                                  => '',
+
+                        'solicitud_codigo'                              => '',
+                        'solicitud_estado_codigo'                       => '',
+                        'solicitud_estado_nombre'                       => '',
+                        'solicitud_documento'                           => '',
+                        'solicitud_persona'                             => '',
+                        'solicitud_fecha_desde_1'                       => '',
+                        'solicitud_fecha_desde_2'                       => '',
+                        'solicitud_fecha_hasta_1'                       => '',
+                        'solicitud_fecha_hasta_2'                       => '',
+                        'solicitud_fecha_cantidad'                      => '',
+                        'solicitud_hora_desde'                          => '',
+                        'solicitud_hora_hasta'                          => '',
+                        'solicitud_hora_cantidad'                       => '',
+                        'solicitud_adjunto1'                            => '',
+                        'solicitud_adjunto2'                            => '',
+                        'solicitud_adjunto3'                            => '',
+                        'solicitud_adjunto4'                            => '',
+                        'solicitud_observacion_colaborador'             => '',
+                        'solicitud_observacion_superior'                => '',
+                        'solicitud_observacion_talento'                 => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
