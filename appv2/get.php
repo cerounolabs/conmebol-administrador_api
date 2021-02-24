@@ -2358,41 +2358,94 @@
         return $json;
     });
 
-    $app->get('/v2/200/solicitudessap/listado/{codigo}/{estado}', function($request) {
+    $app->get('/v2/200/solicitudessap/listado/{tipo}/{estado}', function($request) {
         require __DIR__.'/../src/connect.php';
         
-        $val01      = $request->getAttribute('codigo');
+        $val01      = $request->getAttribute('tipo');
         $val02      = $request->getAttribute('estado');
-        
-        if (isset($val01)) {
-            $sql00  = "SELECT
-                a.SOLAXICOD         AS          solicitud_detalle_codigo,
-                a.SOLAXICAB         AS          solicitud_detalle_cabecera,
-                a.SOLAXIEST         AS          solicitud_detalle_estado,
-                a.SOLAXISOL         AS          solicitud_detalle_solicitud,
-                a.SOLAXIDOC         AS          solicitud_detalle_empleado,
-                a.SOLAXIFED         AS          solicitud_detalle_fecha_desde,
-                a.SOLAXIFEH         AS          solicitud_detalle_fecha_hasta,
-                a.SOLAXIAPD         AS          solicitud_detalle_aplicacion_desde,
-                a.SOLAXIAPH         AS          solicitud_detalle_aplicacion_hasta,
-                a.SOLAXICAN         AS          solicitud_detalle_cantidad_dia,
-                a.SOLAXITIP         AS          solicitud_detalle_tipo,
-                a.SOLAXIDIA         AS          solicitud_detalle_cantidad_diaria,
-                a.SOLAXIUNI         AS          solicitud_detalle_unidad,
-                a.SOLAXICOM         AS          solicitud_detalle_comentario,
-                a.SOLAXIIDP         AS          solicitud_detalle_people_gate,
-                a.SOLAXICON         AS          solicitud_detalle_cantidad_convertida,         
-                a.SOLAXICLA         AS          solicitud_detalle_clase,
-                a.SOLAXILIN         AS          solicitud_detalle_evento,
-                a.SOLAXIORI         AS          solicitud_detalle_origen,
-                a.SOLAXIGRU         AS          solicitud_detalle_grupo,
-                a.SOLAXIUSU         AS          auditoria_usuario,
-                a.SOLAXIFEC         AS          auditoria_fecha_hora,
-                a.SOLAXIDIP         AS          auditoria_ip
 
-                FROM [hum].[SOLAXI] a
+        if (isset($val01) && isset($val02)){
+            if (($val01 == 0)) {
+                $val01  = $val02;
 
-                WHERE a.SOLAXISOL = ? AND a.SOLAXIEST = ?";
+                $sql00  = "SELECT
+                    a.SOLAXICOD         AS          solicitud_detalle_codigo,
+                    a.SOLAXICAB         AS          solicitud_detalle_cabecera,
+                    a.SOLAXIEST         AS          solicitud_detalle_estado,
+                    a.SOLAXISOL         AS          solicitud_detalle_solicitud,
+                    a.SOLAXIDOC         AS          solicitud_detalle_empleado,
+                    a.SOLAXIFED         AS          solicitud_detalle_fecha_desde,
+                    a.SOLAXIFEH         AS          solicitud_detalle_fecha_hasta,
+                    a.SOLAXIAPD         AS          solicitud_detalle_aplicacion_desde,
+                    a.SOLAXIAPH         AS          solicitud_detalle_aplicacion_hasta,
+                    a.SOLAXICAN         AS          solicitud_detalle_cantidad_dia,
+                    a.SOLAXITIP         AS          solicitud_detalle_tipo,
+                    a.SOLAXIDIA         AS          solicitud_detalle_cantidad_diaria,
+                    a.SOLAXIUNI         AS          solicitud_detalle_unidad,
+                    a.SOLAXICOM         AS          solicitud_detalle_comentario,
+                    a.SOLAXIIDP         AS          solicitud_detalle_people_gate,
+                    a.SOLAXICON         AS          solicitud_detalle_cantidad_convertida,         
+                    a.SOLAXICLA         AS          solicitud_detalle_clase,
+                    a.SOLAXILIN         AS          solicitud_detalle_evento,
+                    a.SOLAXIORI         AS          solicitud_detalle_origen,
+                    a.SOLAXIGRU         AS          solicitud_detalle_grupo,
+                    a.SOLAXIUSU         AS          auditoria_usuario,
+                    a.SOLAXIFEC         AS          auditoria_fecha_hora,
+                    a.SOLAXIDIP         AS          auditoria_ip
+
+                    FROM [hum].[SOLAXI] a
+
+                    WHERE a.SOLAXIEST = ? AND a.SOLAXIEST = ?";
+                    
+            }else{
+                $sql00  = "SELECT
+                    a.SOLAXICOD         AS          solicitud_detalle_codigo,
+                    a.SOLAXICAB         AS          solicitud_detalle_cabecera,
+                    a.SOLAXIEST         AS          solicitud_detalle_estado,
+                    a.SOLAXISOL         AS          solicitud_detalle_solicitud,
+                    a.SOLAXIDOC         AS          solicitud_detalle_empleado,
+                    a.SOLAXIFED         AS          solicitud_detalle_fecha_desde,
+                    a.SOLAXIFEH         AS          solicitud_detalle_fecha_hasta,
+                    a.SOLAXIAPD         AS          solicitud_detalle_aplicacion_desde,
+                    a.SOLAXIAPH         AS          solicitud_detalle_aplicacion_hasta,
+                    a.SOLAXICAN         AS          solicitud_detalle_cantidad_dia,
+                    a.SOLAXITIP         AS          solicitud_detalle_tipo,
+                    a.SOLAXIDIA         AS          solicitud_detalle_cantidad_diaria,
+                    a.SOLAXIUNI         AS          solicitud_detalle_unidad,
+                    a.SOLAXICOM         AS          solicitud_detalle_comentario,
+                    a.SOLAXIIDP         AS          solicitud_detalle_people_gate,
+                    a.SOLAXICON         AS          solicitud_detalle_cantidad_convertida,         
+                    a.SOLAXICLA         AS          solicitud_detalle_clase,
+                    a.SOLAXILIN         AS          solicitud_detalle_evento,
+                    a.SOLAXIORI         AS          solicitud_detalle_origen,
+                    a.SOLAXIGRU         AS          solicitud_detalle_grupo,
+                    
+                    a.SOLAXIUSU         AS          auditoria_usuario,
+                    a.SOLAXIFEC         AS          auditoria_fecha_hora,
+                    a.SOLAXIDIP         AS          auditoria_ip,
+                    
+                    b.SOLFICCOD         AS          solicitud_codigo,
+                    b.SOLFICEST         AS          solicitud_estado_codigo,
+                    b.SOLFICDOC         AS          solicitud_documento,
+                    b.SOLFICFH1         AS          solicitud_fecha_desde,
+                    b.SOLFICFH2         AS          solicitud_fecha_hasta,
+                    b.SOLFICFHC         AS          solicitud_fecha_cantidad,
+                    b.SOLFICHO1         AS          solicitud_hora_desde,
+                    b.SOLFICHO2         AS          solicitud_hora_hasta,
+                    b.SOLFICHOC         AS          solicitud_hora_cantidad,
+                    b.SOLFICADJ         AS          solicitud_adjunto1,
+                    b.SOLFICAD2         AS          solicitud_adjunto2,
+                    b.SOLFICAD3         AS          solicitud_adjunto3,
+                    b.SOLFICAD4         AS          solicitud_adjunto4,
+                    b.SOLFICOBC         AS          solicitud_observacion_colaborador,
+                    b.SOLFICOBS         AS          solicitud_observacion_superior
+            
+                    FROM [hum].[SOLAXI] a
+
+                    INNER JOIN [hum].[SOLFIC] b ON a.SOLAXICAB = b.SOLFICCOD 
+                    
+                    WHERE b.SOLFICTST = ? AND a.SOLAXIEST = ?";
+            }
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
