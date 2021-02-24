@@ -2633,6 +2633,173 @@
         
         return $json;
     });
+  
+    $app->get('/v2/200/solicitudessap/axisone/{codigo}/{estado}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01      = $request->getAttribute('codigo');
+        $val02      = $request->getAttribute('estado');
+
+        if (isset($val01) && isset($val02)){
+
+            $sql00  = "SELECT
+                a.SOLAXICOD         AS          solicitud_detalle_codigo,
+                a.SOLAXICAB         AS          solicitud_detalle_cabecera,
+                a.SOLAXIEST         AS          solicitud_detalle_estado,
+                a.SOLAXISOL         AS          solicitud_detalle_solicitud,
+                a.SOLAXIDOC         AS          solicitud_detalle_empleado,
+                a.SOLAXIFED         AS          solicitud_detalle_fecha_desde,
+                a.SOLAXIFEH         AS          solicitud_detalle_fecha_hasta,
+                a.SOLAXIAPD         AS          solicitud_detalle_aplicacion_desde,
+                a.SOLAXIAPH         AS          solicitud_detalle_aplicacion_hasta,
+                a.SOLAXICAN         AS          solicitud_detalle_cantidad_dia,
+                a.SOLAXITIP         AS          solicitud_detalle_tipo,
+                a.SOLAXIDIA         AS          solicitud_detalle_cantidad_diaria,
+                a.SOLAXIUNI         AS          solicitud_detalle_unidad,
+                a.SOLAXICOM         AS          solicitud_detalle_comentario,
+                a.SOLAXIIDP         AS          solicitud_detalle_people_gate,
+                a.SOLAXICON         AS          solicitud_detalle_cantidad_convertida,         
+                a.SOLAXICLA         AS          solicitud_detalle_clase,
+                a.SOLAXILIN         AS          solicitud_detalle_evento,
+                a.SOLAXIORI         AS          solicitud_detalle_origen,
+                a.SOLAXIGRU         AS          solicitud_detalle_grupo,
+                
+                a.SOLAXIUSU         AS          auditoria_usuario,
+                a.SOLAXIFEC         AS          auditoria_fecha_hora,
+                a.SOLAXIDIP         AS          auditoria_ip
+
+                FROM [hum].[SOLAXI] a
+
+                WHERE a.SOLAXISOL = ? AND a.SOLAXIEST = ?
+
+                ORDER BY a.SOLAXICOD DESC";
+                    
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01, $val02]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+
+                    if ($rowMSSQL00['solicitud_detalle_fecha_desde'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_fecha_desde'] == null){
+                        $solicitud_detalle_fecha_desde_1 = '';
+                        $solicitud_detalle_fecha_desde_2 = '';
+                    } else {
+                        $solicitud_detalle_fecha_desde_1 = $rowMSSQL00['solicitud_detalle_fecha_desde'];
+                        $solicitud_detalle_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_fecha_desde']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_fecha_hasta'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_fecha_hasta'] == null){
+                        $solicitud_detalle_fecha_hasta_1 = '';
+                        $solicitud_detalle_fecha_hasta_2 = '';
+                    } else {
+                        $solicitud_detalle_fecha_hasta_1 = $rowMSSQL00['solicitud_detalle_fecha_hasta'];
+                        $solicitud_detalle_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_fecha_hasta']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_aplicacion_desde'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_aplicacion_desde'] == null){
+                        $solicitud_detalle_aplicacion_desde_1 = '';
+                        $solicitud_detalle_aplicacion_desde_2 = '';
+                    } else {
+                        $solicitud_detalle_aplicacion_desde_1 = $rowMSSQL00['solicitud_detalle_aplicacion_desde'];
+                        $solicitud_detalle_aplicacion_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_aplicacion_desde']));
+                    }
+
+                    if ($rowMSSQL00['solicitud_detalle_aplicacion_hasta'] == '1900-01-01' || $rowMSSQL00['solicitud_detalle_aplicacion_hasta'] == null){
+                        $solicitud_detalle_aplicacion_hasta_1 = '';
+                        $solicitud_detalle_aplicacion_desde_2 = '';
+                    } else {
+                        $solicitud_detalle_aplicacion_hasta_1 = $rowMSSQL00['solicitud_detalle_aplicacion_hasta'];
+                        $solicitud_detalle_aplicacion_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['solicitud_detalle_aplicacion_hasta']));
+                    }
+
+                    $detalle    = array(
+                        'solicitud_detalle_codigo'                      => $rowMSSQL00['solicitud_detalle_codigo'],
+                        'solicitud_detalle_cabecera'                    => $rowMSSQL00['solicitud_detalle_cabecera'],
+                        'solicitud_detalle_estado'                      => trim(strtoupper($rowMSSQL00['solicitud_detalle_estado'])),
+                        'solicitud_detalle_solicitud'                   => trim(strtoupper($rowMSSQL00['solicitud_detalle_solicitud'])),
+                        'solicitud_detalle_empleado'                    => trim(strtoupper($rowMSSQL00['solicitud_detalle_empleado'])),
+                        'solicitud_detalle_fecha_desde_1'               => $solicitud_detalle_fecha_desde_1,
+                        'solicitud_detalle_fecha_desde_2'               => $solicitud_detalle_fecha_desde_2,
+                        'solicitud_detalle_fecha_hasta_1'               => $solicitud_detalle_fecha_hasta_1,
+                        'solicitud_detalle_fecha_hasta_2'               => $solicitud_detalle_fecha_hasta_2,
+                        'solicitud_detalle_aplicacion_desde_1'          => $solicitud_detalle_aplicacion_desde_1,
+                        'solicitud_detalle_aplicacion_desde_2'          => $solicitud_detalle_aplicacion_desde_2,
+                        'solicitud_detalle_aplicacion_hasta_1'          => $solicitud_detalle_aplicacion_hasta_1,
+                        'solicitud_detalle_aplicacion_hasta_2'          => $solicitud_detalle_aplicacion_hasta_2,
+                        'solicitud_detalle_cantidad_dia'                => $rowMSSQL00['solicitud_detalle_cantidad_dia'],
+                        'solicitud_detalle_tipo'                        => trim(strtoupper($rowMSSQL00['solicitud_detalle_tipo'])),
+                        'solicitud_detalle_cantidad_diaria'             => $rowMSSQL00['solicitud_detalle_cantidad_diaria'],
+                        'solicitud_detalle_unidad'                      => $rowMSSQL00['solicitud_detalle_unidad'],
+                        'solicitud_detalle_comentario'                  => trim(strtoupper($rowMSSQL00['solicitud_detalle_comentario'])),
+                        'solicitud_detalle_people_gate'                 => trim(strtoupper($rowMSSQL00['solicitud_detalle_people_gate'])),
+                        'solicitud_detalle_cantidad_convertida'         => trim(strtoupper($rowMSSQL00['solicitud_detalle_cantidad_convertida'])),
+                        'solicitud_detalle_clase'                       => trim(strtoupper($rowMSSQL00['solicitud_detalle_clase'])),
+                        'solicitud_detalle_evento'                      => trim(strtoupper($rowMSSQL00['solicitud_detalle_evento'])),
+                        'solicitud_detalle_origen'                      => trim(strtoupper($rowMSSQL00['solicitud_detalle_origen'])),
+                        'solicitud_detalle_grupo'                       => $rowMSSQL00['solicitud_detalle_grupo'],
+
+                        'auditoria_usuario'                             => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
+                        'auditoria_fecha_hora'                          => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
+                        'auditoria_ip'                                  => trim(strtoupper($rowMSSQL00['auditoria_ip']))
+
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'solicitud_detalle_codigo'                      => '',
+                        'solicitud_detalle_cabecera'                    => '',
+                        'solicitud_detalle_estado'                      => '',
+                        'solicitud_detalle_solicitud'                   => '',
+                        'solicitud_detalle_empleado'                    => '',
+                        'solicitud_detalle_fecha_desde'                 => '',
+                        'solicitud_detalle_fecha_hasta'                 => '',
+                        'solicitud_detalle_aplicacion_desde'            => '',
+                        'solicitud_detalle_aplicacion_hasta'            => '',
+                        'solicitud_detalle_cantidad_dia'                => '',
+                        'solicitud_detalle_tipo'                        => '',
+                        'solicitud_detalle_cantidad_diaria'             => '',
+                        'solicitud_detalle_unidad'                      => '',
+                        'solicitud_detalle_comentario'                  => '',
+                        'solicitud_detalle_people_gate'                 => '',
+                        'solicitud_detalle_cantidad_convertida'         => '',
+                        'solicitud_detalle_clase'                       => '',
+                        'solicitud_detalle_evento'                      => '',
+                        'solicitud_detalle_origen'                      => '',
+                        'solicitud_detalle_grupo'                       => '',
+
+                        'auditoria_usuario'                             => '',
+                        'auditoria_fecha_hora'                          => '',
+                        'auditoria_ip'                                  => ''
+
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 
     $app->get('/v2/200/comprobante', function($request) {
         require __DIR__.'/../src/connect.php';
