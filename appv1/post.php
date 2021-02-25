@@ -527,7 +527,7 @@
         return $json;
     });
 
-    $app->post('/v1/200/exportar', function($request) {
+    $app->post('/v1/200/solicitudessap', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01      = $request->getParsedBody()['solicitud_codigo'];
@@ -614,7 +614,7 @@
                     $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
 
                     $SOLAXICAB  = $val01;
-                    $SOLAXIEST  = 'P';
+                    $SOLAXIEST  = trim(strtoupper($rowMSSQL01['solicitud_estado_codigo']));
                     $SOLAXIDOC  = trim(strtoupper($rowMSSQL01['solicitud_documento']));
                     $SOLAXIFED  = $rowMSSQL01['solicitud_fecha_desde'];
                     $SOLAXIFEH  = $rowMSSQL01['solicitud_fecha_hasta'];
@@ -671,7 +671,7 @@
                             $auxHor .= ($diff->i > 1) ? $diff->i.':00' : $diff->i . ':00';
                         }
 
-                       // $SOLAXICON  = get_format($auxHor);
+                       //$SOLAXICON  = get_format($auxHor);
                     }
 
                     if (trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3'])) == 'DSM' && trim(strtoupper($rowMSSQL01['tipo_solicitud_codigo'])) == 'I') {
