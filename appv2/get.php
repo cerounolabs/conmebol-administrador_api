@@ -5964,6 +5964,7 @@
             a.SOLPCRUST         AS          testpcr_talento_usuario,
             a.SOLPCRFET         AS          testpcr_talento_fecha,
             a.SOLPCRIPT         AS          testpcr_talento_ip,
+            a.SOLPCROBT         AS          testpcr_talento_observacion,
             
             a.SOLPCRAUS         AS          auditoria_usuario,
             a.SOLPCRAFH         AS          auditoria_fecha_hora,
@@ -6076,6 +6077,7 @@
                     'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
                     'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
                     'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                    'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
 
                     'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                     'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -6159,6 +6161,7 @@
                     'testpcr_talento_usuario'                   => '',
                     'testpcr_talento_fecha'                     => '',
                     'testpcr_talento_ip'                        => '',
+                    'testpcr_talento_observacion'               => '',
 
                     'auditoria_usuario'                         => '',
                     'auditoria_fecha_hora'                      => '',
@@ -6253,6 +6256,7 @@
                 a.SOLPCRUST         AS          testpcr_talento_usuario,
                 a.SOLPCRFET         AS          testpcr_talento_fecha,
                 a.SOLPCRIPT         AS          testpcr_talento_ip,
+                a.SOLPCROBT         AS          testpcr_talento_observacion,
                 
                 a.SOLPCRAUS         AS          auditoria_usuario,
                 a.SOLPCRAFH         AS          auditoria_fecha_hora,
@@ -6368,6 +6372,7 @@
                         'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
                         'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
                         'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                        'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
 
                         'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -6451,6 +6456,7 @@
                         'testpcr_talento_usuario'                   => '',
                         'testpcr_talento_fecha'                     => '',
                         'testpcr_talento_ip'                        => '',
+                        'testpcr_talento_observacion'               => '',
 
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
@@ -6549,6 +6555,7 @@
                 a.SOLPCRUST         AS          testpcr_talento_usuario,
                 a.SOLPCRFET         AS          testpcr_talento_fecha,
                 a.SOLPCRIPT         AS          testpcr_talento_ip,
+                a.SOLPCROBT         AS          testpcr_talento_observacion,
                 
                 a.SOLPCRAUS         AS          auditoria_usuario,
                 a.SOLPCRAFH         AS          auditoria_fecha_hora,
@@ -6664,6 +6671,7 @@
                         'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
                         'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
                         'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                        'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
 
                         'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -6747,6 +6755,7 @@
                         'testpcr_talento_usuario'                   => '',
                         'testpcr_talento_fecha'                     => '',
                         'testpcr_talento_ip'                        => '',
+                        'testpcr_talento_observacion'               => '',
 
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
@@ -6845,6 +6854,7 @@
                 a.SOLPCRUST         AS          testpcr_talento_usuario,
                 a.SOLPCRFET         AS          testpcr_talento_fecha,
                 a.SOLPCRIPT         AS          testpcr_talento_ip,
+                a.SOLPCROBT         AS          testpcr_talento_observacion,
                 
                 a.SOLPCRAUS         AS          auditoria_usuario,
                 a.SOLPCRAFH         AS          auditoria_fecha_hora,
@@ -6960,6 +6970,7 @@
                         'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
                         'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
                         'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                        'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
 
                         'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -7043,6 +7054,7 @@
                         'testpcr_talento_usuario'                   => '',
                         'testpcr_talento_fecha'                     => '',
                         'testpcr_talento_ip'                        => '',
+                        'testpcr_talento_observacion'               => '',
 
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
