@@ -579,7 +579,7 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val00_1    = $request->getParsedBody()['tipo_estado_parametro'];
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
         $val01      = $request->getParsedBody()['tipo_estado_parametro'];
         $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
         $val03      = $request->getParsedBody()['tipo_rol_parametro'];
