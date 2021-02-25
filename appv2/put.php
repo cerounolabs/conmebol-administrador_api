@@ -652,7 +652,7 @@
                     break;
 
                     case 3:
-                        $stmtMSSQL00->execute([$val01, $val32, $val29, $val30, $val31, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $val32, $val29, $val31, $aud01, $aud03, $val00]);
                     break;
 
                     case 4:
