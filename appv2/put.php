@@ -574,6 +574,110 @@
         
         return $json;
     });
+
+    $app->put('/v2/200/testpcr/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_estado_parametro'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
+        $val03      = $request->getParsedBody()['tipo_rol_parametro'];
+        $val04      = $request->getParsedBody()['testpcr_orden'];
+        $val05      = trim($request->getParsedBody()['testpcr_solicitante_nombre']);
+        $val06      = trim($request->getParsedBody()['testpcr_solicitante_apellido']);
+        $val07      = trim($request->getParsedBody()['testpcr_solicitante_documento']);
+        $val08      = trim($request->getParsedBody()['testpcr_solicitante_email']);
+        $val09      = trim($request->getParsedBody()['testpcr_solicitante_observacion']);
+        $val10      = trim($request->getParsedBody()['testpcr_jefetura_documento']);
+        $val11      = $request->getParsedBody()['testpcr_fecha_1'];
+        $val12      = $request->getParsedBody()['testpcr_fecha_2'];
+        $val13      = trim($request->getParsedBody()['testpcr_hora_1']);
+        $val14      = trim($request->getParsedBody()['testpcr_hora_2']);
+        $val15      = trim($request->getParsedBody()['testpcr_adjunto_1']);
+        $val16      = trim($request->getParsedBody()['testpcr_adjunto_2']);
+        $val17      = trim($request->getParsedBody()['testpcr_adjunto_3']);
+        $val18      = trim($request->getParsedBody()['testpcr_adjunto_4']);
+        $val19      = trim($request->getParsedBody()['testpcr_laboratorio_nombre']);
+        $val20      = trim($request->getParsedBody()['testpcr_laboratorio_contacto']);
+        $val21      = trim($request->getParsedBody()['testpcr_laboratorio_email']);
+        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['testpcr_laboratorio_fecha_resultado'])));
+        $val23      = trim($request->getParsedBody()['testpcr_laboratorio_adjunto']);
+        $val24      = trim($request->getParsedBody()['testpcr_laboratorio_resultado']);
+        $val25      = trim($request->getParsedBody()['testpcr_laboratorio_observacion']);
+        $val26      = trim($request->getParsedBody()['testpcr_carga_usuario']);
+        $val27      = $request->getParsedBody()['testpcr_carga_fecha'];
+        $val28      = $request->getParsedBody()['testpcr_carga_ip'];
+        $val29      = trim($request->getParsedBody()['testpcr_talento_usuario']);
+        $val30      = $request->getParsedBody()['testpcr_talento_fecha'];
+        $val31      = $request->getParsedBody()['testpcr_talento_ip'];
+        $val32      = trim($request->getParsedBody()['testpcr_talento_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val00) && isset($val00_1)) {
+            $sql00  = "";
+
+            switch ($val00_1) {
+                case 1:
+                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRORD = ?, SOLPCRTSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRSOLICITUD' AND DOMFICPAR = ?), SOLPCRTRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRROL' AND DOMFICPAR = ?), SOLPCRNOM = ?, SOLPCRAPE = ?, SOLPCRDOC = ?, SOLPCRDOJ = ?, SOLPCREMA = ?, SOLPCRFE1 = ?, SOLPCRFE2 = ?, SOLPCRHO1 = ?, SOLPCRHO2 = ?, SOLPCRAD1 = ?, SOLPCRAD2 = ?, SOLPCRAD3 = ?, SOLPCRAD4 = ?, SOLPCRLNO = ?, SOLPCRLCO = ?, SOLPCRLMA = ?, SOLPCRLFR = ?, SOLPCRLAD = ?, SOLPCRLRE = ?, SOLPCRLOB = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";                                                                                                                                   
+                    break;
+
+                case 2:
+                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLNO = ?, SOLPCRLCO = ?, SOLPCRLMA = ?, SOLPCROBT = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
+                break;
+
+                case 3:
+                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCROBT = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
+                break;
+
+                case 4:
+                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLFR = ?, SOLPCRLAD = ?, SOLPCRLRE = ?, SOLPCRLOB = ?,SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
+                break;
+            }
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val04, $val02, $val03, $val05, $val06, $val07, $val10, $val08, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $val24, $val25, $aud01, $aud03, $val00]);
+                    break;
+
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $val19, $val20, $val21, $val32, $val29, $val30, $val31, $aud01, $aud03, $val00]);
+                    break;
+
+                    case 3:
+                        $stmtMSSQL00->execute([$val01, $val32, $val29, $val30, $val31, $aud01, $aud03, $val00]);
+                    break;
+
+                    case 4:
+                        $stmtMSSQL00->execute([$val01, $val22, $val23, $val24, $val25, $val29, $val30, $val31, $aud01, $aud03, $val00]);
+                    break;
+                }
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO PERMISO*/
 
 /*MODULO WORKFLOW*/
