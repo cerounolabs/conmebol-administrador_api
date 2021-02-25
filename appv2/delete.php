@@ -409,7 +409,7 @@
         return $json;
     });
 
-    $app->delete('/v2/400/testpcr/{codigo}', function($request) {
+    $app->delete('/v2/200/testpcr/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
@@ -484,7 +484,7 @@
         
         return $json;
     });
-    
+
 /*MODULO PERMISO*/
 
 /*MODULO VIAJE*/
