@@ -1028,7 +1028,7 @@
 
         $aud01      = trim($request->getParsedBody()['auditoria_usuario']);
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
+        $aud03      =  trim($request->getParsedBody()['auditoria_ip']);
 
         if (isset($val01) && isset($val02) && isset($val05) && isset($val06) && isset($val07)) {
             $sql00  = "INSERT INTO [hum].[SOLPCR](                                                                          SOLPCREST, SOLPCRORD,                                                                                  SOLPCRTSC,                                                                          SOLPCRTRC, SOLPCRNOM, SOLPCRAPE, SOLPCRDOC, SOLPCRDOJ, SOLPCREMA, SOLPCRFE1, SOLPCRFE2, SOLPCRHO1, SOLPCRHO2, SOLPCRAD1, SOLPCRAD2, SOLPCRAD3, SOLPCRAD4, SOLPCRUSC, SOLPCRFEC, SOLPCRIPC, SOLPCROBC, SOLPCRAUS, SOLPCRAFH, SOLPCRAIP) 
