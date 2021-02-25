@@ -627,15 +627,15 @@
 
                 case 2:
                     $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLNO = ?, SOLPCRLCO = ?, SOLPCRLMA = ?, SOLPCROBT = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
-                break;
+                    break;
 
                 case 3:
                     $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCROBT = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
                 break;
 
                 case 4:
-                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLFR = ?, SOLPCRLAD = ?, SOLPCRLRE = ?, SOLPCRLOB = ?,SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
-                break;
+                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLFR = ?, SOLPCRLAD = ?, SOLPCRLRE = ?, SOLPCRLOB = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
+                    break;
             }
 
             try {
@@ -648,7 +648,7 @@
                     break;
 
                     case 2:
-                        $stmtMSSQL00->execute([$val01, $val19, $val20, $val21, $val32, $val29, $val30, $val31, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $val19, $val20, $val21, $val32, $val29, $val31, $aud01, $aud03, $val00]);
                     break;
 
                     case 3:
@@ -656,7 +656,7 @@
                     break;
 
                     case 4:
-                        $stmtMSSQL00->execute([$val01, $val22, $val23, $val24, $val25, $val29, $val30, $val31, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val01, $val22, $val23, $val24, $val25, $val29, $val31, $aud01, $aud03, $val00]);
                     break;
                 }
 
