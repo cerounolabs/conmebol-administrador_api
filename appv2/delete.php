@@ -408,6 +408,83 @@
         
         return $json;
     });
+
+    $app->delete('/v2/400/testpcr/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
+        $val03      = $request->getParsedBody()['tipo_rol_parametro'];
+        $val04      = $request->getParsedBody()['testpcr_orden'];
+        $val05      = trim($request->getParsedBody()['testpcr_solicitante_nombre']);
+        $val06      = trim($request->getParsedBody()['testpcr_solicitante_apellido']);
+        $val07      = trim($request->getParsedBody()['testpcr_solicitante_documento']);
+        $val08      = trim($request->getParsedBody()['testpcr_solicitante_email']);
+        $val09      = trim($request->getParsedBody()['testpcr_solicitante_observacion']);
+        $val10      = trim($request->getParsedBody()['testpcr_jefetura_documento']);
+        $val11      = $request->getParsedBody()['testpcr_fecha_1'];
+        $val12      = $request->getParsedBody()['testpcr_fecha_2'];
+        $val13      = trim($request->getParsedBody()['testpcr_hora_1']);
+        $val14      = trim($request->getParsedBody()['testpcr_hora_2']);
+        $val15      = trim($request->getParsedBody()['testpcr_adjunto_1']);
+        $val16      = trim($request->getParsedBody()['testpcr_adjunto_2']);
+        $val17      = trim($request->getParsedBody()['testpcr_adjunto_3']);
+        $val18      = trim($request->getParsedBody()['testpcr_adjunto_4']);
+        $val19      = trim($request->getParsedBody()['testpcr_laboratorio_nombre']);
+        $val20      = trim($request->getParsedBody()['testpcr_laboratorio_contacto']);
+        $val21      = trim($request->getParsedBody()['testpcr_laboratorio_email']);
+        $val22      = $request->getParsedBody()['testpcr_laboratorio_fecha_resultado'];
+        $val23      = trim($request->getParsedBody()['testpcr_laboratorio_adjunto']);
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['testpcr_laboratorio_resultado'])));
+        $val25      = trim($request->getParsedBody()['testpcr_laboratorio_observacion']);
+        $val26      = trim($request->getParsedBody()['testpcr_carga_usuario']);
+        $val27      = $request->getParsedBody()['testpcr_carga_fecha'];
+        $val28      = $request->getParsedBody()['testpcr_carga_ip'];
+        $val29      = trim($request->getParsedBody()['testpcr_talento_usuario']);
+        $val30      = $request->getParsedBody()['testpcr_talento_fecha'];
+        $val31      = $request->getParsedBody()['testpcr_talento_ip'];
+        $val32      = trim($request->getParsedBody()['testpcr_talento_observacion']);
+
+        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = $request->getParsedBody()['auditoria_ip'];
+
+        if (isset($val01) && isset($val02) && isset($val05) && isset($val06) && isset($val07)){
+            $sql00  = "UPDATE [hum].[SOLPCR] SET SOLPCRAUS = ?,	SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
+            $sql01  = "DELETE FROM [hum].[SOLPCR] WHERE SOLPCRCOD = ?";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$aud01, $aud03, $val00]);
+                $stmtMSSQL01->execute([$val00]);
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success DELETE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error DELETE: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+    
 /*MODULO PERMISO*/
 
 /*MODULO VIAJE*/
@@ -1125,6 +1202,7 @@
         
         return $json;
     });
+
 /*MODULO VIAJE*/
 
 /*MODULO RENDICION*/
