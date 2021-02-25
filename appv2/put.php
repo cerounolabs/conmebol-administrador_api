@@ -613,9 +613,9 @@
         $val31      = $request->getParsedBody()['testpcr_talento_ip'];
         $val32      = trim($request->getParsedBody()['testpcr_talento_observacion']);
 
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud01      = trim($request->getParsedBody()['auditoria_usuario']);
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
-        $aud03      = $request->getParsedBody()['auditoria_ip'];
+        $aud03      = trim($request->getParsedBody()['auditoria_ip']);
 
         if (isset($val00) && isset($val00_1)) {
             $sql00  = "";
