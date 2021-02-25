@@ -601,9 +601,9 @@
         $val19      = trim($request->getParsedBody()['testpcr_laboratorio_nombre']);
         $val20      = trim($request->getParsedBody()['testpcr_laboratorio_contacto']);
         $val21      = trim($request->getParsedBody()['testpcr_laboratorio_email']);
-        $val22      = trim(strtoupper(strtolower($request->getParsedBody()['testpcr_laboratorio_fecha_resultado'])));
+        $val22      = $request->getParsedBody()['testpcr_laboratorio_fecha_resultado'];
         $val23      = trim($request->getParsedBody()['testpcr_laboratorio_adjunto']);
-        $val24      = trim($request->getParsedBody()['testpcr_laboratorio_resultado']);
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['testpcr_laboratorio_resultado'])));
         $val25      = trim($request->getParsedBody()['testpcr_laboratorio_observacion']);
         $val26      = trim($request->getParsedBody()['testpcr_carga_usuario']);
         $val27      = $request->getParsedBody()['testpcr_carga_fecha'];
