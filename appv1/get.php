@@ -6883,4 +6883,1190 @@
         
         return $json;
     });
+
+    $app->get('/v1/200/testpcr/listado', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT 
+            a.SOLPCRCOD         AS          testpcr_codigo,
+            a.SOLPCRORD         AS          testpcr_orden,
+            a.SOLPCRNOM         AS          testpcr_solicitante_nombre,
+            a.SOLPCRAPE         AS          testpcr_solicitante_apellido,
+            a.SOLPCRDOC         AS          testpcr_solicitante_documento,
+            a.SOLPCREMA         AS          testpcr_solicitante_email,
+            a.SOLPCROBC         AS          testpcr_solicitante_observacion,
+            a.SOLPCRDOJ         AS          testpcr_jefetura_documento,
+            a.SOLPCRFE1         AS          testpcr_fecha_1,
+            a.SOLPCRFE2         AS          testpcr_fecha_2,
+            a.SOLPCRHO1         AS          testpcr_hora_1,
+            a.SOLPCRHO2         AS          testpcr_hora_2,
+            a.SOLPCRAD1         AS          testpcr_adjunto_1,
+            a.SOLPCRAD2         AS          testpcr_adjunto_2,
+            a.SOLPCRAD3         AS          testpcr_adjunto_3,
+            a.SOLPCRAD4         AS          testpcr_adjunto_4,
+            a.SOLPCRLNO         AS          testpcr_laboratorio_nombre,
+            a.SOLPCRLCO         AS          testpcr_laboratorio_contacto,
+            a.SOLPCRLMA         AS          testpcr_laboratorio_email,
+            a.SOLPCRLFR         AS          testpcr_laboratorio_fecha_resultado,
+            a.SOLPCRLAD         AS          testpcr_laboratorio_adjunto,
+            a.SOLPCRLRE         AS          testpcr_laboratorio_resultado, 
+            a.SOLPCRLOB         AS          testpcr_laboratorio_observacion,
+            a.SOLPCRUSC         AS          testpcr_carga_usuario,
+            a.SOLPCRFEC         AS          testpcr_carga_fecha,
+            a.SOLPCRIPC         AS          testpcr_carga_ip,
+            a.SOLPCRUST         AS          testpcr_talento_usuario,
+            a.SOLPCRFET         AS          testpcr_talento_fecha,
+            a.SOLPCRIPT         AS          testpcr_talento_ip,
+            a.SOLPCROBT         AS          testpcr_talento_observacion,
+            
+            a.SOLPCRAUS         AS          auditoria_usuario,
+            a.SOLPCRAFH         AS          auditoria_fecha_hora,
+            a.SOLPCRAIP         AS          auditoria_ip,
+            
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICORD         AS          tipo_estado_orden,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
+            b.DOMFICOBS         AS          tipo_estado_observacion,
+            
+            c.DOMFICCOD         AS          tipo_solicitud_codigo,
+            c.DOMFICORD         AS          tipo_solicitud_orden,
+            c.DOMFICNOI         AS          tipo_solicitud_ingles,
+            c.DOMFICNOC         AS          tipo_solicitud_castellano,
+            c.DOMFICNOP         AS          tipo_solicitud_portugues,
+            c.DOMFICPAT         AS          tipo_solicitud_path,
+            c.DOMFICCSS         AS          tipo_solicitud_css,
+            c.DOMFICPAR         AS          tipo_solicitud_parametro,
+            c.DOMFICICO         AS          tipo_solicitud_icono,
+            c.DOMFICVAL         AS          tipo_solicitud_dominio,
+            c.DOMFICOBS         AS          tipo_solicitud_observacion,
+            
+            d.DOMFICCOD         AS          tipo_rol_codigo,
+            d.DOMFICORD         AS          tipo_rol_orden,
+            d.DOMFICNOI         AS          tipo_rol_ingles,
+            d.DOMFICNOC         AS          tipo_rol_castellano,
+            d.DOMFICNOP         AS          tipo_rol_portugues,
+            d.DOMFICPAT         AS          tipo_rol_path,
+            d.DOMFICCSS         AS          tipo_rol_css,
+            d.DOMFICPAR         AS          tipo_rol_parametro,
+            d.DOMFICICO         AS          tipo_rol_icono,
+            d.DOMFICVAL         AS          tipo_rol_dominio,
+            d.DOMFICOBS         AS          tipo_rol_observacion
+                    
+            FROM [hum].[SOLPCR] a
+            INNER JOIN adm.DOMFIC b ON a.SOLPCREST = b.DOMFICCOD
+            INNER JOIN adm.DOMFIC c ON a.SOLPCRTSC = c.DOMFICCOD
+            INNER JOIN adm.DOMFIC d ON a.SOLPCRTRC = d.DOMFICCOD
+        
+            ORDER BY a.SOLPCRCOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv1();
+
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+            
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if ($rowMSSQL00['testpcr_fecha_1'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_1'] == null){
+                    $testpcr_fecha_1_1 = '';
+                    $testpcr_fecha_1_2 = '';
+                } else {
+                    $testpcr_fecha_1_1 = $rowMSSQL00['testpcr_fecha_1'];
+                    $testpcr_fecha_1_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_1']));
+                }
+
+                if ($rowMSSQL00['testpcr_fecha_2'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_2'] == null){
+                    $testpcr_fecha_2_1 = '';
+                    $testpcr_fecha_2_2 = '';
+                } else {
+                    $testpcr_fecha_2_1 = $rowMSSQL00['testpcr_fecha_2'];
+                    $testpcr_fecha_2_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_2']));
+                }
+
+                if ($rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == '1900-01-01' || $rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == null){
+                    $testpcr_laboratorio_fecha_resultado_1 = '';
+                    $testpcr_laboratorio_fecha_resultado_2 = '';
+                } else {
+                    $testpcr_laboratorio_fecha_resultado_1 = $rowMSSQL00['testpcr_laboratorio_fecha_resultado'];
+                    $testpcr_laboratorio_fecha_resultado_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_laboratorio_fecha_resultado']));
+                }
+
+                $detalle    = array(
+                    'testpcr_codigo'                            => $rowMSSQL00['testpcr_codigo'],
+                    'testpcr_orden'                             => $rowMSSQL00['testpcr_orden'],
+                    'testpcr_solicitante_nombre'                => trim($rowMSSQL00['testpcr_solicitante_nombre']),
+                    'testpcr_solicitante_apellido'              => trim($rowMSSQL00['testpcr_solicitante_apellido']),
+                    'testpcr_solicitante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_solicitante_documento']))),
+                    'testpcr_solicitante_email'                 => trim(strtolower($rowMSSQL00['testpcr_solicitante_email'])),
+                    'testpcr_solicitante_observacion'           => trim($rowMSSQL00['testpcr_solicitante_observacion']),
+                    'testpcr_jefetura_documento'                => trim(strtoupper(strtolower($rowMSSQL00['testpcr_jefetura_documento']))),
+                    'testpcr_fecha_1_1'                         => $testpcr_fecha_1_1,
+                    'testpcr_fecha_1_2'                         => $testpcr_fecha_1_2,
+                    'testpcr_fecha_2_1'                         => $testpcr_fecha_2_1,
+                    'testpcr_fecha_2_2'                         => $testpcr_fecha_2_2,
+                    'testpcr_hora_1'                            => trim($rowMSSQL00['testpcr_hora_1']),
+                    'testpcr_hora_2'                            => trim($rowMSSQL00['testpcr_hora_2']),
+                    'testpcr_adjunto_1'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_1'])),
+                    'testpcr_adjunto_2'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_2'])),
+                    'testpcr_adjunto_3'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_3'])),
+                    'testpcr_adjunto_4'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_4'])),
+                    'testpcr_laboratorio_nombre'                => trim($rowMSSQL00['testpcr_laboratorio_nombre']),
+                    'testpcr_laboratorio_contacto'              => trim($rowMSSQL00['testpcr_laboratorio_contacto']), 
+                    'testpcr_laboratorio_email'                 => trim($rowMSSQL00['testpcr_laboratorio_email']), 
+                    'testpcr_laboratorio_fecha_resultado_1'     => $testpcr_laboratorio_fecha_resultado_1, 
+                    'testpcr_laboratorio_fecha_resultado_2'     => $testpcr_laboratorio_fecha_resultado_2, 
+                    'testpcr_laboratorio_adjunto'               => trim(strtoupper($rowMSSQL00['testpcr_laboratorio_adjunto'])),
+                    'testpcr_laboratorio_resultado'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_laboratorio_resultado']))),
+                    'testpcr_laboratorio_observacion'           => trim($rowMSSQL00['testpcr_laboratorio_observacion']),
+                    'testpcr_carga_usuario'                     => trim($rowMSSQL00['testpcr_carga_usuario']),
+                    'testpcr_carga_fecha'                       => $rowMSSQL00['testpcr_carga_fecha'],
+                    'testpcr_carga_ip'                          => trim($rowMSSQL00['testpcr_carga_ip']),
+                    'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
+                    'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
+                    'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                    'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
+
+                    'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                    'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                    'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+
+                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                    'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                    'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                    'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                    'tipo_solicitud_codigo'                     => $rowMSSQL00['tipo_solicitud_codigo'],
+                    'tipo_solicitud_orden'                      => $rowMSSQL00['tipo_solicitud_orden'],
+                    'tipo_solicitud_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_ingles']))),
+                    'tipo_solicitud_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_castellano']))),
+                    'tipo_solicitud_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_portugues']))),
+                    'tipo_solicitud_parametro'                  => $rowMSSQL00['tipo_solicitud_parametro'],
+                    'tipo_solicitud_icono'                      => trim(strtolower($rowMSSQL00['tipo_solicitud_icono'])),
+                    'tipo_solicitud_path'                       => trim(strtolower($rowMSSQL00['tipo_solicitud_path'])),
+                    'tipo_solicitud_css'                        => trim(strtolower($rowMSSQL00['tipo_solicitud_css'])),
+                    'tipo_solicitud_dominio'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_dominio']))), 
+                    'tipo_solicitud_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_observacion']))),
+
+                    'tipo_rol_codigo'                           => $rowMSSQL00['tipo_rol_codigo'],
+                    'tipo_rol_orden'                            => $rowMSSQL00['tipo_rol_orden'],
+                    'tipo_rol_ingles'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                    'tipo_rol_castellano'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                    'tipo_rol_portugues'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                    'tipo_rol_parametro'                        => $rowMSSQL00['tipo_rol_parametro'],
+                    'tipo_rol_icono'                            => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                    'tipo_rol_path'                             => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                    'tipo_rol_css'                              => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                    'tipo_rol_dominio'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))), 
+                    'tipo_rol_observacion'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion'])))
+                     
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'testpcr_codigo'                            => '',
+                    'testpcr_orden'                             => '',
+                    'testpcr_solicitante_nombre'                => '',
+                    'testpcr_solicitante_apellido'              => '',
+                    'testpcr_solicitante_documento'             => '',
+                    'testpcr_solicitante_email'                 => '',
+                    'testpcr_solicitante_observacion'           => '',
+                    'testpcr_jefetura_documento'                => '',
+                    'testpcr_fecha_1_1'                         => '',
+                    'testpcr_fecha_1_2'                         => '',
+                    'testpcr_fecha_2_1'                         => '',
+                    'testpcr_fecha_2_2'                         => '',
+                    'testpcr_hora_1'                            => '',
+                    'testpcr_hora_2'                            => '',
+                    'testpcr_adjunto_1'                         => '',
+                    'testpcr_adjunto_2'                         => '',
+                    'testpcr_adjunto_3'                         => '',
+                    'testpcr_adjunto_4'                         => '',
+                    'testpcr_laboratorio_nombre'                => '',
+                    'testpcr_laboratorio_contacto'              => '', 
+                    'testpcr_laboratorio_email'                 => '', 
+                    'testpcr_laboratorio_fecha_resultado_1'     => '', 
+                    'testpcr_laboratorio_fecha_resultado_2'     => '', 
+                    'testpcr_laboratorio_adjunto'               => '',
+                    'testpcr_laboratorio_resultado'             => '',
+                    'testpcr_laboratorio_observacion'           => '',
+                    'testpcr_carga_usuario'                     => '',
+                    'testpcr_carga_fecha'                       => '',
+                    'testpcr_carga_ip'                          => '',
+                    'testpcr_talento_usuario'                   => '',
+                    'testpcr_talento_fecha'                     => '',
+                    'testpcr_talento_ip'                        => '',
+                    'testpcr_talento_observacion'               => '',
+
+                    'auditoria_usuario'                         => '',
+                    'auditoria_fecha_hora'                      => '',
+                    'auditoria_ip'                              => '',
+
+                    'tipo_estado_codigo'                        => '',
+                    'tipo_estado_orden'                         => '',
+                    'tipo_estado_ingles'                        => '',
+                    'tipo_estado_castellano'                    => '',
+                    'tipo_estado_portugues'                     => '',
+                    'tipo_estado_parametro'                     => '',
+                    'tipo_estado_icono'                         => '',
+                    'tipo_estado_path'                          => '',
+                    'tipo_estado_css'                           => '',
+                    'tipo_estado_dominio'                       => '', 
+                    'tipo_estado_observacion'                   => '',
+
+                    'tipo_solicitud_codigo'                     => '',
+                    'tipo_solicitud_orden'                      => '',
+                    'tipo_solicitud_ingles'                     => '',
+                    'tipo_solicitud_castellano'                 => '',
+                    'tipo_solicitud_portugues'                  => '',
+                    'tipo_solicitud_parametro'                  => '',
+                    'tipo_solicitud_icono'                      => '',
+                    'tipo_solicitud_path'                       => '',
+                    'tipo_solicitud_css'                        => '',
+                    'tipo_solicitud_dominio'                    => '', 
+                    'tipo_solicitud_observacion'                => '',
+
+                    'tipo_rol_codigo'                           => '',
+                    'tipo_rol_orden'                            => '',
+                    'tipo_rol_ingles'                           => '',
+                    'tipo_rol_castellano'                       => '',
+                    'tipo_rol_portugues'                        => '',
+                    'tipo_rol_parametro'                        => '',
+                    'tipo_rol_icono'                            => '',
+                    'tipo_rol_path'                             => '',
+                    'tipo_rol_css'                              => '',
+                    'tipo_rol_dominio'                          => '', 
+                    'tipo_rol_observacion'                      => ''
+                 );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/200/testpcr/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00  = $request->getAttribute('codigo');
+        if (isset($val00)) {
+        
+            $sql00  = "SELECT 
+                a.SOLPCRCOD         AS          testpcr_codigo,
+                a.SOLPCRORD         AS          testpcr_orden,
+                a.SOLPCRNOM         AS          testpcr_solicitante_nombre,
+                a.SOLPCRAPE         AS          testpcr_solicitante_apellido,
+                a.SOLPCRDOC         AS          testpcr_solicitante_documento,
+                a.SOLPCREMA         AS          testpcr_solicitante_email,
+                a.SOLPCROBC         AS          testpcr_solicitante_observacion,
+                a.SOLPCRDOJ         AS          testpcr_jefetura_documento,
+                a.SOLPCRFE1         AS          testpcr_fecha_1,
+                a.SOLPCRFE2         AS          testpcr_fecha_2,
+                a.SOLPCRHO1         AS          testpcr_hora_1,
+                a.SOLPCRHO2         AS          testpcr_hora_2,
+                a.SOLPCRAD1         AS          testpcr_adjunto_1,
+                a.SOLPCRAD2         AS          testpcr_adjunto_2,
+                a.SOLPCRAD3         AS          testpcr_adjunto_3,
+                a.SOLPCRAD4         AS          testpcr_adjunto_4,
+                a.SOLPCRLNO         AS          testpcr_laboratorio_nombre,
+                a.SOLPCRLCO         AS          testpcr_laboratorio_contacto,
+                a.SOLPCRLMA         AS          testpcr_laboratorio_email,
+                a.SOLPCRLFR         AS          testpcr_laboratorio_fecha_resultado,
+                a.SOLPCRLAD         AS          testpcr_laboratorio_adjunto,
+                a.SOLPCRLRE         AS          testpcr_laboratorio_resultado, 
+                a.SOLPCRLOB         AS          testpcr_laboratorio_observacion,
+                a.SOLPCRUSC         AS          testpcr_carga_usuario,
+                a.SOLPCRFEC         AS          testpcr_carga_fecha,
+                a.SOLPCRIPC         AS          testpcr_carga_ip,
+                a.SOLPCRUST         AS          testpcr_talento_usuario,
+                a.SOLPCRFET         AS          testpcr_talento_fecha,
+                a.SOLPCRIPT         AS          testpcr_talento_ip,
+                a.SOLPCROBT         AS          testpcr_talento_observacion,
+                
+                a.SOLPCRAUS         AS          auditoria_usuario,
+                a.SOLPCRAFH         AS          auditoria_fecha_hora,
+                a.SOLPCRAIP         AS          auditoria_ip,
+                
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
+                
+                c.DOMFICCOD         AS          tipo_solicitud_codigo,
+                c.DOMFICORD         AS          tipo_solicitud_orden,
+                c.DOMFICNOI         AS          tipo_solicitud_ingles,
+                c.DOMFICNOC         AS          tipo_solicitud_castellano,
+                c.DOMFICNOP         AS          tipo_solicitud_portugues,
+                c.DOMFICPAT         AS          tipo_solicitud_path,
+                c.DOMFICCSS         AS          tipo_solicitud_css,
+                c.DOMFICPAR         AS          tipo_solicitud_parametro,
+                c.DOMFICICO         AS          tipo_solicitud_icono,
+                c.DOMFICVAL         AS          tipo_solicitud_dominio,
+                c.DOMFICOBS         AS          tipo_solicitud_observacion,
+                
+                d.DOMFICCOD         AS          tipo_rol_codigo,
+                d.DOMFICORD         AS          tipo_rol_orden,
+                d.DOMFICNOI         AS          tipo_rol_ingles,
+                d.DOMFICNOC         AS          tipo_rol_castellano,
+                d.DOMFICNOP         AS          tipo_rol_portugues,
+                d.DOMFICPAT         AS          tipo_rol_path,
+                d.DOMFICCSS         AS          tipo_rol_css,
+                d.DOMFICPAR         AS          tipo_rol_parametro,
+                d.DOMFICICO         AS          tipo_rol_icono,
+                d.DOMFICVAL         AS          tipo_rol_dominio,
+                d.DOMFICOBS         AS          tipo_rol_observacion
+                        
+                FROM [hum].[SOLPCR] a
+
+                INNER JOIN adm.DOMFIC b ON a.SOLPCREST = b.DOMFICCOD
+                INNER JOIN adm.DOMFIC c ON a.SOLPCRTSC = c.DOMFICCOD
+                INNER JOIN adm.DOMFIC d ON a.SOLPCRTRC = d.DOMFICCOD
+
+                WHERE a.SOLPCRCOD = ?
+            
+                ORDER BY a.SOLPCRCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['testpcr_fecha_1'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_1'] == null){
+                        $testpcr_fecha_1_1 = '';
+                        $testpcr_fecha_1_2 = '';
+                    } else {
+                        $testpcr_fecha_1_1 = $rowMSSQL00['testpcr_fecha_1'];
+                        $testpcr_fecha_1_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_1']));
+                    }
+
+                    if ($rowMSSQL00['testpcr_fecha_2'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_2'] == null){
+                        $testpcr_fecha_2_1 = '';
+                        $testpcr_fecha_2_2 = '';
+                    } else {
+                        $testpcr_fecha_2_1 = $rowMSSQL00['testpcr_fecha_2'];
+                        $testpcr_fecha_2_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_2']));
+                    }
+
+                    if ($rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == '1900-01-01' || $rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == null){
+                        $testpcr_laboratorio_fecha_resultado_1 = '';
+                        $testpcr_laboratorio_fecha_resultado_2 = '';
+                    } else {
+                        $testpcr_laboratorio_fecha_resultado_1 = $rowMSSQL00['testpcr_laboratorio_fecha_resultado'];
+                        $testpcr_laboratorio_fecha_resultado_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_laboratorio_fecha_resultado']));
+                    }
+
+                    $detalle    = array(
+                        'testpcr_codigo'                            => $rowMSSQL00['testpcr_codigo'],
+                        'testpcr_orden'                             => $rowMSSQL00['testpcr_orden'],
+                        'testpcr_solicitante_nombre'                => trim($rowMSSQL00['testpcr_solicitante_nombre']),
+                        'testpcr_solicitante_apellido'              => trim($rowMSSQL00['testpcr_solicitante_apellido']),
+                        'testpcr_solicitante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_solicitante_documento']))),
+                        'testpcr_solicitante_email'                 => trim(strtolower($rowMSSQL00['testpcr_solicitante_email'])),
+                        'testpcr_solicitante_observacion'           => trim($rowMSSQL00['testpcr_solicitante_observacion']),
+                        'testpcr_jefetura_documento'                => trim(strtoupper(strtolower($rowMSSQL00['testpcr_jefetura_documento']))),
+                        'testpcr_fecha_1_1'                         => $testpcr_fecha_1_1,
+                        'testpcr_fecha_1_2'                         => $testpcr_fecha_1_2,
+                        'testpcr_fecha_2_1'                         => $testpcr_fecha_2_1,
+                        'testpcr_fecha_2_2'                         => $testpcr_fecha_2_2,
+                        'testpcr_hora_1'                            => trim($rowMSSQL00['testpcr_hora_1']),
+                        'testpcr_hora_2'                            => trim($rowMSSQL00['testpcr_hora_2']),
+                        'testpcr_adjunto_1'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_1'])),
+                        'testpcr_adjunto_2'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_2'])),
+                        'testpcr_adjunto_3'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_3'])),
+                        'testpcr_adjunto_4'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_4'])),
+                        'testpcr_laboratorio_nombre'                => trim($rowMSSQL00['testpcr_laboratorio_nombre']),
+                        'testpcr_laboratorio_contacto'              => trim($rowMSSQL00['testpcr_laboratorio_contacto']), 
+                        'testpcr_laboratorio_email'                 => trim($rowMSSQL00['testpcr_laboratorio_email']), 
+                        'testpcr_laboratorio_fecha_resultado_1'     => $testpcr_laboratorio_fecha_resultado_1, 
+                        'testpcr_laboratorio_fecha_resultado_2'     => $testpcr_laboratorio_fecha_resultado_2, 
+                        'testpcr_laboratorio_adjunto'               => trim(strtoupper($rowMSSQL00['testpcr_laboratorio_adjunto'])),
+                        'testpcr_laboratorio_resultado'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_laboratorio_resultado']))),
+                        'testpcr_laboratorio_observacion'           => trim($rowMSSQL00['testpcr_laboratorio_observacion']),
+                        'testpcr_carga_usuario'                     => trim($rowMSSQL00['testpcr_carga_usuario']),
+                        'testpcr_carga_fecha'                       => $rowMSSQL00['testpcr_carga_fecha'],
+                        'testpcr_carga_ip'                          => trim($rowMSSQL00['testpcr_carga_ip']),
+                        'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
+                        'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
+                        'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                        'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
+
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                        'tipo_solicitud_codigo'                     => $rowMSSQL00['tipo_solicitud_codigo'],
+                        'tipo_solicitud_orden'                      => $rowMSSQL00['tipo_solicitud_orden'],
+                        'tipo_solicitud_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_ingles']))),
+                        'tipo_solicitud_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_castellano']))),
+                        'tipo_solicitud_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_portugues']))),
+                        'tipo_solicitud_parametro'                  => $rowMSSQL00['tipo_solicitud_parametro'],
+                        'tipo_solicitud_icono'                      => trim(strtolower($rowMSSQL00['tipo_solicitud_icono'])),
+                        'tipo_solicitud_path'                       => trim(strtolower($rowMSSQL00['tipo_solicitud_path'])),
+                        'tipo_solicitud_css'                        => trim(strtolower($rowMSSQL00['tipo_solicitud_css'])),
+                        'tipo_solicitud_dominio'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_dominio']))), 
+                        'tipo_solicitud_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_observacion']))),
+
+                        'tipo_rol_codigo'                           => $rowMSSQL00['tipo_rol_codigo'],
+                        'tipo_rol_orden'                            => $rowMSSQL00['tipo_rol_orden'],
+                        'tipo_rol_ingles'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                        'tipo_rol_castellano'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                        'tipo_rol_portugues'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                        'tipo_rol_parametro'                        => $rowMSSQL00['tipo_rol_parametro'],
+                        'tipo_rol_icono'                            => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                        'tipo_rol_path'                             => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                        'tipo_rol_css'                              => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                        'tipo_rol_dominio'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))), 
+                        'tipo_rol_observacion'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion'])))
+                        
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'testpcr_codigo'                            => '',
+                        'testpcr_orden'                             => '',
+                        'testpcr_solicitante_nombre'                => '',
+                        'testpcr_solicitante_apellido'              => '',
+                        'testpcr_solicitante_documento'             => '',
+                        'testpcr_solicitante_email'                 => '',
+                        'testpcr_solicitante_observacion'           => '',
+                        'testpcr_jefetura_documento'                => '',
+                        'testpcr_fecha_1_1'                         => '',
+                        'testpcr_fecha_1_2'                         => '',
+                        'testpcr_fecha_2_1'                         => '',
+                        'testpcr_fecha_2_2'                         => '',
+                        'testpcr_hora_1'                            => '',
+                        'testpcr_hora_2'                            => '',
+                        'testpcr_adjunto_1'                         => '',
+                        'testpcr_adjunto_2'                         => '',
+                        'testpcr_adjunto_3'                         => '',
+                        'testpcr_adjunto_4'                         => '',
+                        'testpcr_laboratorio_nombre'                => '',
+                        'testpcr_laboratorio_contacto'              => '', 
+                        'testpcr_laboratorio_email'                 => '', 
+                        'testpcr_laboratorio_fecha_resultado_1'     => '', 
+                        'testpcr_laboratorio_fecha_resultado_2'     => '', 
+                        'testpcr_laboratorio_adjunto'               => '',
+                        'testpcr_laboratorio_resultado'             => '',
+                        'testpcr_laboratorio_observacion'           => '',
+                        'testpcr_carga_usuario'                     => '',
+                        'testpcr_carga_fecha'                       => '',
+                        'testpcr_carga_ip'                          => '',
+                        'testpcr_talento_usuario'                   => '',
+                        'testpcr_talento_fecha'                     => '',
+                        'testpcr_talento_ip'                        => '',
+                        'testpcr_talento_observacion'               => '',
+
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_solicitud_codigo'                     => '',
+                        'tipo_solicitud_orden'                      => '',
+                        'tipo_solicitud_ingles'                     => '',
+                        'tipo_solicitud_castellano'                 => '',
+                        'tipo_solicitud_portugues'                  => '',
+                        'tipo_solicitud_parametro'                  => '',
+                        'tipo_solicitud_icono'                      => '',
+                        'tipo_solicitud_path'                       => '',
+                        'tipo_solicitud_css'                        => '',
+                        'tipo_solicitud_dominio'                    => '', 
+                        'tipo_solicitud_observacion'                => '',
+
+                        'tipo_rol_codigo'                           => '',
+                        'tipo_rol_orden'                            => '',
+                        'tipo_rol_ingles'                           => '',
+                        'tipo_rol_castellano'                       => '',
+                        'tipo_rol_portugues'                        => '',
+                        'tipo_rol_parametro'                        => '',
+                        'tipo_rol_icono'                            => '',
+                        'tipo_rol_path'                             => '',
+                        'tipo_rol_css'                              => '',
+                        'tipo_rol_dominio'                          => '', 
+                        'tipo_rol_observacion'                      => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/200/testpcr/documento/{documento}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00  = $request->getAttribute('documento');
+        if (isset($val00)) {
+        
+            $sql00  = "SELECT 
+                a.SOLPCRCOD         AS          testpcr_codigo,
+                a.SOLPCRORD         AS          testpcr_orden,
+                a.SOLPCRNOM         AS          testpcr_solicitante_nombre,
+                a.SOLPCRAPE         AS          testpcr_solicitante_apellido,
+                a.SOLPCRDOC         AS          testpcr_solicitante_documento,
+                a.SOLPCREMA         AS          testpcr_solicitante_email,
+                a.SOLPCROBC         AS          testpcr_solicitante_observacion,
+                a.SOLPCRDOJ         AS          testpcr_jefetura_documento,
+                a.SOLPCRFE1         AS          testpcr_fecha_1,
+                a.SOLPCRFE2         AS          testpcr_fecha_2,
+                a.SOLPCRHO1         AS          testpcr_hora_1,
+                a.SOLPCRHO2         AS          testpcr_hora_2,
+                a.SOLPCRAD1         AS          testpcr_adjunto_1,
+                a.SOLPCRAD2         AS          testpcr_adjunto_2,
+                a.SOLPCRAD3         AS          testpcr_adjunto_3,
+                a.SOLPCRAD4         AS          testpcr_adjunto_4,
+                a.SOLPCRLNO         AS          testpcr_laboratorio_nombre,
+                a.SOLPCRLCO         AS          testpcr_laboratorio_contacto,
+                a.SOLPCRLMA         AS          testpcr_laboratorio_email,
+                a.SOLPCRLFR         AS          testpcr_laboratorio_fecha_resultado,
+                a.SOLPCRLAD         AS          testpcr_laboratorio_adjunto,
+                a.SOLPCRLRE         AS          testpcr_laboratorio_resultado, 
+                a.SOLPCRLOB         AS          testpcr_laboratorio_observacion,
+                a.SOLPCRUSC         AS          testpcr_carga_usuario,
+                a.SOLPCRFEC         AS          testpcr_carga_fecha,
+                a.SOLPCRIPC         AS          testpcr_carga_ip,
+                a.SOLPCRUST         AS          testpcr_talento_usuario,
+                a.SOLPCRFET         AS          testpcr_talento_fecha,
+                a.SOLPCRIPT         AS          testpcr_talento_ip,
+                a.SOLPCROBT         AS          testpcr_talento_observacion,
+                
+                a.SOLPCRAUS         AS          auditoria_usuario,
+                a.SOLPCRAFH         AS          auditoria_fecha_hora,
+                a.SOLPCRAIP         AS          auditoria_ip,
+                
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
+                
+                c.DOMFICCOD         AS          tipo_solicitud_codigo,
+                c.DOMFICORD         AS          tipo_solicitud_orden,
+                c.DOMFICNOI         AS          tipo_solicitud_ingles,
+                c.DOMFICNOC         AS          tipo_solicitud_castellano,
+                c.DOMFICNOP         AS          tipo_solicitud_portugues,
+                c.DOMFICPAT         AS          tipo_solicitud_path,
+                c.DOMFICCSS         AS          tipo_solicitud_css,
+                c.DOMFICPAR         AS          tipo_solicitud_parametro,
+                c.DOMFICICO         AS          tipo_solicitud_icono,
+                c.DOMFICVAL         AS          tipo_solicitud_dominio,
+                c.DOMFICOBS         AS          tipo_solicitud_observacion,
+                
+                d.DOMFICCOD         AS          tipo_rol_codigo,
+                d.DOMFICORD         AS          tipo_rol_orden,
+                d.DOMFICNOI         AS          tipo_rol_ingles,
+                d.DOMFICNOC         AS          tipo_rol_castellano,
+                d.DOMFICNOP         AS          tipo_rol_portugues,
+                d.DOMFICPAT         AS          tipo_rol_path,
+                d.DOMFICCSS         AS          tipo_rol_css,
+                d.DOMFICPAR         AS          tipo_rol_parametro,
+                d.DOMFICICO         AS          tipo_rol_icono,
+                d.DOMFICVAL         AS          tipo_rol_dominio,
+                d.DOMFICOBS         AS          tipo_rol_observacion
+                        
+                FROM [hum].[SOLPCR] a
+
+                INNER JOIN adm.DOMFIC b ON a.SOLPCREST = b.DOMFICCOD
+                INNER JOIN adm.DOMFIC c ON a.SOLPCRTSC = c.DOMFICCOD
+                INNER JOIN adm.DOMFIC d ON a.SOLPCRTRC = d.DOMFICCOD
+
+                WHERE a.SOLPCRDOC = ?
+            
+                ORDER BY a.SOLPCRCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['testpcr_fecha_1'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_1'] == null){
+                        $testpcr_fecha_1_1 = '';
+                        $testpcr_fecha_1_2 = '';
+                    } else {
+                        $testpcr_fecha_1_1 = $rowMSSQL00['testpcr_fecha_1'];
+                        $testpcr_fecha_1_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_1']));
+                    }
+
+                    if ($rowMSSQL00['testpcr_fecha_2'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_2'] == null){
+                        $testpcr_fecha_2_1 = '';
+                        $testpcr_fecha_2_2 = '';
+                    } else {
+                        $testpcr_fecha_2_1 = $rowMSSQL00['testpcr_fecha_2'];
+                        $testpcr_fecha_2_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_2']));
+                    }
+
+                    if ($rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == '1900-01-01' || $rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == null){
+                        $testpcr_laboratorio_fecha_resultado_1 = '';
+                        $testpcr_laboratorio_fecha_resultado_2 = '';
+                    } else {
+                        $testpcr_laboratorio_fecha_resultado_1 = $rowMSSQL00['testpcr_laboratorio_fecha_resultado'];
+                        $testpcr_laboratorio_fecha_resultado_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_laboratorio_fecha_resultado']));
+                    }
+
+                    $detalle    = array(
+                        'testpcr_codigo'                            => $rowMSSQL00['testpcr_codigo'],
+                        'testpcr_orden'                             => $rowMSSQL00['testpcr_orden'],
+                        'testpcr_solicitante_nombre'                => trim($rowMSSQL00['testpcr_solicitante_nombre']),
+                        'testpcr_solicitante_apellido'              => trim($rowMSSQL00['testpcr_solicitante_apellido']),
+                        'testpcr_solicitante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_solicitante_documento']))),
+                        'testpcr_solicitante_email'                 => trim(strtolower($rowMSSQL00['testpcr_solicitante_email'])),
+                        'testpcr_solicitante_observacion'           => trim($rowMSSQL00['testpcr_solicitante_observacion']),
+                        'testpcr_jefetura_documento'                => trim(strtoupper(strtolower($rowMSSQL00['testpcr_jefetura_documento']))),
+                        'testpcr_fecha_1_1'                         => $testpcr_fecha_1_1,
+                        'testpcr_fecha_1_2'                         => $testpcr_fecha_1_2,
+                        'testpcr_fecha_2_1'                         => $testpcr_fecha_2_1,
+                        'testpcr_fecha_2_2'                         => $testpcr_fecha_2_2,
+                        'testpcr_hora_1'                            => trim($rowMSSQL00['testpcr_hora_1']),
+                        'testpcr_hora_2'                            => trim($rowMSSQL00['testpcr_hora_2']),
+                        'testpcr_adjunto_1'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_1'])),
+                        'testpcr_adjunto_2'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_2'])),
+                        'testpcr_adjunto_3'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_3'])),
+                        'testpcr_adjunto_4'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_4'])),
+                        'testpcr_laboratorio_nombre'                => trim($rowMSSQL00['testpcr_laboratorio_nombre']),
+                        'testpcr_laboratorio_contacto'              => trim($rowMSSQL00['testpcr_laboratorio_contacto']), 
+                        'testpcr_laboratorio_email'                 => trim($rowMSSQL00['testpcr_laboratorio_email']), 
+                        'testpcr_laboratorio_fecha_resultado_1'     => $testpcr_laboratorio_fecha_resultado_1, 
+                        'testpcr_laboratorio_fecha_resultado_2'     => $testpcr_laboratorio_fecha_resultado_2, 
+                        'testpcr_laboratorio_adjunto'               => trim(strtoupper($rowMSSQL00['testpcr_laboratorio_adjunto'])),
+                        'testpcr_laboratorio_resultado'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_laboratorio_resultado']))),
+                        'testpcr_laboratorio_observacion'           => trim($rowMSSQL00['testpcr_laboratorio_observacion']),
+                        'testpcr_carga_usuario'                     => trim($rowMSSQL00['testpcr_carga_usuario']),
+                        'testpcr_carga_fecha'                       => $rowMSSQL00['testpcr_carga_fecha'],
+                        'testpcr_carga_ip'                          => trim($rowMSSQL00['testpcr_carga_ip']),
+                        'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
+                        'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
+                        'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                        'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
+
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                        'tipo_solicitud_codigo'                     => $rowMSSQL00['tipo_solicitud_codigo'],
+                        'tipo_solicitud_orden'                      => $rowMSSQL00['tipo_solicitud_orden'],
+                        'tipo_solicitud_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_ingles']))),
+                        'tipo_solicitud_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_castellano']))),
+                        'tipo_solicitud_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_portugues']))),
+                        'tipo_solicitud_parametro'                  => $rowMSSQL00['tipo_solicitud_parametro'],
+                        'tipo_solicitud_icono'                      => trim(strtolower($rowMSSQL00['tipo_solicitud_icono'])),
+                        'tipo_solicitud_path'                       => trim(strtolower($rowMSSQL00['tipo_solicitud_path'])),
+                        'tipo_solicitud_css'                        => trim(strtolower($rowMSSQL00['tipo_solicitud_css'])),
+                        'tipo_solicitud_dominio'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_dominio']))), 
+                        'tipo_solicitud_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_observacion']))),
+
+                        'tipo_rol_codigo'                           => $rowMSSQL00['tipo_rol_codigo'],
+                        'tipo_rol_orden'                            => $rowMSSQL00['tipo_rol_orden'],
+                        'tipo_rol_ingles'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                        'tipo_rol_castellano'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                        'tipo_rol_portugues'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                        'tipo_rol_parametro'                        => $rowMSSQL00['tipo_rol_parametro'],
+                        'tipo_rol_icono'                            => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                        'tipo_rol_path'                             => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                        'tipo_rol_css'                              => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                        'tipo_rol_dominio'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))), 
+                        'tipo_rol_observacion'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion'])))
+                        
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'testpcr_codigo'                            => '',
+                        'testpcr_orden'                             => '',
+                        'testpcr_solicitante_nombre'                => '',
+                        'testpcr_solicitante_apellido'              => '',
+                        'testpcr_solicitante_documento'             => '',
+                        'testpcr_solicitante_email'                 => '',
+                        'testpcr_solicitante_observacion'           => '',
+                        'testpcr_jefetura_documento'                => '',
+                        'testpcr_fecha_1_1'                         => '',
+                        'testpcr_fecha_1_2'                         => '',
+                        'testpcr_fecha_2_1'                         => '',
+                        'testpcr_fecha_2_2'                         => '',
+                        'testpcr_hora_1'                            => '',
+                        'testpcr_hora_2'                            => '',
+                        'testpcr_adjunto_1'                         => '',
+                        'testpcr_adjunto_2'                         => '',
+                        'testpcr_adjunto_3'                         => '',
+                        'testpcr_adjunto_4'                         => '',
+                        'testpcr_laboratorio_nombre'                => '',
+                        'testpcr_laboratorio_contacto'              => '', 
+                        'testpcr_laboratorio_email'                 => '', 
+                        'testpcr_laboratorio_fecha_resultado_1'     => '', 
+                        'testpcr_laboratorio_fecha_resultado_2'     => '', 
+                        'testpcr_laboratorio_adjunto'               => '',
+                        'testpcr_laboratorio_resultado'             => '',
+                        'testpcr_laboratorio_observacion'           => '',
+                        'testpcr_carga_usuario'                     => '',
+                        'testpcr_carga_fecha'                       => '',
+                        'testpcr_carga_ip'                          => '',
+                        'testpcr_talento_usuario'                   => '',
+                        'testpcr_talento_fecha'                     => '',
+                        'testpcr_talento_ip'                        => '',
+                        'testpcr_talento_observacion'               => '',
+
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_solicitud_codigo'                     => '',
+                        'tipo_solicitud_orden'                      => '',
+                        'tipo_solicitud_ingles'                     => '',
+                        'tipo_solicitud_castellano'                 => '',
+                        'tipo_solicitud_portugues'                  => '',
+                        'tipo_solicitud_parametro'                  => '',
+                        'tipo_solicitud_icono'                      => '',
+                        'tipo_solicitud_path'                       => '',
+                        'tipo_solicitud_css'                        => '',
+                        'tipo_solicitud_dominio'                    => '', 
+                        'tipo_solicitud_observacion'                => '',
+
+                        'tipo_rol_codigo'                           => '',
+                        'tipo_rol_orden'                            => '',
+                        'tipo_rol_ingles'                           => '',
+                        'tipo_rol_castellano'                       => '',
+                        'tipo_rol_portugues'                        => '',
+                        'tipo_rol_parametro'                        => '',
+                        'tipo_rol_icono'                            => '',
+                        'tipo_rol_path'                             => '',
+                        'tipo_rol_css'                              => '',
+                        'tipo_rol_dominio'                          => '', 
+                        'tipo_rol_observacion'                      => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v1/200/testpcr/jefatura/{documento}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00  = $request->getAttribute('documento');
+        if (isset($val00)) {
+        
+            $sql00  = "SELECT 
+                a.SOLPCRCOD         AS          testpcr_codigo,
+                a.SOLPCRORD         AS          testpcr_orden,
+                a.SOLPCRNOM         AS          testpcr_solicitante_nombre,
+                a.SOLPCRAPE         AS          testpcr_solicitante_apellido,
+                a.SOLPCRDOC         AS          testpcr_solicitante_documento,
+                a.SOLPCREMA         AS          testpcr_solicitante_email,
+                a.SOLPCROBC         AS          testpcr_solicitante_observacion,
+                a.SOLPCRDOJ         AS          testpcr_jefetura_documento,
+                a.SOLPCRFE1         AS          testpcr_fecha_1,
+                a.SOLPCRFE2         AS          testpcr_fecha_2,
+                a.SOLPCRHO1         AS          testpcr_hora_1,
+                a.SOLPCRHO2         AS          testpcr_hora_2,
+                a.SOLPCRAD1         AS          testpcr_adjunto_1,
+                a.SOLPCRAD2         AS          testpcr_adjunto_2,
+                a.SOLPCRAD3         AS          testpcr_adjunto_3,
+                a.SOLPCRAD4         AS          testpcr_adjunto_4,
+                a.SOLPCRLNO         AS          testpcr_laboratorio_nombre,
+                a.SOLPCRLCO         AS          testpcr_laboratorio_contacto,
+                a.SOLPCRLMA         AS          testpcr_laboratorio_email,
+                a.SOLPCRLFR         AS          testpcr_laboratorio_fecha_resultado,
+                a.SOLPCRLAD         AS          testpcr_laboratorio_adjunto,
+                a.SOLPCRLRE         AS          testpcr_laboratorio_resultado, 
+                a.SOLPCRLOB         AS          testpcr_laboratorio_observacion,
+                a.SOLPCRUSC         AS          testpcr_carga_usuario,
+                a.SOLPCRFEC         AS          testpcr_carga_fecha,
+                a.SOLPCRIPC         AS          testpcr_carga_ip,
+                a.SOLPCRUST         AS          testpcr_talento_usuario,
+                a.SOLPCRFET         AS          testpcr_talento_fecha,
+                a.SOLPCRIPT         AS          testpcr_talento_ip,
+                a.SOLPCROBT         AS          testpcr_talento_observacion,
+                
+                a.SOLPCRAUS         AS          auditoria_usuario,
+                a.SOLPCRAFH         AS          auditoria_fecha_hora,
+                a.SOLPCRAIP         AS          auditoria_ip,
+                
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
+                
+                c.DOMFICCOD         AS          tipo_solicitud_codigo,
+                c.DOMFICORD         AS          tipo_solicitud_orden,
+                c.DOMFICNOI         AS          tipo_solicitud_ingles,
+                c.DOMFICNOC         AS          tipo_solicitud_castellano,
+                c.DOMFICNOP         AS          tipo_solicitud_portugues,
+                c.DOMFICPAT         AS          tipo_solicitud_path,
+                c.DOMFICCSS         AS          tipo_solicitud_css,
+                c.DOMFICPAR         AS          tipo_solicitud_parametro,
+                c.DOMFICICO         AS          tipo_solicitud_icono,
+                c.DOMFICVAL         AS          tipo_solicitud_dominio,
+                c.DOMFICOBS         AS          tipo_solicitud_observacion,
+                
+                d.DOMFICCOD         AS          tipo_rol_codigo,
+                d.DOMFICORD         AS          tipo_rol_orden,
+                d.DOMFICNOI         AS          tipo_rol_ingles,
+                d.DOMFICNOC         AS          tipo_rol_castellano,
+                d.DOMFICNOP         AS          tipo_rol_portugues,
+                d.DOMFICPAT         AS          tipo_rol_path,
+                d.DOMFICCSS         AS          tipo_rol_css,
+                d.DOMFICPAR         AS          tipo_rol_parametro,
+                d.DOMFICICO         AS          tipo_rol_icono,
+                d.DOMFICVAL         AS          tipo_rol_dominio,
+                d.DOMFICOBS         AS          tipo_rol_observacion
+                        
+                FROM [hum].[SOLPCR] a
+
+                INNER JOIN adm.DOMFIC b ON a.SOLPCREST = b.DOMFICCOD
+                INNER JOIN adm.DOMFIC c ON a.SOLPCRTSC = c.DOMFICCOD
+                INNER JOIN adm.DOMFIC d ON a.SOLPCRTRC = d.DOMFICCOD
+
+                WHERE a.SOLPCRDOJ = ?
+            
+                ORDER BY a.SOLPCRCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['testpcr_fecha_1'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_1'] == null){
+                        $testpcr_fecha_1_1 = '';
+                        $testpcr_fecha_1_2 = '';
+                    } else {
+                        $testpcr_fecha_1_1 = $rowMSSQL00['testpcr_fecha_1'];
+                        $testpcr_fecha_1_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_1']));
+                    }
+
+                    if ($rowMSSQL00['testpcr_fecha_2'] == '1900-01-01' || $rowMSSQL00['testpcr_fecha_2'] == null){
+                        $testpcr_fecha_2_1 = '';
+                        $testpcr_fecha_2_2 = '';
+                    } else {
+                        $testpcr_fecha_2_1 = $rowMSSQL00['testpcr_fecha_2'];
+                        $testpcr_fecha_2_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_fecha_2']));
+                    }
+
+                    if ($rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == '1900-01-01' || $rowMSSQL00['testpcr_laboratorio_fecha_resultado'] == null){
+                        $testpcr_laboratorio_fecha_resultado_1 = '';
+                        $testpcr_laboratorio_fecha_resultado_2 = '';
+                    } else {
+                        $testpcr_laboratorio_fecha_resultado_1 = $rowMSSQL00['testpcr_laboratorio_fecha_resultado'];
+                        $testpcr_laboratorio_fecha_resultado_2 = date('d/m/Y', strtotime($rowMSSQL00['testpcr_laboratorio_fecha_resultado']));
+                    }
+
+                    $detalle    = array(
+                        'testpcr_codigo'                            => $rowMSSQL00['testpcr_codigo'],
+                        'testpcr_orden'                             => $rowMSSQL00['testpcr_orden'],
+                        'testpcr_solicitante_nombre'                => trim($rowMSSQL00['testpcr_solicitante_nombre']),
+                        'testpcr_solicitante_apellido'              => trim($rowMSSQL00['testpcr_solicitante_apellido']),
+                        'testpcr_solicitante_documento'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_solicitante_documento']))),
+                        'testpcr_solicitante_email'                 => trim(strtolower($rowMSSQL00['testpcr_solicitante_email'])),
+                        'testpcr_solicitante_observacion'           => trim($rowMSSQL00['testpcr_solicitante_observacion']),
+                        'testpcr_jefetura_documento'                => trim(strtoupper(strtolower($rowMSSQL00['testpcr_jefetura_documento']))),
+                        'testpcr_fecha_1_1'                         => $testpcr_fecha_1_1,
+                        'testpcr_fecha_1_2'                         => $testpcr_fecha_1_2,
+                        'testpcr_fecha_2_1'                         => $testpcr_fecha_2_1,
+                        'testpcr_fecha_2_2'                         => $testpcr_fecha_2_2,
+                        'testpcr_hora_1'                            => trim($rowMSSQL00['testpcr_hora_1']),
+                        'testpcr_hora_2'                            => trim($rowMSSQL00['testpcr_hora_2']),
+                        'testpcr_adjunto_1'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_1'])),
+                        'testpcr_adjunto_2'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_2'])),
+                        'testpcr_adjunto_3'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_3'])),
+                        'testpcr_adjunto_4'                         => trim(strtoupper($rowMSSQL00['testpcr_adjunto_4'])),
+                        'testpcr_laboratorio_nombre'                => trim($rowMSSQL00['testpcr_laboratorio_nombre']),
+                        'testpcr_laboratorio_contacto'              => trim($rowMSSQL00['testpcr_laboratorio_contacto']), 
+                        'testpcr_laboratorio_email'                 => trim($rowMSSQL00['testpcr_laboratorio_email']), 
+                        'testpcr_laboratorio_fecha_resultado_1'     => $testpcr_laboratorio_fecha_resultado_1, 
+                        'testpcr_laboratorio_fecha_resultado_2'     => $testpcr_laboratorio_fecha_resultado_2, 
+                        'testpcr_laboratorio_adjunto'               => trim(strtoupper($rowMSSQL00['testpcr_laboratorio_adjunto'])),
+                        'testpcr_laboratorio_resultado'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_laboratorio_resultado']))),
+                        'testpcr_laboratorio_observacion'           => trim($rowMSSQL00['testpcr_laboratorio_observacion']),
+                        'testpcr_carga_usuario'                     => trim($rowMSSQL00['testpcr_carga_usuario']),
+                        'testpcr_carga_fecha'                       => $rowMSSQL00['testpcr_carga_fecha'],
+                        'testpcr_carga_ip'                          => trim($rowMSSQL00['testpcr_carga_ip']),
+                        'testpcr_talento_usuario'                   => trim($rowMSSQL00['testpcr_talento_usuario']),
+                        'testpcr_talento_fecha'                     => $rowMSSQL00['testpcr_talento_fecha'],
+                        'testpcr_talento_ip'                        => trim($rowMSSQL00['testpcr_talento_ip']),
+                        'testpcr_talento_observacion'               => trim($rowMSSQL00['testpcr_talento_observacion']),
+
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                        'tipo_solicitud_codigo'                     => $rowMSSQL00['tipo_solicitud_codigo'],
+                        'tipo_solicitud_orden'                      => $rowMSSQL00['tipo_solicitud_orden'],
+                        'tipo_solicitud_ingles'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_ingles']))),
+                        'tipo_solicitud_castellano'                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_castellano']))),
+                        'tipo_solicitud_portugues'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_portugues']))),
+                        'tipo_solicitud_parametro'                  => $rowMSSQL00['tipo_solicitud_parametro'],
+                        'tipo_solicitud_icono'                      => trim(strtolower($rowMSSQL00['tipo_solicitud_icono'])),
+                        'tipo_solicitud_path'                       => trim(strtolower($rowMSSQL00['tipo_solicitud_path'])),
+                        'tipo_solicitud_css'                        => trim(strtolower($rowMSSQL00['tipo_solicitud_css'])),
+                        'tipo_solicitud_dominio'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_dominio']))), 
+                        'tipo_solicitud_observacion'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_solicitud_observacion']))),
+
+                        'tipo_rol_codigo'                           => $rowMSSQL00['tipo_rol_codigo'],
+                        'tipo_rol_orden'                            => $rowMSSQL00['tipo_rol_orden'],
+                        'tipo_rol_ingles'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                        'tipo_rol_castellano'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                        'tipo_rol_portugues'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                        'tipo_rol_parametro'                        => $rowMSSQL00['tipo_rol_parametro'],
+                        'tipo_rol_icono'                            => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                        'tipo_rol_path'                             => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                        'tipo_rol_css'                              => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                        'tipo_rol_dominio'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))), 
+                        'tipo_rol_observacion'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion'])))
+                        
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'testpcr_codigo'                            => '',
+                        'testpcr_orden'                             => '',
+                        'testpcr_solicitante_nombre'                => '',
+                        'testpcr_solicitante_apellido'              => '',
+                        'testpcr_solicitante_documento'             => '',
+                        'testpcr_solicitante_email'                 => '',
+                        'testpcr_solicitante_observacion'           => '',
+                        'testpcr_jefetura_documento'                => '',
+                        'testpcr_fecha_1_1'                         => '',
+                        'testpcr_fecha_1_2'                         => '',
+                        'testpcr_fecha_2_1'                         => '',
+                        'testpcr_fecha_2_2'                         => '',
+                        'testpcr_hora_1'                            => '',
+                        'testpcr_hora_2'                            => '',
+                        'testpcr_adjunto_1'                         => '',
+                        'testpcr_adjunto_2'                         => '',
+                        'testpcr_adjunto_3'                         => '',
+                        'testpcr_adjunto_4'                         => '',
+                        'testpcr_laboratorio_nombre'                => '',
+                        'testpcr_laboratorio_contacto'              => '', 
+                        'testpcr_laboratorio_email'                 => '', 
+                        'testpcr_laboratorio_fecha_resultado_1'     => '', 
+                        'testpcr_laboratorio_fecha_resultado_2'     => '', 
+                        'testpcr_laboratorio_adjunto'               => '',
+                        'testpcr_laboratorio_resultado'             => '',
+                        'testpcr_laboratorio_observacion'           => '',
+                        'testpcr_carga_usuario'                     => '',
+                        'testpcr_carga_fecha'                       => '',
+                        'testpcr_carga_ip'                          => '',
+                        'testpcr_talento_usuario'                   => '',
+                        'testpcr_talento_fecha'                     => '',
+                        'testpcr_talento_ip'                        => '',
+                        'testpcr_talento_observacion'               => '',
+
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_solicitud_codigo'                     => '',
+                        'tipo_solicitud_orden'                      => '',
+                        'tipo_solicitud_ingles'                     => '',
+                        'tipo_solicitud_castellano'                 => '',
+                        'tipo_solicitud_portugues'                  => '',
+                        'tipo_solicitud_parametro'                  => '',
+                        'tipo_solicitud_icono'                      => '',
+                        'tipo_solicitud_path'                       => '',
+                        'tipo_solicitud_css'                        => '',
+                        'tipo_solicitud_dominio'                    => '', 
+                        'tipo_solicitud_observacion'                => '',
+
+                        'tipo_rol_codigo'                           => '',
+                        'tipo_rol_orden'                            => '',
+                        'tipo_rol_ingles'                           => '',
+                        'tipo_rol_castellano'                       => '',
+                        'tipo_rol_portugues'                        => '',
+                        'tipo_rol_parametro'                        => '',
+                        'tipo_rol_icono'                            => '',
+                        'tipo_rol_path'                             => '',
+                        'tipo_rol_css'                              => '',
+                        'tipo_rol_dominio'                          => '', 
+                        'tipo_rol_observacion'                      => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 //MODULO PORTAL PERMISO

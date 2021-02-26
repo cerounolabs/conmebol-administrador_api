@@ -1619,4 +1619,83 @@
         return $json;
     });
 
-    /*MODULO PERMISOS*/
+    $app->post('/v1/200/testpcr', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_parametro'];
+        $val03      = $request->getParsedBody()['tipo_rol_parametro'];
+        $val04      = $request->getParsedBody()['testpcr_orden'];
+        $val05      = trim($request->getParsedBody()['testpcr_solicitante_nombre']);
+        $val06      = trim($request->getParsedBody()['testpcr_solicitante_apellido']);
+        $val07      = trim($request->getParsedBody()['testpcr_solicitante_documento']);
+        $val08      = trim($request->getParsedBody()['testpcr_solicitante_email']);
+        $val09      = trim($request->getParsedBody()['testpcr_solicitante_observacion']);
+        $val10      = trim($request->getParsedBody()['testpcr_jefetura_documento']);
+        $val11      = $request->getParsedBody()['testpcr_fecha_1'];
+        $val12      = $request->getParsedBody()['testpcr_fecha_2'];
+        $val13      = trim($request->getParsedBody()['testpcr_hora_1']);
+        $val14      = trim($request->getParsedBody()['testpcr_hora_2']);
+        $val15      = trim($request->getParsedBody()['testpcr_adjunto_1']);
+        $val16      = trim($request->getParsedBody()['testpcr_adjunto_2']);
+        $val17      = trim($request->getParsedBody()['testpcr_adjunto_3']);
+        $val18      = trim($request->getParsedBody()['testpcr_adjunto_4']);
+        $val19      = trim($request->getParsedBody()['testpcr_laboratorio_nombre']);
+        $val20      = trim($request->getParsedBody()['testpcr_laboratorio_contacto']);
+        $val21      = trim($request->getParsedBody()['testpcr_laboratorio_email']);
+        $val22      = $request->getParsedBody()['testpcr_laboratorio_fecha_resultado'];
+        $val23      = trim($request->getParsedBody()['testpcr_laboratorio_adjunto']);
+        $val24      = trim(strtoupper(strtolower($request->getParsedBody()['testpcr_laboratorio_resultado'])));
+        $val25      = trim($request->getParsedBody()['testpcr_laboratorio_observacion']);
+        $val26      = trim($request->getParsedBody()['testpcr_carga_usuario']);
+        $val27      = $request->getParsedBody()['testpcr_carga_fecha'];
+        $val28      = $request->getParsedBody()['testpcr_carga_ip'];
+        $val29      = trim($request->getParsedBody()['testpcr_talento_usuario']);
+        $val30      = $request->getParsedBody()['testpcr_talento_fecha'];
+        $val31      = $request->getParsedBody()['testpcr_talento_ip'];
+        $val32      = trim($request->getParsedBody()['testpcr_talento_observacion']);
+
+        $aud01      = trim($request->getParsedBody()['auditoria_usuario']);
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      =  trim($request->getParsedBody()['auditoria_ip']);
+
+        if (isset($val01) && isset($val02) && isset($val05) && isset($val06) && isset($val07)) {
+            $sql00  = "INSERT INTO [hum].[SOLPCR](                                                                          SOLPCREST, SOLPCRORD,                                                                                  SOLPCRTSC,                                                                          SOLPCRTRC, SOLPCRNOM, SOLPCRAPE, SOLPCRDOC, SOLPCRDOJ, SOLPCREMA, SOLPCRFE1, SOLPCRFE2, SOLPCRHO1, SOLPCRHO2, SOLPCRAD1, SOLPCRAD2, SOLPCRAD3, SOLPCRAD4, SOLPCRUSC, SOLPCRFEC, SOLPCRIPC, SOLPCROBC, SOLPCRAUS, SOLPCRAFH, SOLPCRAIP) 
+                                        SELECT (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?),          ?, (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRSOLICITUD' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRROL' AND DOMFICPAR = ?),        ?,         ?,         ?,          ?,        ?,          ?,        ?,          ?,         ?,        ?,         ?,          ?,        ?,         ?, GETDATE(),         ?,         ?,         ?, GETDATE(),       ?
+                                        WHERE NOT EXISTS(SELECT * FROM [hum].[SOLPCR] WHERE SOLPCREST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?) AND SOLPCRTSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRSOLICITUD' AND DOMFICPAR = ?) AND SOLPCRDOC = ? AND SOLPCRFE1 = ?)";
+            $sql01  = "SELECT MAX(SOLPCRCOD) AS testpcr_codigo FROM [hum].[SOLPCR]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv1();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$val01, $val04, $val02, $val03, $val05, $val06, $val07, $val10, $val08, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val26, $val28, $val09, $aud01, $aud03, $val01, $val02, $val07, $val11]);
+                
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $SOLFICCOD  = $row_mssql01['testpcr_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $SOLFICCOD), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+/*MODULO PERMISOS*/
