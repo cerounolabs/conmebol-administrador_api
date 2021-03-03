@@ -230,7 +230,8 @@
         $val06      = $request->getParsedBody()['tipo_dia_corrido'];
         $val07      = $request->getParsedBody()['tipo_dia_unidad'];
         $val08      = $request->getParsedBody()['tipo_archivo_adjunto'];
-        $val09      = $request->getParsedBody()['tipo_observacion'];
+        $val09      = $request->getParsedBody()['tipo_adjunto_requerido_codigo'];
+        $val10      = $request->getParsedBody()['tipo_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
@@ -266,7 +267,7 @@
                 $DOMSOLPC3  = $row00['U_CODIGO'];
 
                 $stmtMSSQL  = $connMSSQL->prepare($sql01);
-                $stmtMSSQL->execute([$val01, $val02, $val03, $DOMSOLPC1, $DOMSOLPC2, $DOMSOLPC3, $val05, $val06, $val07, $val08, $val09, $aud01, $aud03]);
+                $stmtMSSQL->execute([$val01, $val02, $val03, $DOMSOLPC1, $DOMSOLPC2, $DOMSOLPC3, $val05, $val06, $val07, $val08, $val10, $aud01, $aud03]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => 0), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
@@ -785,6 +786,7 @@
                 b.DOMSOLDIO         AS          tipo_dia_corrido,
                 b.DOMSOLDIU         AS          tipo_dia_unidad,
                 b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo
                 b.DOMSOLOBS         AS          tipo_observacion
 
                 FROM [hum].[SOLFIC] a
