@@ -572,6 +572,7 @@
         return $json;
     });
 
+
     $app->get('/v2/100/solicitud', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -587,6 +588,7 @@
         a.DOMSOLDIO         AS          tipo_dia_corrido,
         a.DOMSOLDIU         AS          tipo_dia_unidad,
         a.DOMSOLADJ         AS          tipo_archivo_adjunto,
+        a.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
         a.DOMSOLOBS         AS          tipo_observacion,
         a.DOMSOLUSU         AS          auditoria_usuario,
         a.DOMSOLFEC         AS          auditoria_fecha_hora,
@@ -632,6 +634,16 @@
                         break;
                 }
 
+                switch ($rowMSSQL00['tipo_adjunto_requerido_codigo']) {
+                    case 'S':
+                        $tipo_adjunto_requerido_nombre = 'SI';
+                        break;
+                    
+                    case 'N':
+                        $tipo_adjunto_requerido_nombre = 'NO';
+                        break;
+                }
+
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute([trim(strtoupper($rowMSSQL00['tipo_permiso_codigo3']))]);
                 $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
@@ -652,7 +664,9 @@
                     'tipo_dia_cantidad'                         => $rowMSSQL00['tipo_dia_cantidad'],
                     'tipo_dia_corrido'                          => trim(strtoupper($rowMSSQL00['tipo_dia_corrido'])),
                     'tipo_dia_unidad'                           => trim(strtoupper($rowMSSQL00['tipo_dia_unidad'])),
-                    'tipo_archivo_adjunto'                      => trim(strtoupper($rowMSSQL00['tipo_archivo_adjunto'])),
+                    'tipo_archivo_adjunto'                      => trim(strtoupper($rowMSSQL00['tipo_archivo_adjunto'])),                 
+                    'tipo_adjunto_requerido_codigo'             => $rowMSSQL00['tipo_adjunto_requerido_codigo'],  
+                    'tipo_adjunto_requerido_nombre'             => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                     'tipo_observacion'                          => trim(strtoupper($rowMSSQL00['tipo_observacion'])),
                     'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
                     'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -684,6 +698,8 @@
                     'tipo_dia_corrido'                          => '',
                     'tipo_dia_unidad'                           => '',
                     'tipo_archivo_adjunto'                      => '',
+                    'tipo_adjunto_requerido_codigo'             => '',  
+                    'tipo_adjunto_requerido_nombre'             => '', 
                     'tipo_observacion'                          => '',
                     'auditoria_usuario'                         => '',
                     'auditoria_fecha_hora'                      => '',
@@ -724,6 +740,7 @@
             a.DOMSOLDIO         AS          tipo_dia_corrido,
             a.DOMSOLDIU         AS          tipo_dia_unidad,
             a.DOMSOLADJ         AS          tipo_archivo_adjunto,
+            a.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
             a.DOMSOLOBS         AS          tipo_observacion,
             a.DOMSOLUSU         AS          auditoria_usuario,
             a.DOMSOLFEC         AS          auditoria_fecha_hora,
@@ -771,6 +788,16 @@
                             break;
                     }
 
+                    switch ($rowMSSQL00['tipo_adjunto_requerido_codigo']) {
+                        case 'S':
+                            $tipo_adjunto_requerido_nombre = 'SI';
+                            break;
+                        
+                        case 'N':
+                            $tipo_adjunto_requerido_nombre = 'NO';
+                            break;
+                    }
+
                     $stmtMSSQL01= $connMSSQL->prepare($sql01);
                     $stmtMSSQL01->execute([trim(strtoupper($rowMSSQL00['tipo_permiso_codigo3']))]);
                     $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
@@ -780,7 +807,7 @@
                     $detalle    = array(
                         'tipo_permiso_codigo'                       => $rowMSSQL00['tipo_permiso_codigo'],
                         'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                        'tipo_estado_nombre'                        => trim(strtoupper($tipo_estado_nombre)),
+                        'tipo_estado_nombre'                        => trim(strtoupper($tipo_estado_nombre)),                
                         'tipo_solicitud_codigo'                     => $rowMSSQL00['tipo_solicitud_codigo'],
                         'tipo_solicitud_nombre'                     => trim(strtoupper($tipo_solicitud_nombre)),
                         'tipo_permiso_codigo1'                      => $rowMSSQL00['tipo_permiso_codigo1'],
@@ -792,6 +819,8 @@
                         'tipo_dia_corrido'                          => trim(strtoupper($rowMSSQL00['tipo_dia_corrido'])),
                         'tipo_dia_unidad'                           => trim(strtoupper($rowMSSQL00['tipo_dia_unidad'])),
                         'tipo_archivo_adjunto'                      => trim(strtoupper($rowMSSQL00['tipo_archivo_adjunto'])),
+                        'tipo_adjunto_requerido_codigo'             => $rowMSSQL00['tipo_adjunto_requerido_codigo'],  
+                        'tipo_adjunto_requerido_nombre'             => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                         'tipo_observacion'                          => trim(strtoupper($rowMSSQL00['tipo_observacion'])),
                         'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -812,6 +841,7 @@
                         'tipo_permiso_codigo'                       => '',
                         'tipo_estado_codigo'                        => '',
                         'tipo_estado_nombre'                        => '',
+                        
                         'tipo_solicitud_codigo'                     => '',
                         'tipo_solicitud_nombre'                     => '',
                         'tipo_permiso_codigo1'                      => '',
@@ -823,6 +853,8 @@
                         'tipo_dia_corrido'                          => '',
                         'tipo_dia_unidad'                           => '',
                         'tipo_archivo_adjunto'                      => '',
+                        'tipo_adjunto_requerido_codigo'             => '',  
+                        'tipo_adjunto_requerido_nombre'             => '', 
                         'tipo_observacion'                          => '',
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
@@ -1218,6 +1250,7 @@
             b.DOMSOLDIO         AS          tipo_dia_corrido,
             b.DOMSOLDIU         AS          tipo_dia_unidad,
             b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+            b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
             b.DOMSOLOBS         AS          tipo_observacion
 
             FROM [hum].[SOLFIC] a
@@ -1291,6 +1324,16 @@
                         break;
                 }
 
+                switch ($rowMSSQL01['tipo_adjunto_requerido_codigo']) {
+                    case 'S':
+                        $tipo_adjunto_requerido_nombre = 'SI';
+                        break;
+                    
+                    case 'N':
+                        $tipo_adjunto_requerido_nombre = 'NO';
+                        break;
+                }
+
                 $stmtMSSQL02= $connMSSQL->prepare($sql02);
                 $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
                 $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
@@ -1334,6 +1377,8 @@
                 $detalle    = array(
                     'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                     'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                    'tipo_adjunto_requerido_codigo'     => $rowMSSQL01['tipo_adjunto_requerido_codigo'],  
+                    'tipo_adjunto_requerido_nombre'     => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                     'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
                     'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                     'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
@@ -1385,6 +1430,8 @@
                 $detalle    = array(
                     'tipo_solicitud_codigo'             => '',
                     'tipo_permiso_nombre'               => '',
+                    'tipo_adjunto_requerido_codigo'     => '',  
+                    'tipo_adjunto_requerido_nombre'     => '',
                     'solicitud_codigo'                  => '',
                     'solicitud_estado_codigo'           => '',
                     'solicitud_estado_nombre'           => '',
@@ -1493,6 +1540,7 @@
                 b.DOMSOLDIO         AS          tipo_dia_corrido,
                 b.DOMSOLDIU         AS          tipo_dia_unidad,
                 b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                 b.DOMSOLOBS         AS          tipo_observacion
 
                 FROM [hum].[SOLFIC] a
@@ -1568,6 +1616,16 @@
                             break;
                     }
 
+                    switch ($rowMSSQL01['tipo_adjunto_requerido_codigo']) {
+                        case 'S':
+                            $tipo_adjunto_requerido_nombre = 'SI';
+                            break;
+                        
+                        case 'N':
+                            $tipo_adjunto_requerido_nombre = 'NO';
+                            break;
+                    }
+
                     $stmtMSSQL02= $connMSSQL->prepare($sql02);
                     $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
                     $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
@@ -1611,6 +1669,8 @@
                     $detalle    = array(
                         'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                         'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                        'tipo_adjunto_requerido_codigo'     => $rowMSSQL01['tipo_adjunto_requerido_codigo'],  
+                        'tipo_adjunto_requerido_nombre'     => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                         'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
                         'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                         'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
@@ -1662,6 +1722,8 @@
                     $detalle    = array(
                         'tipo_solicitud_codigo'             => '',
                         'tipo_permiso_nombre'               => '',
+                        'tipo_adjunto_requerido_codigo'     => '',  
+                        'tipo_adjunto_requerido_nombre'     => '', 
                         'solicitud_codigo'                  => '',
                         'solicitud_estado_codigo'           => '',
                         'solicitud_estado_nombre'           => '',
@@ -1936,6 +1998,7 @@
                     b.DOMSOLDIO         AS          tipo_dia_corrido,
                     b.DOMSOLDIU         AS          tipo_dia_unidad,
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                    b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                     b.DOMSOLOBS         AS          tipo_observacion
 
                     FROM [hum].[SOLFIC] a
@@ -1987,6 +2050,7 @@
                     b.DOMSOLDIO         AS          tipo_dia_corrido,
                     b.DOMSOLDIU         AS          tipo_dia_unidad,
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                    b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                     b.DOMSOLOBS         AS          tipo_observacion
 
                     FROM [hum].[SOLFIC] a
@@ -2037,6 +2101,7 @@
                     b.DOMSOLDIO         AS          tipo_dia_corrido,
                     b.DOMSOLDIU         AS          tipo_dia_unidad,
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                    b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                     b.DOMSOLOBS         AS          tipo_observacion
 
                     FROM [hum].[SOLFIC] a
@@ -2103,6 +2168,16 @@
                                 break;
                         }
 
+                        switch ($rowMSSQL01['tipo_adjunto_requerido_codigo']) {
+                            case 'S':
+                                $tipo_adjunto_requerido_nombre = 'SI';
+                                break;
+                            
+                            case 'N':
+                                $tipo_adjunto_requerido_nombre = 'NO';
+                                break;
+                        }
+
                         $stmtMSSQL02= $connMSSQL->prepare($sql02);
                         $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
                         $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
@@ -2142,6 +2217,8 @@
                         $detalle    = array(
                             'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                             'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                            'tipo_adjunto_requerido_codigo'     => $rowMSSQL01['tipo_adjunto_requerido_codigo'],  
+                            'tipo_adjunto_requerido_nombre'     => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                             'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
                             'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                             'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
@@ -2190,6 +2267,8 @@
                     $detalle    = array(
                         'tipo_solicitud_codigo'             => '',
                         'tipo_permiso_nombre'               => '',
+                        'tipo_adjunto_requerido_codigo'     => '',  
+                        'tipo_adjunto_requerido_nombre'     => '', 
                         'solicitud_codigo'                  => '',
                         'solicitud_estado_codigo'           => '',
                         'solicitud_estado_nombre'           => '',

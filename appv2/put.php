@@ -108,24 +108,28 @@
 
         $val00      = $request->getAttribute('codigo');
         $val01      = $request->getParsedBody()['tipo_estado_codigo'];
-        $val02      = $request->getParsedBody()['tipo_orden_numero'];
-        $val03      = $request->getParsedBody()['tipo_dia_cantidad'];
-        $val04      = $request->getParsedBody()['tipo_dia_corrido'];
-        $val05      = $request->getParsedBody()['tipo_dia_unidad'];
-        $val06      = $request->getParsedBody()['tipo_archivo_adjunto'];
-        $val07      = $request->getParsedBody()['tipo_observacion'];
+        $val02      = $request->getParsedBody()['tipo_solicitud_codigo'];
+        $val03      = $request->getParsedBody()['tipo_orden_numero'];
+        $val04      = $request->getParsedBody()['tipo_permiso_codigo'];
+        $val05      = $request->getParsedBody()['tipo_dia_cantidad'];
+        $val06      = $request->getParsedBody()['tipo_dia_corrido'];
+        $val07      = $request->getParsedBody()['tipo_dia_unidad'];
+        $val08      = $request->getParsedBody()['tipo_archivo_adjunto'];
+        $val09      = $request->getParsedBody()['tipo_adjunto_requerido_codigo'];
+        $val10      = $request->getParsedBody()['tipo_observacion'];
 
         $aud01      = $request->getParsedBody()['auditoria_usuario'];
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
         if (isset($val00)) {
-            $sql00  = "UPDATE [adm].[DOMSOL] SET DOMSOLEST = ?, DOMSOLORD = ?, DOMSOLDIC = ?, DOMSOLDIO = ?, DOMSOLDIU = ?, DOMSOLADJ = ?, DOMSOLOBS = ?, DOMSOLUSU = ?, DOMSOLFEC = GETDATE(), DOMSOLDIP = ? WHERE DOMSOLCOD = ?";
-
+            $sql00  = "UPDATE [adm].[DOMSOL] SET DOMSOLEST = ?, DOMSOLORD = ?, DOMSOLDIC = ?, DOMSOLDIO = ?, DOMSOLDIU = ?, DOMSOLADJ = ?, DOMSOLADR = ?, DOMSOLOBS = ?, DOMSOLUSU = ?, DOMSOLFEC = GETDATE(), DOMSOLDIP = ? WHERE DOMSOLCOD = ?";                
+             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val05, $val06, $val07, $aud01, $aud03, $val00]);
+                
+                $stmtMSSQL00->execute([$val01, $val03, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
