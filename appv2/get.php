@@ -1,4 +1,5 @@
 <?php
+//MODULO PARAMETROS
     $app->get('/v2/100/dominio', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -571,6 +572,7 @@
         return $json;
     });
 
+
     $app->get('/v2/100/solicitud', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -586,6 +588,7 @@
         a.DOMSOLDIO         AS          tipo_dia_corrido,
         a.DOMSOLDIU         AS          tipo_dia_unidad,
         a.DOMSOLADJ         AS          tipo_archivo_adjunto,
+        a.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
         a.DOMSOLOBS         AS          tipo_observacion,
         a.DOMSOLUSU         AS          auditoria_usuario,
         a.DOMSOLFEC         AS          auditoria_fecha_hora,
@@ -631,6 +634,16 @@
                         break;
                 }
 
+                switch ($rowMSSQL00['tipo_adjunto_requerido_codigo']) {
+                    case 'S':
+                        $tipo_adjunto_requerido_nombre = 'SI';
+                        break;
+                    
+                    case 'N':
+                        $tipo_adjunto_requerido_nombre = 'NO';
+                        break;
+                }
+
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
                 $stmtMSSQL01->execute([trim(strtoupper($rowMSSQL00['tipo_permiso_codigo3']))]);
                 $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
@@ -651,7 +664,9 @@
                     'tipo_dia_cantidad'                         => $rowMSSQL00['tipo_dia_cantidad'],
                     'tipo_dia_corrido'                          => trim(strtoupper($rowMSSQL00['tipo_dia_corrido'])),
                     'tipo_dia_unidad'                           => trim(strtoupper($rowMSSQL00['tipo_dia_unidad'])),
-                    'tipo_archivo_adjunto'                      => trim(strtoupper($rowMSSQL00['tipo_archivo_adjunto'])),
+                    'tipo_archivo_adjunto'                      => trim(strtoupper($rowMSSQL00['tipo_archivo_adjunto'])),                 
+                    'tipo_adjunto_requerido_codigo'             => $rowMSSQL00['tipo_adjunto_requerido_codigo'],  
+                    'tipo_adjunto_requerido_nombre'             => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                     'tipo_observacion'                          => trim(strtoupper($rowMSSQL00['tipo_observacion'])),
                     'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
                     'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -683,6 +698,8 @@
                     'tipo_dia_corrido'                          => '',
                     'tipo_dia_unidad'                           => '',
                     'tipo_archivo_adjunto'                      => '',
+                    'tipo_adjunto_requerido_codigo'             => '',  
+                    'tipo_adjunto_requerido_nombre'             => '', 
                     'tipo_observacion'                          => '',
                     'auditoria_usuario'                         => '',
                     'auditoria_fecha_hora'                      => '',
@@ -723,6 +740,7 @@
             a.DOMSOLDIO         AS          tipo_dia_corrido,
             a.DOMSOLDIU         AS          tipo_dia_unidad,
             a.DOMSOLADJ         AS          tipo_archivo_adjunto,
+            a.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
             a.DOMSOLOBS         AS          tipo_observacion,
             a.DOMSOLUSU         AS          auditoria_usuario,
             a.DOMSOLFEC         AS          auditoria_fecha_hora,
@@ -770,6 +788,16 @@
                             break;
                     }
 
+                    switch ($rowMSSQL00['tipo_adjunto_requerido_codigo']) {
+                        case 'S':
+                            $tipo_adjunto_requerido_nombre = 'SI';
+                            break;
+                        
+                        case 'N':
+                            $tipo_adjunto_requerido_nombre = 'NO';
+                            break;
+                    }
+
                     $stmtMSSQL01= $connMSSQL->prepare($sql01);
                     $stmtMSSQL01->execute([trim(strtoupper($rowMSSQL00['tipo_permiso_codigo3']))]);
                     $rowMSSQL01 = $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
@@ -779,7 +807,7 @@
                     $detalle    = array(
                         'tipo_permiso_codigo'                       => $rowMSSQL00['tipo_permiso_codigo'],
                         'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
-                        'tipo_estado_nombre'                        => trim(strtoupper($tipo_estado_nombre)),
+                        'tipo_estado_nombre'                        => trim(strtoupper($tipo_estado_nombre)),                
                         'tipo_solicitud_codigo'                     => $rowMSSQL00['tipo_solicitud_codigo'],
                         'tipo_solicitud_nombre'                     => trim(strtoupper($tipo_solicitud_nombre)),
                         'tipo_permiso_codigo1'                      => $rowMSSQL00['tipo_permiso_codigo1'],
@@ -791,6 +819,8 @@
                         'tipo_dia_corrido'                          => trim(strtoupper($rowMSSQL00['tipo_dia_corrido'])),
                         'tipo_dia_unidad'                           => trim(strtoupper($rowMSSQL00['tipo_dia_unidad'])),
                         'tipo_archivo_adjunto'                      => trim(strtoupper($rowMSSQL00['tipo_archivo_adjunto'])),
+                        'tipo_adjunto_requerido_codigo'             => $rowMSSQL00['tipo_adjunto_requerido_codigo'],  
+                        'tipo_adjunto_requerido_nombre'             => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                         'tipo_observacion'                          => trim(strtoupper($rowMSSQL00['tipo_observacion'])),
                         'auditoria_usuario'                         => trim(strtoupper($rowMSSQL00['auditoria_usuario'])),
                         'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
@@ -811,6 +841,7 @@
                         'tipo_permiso_codigo'                       => '',
                         'tipo_estado_codigo'                        => '',
                         'tipo_estado_nombre'                        => '',
+                        
                         'tipo_solicitud_codigo'                     => '',
                         'tipo_solicitud_nombre'                     => '',
                         'tipo_permiso_codigo1'                      => '',
@@ -822,6 +853,8 @@
                         'tipo_dia_corrido'                          => '',
                         'tipo_dia_unidad'                           => '',
                         'tipo_archivo_adjunto'                      => '',
+                        'tipo_adjunto_requerido_codigo'             => '',  
+                        'tipo_adjunto_requerido_nombre'             => '', 
                         'tipo_observacion'                          => '',
                         'auditoria_usuario'                         => '',
                         'auditoria_fecha_hora'                      => '',
@@ -1170,8 +1203,9 @@
         
         return $json;
     });
+//MODULO PARAMETROS
 
-//MODULO PORTAL PERMISO
+//MODULO PERMISO
     $app->get('/v2/200/solicitudes', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -1216,6 +1250,7 @@
             b.DOMSOLDIO         AS          tipo_dia_corrido,
             b.DOMSOLDIU         AS          tipo_dia_unidad,
             b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+            b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
             b.DOMSOLOBS         AS          tipo_observacion
 
             FROM [hum].[SOLFIC] a
@@ -1289,6 +1324,16 @@
                         break;
                 }
 
+                switch ($rowMSSQL01['tipo_adjunto_requerido_codigo']) {
+                    case 'S':
+                        $tipo_adjunto_requerido_nombre = 'SI';
+                        break;
+                    
+                    case 'N':
+                        $tipo_adjunto_requerido_nombre = 'NO';
+                        break;
+                }
+
                 $stmtMSSQL02= $connMSSQL->prepare($sql02);
                 $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
                 $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
@@ -1332,6 +1377,8 @@
                 $detalle    = array(
                     'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                     'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                    'tipo_adjunto_requerido_codigo'     => $rowMSSQL01['tipo_adjunto_requerido_codigo'],  
+                    'tipo_adjunto_requerido_nombre'     => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                     'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
                     'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                     'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
@@ -1383,6 +1430,8 @@
                 $detalle    = array(
                     'tipo_solicitud_codigo'             => '',
                     'tipo_permiso_nombre'               => '',
+                    'tipo_adjunto_requerido_codigo'     => '',  
+                    'tipo_adjunto_requerido_nombre'     => '',
                     'solicitud_codigo'                  => '',
                     'solicitud_estado_codigo'           => '',
                     'solicitud_estado_nombre'           => '',
@@ -1491,6 +1540,7 @@
                 b.DOMSOLDIO         AS          tipo_dia_corrido,
                 b.DOMSOLDIU         AS          tipo_dia_unidad,
                 b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                 b.DOMSOLOBS         AS          tipo_observacion
 
                 FROM [hum].[SOLFIC] a
@@ -1566,6 +1616,16 @@
                             break;
                     }
 
+                    switch ($rowMSSQL01['tipo_adjunto_requerido_codigo']) {
+                        case 'S':
+                            $tipo_adjunto_requerido_nombre = 'SI';
+                            break;
+                        
+                        case 'N':
+                            $tipo_adjunto_requerido_nombre = 'NO';
+                            break;
+                    }
+
                     $stmtMSSQL02= $connMSSQL->prepare($sql02);
                     $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
                     $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
@@ -1609,6 +1669,8 @@
                     $detalle    = array(
                         'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                         'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                        'tipo_adjunto_requerido_codigo'     => $rowMSSQL01['tipo_adjunto_requerido_codigo'],  
+                        'tipo_adjunto_requerido_nombre'     => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                         'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
                         'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                         'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
@@ -1660,6 +1722,8 @@
                     $detalle    = array(
                         'tipo_solicitud_codigo'             => '',
                         'tipo_permiso_nombre'               => '',
+                        'tipo_adjunto_requerido_codigo'     => '',  
+                        'tipo_adjunto_requerido_nombre'     => '', 
                         'solicitud_codigo'                  => '',
                         'solicitud_estado_codigo'           => '',
                         'solicitud_estado_nombre'           => '',
@@ -1934,6 +1998,7 @@
                     b.DOMSOLDIO         AS          tipo_dia_corrido,
                     b.DOMSOLDIU         AS          tipo_dia_unidad,
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                    b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                     b.DOMSOLOBS         AS          tipo_observacion
 
                     FROM [hum].[SOLFIC] a
@@ -1985,6 +2050,7 @@
                     b.DOMSOLDIO         AS          tipo_dia_corrido,
                     b.DOMSOLDIU         AS          tipo_dia_unidad,
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                    b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                     b.DOMSOLOBS         AS          tipo_observacion
 
                     FROM [hum].[SOLFIC] a
@@ -2035,6 +2101,7 @@
                     b.DOMSOLDIO         AS          tipo_dia_corrido,
                     b.DOMSOLDIU         AS          tipo_dia_unidad,
                     b.DOMSOLADJ         AS          tipo_archivo_adjunto,
+                    b.DOMSOLADR         AS          tipo_adjunto_requerido_codigo,
                     b.DOMSOLOBS         AS          tipo_observacion
 
                     FROM [hum].[SOLFIC] a
@@ -2101,6 +2168,16 @@
                                 break;
                         }
 
+                        switch ($rowMSSQL01['tipo_adjunto_requerido_codigo']) {
+                            case 'S':
+                                $tipo_adjunto_requerido_nombre = 'SI';
+                                break;
+                            
+                            case 'N':
+                                $tipo_adjunto_requerido_nombre = 'NO';
+                                break;
+                        }
+
                         $stmtMSSQL02= $connMSSQL->prepare($sql02);
                         $stmtMSSQL02->execute([trim(strtoupper($rowMSSQL01['tipo_permiso_codigo3']))]);
                         $rowMSSQL02 = $stmtMSSQL02->fetch(PDO::FETCH_ASSOC);
@@ -2140,6 +2217,8 @@
                         $detalle    = array(
                             'tipo_permiso_codigo'               => $rowMSSQL01['tipo_permiso_codigo'],
                             'tipo_permiso_nombre'               => trim(strtoupper($tipo_permiso_nombre)),
+                            'tipo_adjunto_requerido_codigo'     => $rowMSSQL01['tipo_adjunto_requerido_codigo'],  
+                            'tipo_adjunto_requerido_nombre'     => trim(strtoupper($tipo_adjunto_requerido_nombre)),
                             'solicitud_codigo'                  => $rowMSSQL01['solicitud_codigo'],
                             'solicitud_estado_codigo'           => $rowMSSQL01['solicitud_estado_codigo'],
                             'solicitud_estado_nombre'           => trim(strtoupper($solicitud_estado_nombre)),
@@ -2188,6 +2267,8 @@
                     $detalle    = array(
                         'tipo_solicitud_codigo'             => '',
                         'tipo_permiso_nombre'               => '',
+                        'tipo_adjunto_requerido_codigo'     => '',  
+                        'tipo_adjunto_requerido_nombre'     => '', 
                         'solicitud_codigo'                  => '',
                         'solicitud_estado_codigo'           => '',
                         'solicitud_estado_nombre'           => '',
@@ -7116,10 +7197,9 @@
         
         return $json;
     });
-
-//MODULO PORTAL PERMISO
+//MODULO PERMISO
     
-/*MODULO WORKFLOW*/
+//MODULO WORKFLOW
     $app->get('/v2/300/workflow/cabecera', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -8118,9 +8198,9 @@
         
         return $json;
     });
-/*MODULO WORKFLOW*/
+//MODULO WORKFLOW
 
-/*MODULO VIAJE*/
+//MODULO VIAJE
     $app->get('/v2/400/proveedor', function($request) {
         require __DIR__.'/../src/connect.php';
         
@@ -8139,34 +8219,43 @@
             a.PROFICAIP         AS          auditoria_ip,
 
             b.DOMFICCOD         AS          tipo_estado_codigo,
-            b.DOMFICNOI         AS          tipo_estado_ingles,
-            b.DOMFICNOC         AS          tipo_estado_castellano,
-            b.DOMFICNOP         AS          tipo_estado_portugues,
+            b.DOMFICORD         AS          tipo_estado_orden,
             b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+            b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+            b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
             b.DOMFICICO         AS          tipo_estado_icono,
             b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICOBS         AS          tipo_estado_observacion,
 
             c.DOMFICCOD         AS          tipo_proveedor_codigo,
-            c.DOMFICNOI         AS          tipo_proveedor_ingles,
-            c.DOMFICNOC         AS          tipo_proveedor_castellano,
-            c.DOMFICNOP         AS          tipo_proveedor_portugues,
+            c.DOMFICCOD         AS          tipo_proveedor_codigo,
+            c.DOMFICORD         AS          tipo_proveedor_orden,
             c.DOMFICPAR         AS          tipo_proveedor_parametro,
+            c.DOMFICNOI         AS          tipo_proveedor_nombre_ingles,
+            c.DOMFICNOC         AS          tipo_proveedor_nombre_castellano,
+            c.DOMFICNOP         AS          tipo_proveedor_nombre_portugues,
+            c.DOMFICPAT         AS          tipo_proveedor_path,
+            c.DOMFICVAL         AS          tipo_proveedor_dominio,
             c.DOMFICICO         AS          tipo_proveedor_icono,
             c.DOMFICCSS         AS          tipo_proveedor_css,
+            c.DOMFICOBS         AS          tipo_proveedor_observacion,
 
-            d.LOCCIUCOD         AS          ciudad_codigo,
-            d.LOCCIUORD         AS          ciudad_orden,
-            d.LOCCIUNOM         AS          ciudad_nombre,
-            d.LOCCIUOBS         AS          ciudad_observacion,
+            d.LOCCIUCOD         AS          localidad_ciudad_codigo,
+            d.LOCCIUORD         AS          localidad_ciudad_orden,
+            d.LOCCIUNOM         AS          localidad_ciudad_nombre,
+            d.LOCCIUOBS         AS          localidad_ciudad_observacion,
 
-            e.LOCPAICOD         AS          pais_codigo,
-            e.LOCPAIORD         AS          pais_orden,
-            e.LOCPAINOM         AS          pais_nombre,
-            e.LOCPAIPAT         AS          pais_path,
-            e.LOCPAIIC2         AS          pais_iso_char2,
-            e.LOCPAIIC3         AS          pais_iso_char3,
-            e.LOCPAIIN3         AS          pais_iso_num3,
-            e.LOCPAIOBS         AS          pais_observacion
+            e.LOCPAICOD         AS          localidad_pais_codigo,
+            e.LOCPAIORD         AS          localidad_pais_orden,
+            e.LOCPAINOM         AS          localidad_pais_nombre,
+            e.LOCPAIPAT         AS          localidad_pais_path,
+            e.LOCPAIIC2         AS          localidad_pais_iso_char2,
+            e.LOCPAIIC3         AS          localidad_pais_iso_char3,
+            e.LOCPAIIN3         AS          localidad_pais_iso_num3,
+            e.LOCPAIOBS         AS          localidad_pais_observacion
 
             FROM [via].[PROFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
@@ -8187,44 +8276,52 @@
                     'proveedor_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['proveedor_nombre']))),
                     'proveedor_razon_social'            => trim(strtoupper(strtolower($rowMSSQL00['proveedor_razon_social']))),
                     'proveedor_ruc'                     => trim(strtoupper(strtolower($rowMSSQL00['proveedor_ruc']))),
-                    'proveedor_direccion'               => trim(strtoupper(strtolower($rowMSSQL00['proveedor_direccion']))),
+                    'proveedor_direccion'               => trim($rowMSSQL00['proveedor_direccion']),
                     'proveedor_sap_castastrado'         => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_castastrado']))),
                     'proveedor_sap_codigo'              => trim(strtoupper(strtolower($rowMSSQL00['proveedor_sap_codigo']))),
-                    'proveedor_observacion'             => trim(strtoupper(strtolower($rowMSSQL00['proveedor_observacion']))),
+                    'proveedor_observacion'             => trim($rowMSSQL00['proveedor_observacion']),
 
                     'auditoria_usuario'                 => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                     'auditoria_fecha_hora'              => date("d/m/Y", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                     'auditoria_ip'                      => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                     'tipo_estado_codigo'                => $rowMSSQL00['tipo_estado_codigo'],
-                    'tipo_estado_ingles'                => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                    'tipo_estado_castellano'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                    'tipo_estado_portugues'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_orden'                 => $rowMSSQL00['tipo_estado_orden'],
                     'tipo_estado_parametro'             => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_nombre_ingles'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                    'tipo_estado_nombre_castellano'     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                    'tipo_estado_nombre_portugues'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                    'tipo_estado_path'                  => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                    'tipo_estado_dominio'               => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
                     'tipo_estado_icono'                 => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
                     'tipo_estado_css'                   => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
-
+                    'tipo_estado_observacion'           => trim($rowMSSQL00['tipo_estado_observacion']),
+                    
                     'tipo_proveedor_codigo'             => $rowMSSQL00['tipo_proveedor_codigo'],
-                    'tipo_proveedor_ingles'             => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_ingles']))),
-                    'tipo_proveedor_castellano'         => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_castellano']))),
-                    'tipo_proveedor_portugues'          => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_portugues']))),
-                    'tipo-proveedor_parametro'          => $rowMSSQL00['tipo_proveedor_parametro'],
+                    'tipo_proveedor_orden'              => $rowMSSQL00['tipo_proveedor_orden'],
+                    'tipo_proveedor_parametro'          => $rowMSSQL00['tipo_proveedor_parametro'],
+                    'tipo_proveedor_nombre_ingles'      => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_nombre_ingles']))),
+                    'tipo_proveedor_nombre_castellano'  => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_nombre_castellano']))),
+                    'tipo_proveedor_nombre_portugues'   => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_nombre_portugues']))),
+                    'tipo_proveedor_path'               => trim(strtolower($rowMSSQL00['tipo_proveedor_path'])),
+                    'tipo_proveedor_dominio'            => trim(strtoupper(strtolower($rowMSSQL00['tipo_proveedor_dominio']))),
                     'tipo_proveedor_icono'              => trim(strtolower($rowMSSQL00['tipo_proveedor_icono'])),
                     'tipo_proveedor_css'                => trim(strtolower($rowMSSQL00['tipo_proveedor_css'])),
+                    'tipo_proveedor_observacion'        => trim($rowMSSQL00['tipo_proveedor_observacion']),
 
-                    'ciudad_codigo'                     => $rowMSSQL00['ciudad_codigo'],
-                    'ciudad_orden'                      => $rowMSSQL00['ciudad_orden'],
-                    'ciudad_nombre'                     => trim(strtoupper(strtolower($rowMSSQL00['ciudad_nombre']))),
-                    'ciudad_observacion'                => trim(strtolower($rowMSSQL00['ciudad_observacion'])),
+                    'localidad_ciudad_codigo'           => $rowMSSQL00['localidad_ciudad_codigo'],
+                    'localidad_ciudad_orden'            => $rowMSSQL00['localidad_ciudad_orden'],
+                    'localidad_ciudad_nombre'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                    'localidad_ciudad_observacion'      => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion'])),
 
-                    'pais_codigo'                       => $rowMSSQL00['pais_codigo'],
-                    'pais_orden'                        => $rowMSSQL00['pais_orden'],
-                    'pais_nombre'                       => trim(strtoupper(strtolower($rowMSSQL00['pais_nombre']))),
-                    'pais_path'                         => trim(strtolower($rowMSSQL00['pais_path'])),
-                    'pais_iso_char2'                    => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char2']))),
-                    'pais_iso_char3'                    => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_char3']))),
-                    'pais_iso_num3'                     => trim(strtoupper(strtolower($rowMSSQL00['pais_iso_num3']))),
-                    'pais_observacion'                  => trim(strtoupper(strtolower($rowMSSQL00['pais_observacion'])))
+                    'localidad_pais_codigo'             => $rowMSSQL00['localidad_pais_codigo'],
+                    'localidad_pais_orden'              => $rowMSSQL00['localidad_pais_orden'],
+                    'localidad_pais_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_nombre']))),
+                    'localidad_pais_path'               => trim(strtolower($rowMSSQL00['localidad_pais_path'])),
+                    'localidad_pais_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char2']))),
+                    'localidad_pais_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_char3']))),
+                    'localidad_pais_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_iso_num3']))),
+                    'localidad_pais_observacion'        => trim(strtoupper(strtolower($rowMSSQL00['localidad_pais_observacion'])))
                 );
 
                 $result[]   = $detalle;
@@ -8249,34 +8346,42 @@
                     'auditoria_ip'                      => '',
 
                     'tipo_estado_codigo'                => '',
-                    'tipo_estado_ingles'                => '',
-                    'tipo_estado_castellano'            => '',
-                    'tipo_estado_portugues'             => '',
+                    'tipo_estado_orden'                 => '',
                     'tipo_estado_parametro'             => '',
+                    'tipo_estado_nombre_ingles'         => '',
+                    'tipo_estado_nombre_castellano'     => '',
+                    'tipo_estado_nombre_portugues'      => '',
+                    'tipo_estado_path'                  => '',
+                    'tipo_estado_dominio'               => '',
                     'tipo_estado_icono'                 => '',
                     'tipo_estado_css'                   => '',
-
+                    'tipo_estado_observacion'           => '',
+                    
                     'tipo_proveedor_codigo'             => '',
-                    'tipo_proveedor_ingles'             => '',
-                    'tipo_proveedor_castellano'         => '',
-                    'tipo_proveedor_portugues'          => '',
+                    'tipo_proveedor_orden'              => '',
                     'tipo_proveedor_parametro'          => '',
+                    'tipo_proveedor_nombre_ingles'      => '',
+                    'tipo_proveedor_nombre_castellano'  => '',
+                    'tipo_proveedor_nombre_portugues'   => '',
+                    'tipo_proveedor_path'               => '',
+                    'tipo_proveedor_dominio'            => '',
                     'tipo_proveedor_icono'              => '',
                     'tipo_proveedor_css'                => '',
+                    'tipo_proveedor_observacion'        => '',
 
-                    'ciudad_codigo'                     => '',
-                    'ciudad_orden'                      => '',
-                    'ciudad_nombre'                     => '',
-                    'ciudad_observacion'                => '',
+                    'localidad_ciudad_codigo'           => '',
+                    'localidad_ciudad_orden'            => '',
+                    'localidad_ciudad_nombre'           => '',
+                    'localidad_ciudad_observacion'      => '',
 
-                    'pais_codigo'                       => '',
-                    'pais_orden'                        => '',
-                    'pais_nombre'                       => '',
-                    'pais_path'                         => '',
-                    'pais_iso_char2'                    => '',
-                    'pais_iso_char3'                    => '',
-                    'pais_iso_num3'                     => '',
-                    'pais_observacion'                  => ''
+                    'localidad_pais_codigo'             => '',
+                    'localidad_pais_orden'              => '',
+                    'localidad_pais_nombre'             => '',
+                    'localidad_pais_path'               => '',
+                    'localidad_pais_iso_char2'          => '',
+                    'localidad_pais_iso_char3'          => '',
+                    'localidad_pais_iso_num3'           => '',
+                    'localidad_pais_observacion'        => ''
                 );
 
                 header("Content-Type: application/json; charset=utf-8");
@@ -9476,7 +9581,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/consulta/{codigo}', function($request) {//20201102//20201105 M
+    $app->get('/v2/400/solicitud/consulta/{codigo}', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $val01  = $request->getAttribute('codigo'); 
@@ -18771,7 +18876,7 @@
         
         return $json;
     });    
-/*MODULO VIAJE*/
+//MODULO VIAJE
 
 /*MODULO RENDICION*/
     $app->get('/v2/500/rendicion', function($request) {
