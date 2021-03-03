@@ -242,15 +242,15 @@
 
             switch ($val02) {
                 case 'L':
-                    $sql00  = "SELECT Code, Name, U_CODIGO FROM dbo.[@A1A_TILC] WHERE Code = ?";
+                    $sql00  = "SELECT Code, Name, U_CODIGO FROM CSF.dbo.[@A1A_TILC] WHERE Code = ?";
                     break;
                 
                 case 'P':
-                    $sql00  = "SELECT Code, Name, U_CODIGO FROM dbo.[@A1A_TIPE] WHERE Code = ?";
+                    $sql00  = "SELECT Code, Name, U_CODIGO FROM CSF.dbo.[@A1A_TIPE] WHERE Code = ?";
                     break;
 
                 case 'I':
-                    $sql00  = "SELECT Code, Name, U_CODIGO FROM dbo.[@A1A_TIIN] WHERE Code = ?";
+                    $sql00  = "SELECT Code, Name, U_CODIGO FROM CSF.dbo.[@A1A_TIIN] WHERE Code = ?";
                     break;
             }        
             
