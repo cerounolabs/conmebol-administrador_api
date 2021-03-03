@@ -634,14 +634,10 @@
                         break;
                 }
 
-                switch ($rowMSSQL00['tipo_adjunto_requerido_codigo']) {
-                    case 'S':
-                        $tipo_adjunto_requerido_nombre = 'SI';
-                        break;
-                    
-                    case 'N':
-                        $tipo_adjunto_requerido_nombre = 'NO';
-                        break;
+                if ($rowMSSQL00['tipo_adjunto_requerido_codigo'] == 'S') {
+                    $tipo_adjunto_requerido_nombre = 'SI';
+                } else {
+                    $tipo_adjunto_requerido_nombre = 'NO';
                 }
 
                 $stmtMSSQL01= $connMSSQL->prepare($sql01);
@@ -788,14 +784,10 @@
                             break;
                     }
 
-                    switch ($rowMSSQL00['tipo_adjunto_requerido_codigo']) {
-                        case 'S':
-                            $tipo_adjunto_requerido_nombre = 'SI';
-                            break;
-                        
-                        case 'N':
-                            $tipo_adjunto_requerido_nombre = 'NO';
-                            break;
+                    if ($rowMSSQL00['tipo_adjunto_requerido_codigo'] == 'S') {
+                        $tipo_adjunto_requerido_nombre = 'SI';
+                    } else {
+                        $tipo_adjunto_requerido_nombre = 'NO';
                     }
 
                     $stmtMSSQL01= $connMSSQL->prepare($sql01);
