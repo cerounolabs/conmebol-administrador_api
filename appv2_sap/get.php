@@ -2718,25 +2718,31 @@
                     if ($rowMSSQL00['feriado_inicio'] == '1900-01-01' || $rowMSSQL00['feriado_inicio'] == null){
                         $feriado_inicio_1   = '';
                         $feriado_inicio_2   = '';
+                        $feriado_inicio_3   = '';
                     } else {
                         $feriado_inicio_1   = date('Y-m-d', strtotime($rowMSSQL00['feriado_inicio']));
                         $feriado_inicio_2   = date('d/m/Y', strtotime($rowMSSQL00['feriado_inicio']));
+                        $feriado_inicio_3   = date('Y-n-j', strtotime($rowMSSQL00['feriado_inicio']));
                     }
 
                     if ($rowMSSQL00['feriado_fin'] == '1900-01-01' || $rowMSSQL00['feriado_fin'] == null){
                         $feriado_fin_1      = '';
                         $feriado_fin_2      = '';
+                        $feriado_fin_3      = '';
                     } else {
                         $feriado_fin_1      = date('Y-m-d', strtotime($rowMSSQL00['feriado_fin']));
                         $feriado_fin_2      = date('d/m/Y', strtotime($rowMSSQL00['feriado_fin']));
+                        $feriado_fin_3      = date('Y-n-j', strtotime($rowMSSQL00['feriado_fin']));
                     }
 
                     $detalle    = array(
                         'feriado_periodo'               => $rowMSSQL00['feriado_periodo'],
                         'feriado_inicio_1'              => $feriado_inicio_1,
                         'feriado_inicio_2'              => $feriado_inicio_2,
+                        'feriado_inicio_3'              => $feriado_inicio_3,
                         'feriado_fin_1'                 => $feriado_fin_1,
                         'feriado_fin_2'                 => $feriado_fin_2,
+                        'feriado_fin_3'                 => $feriado_fin_3,
                         'feriado_nombre'                => trim(strtoupper($rowMSSQL00['feriado_nombre']))
                     );
 
@@ -2751,8 +2757,10 @@
                         'feriado_periodo'               => '',
                         'feriado_inicio_1'              => '',
                         'feriado_inicio_2'              => '',
+                        'feriado_inicio_3'              => '',
                         'feriado_fin_1'                 => '',
                         'feriado_fin_2'                 => '',
+                        'feriado_fin_3'                 => '',
                         'feriado_nombre'                => ''
                     );
 
