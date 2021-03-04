@@ -2719,7 +2719,7 @@
                         $feriado_inicio_1   = '';
                         $feriado_inicio_2   = '';
                     } else {
-                        $feriado_inicio_1   = $rowMSSQL00['feriado_inicio'];
+                        $feriado_inicio_1   = date('Y-m-d', strtotime($rowMSSQL00['feriado_inicio']));
                         $feriado_inicio_2   = date('d/m/Y', strtotime($rowMSSQL00['feriado_inicio']));
                     }
 
@@ -2727,7 +2727,7 @@
                         $feriado_fin_1      = '';
                         $feriado_fin_2      = '';
                     } else {
-                        $feriado_fin_1      = $rowMSSQL00['feriado_fin'];
+                        $feriado_fin_1      = date('Y-m-d', strtotime($rowMSSQL00['feriado_fin']));
                         $feriado_fin_2      = date('d/m/Y', strtotime($rowMSSQL00['feriado_fin']));
                     }
 
