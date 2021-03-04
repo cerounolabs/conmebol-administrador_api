@@ -2691,3 +2691,67 @@
         
         return $json;
     });
+
+    $app->get('/v2/000/feriado/{periodo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $val01      = $request->getAttribute('periodo');
+        
+        if (isset($val01)) {
+            $sql00  = "SELECT
+                a.HLDCODE       AS          feriado_periodo,
+                a.STRDATE       AS          feriado_inicio,
+                a.ENDDATE       AS          feriado_fin,
+                a.RMRKS         AS          feriado_nombre
+
+                FROM [CSF].[dbo].[Feriados_AxisOne] a
+
+                WHERE a.HLDCODE = ?";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val01]);
+
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    $detalle    = array(
+                        'feriado_periodo'               => $rowMSSQL00['feriado_periodo'],
+                        'feriado_inicio'                => date("d/m/Y", strtotime($rowMSSQL00['feriado_inicio'])),
+                        'feriado_fin'                   => date("d/m/Y", strtotime($rowMSSQL00['feriado_fin'])),
+                        'feriado_nombre'                => trim(strtoupper($rowMSSQL00['feriado_nombre']))
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle    = array(
+                        'feriado_periodo'               => '',
+                        'feriado_inicio'                => '',
+                        'feriado_fin'                   => '',
+                        'feriado_nombre'                => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
