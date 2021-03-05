@@ -7021,7 +7021,7 @@
                     'testpcr_laboratorio_email'                 => trim(strtolower($rowMSSQL00['testpcr_laboratorio_email'])),
                     'testpcr_laboratorio_fecha_resultado_1'     => $testpcr_laboratorio_fecha_resultado_1, 
                     'testpcr_laboratorio_fecha_resultado_2'     => $testpcr_laboratorio_fecha_resultado_2, 
-                    'testpcr_laboratorio_adjunto'               => trim(strtoupper($rowMSSQL00['testpcr_laboratorio_adjunto'])),
+                    'testpcr_laboratorio_adjunto'               => trim(strtolower($rowMSSQL00['testpcr_laboratorio_adjunto'])),
                     'testpcr_laboratorio_resultado'             => trim(strtoupper(strtolower($rowMSSQL00['testpcr_laboratorio_resultado']))),
                     'testpcr_laboratorio_observacion'           => trim($rowMSSQL00['testpcr_laboratorio_observacion']),
                     'testpcr_carga_usuario'                     => trim($rowMSSQL00['testpcr_carga_usuario']),
