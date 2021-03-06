@@ -9581,7 +9581,7 @@
             a.SOLCONCOD	        AS          solicitud_consulta_codigo,
             a.SOLCONPDO         AS          solicitud_consulta_persona_documento,
             a.SOLCONPNO	        AS          solicitud_consulta_persona_nombre,
-            a.SOLVUEFEC	        AS          solicitud_consulta_fecha,
+            a.SOLDVUFEC	        AS          solicitud_consulta_fecha,
             a.SOLCONOBS	        AS          solicitud_consulta_observacion,
             
             a.SOLCONAUS         AS          auditoria_usuario,
@@ -12018,7 +12018,7 @@
         return $json;
     });
 
-    $app->get('/v2/400/solicitud/ejecutivo/asignado/cantidad', function($request) {//20201105
+    $app->get('/v2/400/solicitud/ejecutivo/asignado/cantidad', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $sql00  = "SELECT 
@@ -12478,7 +12478,7 @@
         return $json;
     });
     
-    $app->get('/v2/400/solicitud/ejecutivo/sinasignar/cantidad', function($request) {//20201105
+    $app->get('/v2/400/solicitud/ejecutivo/sinasignar/cantidad', function($request) {
         require __DIR__.'/../src/connect.php';
 
         $sql00  = "SELECT
@@ -14234,116 +14234,138 @@
         
         if (isset($val01)) {
             $sql00  = "SELECT
-                a.SOLVUECOD         AS          solicitud_detalle_vuelo_codigo,
-                a.SOLVUECOM         AS          solicitud_detalle_vuelo_comentario,
-                a.SOLVUEFSA         AS          solicitud_detalle_vuelo_fecha_salida,
-                a.SOLVUEFRE         AS          solicitud_detalle_vuelo_fecha_retorno,
-                a.SOLVUETVC         AS          tipo_vuelo_codigo,
+                a.SOLDVUCOD         AS          solicitud_detalle_vuelo_codigo,
+                a.SOLDVUFEC         AS          solicitud_detalle_vuelo_fecha_vuelo,
+                a.SOLDVUOBS         AS          solicitud_detalle_vuelo_comentario,
 
-                a.SOLVUEAUS         AS          auditoria_usuario,
-                a.SOLVUEAFH         AS          auditoria_fecha_hora,
-                a.SOLVUEAIP         AS          auditoria_ip,
+                a.SOLDVUAUS         AS          auditoria_usuario,
+                a.SOLDVUAFH         AS          auditoria_fecha_hora,
+                a.SOLDVUAIP         AS          auditoria_ip,
 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
-                b.DOMFICNOI         AS          tipo_estado_ingles,
-                b.DOMFICNOC         AS          tipo_estado_castellano,
-                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
                 b.DOMFICPAR         AS          tipo_estado_parametro,
                 b.DOMFICICO         AS          tipo_estado_icono,
-                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
 
-                c.DOMFICCOD         AS          tipo_horario_salida_codigo,
-                c.DOMFICNOI         AS          tipo_horario_salida_ingles,
-                c.DOMFICNOC         AS          tipo_horario_salida_castellano,
-                c.DOMFICNOP         AS          tipo_horario_salida_portugues,
-                c.DOMFICPAR         AS          tipo_horario_salida_parametro,
-                c.DOMFICICO         AS          tipo_horario_salida_icono,
-                c.DOMFICCSS         AS          tipo_horario_salida_css,
+                c.DOMFICCOD         AS          tipo_origen_codigo,
+                c.DOMFICORD         AS          tipo_origen_orden,
+                c.DOMFICNOI         AS          tipo_origen_nombre_ingles,
+                c.DOMFICNOC         AS          tipo_origen_nombre_castellano,
+                c.DOMFICNOP         AS          tipo_origen_nombre_portugues,
+                c.DOMFICPAT         AS          tipo_origen_path,
+                c.DOMFICCSS         AS          tipo_origen_css,
+                c.DOMFICPAR         AS          tipo_origen_parametro,
+                c.DOMFICICO         AS          tipo_origen_icono,
+                c.DOMFICVAL         AS          tipo_origen_dominio,
+                c.DOMFICOBS         AS          tipo_origen_observacion,
 
-                d.DOMFICCOD         AS          tipo_horario_retorno_codigo,
-                d.DOMFICNOI         AS          tipo_horario_retorno_ingles,
-                d.DOMFICNOC         AS          tipo_horario_retorno_castellano,
-                d.DOMFICNOP         AS          tipo_horario_retorno_portugues,
-                d.DOMFICPAR         AS          tipo_horario_retorno_parametro,
-                d.DOMFICICO         AS          tipo_horario_retorno_icono,
-                d.DOMFICCSS         AS          tipo_horario_retorno_css,
+                d.DOMFICCOD         AS          tipo_vuelo_codigo,
+                d.DOMFICORD         AS          tipo_vuelo_orden,
+                d.DOMFICNOI         AS          tipo_vuelo_nombre_ingles,
+                d.DOMFICNOC         AS          tipo_vuelo_nombre_castellano,
+                d.DOMFICNOP         AS          tipo_vuelo_nombre_portugues,
+                d.DOMFICPAT         AS          tipo_vuelo_path,
+                d.DOMFICCSS         AS          tipo_vuelo_css,
+                d.DOMFICPAR         AS          tipo_vuelo_parametro,
+                d.DOMFICICO         AS          tipo_vuelo_icono,
+                d.DOMFICVAL         AS          tipo_vuelo_dominio,
+                d.DOMFICOBS         AS          tipo_vuelo_observacion,
 
-                e1.LOCCIUCOD        AS          localidad_ciudad_origen_codigo,
-                e1.LOCCIUORD        AS          localidad_ciudad_origen_orden,
-                e1.LOCCIUNOM        AS          localidad_ciudad_origen_nombre,
-                e1.LOCCIUOBS        AS          localidad_ciudad_origen_observacion,
+                e.DOMFICCOD         AS          tipo_horario_codigo,
+                e.DOMFICORD         AS          tipo_horario_orden,
+                e.DOMFICNOI         AS          tipo_horario_nombre_ingles,
+                e.DOMFICNOC         AS          tipo_horario_nombre_castellano,
+                e.DOMFICNOP         AS          tipo_horario_nombre_portugues,
+                e.DOMFICPAT         AS          tipo_horario_path,
+                e.DOMFICCSS         AS          tipo_horario_css,
+                e.DOMFICPAR         AS          tipo_horario_parametro,
+                e.DOMFICICO         AS          tipo_horario_icono,
+                e.DOMFICVAL         AS          tipo_horario_dominio,
+                e.DOMFICOBS         AS          tipo_horario_observacion,
 
-                f1.LOCPAICOD        AS          localidad_pais_origen_codigo,
-                f1.LOCPAIORD        AS          localidad_pais_origen_orden,
-                f1.LOCPAINOM        AS          localidad_pais_origen_nombre,
-                f1.LOCPAIPAT        AS          localidad_pais_origen_path,
-                f1.LOCPAIIC2        AS          localidad_pais_origen_iso_char2,
-                f1.LOCPAIIC3        AS          localidad_pais_origen_iso_char3,
-                f1.LOCPAIIN3        AS          localidad_pais_origen_iso_num3,
-                f1.LOCPAIOBS        AS          localidad_pais_origen_observacion,
+                f.SOLFICCOD         AS          solicitud_codigo,
+                f.SOLFICPER         AS          solicitud_periodo,
+                f.SOLFICMOT         AS          solicitud_motivo,
+                f.SOLFICVUE         AS          solicitud_vuelo,
+                f.SOLFICHOS         AS          solicitud_hospedaje,
+                f.SOLFICTRA         AS          solicitud_traslado,
+                f.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
+                f.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
+                f.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
+                f.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
+                f.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+                f.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
+                f.SOLFICFEC         AS          solicitud_fecha_carga,
+                f.SOLFICSCC         AS          solicitud_sap_centro_costo,
+                f.SOLFICTCA         AS          solicitud_tarea_cantidad,
+                f.SOLFICTRE         AS          solicitud_tarea_resuelta,
+                f.SOLFICOBS         AS          solicitud_observacion,
 
-                e2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
-                e2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
-                e2.LOCCIUNOM        AS          localidad_ciudad_destino_nombre,
-                e2.LOCCIUOBS        AS          localidad_ciudad_destino_observacion,
+                g1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                g1.CedulaEmpleado   AS          solicitud_solicitante_documento,
+                g2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                g2.CedulaEmpleado   AS          solicitud_jefatura_documento,
+                g3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                g3.CedulaEmpleado   AS          solicitud_ejecutivo_documento,
+                g4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                g4.CedulaEmpleado   AS          solicitud_proveedor_documento,
 
-                f2.LOCPAICOD        AS          localidad_pais_destino_codigo,
-                f2.LOCPAIORD        AS          localidad_pais_destino_orden,
-                f2.LOCPAINOM        AS          localidad_pais_destino_nombre,
-                f2.LOCPAIPAT        AS          localidad_pais_destino_path,
-                f2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
-                f2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
-                f2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
-                f2.LOCPAIOBS        AS          localidad_pais_destino_observacion,
+                h1.LOCCIUCOD        AS          localidad_ciudad_origen_codigo,
+                h1.LOCCIUORD        AS          localidad_ciudad_origen_orden,
+                h1.LOCCIUNOM        AS          localidad_ciudad_origen_nombre,
+                h1.LOCCIUOBS        AS          localidad_ciudad_origen_observacion,
 
-                g.SOLFICCOD         AS          solicitud_codigo,
-                g.SOLFICPER         AS          solicitud_periodo,
-                g.SOLFICMOT         AS          solicitud_motivo,
-                g.SOLFICVUE         AS          solicitud_vuelo,
-                g.SOLFICHOS         AS          solicitud_hospedaje,
-                g.SOLFICTRA         AS          solicitud_traslado,
-                g.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
-                g.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
-                g.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
-                g.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
-                g.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
-                g.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
-                g.SOLFICFEC         AS          solicitud_fecha_carga,
-                g.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                g.SOLFICTCA         AS          solicitud_tarea_cantidad,
-                g.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                g.SOLFICOBS         AS          solicitud_observacion,
+                i1.LOCPAICOD        AS          localidad_pais_origen_codigo,
+                i1.LOCPAIORD        AS          localidad_pais_origen_orden,
+                i1.LOCPAINOM        AS          localidad_pais_origen_nombre,
+                i1.LOCPAIPAT        AS          localidad_pais_origen_path,
+                i1.LOCPAIIC2        AS          localidad_pais_origen_iso_char2,
+                i1.LOCPAIIC3        AS          localidad_pais_origen_iso_char3,
+                i1.LOCPAIIN3        AS          localidad_pais_origen_iso_num3,
+                i1.LOCPAIOBS        AS          localidad_pais_origen_observacion,
 
-                h1.NombreEmpleado   AS          solicitud_solicitante_nombre,
-                g.SOLFICDNS         AS          solicitud_solicitante_documento,
-                h2.NombreEmpleado   AS          solicitud_jefatura_nombre,
-                g.SOLFICDNJ         AS          solicitud_jefatura_documento,
-                h3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
-                g.SOLFICDNE         AS          solicitud_ejecutivo_documento,
-                h4.NombreEmpleado   AS          solicitud_proveedor_nombre,
-                g.SOLFICDNP         AS          solicitud_proveedor_documento
+                h2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
+                h2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
+                h2.LOCCIUNOM        AS          localidad_ciudad_destino_nombre,
+                h2.LOCCIUOBS        AS          localidad_ciudad_destino_observacion,
 
-                FROM [via].[SOLVUE] a
-                INNER JOIN [adm].[DOMFIC] b ON a.SOLVUEEST = b.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] c ON a.SOLVUETSC = c.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] d ON a.SOLVUETRC = d.DOMFICCOD
+                i2.LOCPAICOD        AS          localidad_pais_destino_codigo,
+                i2.LOCPAIORD        AS          localidad_pais_destino_orden,
+                i2.LOCPAINOM        AS          localidad_pais_destino_nombre,
+                i2.LOCPAIPAT        AS          localidad_pais_destino_path,
+                i2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
+                i2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
+                i2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
+                i2.LOCPAIOBS        AS          localidad_pais_destino_observacion
 
-                LEFT OUTER JOIN [adm].[LOCCIU] e1 ON a.SOLVUECOC = e1.LOCCIUCOD
-                LEFT OUTER JOIN [adm].[LOCPAI] f1 ON e1.LOCCIUPAC = f1.LOCPAICOD
+                FROM [via].[SOLDVU] a
+                INNER JOIN [adm].[DOMFIC] b ON a.SOLDVUEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.SOLDVUTOC = c.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] d ON a.SOLDVUTVC = d.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] e ON a.SOLDVUTHC = e.DOMFICCOD
 
-                LEFT OUTER JOIN [adm].[LOCCIU] e2 ON a.SOLVUECDC = e2.LOCCIUCOD
-                LEFT OUTER JOIN [adm].[LOCPAI] f2 ON e2.LOCCIUPAC = f2.LOCPAICOD
+                INNER JOIN [via].[SOLFIC] f ON a.SOLDVUSOC = f.SOLFICCOD
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g1 ON f.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = g1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g2 ON f.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = g2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g3 ON f.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = g3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g4 ON f.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = g4.CedulaEmpleado
 
-                LEFT OUTER JOIN [via].[SOLFIC] g ON a.SOLVUESOC = g.SOLFICCOD
+                INNER JOIN [adm].[LOCCIU] h1 ON a.SOLDVUCOC = h1.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] i1 ON h1.LOCCIUPAC = i1.LOCPAICOD
 
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h1 ON g.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = h1.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h2 ON g.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = h2.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h3 ON g.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = h3.CedulaEmpleado
-                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] h4 ON g.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = h4.CedulaEmpleado
+                INNER JOIN [adm].[LOCCIU] h2 ON a.SOLDVUCDC = h2.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] i2 ON h2.LOCCIUPAC = i2.LOCPAICOD
 
-                WHERE a.SOLVUESOC = ?
+                WHERE a.SOLDVUSOC = ?
 
-                ORDER BY a.SOLVUECOD";
+                ORDER BY a.SOLDVUFEC ASC";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -14351,20 +14373,12 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['solicitud_detalle_vuelo_fecha_salida'])){
-                        $solicitud_detalle_vuelo_fecha_salida_1    = $rowMSSQL00['solicitud_detalle_vuelo_fecha_salida'];
-                        $solicitud_detalle_vuelo_fecha_salida_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_vuelo_fecha_salida']));
+                    if(!empty($rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo'])){
+                        $solicitud_detalle_vuelo_fecha_vuelo_1    = $rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo'];
+                        $solicitud_detalle_vuelo_fecha_vuelo_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo']));
                     } else {
-                        $solicitud_detalle_vuelo_fecha_salida_1    = '';
-                        $solicitud_detalle_vuelo_fecha_salida_2    = '';
-                    }
-
-                    if(!empty($rowMSSQL00['solicitud_detalle_vuelo_fecha_retorno'])){
-                        $solicitud_detalle_vuelo_fecha_retorno_1    = $rowMSSQL00['solicitud_detalle_vuelo_fecha_retorno'];
-                        $solicitud_detalle_vuelo_fecha_retorno_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_vuelo_fecha_retorno']));
-                    } else {
-                        $solicitud_detalle_vuelo_fecha_retorno_1    = '';
-                        $solicitud_detalle_vuelo_fecha_retorno_2    = '';
+                        $solicitud_detalle_vuelo_fecha_vuelo_1    = '';
+                        $solicitud_detalle_vuelo_fecha_vuelo_2    = '';
                     }
 
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
@@ -14375,50 +14389,63 @@
                         $solicitud_fecha_carga_2    = '';
                     }
 
-                    if ($rowMSSQL00['tipo_vuelo_codigo'] == 'R'){
-                        $tipo_vuelo_nombre = 'ROUNDTRIP';
-                    } else {
-                        $tipo_vuelo_nombre = 'ONE-WAY';
-                    }
-
                     $detalle = array(
                         'solicitud_detalle_vuelo_codigo'                            => $rowMSSQL00['solicitud_detalle_vuelo_codigo'],
+                        'solicitud_detalle_vuelo_fecha_vuelo_1'                     => $solicitud_detalle_vuelo_fecha_vuelo_1,
+                        'solicitud_detalle_vuelo_fecha_vuelo_2'                     => $solicitud_detalle_vuelo_fecha_vuelo_2,
                         'solicitud_detalle_vuelo_comentario'                        => trim($rowMSSQL00['solicitud_detalle_vuelo_comentario']),
-                        'solicitud_detalle_vuelo_fecha_salida_1'                    => $solicitud_detalle_vuelo_fecha_salida_1,
-                        'solicitud_detalle_vuelo_fecha_salida_2'                    => $solicitud_detalle_vuelo_fecha_salida_2,
-                        'solicitud_detalle_vuelo_fecha_retorno_1'                   => $solicitud_detalle_vuelo_fecha_retorno_1,
-                        'solicitud_detalle_vuelo_fecha_retorno_2'                   => $solicitud_detalle_vuelo_fecha_retorno_2,
-
-                        'tipo_vuelo_codigo'                                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_codigo']))),
-                        'tipo_vuelo_nombre'                                         => $tipo_vuelo_nombre,
 
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                         'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
-                        'tipo_estado_ingles'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                        'tipo_estado_castellano'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                        'tipo_estado_portugues'                                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_orden'                                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_nombre_ingles'                                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                        'tipo_estado_nombre_castellano'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                        'tipo_estado_nombre_portugues'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                        'tipo_estado_path'                                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
                         'tipo_estado_parametro'                                     => $rowMSSQL00['tipo_estado_parametro'],
                         'tipo_estado_icono'                                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
-                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                        'tipo_estado_observacion'                                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
 
-                        'tipo_horario_salida_codigo'                                => $rowMSSQL00['tipo_horario_salida_codigo'],
-                        'tipo_horario_salida_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_salida_ingles']))),
-                        'tipo_horario_salida_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_salida_castellano']))),
-                        'tipo_horario_salida_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_salida_portugues']))),
-                        'tipo_horario_salida_parametro'                             => $rowMSSQL00['tipo_horario_salida_parametro'],
-                        'tipo_horario_salida_icono'                                 => trim(strtolower($rowMSSQL00['tipo_horario_salida_icono'])),
-                        'tipo_horario_salida_css'                                   => trim(strtolower($rowMSSQL00['tipo_horario_salida_css'])),
+                        'tipo_origen_codigo'                                        => $rowMSSQL00['tipo_origen_codigo'],
+                        'tipo_origen_orden'                                         => $rowMSSQL00['tipo_origen_orden'],
+                        'tipo_origen_nombre_ingles'                                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_ingles']))),
+                        'tipo_origen_nombre_castellano'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_castellano']))),
+                        'tipo_origen_nombre_portugues'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_portugues']))),
+                        'tipo_origen_path'                                          => trim(strtolower($rowMSSQL00['tipo_origen_path'])),
+                        'tipo_origen_css'                                           => trim(strtolower($rowMSSQL00['tipo_origen_css'])),
+                        'tipo_origen_parametro'                                     => $rowMSSQL00['tipo_origen_parametro'],
+                        'tipo_origen_icono'                                         => trim(strtolower($rowMSSQL00['tipo_origen_icono'])),
+                        'tipo_origen_dominio'                                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_dominio']))),
+                        'tipo_origen_observacion'                                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion']))),
 
-                        'tipo_horario_retorno_codigo'                               => $rowMSSQL00['tipo_horario_retorno_codigo'],
-                        'tipo_horario_retorno_ingles'                               => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_retorno_ingles']))),
-                        'tipo_horario_retorno_castellano'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_retorno_castellano']))),
-                        'tipo_horario_retorno_portugues'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_retorno_portugues']))),
-                        'tipo_horario_retorno_parametro'                            => $rowMSSQL00['tipo_horario_retorno_parametro'],
-                        'tipo_horario_retorno_icono'                                => trim(strtolower($rowMSSQL00['tipo_horario_retorno_icono'])),
-                        'tipo_horario_retorno_css'                                  => trim(strtolower($rowMSSQL00['tipo_horario_retorno_css'])),
+                        'tipo_vuelo_codigo'                                         => $rowMSSQL00['tipo_vuelo_codigo'],
+                        'tipo_vuelo_orden'                                          => $rowMSSQL00['tipo_vuelo_orden'],
+                        'tipo_vuelo_nombre_ingles'                                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_nombre_ingles']))),
+                        'tipo_vuelo_nombre_castellano'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_nombre_castellano']))),
+                        'tipo_vuelo_nombre_portugues'                               => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_nombre_portugues']))),
+                        'tipo_vuelo_path'                                           => trim(strtolower($rowMSSQL00['tipo_vuelo_path'])),
+                        'tipo_vuelo_css'                                            => trim(strtolower($rowMSSQL00['tipo_vuelo_css'])),
+                        'tipo_vuelo_parametro'                                      => $rowMSSQL00['tipo_vuelo_parametro'],
+                        'tipo_vuelo_icono'                                          => trim(strtolower($rowMSSQL00['tipo_vuelo_icono'])),
+                        'tipo_vuelo_dominio'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_dominio']))),
+                        'tipo_vuelo_observacion'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_observacion']))),
+
+                        'tipo_horario_codigo'                                       => $rowMSSQL00['tipo_horario_codigo'],
+                        'tipo_horario_orden'                                        => $rowMSSQL00['tipo_horario_orden'],
+                        'tipo_horario_nombre_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_nombre_ingles']))),
+                        'tipo_horario_nombre_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_nombre_castellano']))),
+                        'tipo_horario_nombre_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_nombre_portugues']))),
+                        'tipo_horario_path'                                         => trim(strtolower($rowMSSQL00['tipo_horario_path'])),
+                        'tipo_horario_css'                                          => trim(strtolower($rowMSSQL00['tipo_horario_css'])),
+                        'tipo_horario_parametro'                                    => $rowMSSQL00['tipo_horario_parametro'],
+                        'tipo_horario_icono'                                        => trim(strtolower($rowMSSQL00['tipo_horario_icono'])),
+                        'tipo_horario_dominio'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_dominio']))),
+                        'tipo_horario_observacion'                                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_observacion']))),
 
                         'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
@@ -14429,7 +14456,7 @@
                         'solicitud_solicitante_tarifa_vuelo'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_vuelo']))),
                         'solicitud_solicitante_tarifa_hospedaje'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_hospedaje']))),
                         'solicitud_solicitante_tarifa_traslado'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_traslado']))),
-                        'solicitud_proveedor_carga_hospedaje'                       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_hospedaje']))),
+                        'solicitud_proveedor_carga_vuelo'                           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_vuelo']))),
                         'solicitud_proveedor_carga_hospedaje'                       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_hospedaje']))),
                         'solicitud_proveedor_carga_traslado'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_traslado']))),
                         'solicitud_fecha_carga_1'                                   => $solicitud_fecha_carga_1,
@@ -14446,7 +14473,7 @@
                         'solicitud_ejecutivo_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
                         'solicitud_proveedor_nombre'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
-                        'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
+                        'solicitud_observacion'                                     => trim($rowMSSQL00['solicitud_observacion']),
 
                         'localidad_ciudad_origen_codigo'                            => $rowMSSQL00['localidad_ciudad_origen_codigo'],
                         'localidad_ciudad_origen_orden'                             => $rowMSSQL00['localidad_ciudad_origen_orden'],
@@ -14486,42 +14513,61 @@
                 } else {
                     $detalle    = array(
                         'solicitud_detalle_vuelo_codigo'                            => '',
+                        'solicitud_detalle_vuelo_fecha_vuelo_1'                     => '',
+                        'solicitud_detalle_vuelo_fecha_vuelo_2'                     => '',
                         'solicitud_detalle_vuelo_comentario'                        => '',
-                        'solicitud_detalle_vuelo_fecha_salida_1'                    => '',
-                        'solicitud_detalle_vuelo_fecha_salida_2'                    => '',
-                        'solicitud_detalle_vuelo_fecha_retorno_1'                   => '',
-                        'solicitud_detalle_vuelo_fecha_retorno_2'                   => '',
-
-                        'tipo_vuelo_codigo'                                         => '',
-                        'tipo_vuelo_nombre'                                         => '',
 
                         'auditoria_usuario'                                         => '',
                         'auditoria_fecha_hora'                                      => '',
                         'auditoria_ip'                                              => '',
 
                         'tipo_estado_codigo'                                        => '',
-                        'tipo_estado_ingles'                                        => '',
-                        'tipo_estado_castellano'                                    => '',
-                        'tipo_estado_portugues'                                     => '',
+                        'tipo_estado_orden'                                         => '',
+                        'tipo_estado_nombre_ingles'                                 => '',
+                        'tipo_estado_nombre_castellano'                             => '',
+                        'tipo_estado_nombre_portugues'                              => '',
+                        'tipo_estado_path'                                          => '',
+                        'tipo_estado_css'                                           => '',
                         'tipo_estado_parametro'                                     => '',
                         'tipo_estado_icono'                                         => '',
-                        'tipo_estado_css'                                           => '',
+                        'tipo_estado_dominio'                                       => '',
+                        'tipo_estado_observacion'                                   => '',
 
-                        'tipo_horario_salida_codigo'                                => '',
-                        'tipo_horario_salida_ingles'                                => '',
-                        'tipo_horario_salida_castellano'                            => '',
-                        'tipo_horario_salida_portugues'                             => '',
-                        'tipo_horario_salida_parametro'                             => '',
-                        'tipo_horario_salida_icono'                                 => '',
-                        'tipo_horario_salida_css'                                   => '',
+                        'tipo_origen_codigo'                                        => '',
+                        'tipo_origen_orden'                                         => '',
+                        'tipo_origen_nombre_ingles'                                 => '',
+                        'tipo_origen_nombre_castellano'                             => '',
+                        'tipo_origen_nombre_portugues'                              => '',
+                        'tipo_origen_path'                                          => '',
+                        'tipo_origen_css'                                           => '',
+                        'tipo_origen_parametro'                                     => '',
+                        'tipo_origen_icono'                                         => '',
+                        'tipo_origen_dominio'                                       => '',
+                        'tipo_origen_observacion'                                   => '',
 
-                        'tipo_horario_retorno_codigo'                               => '',
-                        'tipo_horario_retorno_ingles'                               => '',
-                        'tipo_horario_retorno_castellano'                           => '',
-                        'tipo_horario_retorno_portugues'                            => '',
-                        'tipo_horario_retorno_parametro'                            => '',
-                        'tipo_horario_retorno_icono'                                => '',
-                        'tipo_horario_retorno_css'                                  => '',
+                        'tipo_vuelo_codigo'                                         => '',
+                        'tipo_vuelo_orden'                                          => '',
+                        'tipo_vuelo_nombre_ingles'                                  => '',
+                        'tipo_vuelo_nombre_castellano'                              => '',
+                        'tipo_vuelo_nombre_portugues'                               => '',
+                        'tipo_vuelo_path'                                           => '',
+                        'tipo_vuelo_css'                                            => '',
+                        'tipo_vuelo_parametro'                                      => '',
+                        'tipo_vuelo_icono'                                          => '',
+                        'tipo_vuelo_dominio'                                        => '',
+                        'tipo_vuelo_observacion'                                    => '',
+
+                        'tipo_horario_codigo'                                       => '',
+                        'tipo_horario_orden'                                        => '',
+                        'tipo_horario_nombre_ingles'                                => '',
+                        'tipo_horario_nombre_castellano'                            => '',
+                        'tipo_horario_nombre_portugues'                             => '',
+                        'tipo_horario_path'                                         => '',
+                        'tipo_horario_css'                                          => '',
+                        'tipo_horario_parametro'                                    => '',
+                        'tipo_horario_icono'                                        => '',
+                        'tipo_horario_dominio'                                      => '',
+                        'tipo_horario_observacion'                                  => '',
 
                         'solicitud_codigo'                                          => '',
                         'solicitud_periodo'                                         => '',
@@ -14532,7 +14578,7 @@
                         'solicitud_solicitante_tarifa_vuelo'                        => '',
                         'solicitud_solicitante_tarifa_hospedaje'                    => '',
                         'solicitud_solicitante_tarifa_traslado'                     => '',
-                        'solicitud_proveedor_carga_hospedaje'                       => '',
+                        'solicitud_proveedor_carga_vuelo'                           => '',
                         'solicitud_proveedor_carga_hospedaje'                       => '',
                         'solicitud_proveedor_carga_traslado'                        => '',
                         'solicitud_fecha_carga_1'                                   => '',
@@ -14607,102 +14653,140 @@
         
         if (isset($val01)) {
             $sql00  = "SELECT
-                a.SOLHVUIDD         AS          historico_vuelo_id,
-                a.SOLHVUAME         AS          historico_vuelo_metodo,
-                a.SOLHVUCOD         AS          historico_vuelo_codigo,
-                a.SOLHVUCOM         AS          historico_vuelo_comentario,
-                a.SOLHVUFSA         AS          historico_vuelo_fecha_salida,
-                a.SOLHVUFRE         AS          historico_vuelo_fecha_retorno,
+                a.SOLHVUCOD         AS          solicitud_historico_vuelo_codigo,
+                a.SOLHVUFEC         AS          solicitud_historico_vuelo_fecha_vuelo,
+                a.SOLHVUOBS         AS          solicitud_historico_vuelo_comentario,
 
-                a.SOLHVUTVC         AS          tipo_vuelo_codigo,
-
+                a.SOLHVUIDD         AS          auditoria_codigo,
+                a.SOLHVUAME         AS          auditoria_metodo,
                 a.SOLHVUAUS         AS          auditoria_usuario,
                 a.SOLHVUAFH         AS          auditoria_fecha_hora,
                 a.SOLHVUAIP         AS          auditoria_ip,
 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
-                b.DOMFICNOI         AS          tipo_estado_ingles,
-                b.DOMFICNOC         AS          tipo_estado_castellano,
-                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
                 b.DOMFICPAR         AS          tipo_estado_parametro,
                 b.DOMFICICO         AS          tipo_estado_icono,
-                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
 
-                c.DOMFICCOD         AS          tipo_horario_salida_codigo,
-                c.DOMFICNOI         AS          tipo_horario_salida_ingles,
-                c.DOMFICNOC         AS          tipo_horario_salida_castellano,
-                c.DOMFICNOP         AS          tipo_horario_salida_portugues,
-                c.DOMFICPAR         AS          tipo_horario_salida_parametro,
-                c.DOMFICICO         AS          tipo_horario_salida_icono,
-                c.DOMFICCSS         AS          tipo_horario_salida_css,
+                c.DOMFICCOD         AS          tipo_origen_codigo,
+                c.DOMFICORD         AS          tipo_origen_orden,
+                c.DOMFICNOI         AS          tipo_origen_nombre_ingles,
+                c.DOMFICNOC         AS          tipo_origen_nombre_castellano,
+                c.DOMFICNOP         AS          tipo_origen_nombre_portugues,
+                c.DOMFICPAT         AS          tipo_origen_path,
+                c.DOMFICCSS         AS          tipo_origen_css,
+                c.DOMFICPAR         AS          tipo_origen_parametro,
+                c.DOMFICICO         AS          tipo_origen_icono,
+                c.DOMFICVAL         AS          tipo_origen_dominio,
+                c.DOMFICOBS         AS          tipo_origen_observacion,
 
-                d.DOMFICCOD         AS          tipo_horario_retorno_codigo,
-                d.DOMFICNOI         AS          tipo_horario_retorno_ingles,
-                d.DOMFICNOC         AS          tipo_horario_retorno_castellano,
-                d.DOMFICNOP         AS          tipo_horario_retorno_portugues,
-                d.DOMFICPAR         AS          tipo_horario_retorno_parametro,
-                d.DOMFICICO         AS          tipo_horario_retorno_icono,
-                d.DOMFICCSS         AS          tipo_horario_retorno_css,
+                d.DOMFICCOD         AS          tipo_vuelo_codigo,
+                d.DOMFICORD         AS          tipo_vuelo_orden,
+                d.DOMFICNOI         AS          tipo_vuelo_nombre_ingles,
+                d.DOMFICNOC         AS          tipo_vuelo_nombre_castellano,
+                d.DOMFICNOP         AS          tipo_vuelo_nombre_portugues,
+                d.DOMFICPAT         AS          tipo_vuelo_path,
+                d.DOMFICCSS         AS          tipo_vuelo_css,
+                d.DOMFICPAR         AS          tipo_vuelo_parametro,
+                d.DOMFICICO         AS          tipo_vuelo_icono,
+                d.DOMFICVAL         AS          tipo_vuelo_dominio,
+                d.DOMFICOBS         AS          tipo_vuelo_observacion,
 
-                e.SOLFICCOD         AS          solicitud_codigo,
-                e.SOLFICPER         AS          solicitud_periodo,
-                e.SOLFICMOT         AS          solicitud_motivo,
-                e.SOLFICVUE         AS          solicitud_vuelo,
-                e.SOLFICHOS         AS          solicitud_hospedaje,
-                e.SOLFICTRA         AS          solicitud_traslado,
-                e.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
-                e.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
-                e.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
-                e.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
-                e.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
-                e.SOLFICPCT         AS          solicitud_proveedor_carga_traslado,
-                e.SOLFICFEC         AS          solicitud_fecha_carga,
-                e.SOLFICSCC         AS          solicitud_sap_centro_costo,
-                e.SOLFICTCA         AS          solicitud_tarea_cantidad,
-                e.SOLFICTRE         AS          solicitud_tarea_resuelta,
-                e.SOLFICOBS         AS          solicitud_observacion,
+                e.DOMFICCOD         AS          tipo_horario_codigo,
+                e.DOMFICORD         AS          tipo_horario_orden,
+                e.DOMFICNOI         AS          tipo_horario_nombre_ingles,
+                e.DOMFICNOC         AS          tipo_horario_nombre_castellano,
+                e.DOMFICNOP         AS          tipo_horario_nombre_portugues,
+                e.DOMFICPAT         AS          tipo_horario_path,
+                e.DOMFICCSS         AS          tipo_horario_css,
+                e.DOMFICPAR         AS          tipo_horario_parametro,
+                e.DOMFICICO         AS          tipo_horario_icono,
+                e.DOMFICVAL         AS          tipo_horario_dominio,
+                e.DOMFICOBS         AS          tipo_horario_observacion,
 
-                f1.LOCCIUCOD        AS          localidad_ciudad_origen_codigo,
-                f1.LOCCIUORD        AS          localidad_ciudad_origen_orden,
-                f1.LOCCIUNOM        AS          localidad_ciudad_origen_nombre,
-                f1.LOCCIUOBS        AS          localidad_ciudad_origen_observacion,
+                f.SOLFICCOD         AS          solicitud_codigo,
+                f.SOLFICPER         AS          solicitud_periodo,
+                f.SOLFICMOT         AS          solicitud_motivo,
+                f.SOLFICVUE         AS          solicitud_vuelo,
+                f.SOLFICHOS         AS          solicitud_hospedaje,
+                f.SOLFICTRA         AS          solicitud_traslado,
+                f.SOLFICSTV         AS          solicitud_solicitante_tarifa_vuelo,
+                f.SOLFICSTH         AS          solicitud_solicitante_tarifa_hospedaje,
+                f.SOLFICSTT         AS          solicitud_solicitante_tarifa_traslado,
+                f.SOLFICPCV         AS          solicitud_proveedor_carga_vuelo,
+                f.SOLFICPCH         AS          solicitud_proveedor_carga_hospedaje,
+                f.SOLFICPCT		    AS	        solicitud_proveedor_carga_traslado,
+                f.SOLFICFEC         AS          solicitud_fecha_carga,
+                f.SOLFICSCC         AS          solicitud_sap_centro_costo,
+                f.SOLFICTCA         AS          solicitud_tarea_cantidad,
+                f.SOLFICTRE         AS          solicitud_tarea_resuelta,
+                f.SOLFICOBS         AS          solicitud_observacion,
 
-                g1.LOCPAICOD        AS          localidad_pais_origen_codigo,
-                g1.LOCPAIORD        AS          localidad_pais_origen_orden,
-                g1.LOCPAINOM        AS          localidad_pais_origen_nombre,
-                g1.LOCPAIPAT        AS          localidad_pais_origen_path,
-                g1.LOCPAIIC2        AS          localidad_pais_origen_iso_char2,
-                g1.LOCPAIIC3        AS          localidad_pais_origen_iso_char3,
-                g1.LOCPAIIN3        AS          localidad_pais_origen_iso_num3,
-                g1.LOCPAIOBS        AS          localidad_pais_origen_observacion,
+                g1.NombreEmpleado   AS          solicitud_solicitante_nombre,
+                g1.CedulaEmpleado   AS          solicitud_solicitante_documento,
+                g2.NombreEmpleado   AS          solicitud_jefatura_nombre,
+                g2.CedulaEmpleado   AS          solicitud_jefatura_documento,
+                g3.NombreEmpleado   AS          solicitud_ejecutivo_nombre,
+                g3.CedulaEmpleado   AS          solicitud_ejecutivo_documento,
+                g4.NombreEmpleado   AS          solicitud_proveedor_nombre,
+                g4.CedulaEmpleado   AS          solicitud_proveedor_documento,
 
-                f2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
-                f2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
-                f2.LOCCIUNOM        AS          localidad_ciudad_destino_nombre,
-                f2.LOCCIUOBS        AS          localidad_ciudad_destino_observacion,
+                h1.LOCCIUCOD        AS          localidad_ciudad_origen_codigo,
+                h1.LOCCIUORD        AS          localidad_ciudad_origen_orden,
+                h1.LOCCIUNOM        AS          localidad_ciudad_origen_nombre,
+                h1.LOCCIUOBS        AS          localidad_ciudad_origen_observacion,
 
-                g2.LOCPAICOD        AS          localidad_pais_destino_codigo,
-                g2.LOCPAIORD        AS          localidad_pais_destino_orden,
-                g2.LOCPAINOM        AS          localidad_pais_destino_nombre,
-                g2.LOCPAIPAT        AS          localidad_pais_destino_path,
-                g2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
-                g2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
-                g2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
-                g2.LOCPAIOBS        AS          localidad_pais_destino_observacion
+                i1.LOCPAICOD        AS          localidad_pais_origen_codigo,
+                i1.LOCPAIORD        AS          localidad_pais_origen_orden,
+                i1.LOCPAINOM        AS          localidad_pais_origen_nombre,
+                i1.LOCPAIPAT        AS          localidad_pais_origen_path,
+                i1.LOCPAIIC2        AS          localidad_pais_origen_iso_char2,
+                i1.LOCPAIIC3        AS          localidad_pais_origen_iso_char3,
+                i1.LOCPAIIN3        AS          localidad_pais_origen_iso_num3,
+                i1.LOCPAIOBS        AS          localidad_pais_origen_observacion,
+
+                h2.LOCCIUCOD        AS          localidad_ciudad_destino_codigo,
+                h2.LOCCIUORD        AS          localidad_ciudad_destino_orden,
+                h2.LOCCIUNOM        AS          localidad_ciudad_destino_nombre,
+                h2.LOCCIUOBS        AS          localidad_ciudad_destino_observacion,
+
+                i2.LOCPAICOD        AS          localidad_pais_destino_codigo,
+                i2.LOCPAIORD        AS          localidad_pais_destino_orden,
+                i2.LOCPAINOM        AS          localidad_pais_destino_nombre,
+                i2.LOCPAIPAT        AS          localidad_pais_destino_path,
+                i2.LOCPAIIC2        AS          localidad_pais_destino_iso_char2,
+                i2.LOCPAIIC3        AS          localidad_pais_destino_iso_char3,
+                i2.LOCPAIIN3        AS          localidad_pais_destino_iso_num3,
+                i2.LOCPAIOBS        AS          localidad_pais_destino_observacion
 
                 FROM [via].[SOLHVU] a
                 INNER JOIN [adm].[DOMFIC] b ON a.SOLHVUEST = b.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] c ON a.SOLHVUTSC = c.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] d ON a.SOLHVUTRC = d.DOMFICCOD
-                INNER JOIN [via].[SOLFIC] e ON a.SOLHVUSOC = e.SOLFICCOD
-                LEFT OUTER JOIN [adm].[LOCCIU] f1 ON a.SOLHVUCOC = f1.LOCCIUCOD
-                LEFT OUTER JOIN [adm].[LOCPAI] g1 ON f1.LOCCIUPAC = g1.LOCPAICOD
-                LEFT OUTER JOIN [adm].[LOCCIU] f2 ON a.SOLHVUCDC = f2.LOCCIUCOD
-                LEFT OUTER JOIN [adm].[LOCPAI] g2 ON f2.LOCCIUPAC = g2.LOCPAICOD
+                INNER JOIN [adm].[DOMFIC] c ON a.SOLHVUTOC = c.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] d ON a.SOLHVUTVC = d.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] e ON a.SOLHVUTHC = e.DOMFICCOD
+
+                INNER JOIN [via].[SOLFIC] f ON a.SOLHVUSOC = f.SOLFICCOD
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g1 ON f.SOLFICDNS COLLATE SQL_Latin1_General_CP1_CI_AS = g1.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g2 ON f.SOLFICDNJ COLLATE SQL_Latin1_General_CP1_CI_AS = g2.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g3 ON f.SOLFICDNE COLLATE SQL_Latin1_General_CP1_CI_AS = g3.CedulaEmpleado
+                LEFT OUTER JOIN [CSF].[dbo].[empleados_AxisONE] g4 ON f.SOLFICDNP COLLATE SQL_Latin1_General_CP1_CI_AS = g4.CedulaEmpleado
+
+                INNER JOIN [adm].[LOCCIU] h1 ON a.SOLHVUCOC = h1.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] i1 ON h1.LOCCIUPAC = i1.LOCPAICOD
+
+                INNER JOIN [adm].[LOCCIU] h2 ON a.SOLHVUCDC = h2.LOCCIUCOD
+                INNER JOIN [adm].[LOCPAI] i2 ON h2.LOCCIUPAC = i2.LOCPAICOD
 
                 WHERE a.SOLHVUSOC = ?
-                
-                ORDER BY a.SOLHVUIDD";
+
+                ORDER BY a.SOLHVUIDD DESC";
 
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
@@ -14710,20 +14794,12 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['historico_vuelo_fecha_salida'])){
-                        $historico_vuelo_fecha_salida_1 = $rowMSSQL00['historico_vuelo_fecha_salida'];
-                        $historico_vuelo_fecha_salida_2 = date("d/m/Y", strtotime($rowMSSQL00['historico_vuelo_fecha_salida']));
+                    if(!empty($rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo'])){
+                        $solicitud_historico_vuelo_fecha_vuelo_1    = $rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo'];
+                        $solicitud_historico_vuelo_fecha_vuelo_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo']));
                     } else {
-                        $historico_vuelo_fecha_salida_1    = '';
-                        $historico_vuelo_fecha_salida_2    = '';
-                    }
-
-                    if(!empty($rowMSSQL00['historico_vuelo_fecha_retorno'])){
-                        $historico_vuelo_fecha_retorno_1    = $rowMSSQL00['historico_vuelo_fecha_retorno'];
-                        $historico_vuelo_fecha_retorno_2    = date("d/m/Y", strtotime($rowMSSQL00['historico_vuelo_fecha_retorno']));
-                    } else {
-                        $historico_vuelo_fecha_retorno_1    = '';
-                        $historico_vuelo_fecha_retorno_2    = '';
+                        $solicitud_historico_vuelo_fecha_vuelo_1    = '';
+                        $solicitud_historico_vuelo_fecha_vuelo_2    = '';
                     }
 
                     if(!empty($rowMSSQL00['solicitud_fecha_carga'])){
@@ -14734,52 +14810,65 @@
                         $solicitud_fecha_carga_2    = '';
                     }
 
-                    if ($rowMSSQL00['tipo_vuelo_codigo'] == 'R'){
-                        $tipo_vuelo_nombre = 'ROUNDTRIP';
-                    } else {
-                        $tipo_vuelo_nombre = 'ONE-WAY';
-                    }
-
                     $detalle = array(
-                        'historico_vuelo_id'                                        => $rowMSSQL00['historico_vuelo_id'],
-                        'historico_vuelo_metodo'                                    => trim($rowMSSQL00['historico_vuelo_metodo']),
-                        'historico_vuelo_codigo'                                    => $rowMSSQL00['historico_vuelo_codigo'],
-                        'historico_vuelo_comentario'                                => trim($rowMSSQL00['historico_vuelo_comentario']),
-                        'historico_vuelo_fecha_salida_1'                            => $historico_vuelo_fecha_salida_1,
-                        'historico_vuelo_fecha_salida_2'                            => $historico_vuelo_fecha_salida_2,
-                        'historico_vuelo_fecha_retorno_1'                           => $historico_vuelo_fecha_retorno_1,
-                        'historico_vuelo_fecha_retorno_2'                           => $historico_vuelo_fecha_retorno_2,
+                        'solicitud_historico_vuelo_codigo'                          => $rowMSSQL00['solicitud_historico_vuelo_codigo'],
+                        'solicitud_historico_vuelo_fecha_vuelo_1'                   => $solicitud_historico_vuelo_fecha_vuelo_1,
+                        'solicitud_historico_vuelo_fecha_vuelo_2'                   => $solicitud_historico_vuelo_fecha_vuelo_2,
+                        'solicitud_historico_vuelo_comentario'                      => trim($rowMSSQL00['solicitud_historico_vuelo_comentario']),
 
-                        'tipo_vuelo_codigo'                                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_codigo']))),
-                        'tipo_vuelo_nombre'                                         => $tipo_vuelo_nombre,
-
+                        'auditoria_codigo'                                          => $rowMSSQL00['auditoria_codigo'],
+                        'auditoria_metodo'                                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_metodo']))),
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
                         'auditoria_ip'                                              => trim(strtoupper(strtolower($rowMSSQL00['auditoria_ip']))),
 
                         'tipo_estado_codigo'                                        => $rowMSSQL00['tipo_estado_codigo'],
-                        'tipo_estado_ingles'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
-                        'tipo_estado_castellano'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
-                        'tipo_estado_portugues'                                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_orden'                                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_nombre_ingles'                                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_ingles']))),
+                        'tipo_estado_nombre_castellano'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_castellano']))),
+                        'tipo_estado_nombre_portugues'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_nombre_portugues']))),
+                        'tipo_estado_path'                                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
                         'tipo_estado_parametro'                                     => $rowMSSQL00['tipo_estado_parametro'],
                         'tipo_estado_icono'                                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
-                        'tipo_estado_css'                                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))),
+                        'tipo_estado_observacion'                                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
 
-                        'tipo_horario_salida_codigo'                                => $rowMSSQL00['tipo_horario_salida_codigo'],
-                        'tipo_horario_salida_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_salida_ingles']))),
-                        'tipo_horario_salida_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_salida_castellano']))),
-                        'tipo_horario_salida_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_salida_portugues']))),
-                        'tipo_horario_salida_parametro'                             => $rowMSSQL00['tipo_horario_salida_parametro'],
-                        'tipo_horario_salida_icono'                                 => trim(strtolower($rowMSSQL00['tipo_horario_salida_icono'])),
-                        'tipo_horario_salida_css'                                   => trim(strtolower($rowMSSQL00['tipo_horario_salida_css'])),
+                        'tipo_origen_codigo'                                        => $rowMSSQL00['tipo_origen_codigo'],
+                        'tipo_origen_orden'                                         => $rowMSSQL00['tipo_origen_orden'],
+                        'tipo_origen_nombre_ingles'                                 => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_ingles']))),
+                        'tipo_origen_nombre_castellano'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_castellano']))),
+                        'tipo_origen_nombre_portugues'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_nombre_portugues']))),
+                        'tipo_origen_path'                                          => trim(strtolower($rowMSSQL00['tipo_origen_path'])),
+                        'tipo_origen_css'                                           => trim(strtolower($rowMSSQL00['tipo_origen_css'])),
+                        'tipo_origen_parametro'                                     => $rowMSSQL00['tipo_origen_parametro'],
+                        'tipo_origen_icono'                                         => trim(strtolower($rowMSSQL00['tipo_origen_icono'])),
+                        'tipo_origen_dominio'                                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_dominio']))),
+                        'tipo_origen_observacion'                                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_origen_observacion']))),
 
-                        'tipo_horario_retorno_codigo'                               => $rowMSSQL00['tipo_horario_retorno_codigo'],
-                        'tipo_horario_retorno_ingles'                               => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_retorno_ingles']))),
-                        'tipo_horario_retorno_castellano'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_retorno_castellano']))),
-                        'tipo_horario_retorno_portugues'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_retorno_portugues']))),
-                        'tipo_horario_retorno_parametro'                            => $rowMSSQL00['tipo_horario_retorno_parametro'],
-                        'tipo_horario_retorno_icono'                                => trim(strtolower($rowMSSQL00['tipo_horario_retorno_icono'])),
-                        'tipo_horario_retorno_css'                                  => trim(strtolower($rowMSSQL00['tipo_horario_retorno_css'])),
+                        'tipo_vuelo_codigo'                                         => $rowMSSQL00['tipo_vuelo_codigo'],
+                        'tipo_vuelo_orden'                                          => $rowMSSQL00['tipo_vuelo_orden'],
+                        'tipo_vuelo_nombre_ingles'                                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_nombre_ingles']))),
+                        'tipo_vuelo_nombre_castellano'                              => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_nombre_castellano']))),
+                        'tipo_vuelo_nombre_portugues'                               => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_nombre_portugues']))),
+                        'tipo_vuelo_path'                                           => trim(strtolower($rowMSSQL00['tipo_vuelo_path'])),
+                        'tipo_vuelo_css'                                            => trim(strtolower($rowMSSQL00['tipo_vuelo_css'])),
+                        'tipo_vuelo_parametro'                                      => $rowMSSQL00['tipo_vuelo_parametro'],
+                        'tipo_vuelo_icono'                                          => trim(strtolower($rowMSSQL00['tipo_vuelo_icono'])),
+                        'tipo_vuelo_dominio'                                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_dominio']))),
+                        'tipo_vuelo_observacion'                                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_vuelo_observacion']))),
+
+                        'tipo_horario_codigo'                                       => $rowMSSQL00['tipo_horario_codigo'],
+                        'tipo_horario_orden'                                        => $rowMSSQL00['tipo_horario_orden'],
+                        'tipo_horario_nombre_ingles'                                => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_nombre_ingles']))),
+                        'tipo_horario_nombre_castellano'                            => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_nombre_castellano']))),
+                        'tipo_horario_nombre_portugues'                             => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_nombre_portugues']))),
+                        'tipo_horario_path'                                         => trim(strtolower($rowMSSQL00['tipo_horario_path'])),
+                        'tipo_horario_css'                                          => trim(strtolower($rowMSSQL00['tipo_horario_css'])),
+                        'tipo_horario_parametro'                                    => $rowMSSQL00['tipo_horario_parametro'],
+                        'tipo_horario_icono'                                        => trim(strtolower($rowMSSQL00['tipo_horario_icono'])),
+                        'tipo_horario_dominio'                                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_dominio']))),
+                        'tipo_horario_observacion'                                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_horario_observacion']))),
 
                         'solicitud_codigo'                                          => $rowMSSQL00['solicitud_codigo'],
                         'solicitud_periodo'                                         => $rowMSSQL00['solicitud_periodo'],
@@ -14790,7 +14879,7 @@
                         'solicitud_solicitante_tarifa_vuelo'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_vuelo']))),
                         'solicitud_solicitante_tarifa_hospedaje'                    => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_hospedaje']))),
                         'solicitud_solicitante_tarifa_traslado'                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_solicitante_tarifa_traslado']))),
-                        'solicitud_proveedor_carga_hospedaje'                       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_hospedaje']))),
+                        'solicitud_proveedor_carga_vuelo'                           => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_vuelo']))),
                         'solicitud_proveedor_carga_hospedaje'                       => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_hospedaje']))),
                         'solicitud_proveedor_carga_traslado'                        => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_carga_traslado']))),
                         'solicitud_fecha_carga_1'                                   => $solicitud_fecha_carga_1,
@@ -14807,7 +14896,7 @@
                         'solicitud_ejecutivo_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_ejecutivo_documento']))),
                         'solicitud_proveedor_nombre'                                => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_nombre']))),
                         'solicitud_proveedor_documento'                             => trim(strtoupper(strtolower($rowMSSQL00['solicitud_proveedor_documento']))),
-                        'solicitud_observacion'                                     => trim(strtoupper(strtolower($rowMSSQL00['solicitud_observacion']))),
+                        'solicitud_observacion'                                     => trim($rowMSSQL00['solicitud_observacion']),
 
                         'localidad_ciudad_origen_codigo'                            => $rowMSSQL00['localidad_ciudad_origen_codigo'],
                         'localidad_ciudad_origen_orden'                             => $rowMSSQL00['localidad_ciudad_origen_orden'],
@@ -14846,45 +14935,62 @@
                     $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
                 } else {
                     $detalle    = array(
-                        'historico_vuelo_id'                                        => '',
-                        'historico_vuelo_metodo'                                    => '',
-                        'historico_vuelo_codigo'                                    => '',
-                        'historico_vuelo_comentario'                                => '',
-                        'historico_vuelo_fecha_salida_1'                            => '',
-                        'historico_vuelo_fecha_salida_2'                            => '',
-                        'historico_vuelo_fecha_retorno_1'                           => '',
-                        'historico_vuelo_fecha_retorno_2'                           => '',
-
-                        'tipo_vuelo_codigo'                                         => '',
-                        'tipo_vuelo_nombre'                                         => '',
+                        'solicitud_historico_vuelo_codigo'                          => '',
+                        'solicitud_historico_vuelo_fecha_vuelo_1'                   => '',
+                        'solicitud_historico_vuelo_fecha_vuelo_2'                   => '',
+                        'solicitud_historico_vuelo_comentario'                      => '',
 
                         'auditoria_usuario'                                         => '',
                         'auditoria_fecha_hora'                                      => '',
                         'auditoria_ip'                                              => '',
 
                         'tipo_estado_codigo'                                        => '',
-                        'tipo_estado_ingles'                                        => '',
-                        'tipo_estado_castellano'                                    => '',
-                        'tipo_estado_portugues'                                     => '',
+                        'tipo_estado_orden'                                         => '',
+                        'tipo_estado_nombre_ingles'                                 => '',
+                        'tipo_estado_nombre_castellano'                             => '',
+                        'tipo_estado_nombre_portugues'                              => '',
+                        'tipo_estado_path'                                          => '',
+                        'tipo_estado_css'                                           => '',
                         'tipo_estado_parametro'                                     => '',
                         'tipo_estado_icono'                                         => '',
-                        'tipo_estado_css'                                           => '',
+                        'tipo_estado_dominio'                                       => '',
+                        'tipo_estado_observacion'                                   => '',
 
-                        'tipo_horario_salida_codigo'                                => '',
-                        'tipo_horario_salida_ingles'                                => '',
-                        'tipo_horario_salida_castellano'                            => '',
-                        'tipo_horario_salida_portugues'                             => '',
-                        'tipo_horario_salida_parametro'                             => '',
-                        'tipo_horario_salida_icono'                                 => '',
-                        'tipo_horario_salida_css'                                   => '',
+                        'tipo_origen_codigo'                                        => '',
+                        'tipo_origen_orden'                                         => '',
+                        'tipo_origen_nombre_ingles'                                 => '',
+                        'tipo_origen_nombre_castellano'                             => '',
+                        'tipo_origen_nombre_portugues'                              => '',
+                        'tipo_origen_path'                                          => '',
+                        'tipo_origen_css'                                           => '',
+                        'tipo_origen_parametro'                                     => '',
+                        'tipo_origen_icono'                                         => '',
+                        'tipo_origen_dominio'                                       => '',
+                        'tipo_origen_observacion'                                   => '',
 
-                        'tipo_horario_retorno_codigo'                               => '',
-                        'tipo_horario_retorno_ingles'                               => '',
-                        'tipo_horario_retorno_castellano'                           => '',
-                        'tipo_horario_retorno_portugues'                            => '',
-                        'tipo_horario_retorno_parametro'                            => '',
-                        'tipo_horario_retorno_icono'                                => '',
-                        'tipo_horario_retorno_css'                                  => '',
+                        'tipo_vuelo_codigo'                                         => '',
+                        'tipo_vuelo_orden'                                          => '',
+                        'tipo_vuelo_nombre_ingles'                                  => '',
+                        'tipo_vuelo_nombre_castellano'                              => '',
+                        'tipo_vuelo_nombre_portugues'                               => '',
+                        'tipo_vuelo_path'                                           => '',
+                        'tipo_vuelo_css'                                            => '',
+                        'tipo_vuelo_parametro'                                      => '',
+                        'tipo_vuelo_icono'                                          => '',
+                        'tipo_vuelo_dominio'                                        => '',
+                        'tipo_vuelo_observacion'                                    => '',
+
+                        'tipo_horario_codigo'                                       => '',
+                        'tipo_horario_orden'                                        => '',
+                        'tipo_horario_nombre_ingles'                                => '',
+                        'tipo_horario_nombre_castellano'                            => '',
+                        'tipo_horario_nombre_portugues'                             => '',
+                        'tipo_horario_path'                                         => '',
+                        'tipo_horario_css'                                          => '',
+                        'tipo_horario_parametro'                                    => '',
+                        'tipo_horario_icono'                                        => '',
+                        'tipo_horario_dominio'                                      => '',
+                        'tipo_horario_observacion'                                  => '',
 
                         'solicitud_codigo'                                          => '',
                         'solicitud_periodo'                                         => '',
@@ -14895,7 +15001,7 @@
                         'solicitud_solicitante_tarifa_vuelo'                        => '',
                         'solicitud_solicitante_tarifa_hospedaje'                    => '',
                         'solicitud_solicitante_tarifa_traslado'                     => '',
-                        'solicitud_proveedor_carga_hospedaje'                       => '',
+                        'solicitud_proveedor_carga_vuelo'                           => '',
                         'solicitud_proveedor_carga_hospedaje'                       => '',
                         'solicitud_proveedor_carga_traslado'                        => '',
                         'solicitud_fecha_carga_1'                                   => '',
@@ -17188,7 +17294,7 @@
         a.SOLCONCOD         AS          solicitud_consulta_codigo,	
         a.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         a.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
-        a.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
+        a.SOLDVUFEC         AS          solicitud_consulta_fecha_carga,	
         a.SOLCONOBS         AS          solicitud_consulta_comentario,
             
         a.SOLCONAUS         AS          auditoria_usuario, 	
@@ -17353,7 +17459,7 @@
         b.SOLCONCOD         AS          solicitud_consulta_codigo,
         b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
-        b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
+        b.SOLDVUFEC         AS          solicitud_consulta_fecha_carga,	
         b.SOLCONOBS         AS          solicitud_consulta_comentario,
             
         b.SOLCONAUS         AS          auditoria_usuario, 	
@@ -17497,7 +17603,7 @@
         b.SOLCONCOD         AS          solicitud_consulta_codigo,	
         b.SOLCONPDO         AS          solicitud_consulta_persona_documento,	
         b.SOLCONPNO         AS          solicitud_consulta_persona_nombre,	
-        b.SOLVUEFEC         AS          solicitud_consulta_fecha_carga,	
+        b.SOLDVUFEC         AS          solicitud_consulta_fecha_carga,	
         b.SOLCONOBS         AS          solicitud_consulta_comentario,
             
         b.SOLCONAUS         AS          auditoria_usuario, 	
@@ -17639,17 +17745,17 @@
             $sql00  = "SELECT 
                 a.SOLFICCOD AS solicitud_calendario_codigo,
 
-                b.SOLVUEFSA AS solicitud_calendario_fecha_salida,
-                b.SOLVUEFRE AS solicitud_calendario_fecha_retorno,
+                b.SOLDVUFSA AS solicitud_calendario_fecha_salida,
+                b.SOLDVUFRE AS solicitud_calendario_fecha_retorno,
                 RTRIM(c.LOCCIUNOM)+' - '+RTRIM(d.LOCPAINOM) AS solicitud_calendario_origen,
                 RTRIM(e.LOCCIUNOM)+' - '+RTRIM(f.LOCPAINOM) AS solicitud_calendario_destino
                 
                 FROM via.SOLFIC a
 
-                INNER JOIN via.SOLVUE b ON a.SOLFICCOD = b.SOLVUESOC
-                INNER JOIN adm.LOCCIU c ON b.SOLVUECOC = c.LOCCIUCOD
+                INNER JOIN via.SOLDVU b ON a.SOLFICCOD = b.SOLDVUSOC
+                INNER JOIN adm.LOCCIU c ON b.SOLDVUCOC = c.LOCCIUCOD
                 INNER JOIN adm.LOCPAI d ON c.LOCCIUPAC = d.LOCPAICOD
-                INNER JOIN adm.LOCCIU e ON b.SOLVUECDC = e.LOCCIUCOD
+                INNER JOIN adm.LOCCIU e ON b.SOLDVUCDC = e.LOCCIUCOD
                 INNER JOIN adm.LOCPAI f ON e.LOCCIUPAC = f.LOCPAICOD
 
                 WHERE a.SOLFICDNE = ?
