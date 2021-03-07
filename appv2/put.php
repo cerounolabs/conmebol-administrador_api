@@ -1112,7 +1112,7 @@
                 if ($val00_1 == 1){
                     $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val06, $val07, $val08, $val09, $aud01, $aud03, $val00]);
                 } elseif ($val00_1 == 2){
-                    $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                    $stmtMSSQL00->execute([$val01, $val09, $aud01, $aud03, $val00]);
                 }
 
                 header("Content-Type: application/json; charset=utf-8");
