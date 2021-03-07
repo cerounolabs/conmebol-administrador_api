@@ -14676,7 +14676,7 @@
             $sql00  = "SELECT
                 a.SOLHVUCOD         AS          solicitud_historico_vuelo_codigo,
                 a.SOLHVUFEC         AS          solicitud_historico_vuelo_fecha_vuelo,
-                a.SOLHVUOBS         AS          solicitud_historico_vuelo_comentario,
+                a.SOLHVUOBS         AS          solicitud_historico_vuelo_observacion,
 
                 a.SOLHVUIDD         AS          auditoria_codigo,
                 a.SOLHVUAME         AS          auditoria_metodo,
@@ -14815,9 +14815,9 @@
                 $stmtMSSQL00->execute([$val01]);
 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
-                    if(!empty($rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo'])){
-                        $solicitud_historico_vuelo_fecha_vuelo_1    = $rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo'];
-                        $solicitud_historico_vuelo_fecha_vuelo_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_detalle_vuelo_fecha_vuelo']));
+                    if(!empty($rowMSSQL00['solicitud_historico_vuelo_fecha_vuelo'])){
+                        $solicitud_historico_vuelo_fecha_vuelo_1    = $rowMSSQL00['solicitud_historico_vuelo_fecha_vuelo'];
+                        $solicitud_historico_vuelo_fecha_vuelo_2    = date("d/m/Y", strtotime($rowMSSQL00['solicitud_historico_vuelo_fecha_vuelo']));
                     } else {
                         $solicitud_historico_vuelo_fecha_vuelo_1    = '';
                         $solicitud_historico_vuelo_fecha_vuelo_2    = '';
@@ -14835,7 +14835,7 @@
                         'solicitud_historico_vuelo_codigo'                          => $rowMSSQL00['solicitud_historico_vuelo_codigo'],
                         'solicitud_historico_vuelo_fecha_vuelo_1'                   => $solicitud_historico_vuelo_fecha_vuelo_1,
                         'solicitud_historico_vuelo_fecha_vuelo_2'                   => $solicitud_historico_vuelo_fecha_vuelo_2,
-                        'solicitud_historico_vuelo_comentario'                      => trim($rowMSSQL00['solicitud_historico_vuelo_comentario']),
+                        'solicitud_historico_vuelo_observacion'                     => trim($rowMSSQL00['solicitud_historico_vuelo_observacion']),
 
                         'auditoria_codigo'                                          => $rowMSSQL00['auditoria_codigo'],
                         'auditoria_metodo'                                          => trim(strtoupper(strtolower($rowMSSQL00['auditoria_metodo']))),
