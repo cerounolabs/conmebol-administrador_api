@@ -14257,7 +14257,7 @@
             $sql00  = "SELECT
                 a.SOLDVUCOD         AS          solicitud_detalle_vuelo_codigo,
                 a.SOLDVUFEC         AS          solicitud_detalle_vuelo_fecha_vuelo,
-                a.SOLDVUOBS         AS          solicitud_detalle_vuelo_comentario,
+                a.SOLDVUOBS         AS          solicitud_detalle_vuelo_observacion,
 
                 a.SOLDVUAUS         AS          auditoria_usuario,
                 a.SOLDVUAFH         AS          auditoria_fecha_hora,
@@ -14414,7 +14414,7 @@
                         'solicitud_detalle_vuelo_codigo'                            => $rowMSSQL00['solicitud_detalle_vuelo_codigo'],
                         'solicitud_detalle_vuelo_fecha_vuelo_1'                     => $solicitud_detalle_vuelo_fecha_vuelo_1,
                         'solicitud_detalle_vuelo_fecha_vuelo_2'                     => $solicitud_detalle_vuelo_fecha_vuelo_2,
-                        'solicitud_detalle_vuelo_comentario'                        => trim($rowMSSQL00['solicitud_detalle_vuelo_comentario']),
+                        'solicitud_detalle_vuelo_observacion'                       => trim($rowMSSQL00['solicitud_detalle_vuelo_observacion']),
 
                         'auditoria_usuario'                                         => trim(strtoupper(strtolower($rowMSSQL00['auditoria_usuario']))),
                         'auditoria_fecha_hora'                                      => date("d/m/Y H:i:s", strtotime($rowMSSQL00['auditoria_fecha_hora'])),
@@ -14536,7 +14536,7 @@
                         'solicitud_detalle_vuelo_codigo'                            => '',
                         'solicitud_detalle_vuelo_fecha_vuelo_1'                     => '',
                         'solicitud_detalle_vuelo_fecha_vuelo_2'                     => '',
-                        'solicitud_detalle_vuelo_comentario'                        => '',
+                        'solicitud_detalle_vuelo_observacion'                       => '',
 
                         'auditoria_usuario'                                         => '',
                         'auditoria_fecha_hora'                                      => '',
