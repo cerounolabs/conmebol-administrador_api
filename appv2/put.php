@@ -1074,29 +1074,46 @@
         require __DIR__.'/../src/connect.php';
 
         $val00      = $request->getAttribute('codigo');
-        $val01      = 2;
-        $val02      = $request->getParsedBody()['tipo_horario_salida_codigo'];
-        $val03      = $request->getParsedBody()['tipo_horario_retorno_codigo'];
-        $val04      = trim(strtoupper(strtolower($request->getParsedBody()['tipo_vuelo_codigo'])));
-        $val05      = $request->getParsedBody()['solicitud_codigo']; 
-        $val06      = $request->getParsedBody()['localidad_ciudad_origen_codigo'];
-        $val07      = $request->getParsedBody()['localidad_ciudad_destino_codigo'];
-        $val08      = trim($request->getParsedBody()['solicitud_detalle_vuelo_comentario']);
-        $val09      = $request->getParsedBody()['solicitud_detalle_vuelo_fecha_salida'];
-        $val10      = $request->getParsedBody()['solicitud_detalle_vuelo_fecha_retorno'];
+        $val00_1    = intval($request->getParsedBody()['tipo_accion_codigo']);
+        $val01      = intval($request->getParsedBody()['tipo_estado_codigo']);
+        $val02      = intval($request->getParsedBody()['tipo_origen_codigo']);
+        $val03      = intval($request->getParsedBody()['tipo_vuelo_codigo']);
+        $val04      = intval($request->getParsedBody()['tipo_horario_codigo']);
+        $val05      = intval($request->getParsedBody()['solicitud_codigo']); 
+        $val06      = intval($request->getParsedBody()['localidad_ciudad_origen_codigo']);
+        $val07      = intval($request->getParsedBody()['localidad_ciudad_destino_codigo']);
+        $val08      = $request->getParsedBody()['solicitud_detalle_vuelo_fecha'];
+        $val09      = trim($request->getParsedBody()['solicitud_detalle_vuelo_observacion']);
 
-        $aud01      = $request->getParsedBody()['auditoria_usuario'];
+        $aud01      = trim(strtoupper(strtolower($request->getParsedBody()['auditoria_usuario'])));
         $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
         $aud03      = $request->getParsedBody()['auditoria_ip'];
 
-        if (isset($val01) && isset($val04) && isset($val05)) {
-            $sql00  = "UPDATE [via].[SOLVUE] SET SOLVUEEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDESTADODETALLE' AND DOMFICPAR = ?), SOLVUETSC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDHORARIO' AND DOMFICPAR = ?), SOLVUETRC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'SOLICITUDHORARIO' AND DOMFICPAR = ?), SOLVUETVC = ?, SOLVUECOC = ?, SOLVUECDC = ?, SOLVUECOM = ?, SOLVUEFSA = ?, SOLVUEFRE = ?, SOLVUEAUS = ?, SOLVUEAFH = GETDATE(), SOLVUEAIP = ? WHERE SOLVUECOD = ?";
+        if (isset($val01) && isset($val00_1)) {
+            if ($val00_1 == 1){
+                $sql00  = "UPDATE [via].[SOLDVU] SET 
+                SOLDVUEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'VIAJESOLICITUDDETALLEVUELOESTADO' AND DOMFICPAR = ?), 
+                SOLDVUTOC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'VIAJESOLICITUDDETALLEVUELOORIGEN' AND DOMFICPAR = ?), 
+                SOLDVUTVC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'VIAJESOLICITUDDETALLEVUELOTIPO' AND DOMFICPAR = ?), 
+                SOLDVUTHC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'VIAJESOLICITUDDETALLEVUELOHORARIO' AND DOMFICPAR = ?),
+                SOLDVUCOC = ?, SOLDVUCDC = ?, SOLDVUFEC = ?, SOLDVUOBS = ?, SOLDVUAUS = ?, SOLDVUAFH = GETDATE(), SOLDVUAIP = ?
+                WHERE SOLDVUCOD = ?";
+            } elseif ($val00_1 == 2){
+                $sql00  = "UPDATE [via].[SOLDVU] SET 
+                SOLDVUEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'VIAJESOLICITUDDETALLEVUELOESTADO' AND DOMFICPAR = ?), 
+                SOLDVUOBS = ?, SOLDVUAUS = ?, SOLDVUAFH = GETDATE(), SOLDVUAIP = ?
+                WHERE SOLDVUCOD = ?";
+            }
             
             try {
                 $connMSSQL  = getConnectionMSSQLv2();
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
 
-                $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
+                if ($val00_1 == 1){
+                    $stmtMSSQL00->execute([$val01, $val02, $val03, $val04, $val06, $val07, $val08, $val09, $aud01, $aud03, $val00]);
+                } elseif ($val00_1 == 2){
+                    $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                }
 
                 header("Content-Type: application/json; charset=utf-8");
                 $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
