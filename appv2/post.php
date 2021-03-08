@@ -1070,6 +1070,63 @@
         
         return $json;
     });
+
+    $app->post('/v2/200/evento', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_evento_parametro'];
+        $val03      = $request->getParsedBody()['evento_orden'];
+        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val07      = trim($request->getParsedBody()['evento_descripcion']);
+        $val08      = $request->getParsedBody()['evento_fecha_desde'];
+        $val09      = $request->getParsedBody()['evento_fecha_hasta'];
+        $val10      = trim($request->getParsedBody()['evento_observacion']);
+
+        $aud01      = trim($request->getParsedBody()['auditoria_usuario']);
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      =  trim($request->getParsedBody()['auditoria_ip']);
+
+        if (isset($val01) && isset($val02) && isset($val04) && isset($val05) && isset($val06) && isset($val07)) {
+            $sql00  = "INSERT INTO [hum].[EVEFIC](                                                                                       EVEFICEST,                                                                                  EVEFICTEC, EVEFICGEC, EVEFICDEC, EVEFICCAC, EVEFICDES, EVEFICFED, EVEFICFEH, EVEFICOBS, EVEFICAUS, EVEFICAFH, EVEFICAIP) 
+                                                SELECT (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOESTADO' AND DOMFICPAR = ?), (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOTIPO' AND DOMFICPAR = ?),         ?,        ?,          ?,         ?,        ? ,         ?,         ?,         ?, GETDATE(),       ?
+                                                WHERE NOT EXISTS (SELECT *FROM [hum].[EVEFIC] WHERE EVEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOESTADO' AND DOMFICPAR = ?) AND EVEFICTEC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOTIPO' AND DOMFICPAR = ?) AND EVEFICDES = ?)";
+            $sql01  = "SELECT MAX(EVEFICCOD) AS evento_codigo FROM [hum].[EVEFIC]";
+            
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL01= $connMSSQL->prepare($sql01);
+
+                $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val01, $val02, $val07]);
+                
+                $stmtMSSQL01->execute();
+                $row_mssql01= $stmtMSSQL01->fetch(PDO::FETCH_ASSOC);
+                $EVEFICCOD  = $row_mssql01['evento_codigo'];
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success INSERT', 'codigo' => $EVEFICCOD), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL01->closeCursor();
+
+                $stmtMSSQL00 = null;
+                $stmtMSSQL01 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO PERMISOS*/
 
 /*MODULO WORKFLOW*/
