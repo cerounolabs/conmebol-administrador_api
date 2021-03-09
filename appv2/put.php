@@ -709,12 +709,11 @@
             switch ($val00_1) {
                 case 1:
                     $sql00  =   "UPDATE [hum].[EVEFIC] SET EVEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOESTADO' AND DOMFICPAR = ?), EVEFICORD = ?, EVEFICTEC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOTIPO' AND DOMFICPAR = ?), EVEFICGEC = ?, EVEFICDEC = ?, EVEFICCAC = ?, EVEFICDES = ?, EVEFICFED = ?, EVEFICFEH = ?, EVEFICOBS = ?, EVEFICAUS = ?, EVEFICAFH = GETDATE(), EVEFICAIP = ? WHERE EVEFICCOD = ?";                                                                                                                                   
-                    break;
+                break;
 
-                /*case 2:
-                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLNO = ?, SOLPCRLCO = ?, SOLPCRLMA = ?, SOLPCROBT = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
-                    break;*/
-
+                case 2:
+                    $sql00  =   "UPDATE [hum].[EVEFIC] SET EVEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOESTADO' AND DOMFICPAR = ?), EVEFICAUS = ?, EVEFICAFH = GETDATE(), EVEFICAIP = ? WHERE EVEFICCOD = ?";
+                break;
             }
 
             try {
@@ -726,10 +725,9 @@
                         $stmtMSSQL00->execute([$val01, $val03, $val02, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
                     break;
 
-                    /*case 2:
-                        $stmtMSSQL00->execute([$val01, $val19, $val20, $val21, $val32, $val29, $val31, $aud01, $aud03, $val00]);
-                    break;*/
-
+                    case 2:
+                        $stmtMSSQL00->execute([$val01, $aud01, $aud03, $val00]);
+                    break;
                 }
 
                 header("Content-Type: application/json; charset=utf-8");
