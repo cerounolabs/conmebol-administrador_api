@@ -7493,6 +7493,8 @@
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
+
+                WHERE a.EVEFICCOD = ?
                 
                 ORDER BY a.EVEFICCOD DESC";
 
@@ -7501,6 +7503,236 @@
 
                 $stmtMSSQL00= $connMSSQL->prepare($sql00);
                 $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['evento_fecha_desde'] == '1900-01-01' || $rowMSSQL00['evento_fecha_desde'] == null){
+                        $evento_fecha_desde_1 = '';
+                        $evento_fecha_desde_2 = '';
+                    } else {
+                        $evento_fecha_desde_1 = $rowMSSQL00['evento_fecha_desde'];
+                        $evento_fecha_desde_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_desde']));
+                    }
+
+                    if ($rowMSSQL00['evento_fecha_hasta'] == '1900-01-01' || $rowMSSQL00['evento_fecha_hasta'] == null){
+                        $evento_fecha_hasta_1 = '';
+                        $evento_fecha_hasta_2 = '';
+                    } else {
+                        $evento_fecha_hasta_1 = $rowMSSQL00['evento_fecha_hasta'];
+                        $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
+                    }
+
+                    $detalle    = array(
+
+                        'evento_codigo'                             => $rowMSSQL00['evento_codigo'],
+                        'evento_orden'                              => $rowMSSQL00['evento_orden'],
+                        'evento_descripcion'                        => trim($rowMSSQL00['evento_descripcion']),
+                        'evento_fecha_desde_1'                      => $evento_fecha_desde_1,
+                        'evento_fecha_desde_2'                      => $evento_fecha_desde_2,
+                        'evento_fecha_hasta_1'                      => $evento_fecha_hasta_1,
+                        'evento_fecha_hasta_2'                      => $evento_fecha_hasta_2,
+                        'evento_observacion'                        => trim($rowMSSQL00['evento_observacion']),
+
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                        'tipo_evento_codigo'                        => $rowMSSQL00['tipo_evento_codigo'],
+                        'tipo_evento_orden'                         => $rowMSSQL00['tipo_evento_orden'],
+                        'tipo_evento_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_ingles']))),
+                        'tipo_evento_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_castellano']))),
+                        'tipo_evento_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_portugues']))),
+                        'tipo_evento_parametro'                     => $rowMSSQL00['tipo_evento_parametro'],
+                        'tipo_evento_icono'                         => trim(strtolower($rowMSSQL00['tipo_evento_icono'])),
+                        'tipo_evento_path'                          => trim(strtolower($rowMSSQL00['tipo_evento_path'])),
+                        'tipo_evento_css'                           => trim(strtolower($rowMSSQL00['tipo_evento_css'])),
+                        'tipo_evento_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_dominio']))), 
+                        'tipo_evento_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_observacion']))),
+
+                        'tipo_gerencia_codigo'                      => $rowMSSQL00['tipo_gerencia_codigo'],
+                        'tipo_gerencia_codigo_nombre'               => $rowMSSQL00['tipo_gerencia_codigo_nombre'],
+                        'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
+                        'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
+
+                        'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
+                        'tipo_departamento_codigo_nombre'           => $rowMSSQL00['tipo_departamento_codigo_nombre'],
+                        'tipo_departamento_codigo_referencia'       => $rowMSSQL00['tipo_departamento_codigo_referencia'],
+                        'tipo_departamento_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_departamento_nombre']))),
+
+                        'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
+                        'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
+                        'tipo_cargo_codigo_referencia'              => $rowMSSQL00['tipo_cargo_codigo_referencia'],
+                        'tipo_cargo_nombre'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre'])))
+                        
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'evento_codigo'                             => '',
+                        'evento_orden'                              => '',
+                        'evento_descripcion'                        => '',
+                        'evento_fecha_desde_1'                      => '',
+                        'evento_fecha_desde_2'                      => '',
+                        'evento_fecha_hasta_1'                      => '',
+                        'evento_fecha_hasta_2'                      => '',
+                        'evento_observacion'                        => '',
+
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_evento_codigo'                        => '',
+                        'tipo_evento_orden'                         => '',
+                        'tipo_evento_ingles'                        => '',
+                        'tipo_evento_castellano'                    => '',
+                        'tipo_evento_portugues'                     => '',
+                        'tipo_evento_parametro'                     => '',
+                        'tipo_evento_icono'                         => '',
+                        'tipo_evento_path'                          => '',
+                        'tipo_evento_css'                           => '',
+                        'tipo_evento_dominio'                       => '', 
+                        'tipo_evento_observacion'                   => '',
+
+                        'tipo_gerencia_codigo'                      => '',
+                        'tipo_gerencia_codigo_nombre'               => '',
+                        'tipo_gerencia_codigo_referencia'           => '',
+                        'tipo_gerencia_nombre'                      => '',
+
+                        'tipo_departamento_codigo'                  => '',
+                        'tipo_departamento_codigo_nombre'           => '',
+                        'tipo_departamento_codigo_referencia'       => '',
+                        'tipo_departamento_nombre'                  => '',
+
+                        'tipo_cargo_codigo'                         => '',
+                        'tipo_cargo_codigo_nombre'                  => '',
+                        'tipo_cargo_codigo_referencia'              => '',
+                        'tipo_cargo_nombre'                         => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }    
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/200/evento/gerencia/{gerencia}/departamento/{departamento}/cargo/{cargo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00  = $request->getAttribute('gerencia');
+        $val01  = $request->getAttribute('departamento');
+        $val02  = $request->getAttribute('cargo');
+
+        if (isset($val00)) {
+
+            $sql00  = "SELECT 
+                a.EVEFICCOD	        AS          evento_codigo,	
+                a.EVEFICORD         AS		    evento_orden,
+                a.EVEFICDES         AS          evento_descripcion,
+                a.EVEFICFED         AS          evento_fecha_desde,	
+                a.EVEFICFEH         AS          evento_fecha_hasta,
+                a.EVEFICOBS         AS          evento_observacion,
+                
+                a.EVEFICAUS         AS          auditoria_usuario,
+                a.EVEFICAFH	        AS          auditoria_fecha_hora,
+                a.EVEFICAIP         AS          auditoria_ip,
+                
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
+                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
+                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion,
+                
+                c.DOMFICCOD         AS          tipo_evento_codigo,
+                c.DOMFICORD         AS          tipo_evento_orden,
+                c.DOMFICNOI         AS          tipo_evento_nombre_ingles,
+                c.DOMFICNOC         AS          tipo_evento_nombre_castellano,
+                c.DOMFICNOP         AS          tipo_evento_nombre_portugues,
+                c.DOMFICPAT         AS          tipo_evento_path,
+                c.DOMFICCSS         AS          tipo_evento_css,
+                c.DOMFICPAR         AS          tipo_evento_parametro,
+                c.DOMFICICO         AS          tipo_evento_icono,
+                c.DOMFICVAL         AS          tipo_evento_dominio,
+                c.DOMFICOBS         AS          tipo_evento_observacion,
+                
+                d.CODE              AS          tipo_gerencia_codigo,
+                d.NAME              AS          tipo_gerencia_codigo_nombre,
+                d.U_CODIGO          AS          tipo_gerencia_codigo_referencia,
+                d.U_NOMBRE          AS          tipo_gerencia_nombre,
+                
+                e.CODE              AS          tipo_departamento_codigo,
+                e.NAME              AS          tipo_departamento_codigo_nombre,
+                e.U_CODIGO          AS          tipo_departamento_codigo_referencia,
+                e.U_NOMBRE          AS          tipo_departamento_nombre,
+                
+                f.CODE              AS          tipo_cargo_codigo_referencia,
+                f.NAME              AS          tipo_cargo_codigo_nombre,
+                f.U_CODIGO          AS          tipo_cargo_codigo,
+                f.U_NOMBRE          AS          tipo_cargo_nombre
+                
+                FROM [hum].[EVEFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = b.DOMFICCOD
+                INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
+                INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
+
+                WHERE a.EVEFICGEC = ? AND a.EVEFICDEC = ? AND a.EVEFICCAC = ?
+                
+                ORDER BY a.EVEFICCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00, $val01, $val02]);
                 
                 while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
                     if ($rowMSSQL00['evento_fecha_desde'] == '1900-01-01' || $rowMSSQL00['evento_fecha_desde'] == null){
