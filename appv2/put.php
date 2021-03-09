@@ -682,6 +682,74 @@
         
         return $json;
     });
+
+    $app->put('/v2/200/evento/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_evento_parametro'];
+        $val03      = $request->getParsedBody()['evento_orden'];
+        $val04      = $request->getParsedBody()['tipo_gerencia_codigo'];
+        $val05      = $request->getParsedBody()['tipo_departamento_codigo'];
+        $val06      = $request->getParsedBody()['tipo_cargo_codigo'];
+        $val07      = trim($request->getParsedBody()['evento_descripcion']);
+        $val08      = $request->getParsedBody()['evento_fecha_desde'];
+        $val09      = $request->getParsedBody()['evento_fecha_hasta'];
+        $val10      = trim($request->getParsedBody()['evento_observacion']);
+
+        $aud01      = trim($request->getParsedBody()['auditoria_usuario']);
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = trim($request->getParsedBody()['auditoria_ip']);
+
+        if (isset($val00) && isset($val00_1)) {
+            $sql00  = "";
+
+            switch ($val00_1) {
+                case 1:
+                    $sql00  =   "UPDATE [hum].[EVEFIC] SET EVEFICEST = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOESTADO' AND DOMFICPAR = ?), EVEFICORD = ?, EVEFICTEC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOTIPO' AND DOMFICPAR = ?), EVEFICGEC = ?, EVEFICDEC = ?, EVEFICCAC = ?, EVEFICDES = ?, EVEFICFED = ?, EVEFICFEH = ?, EVEFICOBS = ?, EVEFICAUS = ?, EVEFICAFH = GETDATE(), EVEFICAIP = ? WHERE EVEFICCOD = ?";                                                                                                                                   
+                    break;
+
+                /*case 2:
+                    $sql00  =   "UPDATE [hum].[SOLPCR] SET SOLPCREST  = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'TESTPCRESTADO' AND DOMFICPAR = ?), SOLPCRLNO = ?, SOLPCRLCO = ?, SOLPCRLMA = ?, SOLPCROBT = ?, SOLPCRUST = ?, SOLPCRFET = GETDATE(), SOLPCRIPT = ?, SOLPCRAUS = ?, SOLPCRAFH = GETDATE(), SOLPCRAIP = ? WHERE SOLPCRCOD = ?";
+                    break;*/
+
+            }
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val04, $val02, $val03, $val05, $val06, $val07, $val10, $val08, $val11, $val12, $val13, $val14, $val15, $val16, $val17, $val18, $val19, $val20, $val21, $val22, $val23, $val24, $val25, $aud01, $aud03, $val00]);
+                    break;
+
+                    /*case 2:
+                        $stmtMSSQL00->execute([$val01, $val19, $val20, $val21, $val32, $val29, $val31, $aud01, $aud03, $val00]);
+                    break;*/
+
+                }
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
 /*MODULO PERMISO*/
 
 /*MODULO WORKFLOW*/
