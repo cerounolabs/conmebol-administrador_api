@@ -7267,7 +7267,7 @@
             
             FROM [hum].[EVEFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
-            INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
             INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
             INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
@@ -7489,7 +7489,7 @@
                 
                 FROM [hum].[EVEFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
@@ -7719,7 +7719,7 @@
                 
                 FROM [hum].[EVEFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
