@@ -748,6 +748,70 @@
         
         return $json;
     });
+
+    $app->put('/v2/200/proveedor/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00      = $request->getAttribute('codigo');
+        $val00_1    = $request->getParsedBody()['tipo_accion_codigo'];
+        $val01      = $request->getParsedBody()['tipo_estado_parametro'];
+        $val02      = $request->getParsedBody()['tipo_rol_parametro'];
+        $val03      = $request->getParsedBody()['proveedor_orden'];
+        $val04      = $request->getParsedBody()['localidad_nacionalidad_codigo'];
+        $val05      = $request->getParsedBody()['localidad_ciudad_codigo'];
+        $val06      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_documento'])));
+        $val07      = $request->getParsedBody()['proveedor_documento_fecha_emision'];
+        $val08      = $request->getParsedBody()['proveedor_documento_fecha_vencimiento'];
+        $val09      = trim($request->getParsedBody()['proveedor_nombre_apellido']);
+        $val10      = $request->getParsedBody()['proveedor_fecha_nacimiento'];
+        $val11      = trim($request->getParsedBody()['proveedor_federacion']);
+        $val12      = trim(strtoupper(strtolower($request->getParsedBody()['proveedor_pasaporte_numero'])));
+        $val13      = $request->getParsedBody()['proveedor_pasaporte_fecha_emision'];
+        $val14      = $request->getParsedBody()['proveedor_pasaporte_fecha_vencimiento'];
+        $val15      = trim($request->getParsedBody()['proveedor_observacion']);
+
+        $aud01      = trim($request->getParsedBody()['auditoria_usuario']);
+        $aud02      = $request->getParsedBody()['auditoria_fecha_hora'];
+        $aud03      = trim($request->getParsedBody()['auditoria_ip']);
+
+        if (isset($val00) && isset($val00_1)) {
+            $sql00  = "";
+
+            switch ($val00_1) {
+                case 1:
+                    $sql00  =   "UPDATE [hum].[PROFIC] SET PROFICEST = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'PERMISOPROVEEDORESTADO' AND DOMFICPAR = ?), PROFICTRC = (SELECT DOMFICCOD FROM [adm].[DOMFIC] WHERE DOMFICVAL = 'TESTPCRROL' AND DOMFICPAR = ?), PROFICNAC = ?, PROFICCIC = ?, PROFICDOC = ?, PROFICNOM = ?, PROFICFNA = ?, PROFICFED = ?, PROFICFEM = ?, PROFICFEV = ?, PROFICPAS = ?, PROFICFEP = ?, PROFICFVP = ?, PROFICOBS = ?, PROFICAUS = ?, PROFICAFH = GETDATE(), PROFICAIP = ? WHERE PROFICCOD = ?";                                                                                                                                   
+                break;
+            }
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+
+                switch ($val00_1) {
+                    case 1:
+                        $stmtMSSQL00->execute([$val01, $val02, $val04, $val05, $val06, $val09, $val10, $val11, $val07, $val08, $val12, $val13, $val14, $val15, $aud01, $aud03, $val00]);
+                    break;
+                }
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json       = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success UPDATE', 'codigo' => $val00), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error INSERT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        } else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
 /*MODULO PERMISO*/
 
 /*MODULO WORKFLOW*/
