@@ -7680,9 +7680,9 @@
                 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
                 b.DOMFICORD         AS          tipo_estado_orden,
-                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
-                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
-                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
                 b.DOMFICPAT         AS          tipo_estado_path,
                 b.DOMFICCSS         AS          tipo_estado_css,
                 b.DOMFICPAR         AS          tipo_estado_parametro,
