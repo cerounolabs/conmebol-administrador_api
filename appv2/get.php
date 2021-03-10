@@ -7228,9 +7228,9 @@
             
             b.DOMFICCOD         AS          tipo_estado_codigo,
             b.DOMFICORD         AS          tipo_estado_orden,
-            b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
-            b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
-            b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
             b.DOMFICPAT         AS          tipo_estado_path,
             b.DOMFICCSS         AS          tipo_estado_css,
             b.DOMFICPAR         AS          tipo_estado_parametro,
@@ -7240,9 +7240,9 @@
             
             c.DOMFICCOD         AS          tipo_evento_codigo,
             c.DOMFICORD         AS          tipo_evento_orden,
-            c.DOMFICNOI         AS          tipo_evento_nombre_ingles,
-            c.DOMFICNOC         AS          tipo_evento_nombre_castellano,
-            c.DOMFICNOP         AS          tipo_evento_nombre_portugues,
+            c.DOMFICNOI         AS          tipo_evento_ingles,
+            c.DOMFICNOC         AS          tipo_evento_castellano,
+            c.DOMFICNOP         AS          tipo_evento_portugues,
             c.DOMFICPAT         AS          tipo_evento_path,
             c.DOMFICCSS         AS          tipo_evento_css,
             c.DOMFICPAR         AS          tipo_evento_parametro,
@@ -7450,9 +7450,9 @@
                 
                 b.DOMFICCOD         AS          tipo_estado_codigo,
                 b.DOMFICORD         AS          tipo_estado_orden,
-                b.DOMFICNOI         AS          tipo_estado_nombre_ingles,
-                b.DOMFICNOC         AS          tipo_estado_nombre_castellano,
-                b.DOMFICNOP         AS          tipo_estado_nombre_portugues,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
                 b.DOMFICPAT         AS          tipo_estado_path,
                 b.DOMFICCSS         AS          tipo_estado_css,
                 b.DOMFICPAR         AS          tipo_estado_parametro,
@@ -7462,9 +7462,9 @@
                 
                 c.DOMFICCOD         AS          tipo_evento_codigo,
                 c.DOMFICORD         AS          tipo_evento_orden,
-                c.DOMFICNOI         AS          tipo_evento_nombre_ingles,
-                c.DOMFICNOC         AS          tipo_evento_nombre_castellano,
-                c.DOMFICNOP         AS          tipo_evento_nombre_portugues,
+                c.DOMFICNOI         AS          tipo_evento_ingles,
+                c.DOMFICNOC         AS          tipo_evento_castellano,
+                c.DOMFICNOP         AS          tipo_evento_portugues,
                 c.DOMFICPAT         AS          tipo_evento_path,
                 c.DOMFICCSS         AS          tipo_evento_css,
                 c.DOMFICPAR         AS          tipo_evento_parametro,
@@ -7664,7 +7664,7 @@
         $val01  = $request->getAttribute('departamento');
         $val02  = $request->getAttribute('cargo');
 
-        if (isset($val00)) {
+        if (isset($val00) && isset($val01) && isset($val02)) {
 
             $sql00  = "SELECT 
                 a.EVEFICCOD	        AS          evento_codigo,	
@@ -7692,9 +7692,9 @@
                 
                 c.DOMFICCOD         AS          tipo_evento_codigo,
                 c.DOMFICORD         AS          tipo_evento_orden,
-                c.DOMFICNOI         AS          tipo_evento_nombre_ingles,
-                c.DOMFICNOC         AS          tipo_evento_nombre_castellano,
-                c.DOMFICNOP         AS          tipo_evento_nombre_portugues,
+                c.DOMFICNOI         AS          tipo_evento_ingles,
+                c.DOMFICNOC         AS          tipo_evento_castellano,
+                c.DOMFICNOP         AS          tipo_evento_portugues,
                 c.DOMFICPAT         AS          tipo_evento_path,
                 c.DOMFICCSS         AS          tipo_evento_css,
                 c.DOMFICPAR         AS          tipo_evento_parametro,
@@ -7866,6 +7866,532 @@
                         'tipo_cargo_codigo_nombre'                  => '',
                         'tipo_cargo_codigo_referencia'              => '',
                         'tipo_cargo_nombre'                         => ''
+                    );
+
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                }
+
+                $stmtMSSQL00->closeCursor();
+                $stmtMSSQL00 = null;
+            } catch (PDOException $e) {
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+        }  else {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 400, 'status' => 'error', 'message' => 'Verifique, algún campo esta vacio.'), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }    
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/200/proveedor/listado', function($request) {
+        require __DIR__.'/../src/connect.php';
+        
+        $sql00  = "SELECT 
+            a.PROFICCOD         AS          proveedor_codigo,
+            a.PROFICORD         AS          proveedor_orden,
+            a.PROFICDOC         AS          proveedor_documento,
+            a.PROFICFEM         AS          proveedor_documento_fecha_emision,
+            a.PROFICFEV         AS          proveedor_documento_fecha_vencimiento,
+            a.PROFICNOM         AS          proveedor_nombre_apellido,
+            a.PROFICFNA         AS          proveedor_fecha_nacimiento,
+            a.PROFICFED         AS          proveedor_federacion,
+            a.PROFICPAS         AS          proveedor_pasaporte_numero,
+            a.PROFICFEP         AS          proveedor_pasaporte_fecha_emision,
+            a.PROFICFVP         AS          proveedor_pasaporte_fecha_vencimiento,
+            a.PROFICOBS         AS          proveedor_observacion,
+            
+            a.PROFICAUS         AS          auditoria_usuario,
+            a.PROFICAFH         AS          auditoria_fecha_hora,
+            a.PROFICAIP         AS          auditoria_ip,
+            
+            b.DOMFICCOD         AS          tipo_estado_codigo,
+            b.DOMFICORD         AS          tipo_estado_orden,
+            b.DOMFICNOI         AS          tipo_estado_ingles,
+            b.DOMFICNOC         AS          tipo_estado_castellano,
+            b.DOMFICNOP         AS          tipo_estado_portugues,
+            b.DOMFICPAT         AS          tipo_estado_path,
+            b.DOMFICCSS         AS          tipo_estado_css,
+            b.DOMFICPAR         AS          tipo_estado_parametro,
+            b.DOMFICICO         AS          tipo_estado_icono,
+            b.DOMFICVAL         AS          tipo_estado_dominio,
+            b.DOMFICOBS         AS          tipo_estado_observacion, 
+                
+            c.DOMFICCOD         AS          tipo_rol_codigo,
+            c.DOMFICORD         AS          tipo_rol_orden,
+            c.DOMFICNOI         AS          tipo_rol_ingles,
+            c.DOMFICNOC         AS          tipo_rol_castellano,
+            c.DOMFICNOP         AS          tipo_rol_portugues,
+            c.DOMFICPAT         AS          tipo_rol_path,
+            c.DOMFICCSS         AS          tipo_rol_css,
+            c.DOMFICPAR         AS          tipo_rol_parametro,
+            c.DOMFICICO         AS          tipo_rol_icono,
+            c.DOMFICVAL         AS          tipo_rol_dominio,
+            c.DOMFICOBS         AS          tipo_rol_observacion, 
+            
+            d.LOCPAICOD         AS          localidad_nacionalidad_codigo,
+            d.LOCPAIORD         AS          localidad_nacionalidad_orden,
+            d.LOCPAINOM         AS          localidad_nacionalidad_nombre,
+            d.LOCPAIPAT         AS          localidad_nacionalidad_path,
+            d.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
+            d.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
+            d.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3,
+            
+            e.LOCCIUCOD         AS          localidad_ciudad_codigo,
+            e.LOCCIUORD         AS          localidad_ciudad_orden,
+            e.LOCCIUNOM         AS          localidad_ciudad_nombre,
+            e.LOCCIUOBS         AS          localidad_ciudad_observacion
+            FROM [hum].[PROFIC] a
+            INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.PROFICEST = c.DOMFICCOD
+            INNER JOIN [adm].[LOCPAI] d ON a.PROFICNAC = d.LOCPAICOD
+            INNER JOIN [adm].[LOCCIU] e ON a.PROFICCIC = e.LOCCIUCOD
+            
+            ORDER BY a.PROFICCOD DESC";
+
+        try {
+            $connMSSQL  = getConnectionMSSQLv2();
+
+            $stmtMSSQL00= $connMSSQL->prepare($sql00);
+            $stmtMSSQL00->execute();
+            
+            while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                if ($rowMSSQL00['proveedor_documento_fecha_emision'] == '1900-01-01' || $rowMSSQL00['proveedor_documento_fecha_emision'] == null){
+                    $proveedor_documento_fecha_emision_1 = '';
+                    $proveedor_documento_fecha_emision_2 = '';
+                } else {
+                    $proveedor_documento_fecha_emision_1 = $rowMSSQL00['proveedor_documento_fecha_emision'];
+                    $proveedor_documento_fecha_emision_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_documento_fecha_emision']));
+                }
+
+                if ($rowMSSQL00['proveedor_documento_fecha_vencimiento'] == '1900-01-01' || $rowMSSQL00['proveedor_documento_fecha_vencimiento'] == null){
+                    $proveedor_documento_fecha_vencimiento_1 = '';
+                    $proveedor_documento_fecha_vencimiento_2 = '';
+                } else {
+                    $proveedor_documento_fecha_vencimiento_1 = $rowMSSQL00['proveedor_documento_fecha_vencimiento'];
+                    $proveedor_documento_fecha_vencimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_documento_fecha_vencimiento']));
+                }
+
+                if ($rowMSSQL00['proveedor_fecha_nacimiento'] == '1900-01-01' || $rowMSSQL00['proveedor_fecha_nacimiento'] == null){
+                    $proveedor_fecha_nacimiento_1 = '';
+                    $proveedor_fecha_nacimiento_2 = '';
+                } else {
+                    $proveedor_fecha_nacimiento_1 = $rowMSSQL00['proveedor_fecha_nacimiento'];
+                    $proveedor_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_fecha_nacimiento']));
+                }
+
+                if ($rowMSSQL00['proveedor_pasaporte_fecha_emision'] == '1900-01-01' || $rowMSSQL00['proveedor_pasaporte_fecha_emision'] == null){
+                    $proveedor_pasaporte_fecha_emision_1 = '';
+                    $proveedor_pasaporte_fecha_emision_2 = '';
+                } else {
+                    $proveedor_pasaporte_fecha_emision_1 = $rowMSSQL00['proveedor_pasaporte_fecha_emision'];
+                    $proveedor_pasaporte_fecha_emision_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_pasaporte_fecha_emision']));
+                }
+
+                if ($rowMSSQL00['proveedor_pasaporte_fecha_vencimiento'] == '1900-01-01' || $rowMSSQL00['proveedor_pasaporte_fecha_vencimiento'] == null){
+                    $proveedor_pasaporte_fecha_vencimiento_1 = '';
+                    $proveedor_pasaporte_fecha_vencimiento_2 = '';
+                } else {
+                    $proveedor_pasaporte_fecha_vencimiento_1 = $rowMSSQL00['proveedor_pasaporte_fecha_vencimiento'];
+                    $proveedor_pasaporte_fecha_vencimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_pasaporte_fecha_vencimiento']));
+                }
+
+                $detalle    = array(
+
+                    'proveedor_codigo'                          => $rowMSSQL00['proveedor_codigo'],
+                    'proveedor_orden'                           => $rowMSSQL00['proveedor_orden'],
+                    'proveedor_documento'                       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_documento']))),
+                    'proveedor_documento_fecha_emision_1'       => $proveedor_documento_fecha_emision_1,
+                    'proveedor_documento_fecha_emision_2'       => $proveedor_documento_fecha_emision_2,
+                    'proveedor_documento_fecha_vencimiento_1'   => $proveedor_documento_fecha_vencimiento_1,
+                    'proveedor_documento_fecha_vencimiento_2'   => $proveedor_documento_fecha_vencimiento_2,
+                    'proveedor_nombre_apellido'                 => trim($rowMSSQL00['proveedor_nombre_apellido']),
+                    'proveedor_fecha_nacimiento_1'              => $proveedor_fecha_nacimiento_1,
+                    'proveedor_fecha_nacimiento_2'              => $proveedor_fecha_nacimiento_2,
+                    'proveedor_federacion'                      => trim($rowMSSQL00['proveedor_federacion']),
+                    'proveedor_pasaporte_numero'                => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pasaporte_numero']))),
+                    'proveedor_pasaporte_fecha_emision_1'       => $proveedor_pasaporte_fecha_emision_1,
+                    'proveedor_pasaporte_fecha_emision_2'       => $proveedor_pasaporte_fecha_emision_2,
+                    'proveedor_pasaporte_fecha_vencimiento_1'   => $proveedor_pasaporte_fecha_vencimiento_1,
+                    'proveedor_pasaporte_fecha_vencimiento_2'   => $proveedor_pasaporte_fecha_vencimiento_2,
+                    'proveedor_observacion'                     => trim($rowMSSQL00['proveedor_observacion']),
+
+                    'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                    'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                    'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+
+                    'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                    'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                    'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                    'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                    'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                    'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                    'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                    'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                    'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                    'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                    'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+
+                    'tipo_rol_codigo'                           => $rowMSSQL00['tipo_rol_codigo'],
+                    'tipo_rol_orden'                            => $rowMSSQL00['tipo_rol_orden'],
+                    'tipo_rol_ingles'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                    'tipo_rol_castellano'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                    'tipo_rol_portugues'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                    'tipo_rol_parametro'                        => $rowMSSQL00['tipo_rol_parametro'],
+                    'tipo_rol_icono'                            => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                    'tipo_rol_path'                             => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                    'tipo_rol_css'                              => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                    'tipo_rol_dominio'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))), 
+                    'tipo_rol_observacion'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
+
+                    'localidad_nacionalidad_codigo'             => $rowMSSQL00['localidad_nacionalidad_codigo'],
+                    'localidad_nacionalidad_orden'              => $rowMSSQL00['localidad_nacionalidad_orden'],
+                    'localidad_nacionalidad_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_nombre']))),
+                    'localidad_nacionalidad_path'               => trim(strtolower($rowMSSQL00['localidad_nacionalidad_path'])),
+                    'localidad_nacionalidad_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char2']))),
+                    'localidad_nacionalidad_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char3']))),
+                    'localidad_nacionalidad_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_num3']))),
+
+                    'localidad_ciudad_codigo'                   => $rowMSSQL00['localidad_ciudad_codigo'],
+                    'localidad_ciudad_orden'                    => $rowMSSQL00['localidad_ciudad_orden'],
+                    'localidad_ciudad_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                    'localidad_ciudad_observacion'              => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion']))
+                     
+                );
+
+                $result[]   = $detalle;
+            }
+
+            if (isset($result)){
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            } else {
+                $detalle = array(
+                    'proveedor_codigo'                          => '',
+                    'proveedor_orden'                           => '',
+                    'proveedor_documento'                       => '',
+                    'proveedor_documento_fecha_emision_1'       => '',
+                    'proveedor_documento_fecha_emision_2'       => '',
+                    'proveedor_documento_fecha_vencimiento_1'   => '',
+                    'proveedor_documento_fecha_vencimiento_2'   => '',
+                    'proveedor_nombre_apellido'                 => '',
+                    'proveedor_fecha_nacimiento_1'              => '',
+                    'proveedor_fecha_nacimiento_2'              => '',
+                    'proveedor_federacion'                      => '',
+                    'proveedor_pasaporte_numero'                => '',
+                    'proveedor_pasaporte_fecha_emision_1'       => '',
+                    'proveedor_pasaporte_fecha_emision_2'       => '',
+                    'proveedor_pasaporte_fecha_vencimiento_1'   => '',
+                    'proveedor_pasaporte_fecha_vencimiento_2'   => '',
+                    'proveedor_observacion'                     => '',
+
+                    'auditoria_usuario'                         => '',
+                    'auditoria_fecha_hora'                      => '',
+                    'auditoria_ip'                              => '',
+
+                    'tipo_estado_codigo'                        => '',
+                    'tipo_estado_orden'                         => '',
+                    'tipo_estado_ingles'                        => '',
+                    'tipo_estado_castellano'                    => '',
+                    'tipo_estado_portugues'                     => '',
+                    'tipo_estado_parametro'                     => '',
+                    'tipo_estado_icono'                         => '',
+                    'tipo_estado_path'                          => '',
+                    'tipo_estado_css'                           => '',
+                    'tipo_estado_dominio'                       => '', 
+                    'tipo_estado_observacion'                   => '',
+
+                    'tipo_rol_codigo'                           => '',
+                    'tipo_rol_orden'                            => '',
+                    'tipo_rol_ingles'                           => '',
+                    'tipo_rol_castellano'                       => '',
+                    'tipo_rol_portugues'                        => '',
+                    'tipo_rol_parametro'                        => '',
+                    'tipo_rol_icono'                            => '',
+                    'tipo_rol_path'                             => '',
+                    'tipo_rol_css'                              => '',
+                    'tipo_rol_dominio'                          => '', 
+                    'tipo_rol_observacion'                      => '',
+
+                    'localidad_nacionalidad_codigo'             => '',
+                    'localidad_nacionalidad_orden'              => '',
+                    'localidad_nacionalidad_nombre'             => '',
+                    'localidad_nacionalidad_path'               => '',
+                    'localidad_nacionalidad_iso_char2'          => '',
+                    'localidad_nacionalidad_iso_char3'          => '',
+                    'localidad_nacionalidad_iso_num3'           => '',
+
+                    'localidad_ciudad_codigo'                   => '',
+                    'localidad_ciudad_orden'                    => '',
+                    'localidad_ciudad_nombre'                   => '',
+                    'localidad_ciudad_observacion'              => ''
+                 );
+
+                header("Content-Type: application/json; charset=utf-8");
+                $json = json_encode(array('code' => 204, 'status' => 'ok', 'message' => 'No hay registros', 'data' => $detalle), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+            }
+
+            $stmtMSSQL00->closeCursor();
+            $stmtMSSQL00 = null;
+        } catch (PDOException $e) {
+            header("Content-Type: application/json; charset=utf-8");
+            $json = json_encode(array('code' => 204, 'status' => 'failure', 'message' => 'Error SELECT: '.$e), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+        }
+
+        $connMSSQL  = null;
+        
+        return $json;
+    });
+
+    $app->get('/v2/200/proveedor/codigo/{codigo}', function($request) {
+        require __DIR__.'/../src/connect.php';
+
+        $val00  = $request->getAttribute('codigo');
+        if (isset($val00)) {
+
+            $sql00  = "SELECT 
+                a.PROFICCOD         AS          proveedor_codigo,
+                a.PROFICORD         AS          proveedor_orden,
+                a.PROFICDOC         AS          proveedor_documento,
+                a.PROFICFEM         AS          proveedor_documento_fecha_emision,
+                a.PROFICFEV         AS          proveedor_documento_fecha_vencimiento,
+                a.PROFICNOM         AS          proveedor_nombre_apellido,
+                a.PROFICFNA         AS          proveedor_fecha_nacimiento,
+                a.PROFICFED         AS          proveedor_federacion,
+                a.PROFICPAS         AS          proveedor_pasaporte_numero,
+                a.PROFICFEP         AS          proveedor_pasaporte_fecha_emision,
+                a.PROFICFVP         AS          proveedor_pasaporte_fecha_vencimiento,
+                a.PROFICOBS         AS          proveedor_observacion,
+                
+                a.PROFICAUS         AS          auditoria_usuario,
+                a.PROFICAFH         AS          auditoria_fecha_hora,
+                a.PROFICAIP         AS          auditoria_ip,
+                
+                b.DOMFICCOD         AS          tipo_estado_codigo,
+                b.DOMFICORD         AS          tipo_estado_orden,
+                b.DOMFICNOI         AS          tipo_estado_ingles,
+                b.DOMFICNOC         AS          tipo_estado_castellano,
+                b.DOMFICNOP         AS          tipo_estado_portugues,
+                b.DOMFICPAT         AS          tipo_estado_path,
+                b.DOMFICCSS         AS          tipo_estado_css,
+                b.DOMFICPAR         AS          tipo_estado_parametro,
+                b.DOMFICICO         AS          tipo_estado_icono,
+                b.DOMFICVAL         AS          tipo_estado_dominio,
+                b.DOMFICOBS         AS          tipo_estado_observacion, 
+                    
+                c.DOMFICCOD         AS          tipo_rol_codigo,
+                c.DOMFICORD         AS          tipo_rol_orden,
+                c.DOMFICNOI         AS          tipo_rol_ingles,
+                c.DOMFICNOC         AS          tipo_rol_castellano,
+                c.DOMFICNOP         AS          tipo_rol_portugues,
+                c.DOMFICPAT         AS          tipo_rol_path,
+                c.DOMFICCSS         AS          tipo_rol_css,
+                c.DOMFICPAR         AS          tipo_rol_parametro,
+                c.DOMFICICO         AS          tipo_rol_icono,
+                c.DOMFICVAL         AS          tipo_rol_dominio,
+                c.DOMFICOBS         AS          tipo_rol_observacion, 
+                
+                d.LOCPAICOD         AS          localidad_nacionalidad_codigo,
+                d.LOCPAIORD         AS          localidad_nacionalidad_orden,
+                d.LOCPAINOM         AS          localidad_nacionalidad_nombre,
+                d.LOCPAIPAT         AS          localidad_nacionalidad_path,
+                d.LOCPAIIC2         AS          localidad_nacionalidad_iso_char2,
+                d.LOCPAIIC3         AS          localidad_nacionalidad_iso_char3,
+                d.LOCPAIIN3         AS          localidad_nacionalidad_iso_num3,
+                
+                e.LOCCIUCOD         AS          localidad_ciudad_codigo,
+                e.LOCCIUORD         AS          localidad_ciudad_orden,
+                e.LOCCIUNOM         AS          localidad_ciudad_nombre,
+                e.LOCCIUOBS         AS          localidad_ciudad_observacion
+                FROM [hum].[PROFIC] a
+                INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.PROFICEST = c.DOMFICCOD
+                INNER JOIN [adm].[LOCPAI] d ON a.PROFICNAC = d.LOCPAICOD
+                INNER JOIN [adm].[LOCCIU] e ON a.PROFICCIC = e.LOCCIUCOD
+                
+                WHERE a.PROFICCOD = ?
+
+                ORDER BY a.PROFICCOD DESC";
+
+            try {
+                $connMSSQL  = getConnectionMSSQLv2();
+
+                $stmtMSSQL00= $connMSSQL->prepare($sql00);
+                $stmtMSSQL00->execute([$val00]);
+                
+                while ($rowMSSQL00 = $stmtMSSQL00->fetch()) {
+                    if ($rowMSSQL00['proveedor_documento_fecha_emision'] == '1900-01-01' || $rowMSSQL00['proveedor_documento_fecha_emision'] == null){
+                        $proveedor_documento_fecha_emision_1 = '';
+                        $proveedor_documento_fecha_emision_2 = '';
+                    } else {
+                        $proveedor_documento_fecha_emision_1 = $rowMSSQL00['proveedor_documento_fecha_emision'];
+                        $proveedor_documento_fecha_emision_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_documento_fecha_emision']));
+                    }
+    
+                    if ($rowMSSQL00['proveedor_documento_fecha_vencimiento'] == '1900-01-01' || $rowMSSQL00['proveedor_documento_fecha_vencimiento'] == null){
+                        $proveedor_documento_fecha_vencimiento_1 = '';
+                        $proveedor_documento_fecha_vencimiento_2 = '';
+                    } else {
+                        $proveedor_documento_fecha_vencimiento_1 = $rowMSSQL00['proveedor_documento_fecha_vencimiento'];
+                        $proveedor_documento_fecha_vencimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_documento_fecha_vencimiento']));
+                    }
+    
+                    if ($rowMSSQL00['proveedor_fecha_nacimiento'] == '1900-01-01' || $rowMSSQL00['proveedor_fecha_nacimiento'] == null){
+                        $proveedor_fecha_nacimiento_1 = '';
+                        $proveedor_fecha_nacimiento_2 = '';
+                    } else {
+                        $proveedor_fecha_nacimiento_1 = $rowMSSQL00['proveedor_fecha_nacimiento'];
+                        $proveedor_fecha_nacimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_fecha_nacimiento']));
+                    }
+    
+                    if ($rowMSSQL00['proveedor_pasaporte_fecha_emision'] == '1900-01-01' || $rowMSSQL00['proveedor_pasaporte_fecha_emision'] == null){
+                        $proveedor_pasaporte_fecha_emision_1 = '';
+                        $proveedor_pasaporte_fecha_emision_2 = '';
+                    } else {
+                        $proveedor_pasaporte_fecha_emision_1 = $rowMSSQL00['proveedor_pasaporte_fecha_emision'];
+                        $proveedor_pasaporte_fecha_emision_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_pasaporte_fecha_emision']));
+                    }
+    
+                    if ($rowMSSQL00['proveedor_pasaporte_fecha_vencimiento'] == '1900-01-01' || $rowMSSQL00['proveedor_pasaporte_fecha_vencimiento'] == null){
+                        $proveedor_pasaporte_fecha_vencimiento_1 = '';
+                        $proveedor_pasaporte_fecha_vencimiento_2 = '';
+                    } else {
+                        $proveedor_pasaporte_fecha_vencimiento_1 = $rowMSSQL00['proveedor_pasaporte_fecha_vencimiento'];
+                        $proveedor_pasaporte_fecha_vencimiento_2 = date('d/m/Y', strtotime($rowMSSQL00['proveedor_pasaporte_fecha_vencimiento']));
+                    }
+    
+                    $detalle    = array(
+    
+                        'proveedor_codigo'                          => $rowMSSQL00['proveedor_codigo'],
+                        'proveedor_orden'                           => $rowMSSQL00['proveedor_orden'],
+                        'proveedor_documento'                       => trim(strtoupper(strtolower($rowMSSQL00['proveedor_documento']))),
+                        'proveedor_documento_fecha_emision_1'       => $proveedor_documento_fecha_emision_1,
+                        'proveedor_documento_fecha_emision_2'       => $proveedor_documento_fecha_emision_2,
+                        'proveedor_documento_fecha_vencimiento_1'   => $proveedor_documento_fecha_vencimiento_1,
+                        'proveedor_documento_fecha_vencimiento_2'   => $proveedor_documento_fecha_vencimiento_2,
+                        'proveedor_nombre_apellido'                 => trim($rowMSSQL00['proveedor_nombre_apellido']),
+                        'proveedor_fecha_nacimiento_1'              => $proveedor_fecha_nacimiento_1,
+                        'proveedor_fecha_nacimiento_2'              => $proveedor_fecha_nacimiento_2,
+                        'proveedor_federacion'                      => trim($rowMSSQL00['proveedor_federacion']),
+                        'proveedor_pasaporte_numero'                => trim(strtoupper(strtolower($rowMSSQL00['proveedor_pasaporte_numero']))),
+                        'proveedor_pasaporte_fecha_emision_1'       => $proveedor_pasaporte_fecha_emision_1,
+                        'proveedor_pasaporte_fecha_emision_2'       => $proveedor_pasaporte_fecha_emision_2,
+                        'proveedor_pasaporte_fecha_vencimiento_1'   => $proveedor_pasaporte_fecha_vencimiento_1,
+                        'proveedor_pasaporte_fecha_vencimiento_2'   => $proveedor_pasaporte_fecha_vencimiento_2,
+                        'proveedor_observacion'                     => trim($rowMSSQL00['proveedor_observacion']),
+    
+                        'auditoria_usuario'                         => trim($rowMSSQL00['auditoria_usuario']),
+                        'auditoria_fecha_hora'                      => $rowMSSQL00['auditoria_fecha_hora'],
+                        'auditoria_ip'                              => trim($rowMSSQL00['auditoria_ip']),
+    
+                        'tipo_estado_codigo'                        => $rowMSSQL00['tipo_estado_codigo'],
+                        'tipo_estado_orden'                         => $rowMSSQL00['tipo_estado_orden'],
+                        'tipo_estado_ingles'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_ingles']))),
+                        'tipo_estado_castellano'                    => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_castellano']))),
+                        'tipo_estado_portugues'                     => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_portugues']))),
+                        'tipo_estado_parametro'                     => $rowMSSQL00['tipo_estado_parametro'],
+                        'tipo_estado_icono'                         => trim(strtolower($rowMSSQL00['tipo_estado_icono'])),
+                        'tipo_estado_path'                          => trim(strtolower($rowMSSQL00['tipo_estado_path'])),
+                        'tipo_estado_css'                           => trim(strtolower($rowMSSQL00['tipo_estado_css'])),
+                        'tipo_estado_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_dominio']))), 
+                        'tipo_estado_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_estado_observacion']))),
+    
+                        'tipo_rol_codigo'                           => $rowMSSQL00['tipo_rol_codigo'],
+                        'tipo_rol_orden'                            => $rowMSSQL00['tipo_rol_orden'],
+                        'tipo_rol_ingles'                           => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_ingles']))),
+                        'tipo_rol_castellano'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_castellano']))),
+                        'tipo_rol_portugues'                        => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_portugues']))),
+                        'tipo_rol_parametro'                        => $rowMSSQL00['tipo_rol_parametro'],
+                        'tipo_rol_icono'                            => trim(strtolower($rowMSSQL00['tipo_rol_icono'])),
+                        'tipo_rol_path'                             => trim(strtolower($rowMSSQL00['tipo_rol_path'])),
+                        'tipo_rol_css'                              => trim(strtolower($rowMSSQL00['tipo_rol_css'])),
+                        'tipo_rol_dominio'                          => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_dominio']))), 
+                        'tipo_rol_observacion'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_rol_observacion']))),
+    
+                        'localidad_nacionalidad_codigo'             => $rowMSSQL00['localidad_nacionalidad_codigo'],
+                        'localidad_nacionalidad_orden'              => $rowMSSQL00['localidad_nacionalidad_orden'],
+                        'localidad_nacionalidad_nombre'             => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_nombre']))),
+                        'localidad_nacionalidad_path'               => trim(strtolower($rowMSSQL00['localidad_nacionalidad_path'])),
+                        'localidad_nacionalidad_iso_char2'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char2']))),
+                        'localidad_nacionalidad_iso_char3'          => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_char3']))),
+                        'localidad_nacionalidad_iso_num3'           => trim(strtoupper(strtolower($rowMSSQL00['localidad_nacionalidad_iso_num3']))),
+    
+                        'localidad_ciudad_codigo'                   => $rowMSSQL00['localidad_ciudad_codigo'],
+                        'localidad_ciudad_orden'                    => $rowMSSQL00['localidad_ciudad_orden'],
+                        'localidad_ciudad_nombre'                   => trim(strtoupper(strtolower($rowMSSQL00['localidad_ciudad_nombre']))),
+                        'localidad_ciudad_observacion'              => trim(strtolower($rowMSSQL00['localidad_ciudad_observacion']))
+                        
+                    );
+
+                    $result[]   = $detalle;
+                }
+
+                if (isset($result)){
+                    header("Content-Type: application/json; charset=utf-8");
+                    $json = json_encode(array('code' => 200, 'status' => 'ok', 'message' => 'Success SELECT', 'data' => $result), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+                } else {
+                    $detalle = array(
+                        'proveedor_codigo'                          => '',
+                        'proveedor_orden'                           => '',
+                        'proveedor_documento'                       => '',
+                        'proveedor_documento_fecha_emision_1'       => '',
+                        'proveedor_documento_fecha_emision_2'       => '',
+                        'proveedor_documento_fecha_vencimiento_1'   => '',
+                        'proveedor_documento_fecha_vencimiento_2'   => '',
+                        'proveedor_nombre_apellido'                 => '',
+                        'proveedor_fecha_nacimiento_1'              => '',
+                        'proveedor_fecha_nacimiento_2'              => '',
+                        'proveedor_federacion'                      => '',
+                        'proveedor_pasaporte_numero'                => '',
+                        'proveedor_pasaporte_fecha_emision_1'       => '',
+                        'proveedor_pasaporte_fecha_emision_2'       => '',
+                        'proveedor_pasaporte_fecha_vencimiento_1'   => '',
+                        'proveedor_pasaporte_fecha_vencimiento_2'   => '',
+                        'proveedor_observacion'                     => '',
+
+                        'auditoria_usuario'                         => '',
+                        'auditoria_fecha_hora'                      => '',
+                        'auditoria_ip'                              => '',
+
+                        'tipo_estado_codigo'                        => '',
+                        'tipo_estado_orden'                         => '',
+                        'tipo_estado_ingles'                        => '',
+                        'tipo_estado_castellano'                    => '',
+                        'tipo_estado_portugues'                     => '',
+                        'tipo_estado_parametro'                     => '',
+                        'tipo_estado_icono'                         => '',
+                        'tipo_estado_path'                          => '',
+                        'tipo_estado_css'                           => '',
+                        'tipo_estado_dominio'                       => '', 
+                        'tipo_estado_observacion'                   => '',
+
+                        'tipo_rol_codigo'                           => '',
+                        'tipo_rol_orden'                            => '',
+                        'tipo_rol_ingles'                           => '',
+                        'tipo_rol_castellano'                       => '',
+                        'tipo_rol_portugues'                        => '',
+                        'tipo_rol_parametro'                        => '',
+                        'tipo_rol_icono'                            => '',
+                        'tipo_rol_path'                             => '',
+                        'tipo_rol_css'                              => '',
+                        'tipo_rol_dominio'                          => '', 
+                        'tipo_rol_observacion'                      => '',
+
+                        'localidad_nacionalidad_codigo'             => '',
+                        'localidad_nacionalidad_orden'              => '',
+                        'localidad_nacionalidad_nombre'             => '',
+                        'localidad_nacionalidad_path'               => '',
+                        'localidad_nacionalidad_iso_char2'          => '',
+                        'localidad_nacionalidad_iso_char3'          => '',
+                        'localidad_nacionalidad_iso_num3'           => '',
+
+                        'localidad_ciudad_codigo'                   => '',
+                        'localidad_ciudad_orden'                    => '',
+                        'localidad_ciudad_nombre'                   => '',
+                        'localidad_ciudad_observacion'              => ''
                     );
 
                     header("Content-Type: application/json; charset=utf-8");
