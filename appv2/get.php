@@ -7946,7 +7946,7 @@
             e.LOCCIUOBS         AS          localidad_ciudad_observacion
             FROM [hum].[PROFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
-            INNER JOIN [adm].[DOMFIC] c ON a.PROFICEST = c.DOMFICCOD
+            INNER JOIN [adm].[DOMFIC] c ON a.PROFICTRC = c.DOMFICCOD
             INNER JOIN [adm].[LOCPAI] d ON a.PROFICNAC = d.LOCPAICOD
             INNER JOIN [adm].[LOCCIU] e ON a.PROFICCIC = e.LOCCIUCOD
             
@@ -8208,7 +8208,7 @@
                 e.LOCCIUOBS         AS          localidad_ciudad_observacion
                 FROM [hum].[PROFIC] a
                 INNER JOIN [adm].[DOMFIC] b ON a.PROFICEST = b.DOMFICCOD
-                INNER JOIN [adm].[DOMFIC] c ON a.PROFICEST = c.DOMFICCOD
+                INNER JOIN [adm].[DOMFIC] c ON a.PROFICTRC = c.DOMFICCOD
                 INNER JOIN [adm].[LOCPAI] d ON a.PROFICNAC = d.LOCPAICOD
                 INNER JOIN [adm].[LOCCIU] e ON a.PROFICCIC = e.LOCCIUCOD
                 
