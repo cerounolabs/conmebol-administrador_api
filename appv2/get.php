@@ -7268,9 +7268,9 @@
             FROM [hum].[EVEFIC] a
             INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
-            INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
             LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
-            INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
             
             ORDER BY a.EVEFICCOD DESC";
 
@@ -7297,6 +7297,18 @@
                     $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
                 }
 
+                if ($rowMSSQL00['tipo_gerencia_codigo'] == 0 || $rowMSSQL00['tipo_gerencia_codigo'] == null){
+                    $tipo_gerencia_codigo   = 0;
+                    $tipo_gerencia_nombre   = 'TODOS';
+                    $tipo_gerencia_codigo_referencia = 0;
+                    $tipo_gerencia_codigo_nombre = 0;
+                }else{
+                    $tipo_gerencia_codigo               = $rowMSSQL00['tipo_gerencia_codigo'];
+                    $tipo_gerencia_nombre               = $rowMSSQL00['tipo_gerencia_nombre'];
+                    $tipo_gerencia_codigo_referencia    = $rowMSSQL00['tipo_gerencia_codigo_referencia'];
+                    $tipo_gerencia_codigo_nombre        = $rowMSSQL00['tipo_gerencia_codigo_nombre'];    
+                }
+
                 if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
                     $tipo_departamento_codigo   = 0;
                     $tipo_departamento_nombre   = 'TODOS';
@@ -7307,6 +7319,18 @@
                     $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
                     $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
                     $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
+                }
+
+                if ($rowMSSQL00['tipo_cargo_codigo'] == 0 || $rowMSSQL00['tipo_cargo_codigo'] == null){
+                    $tipo_cargo_codigo   = 0;
+                    $tipo_cargo_nombre   = 'TODOS';
+                    $tipo_cargo_codigo_referencia = 0;
+                    $tipo_cargo_codigo_nombre = 0;
+                }else{
+                    $tipo_cargo_codigo               = $rowMSSQL00['tipo_cargo_codigo'];
+                    $tipo_cargo_nombre               = $rowMSSQL00['tipo_cargo_nombre'];
+                    $tipo_cargo_codigo_referencia    = $rowMSSQL00['tipo_cargo_codigo_referencia'];
+                    $tipo_cargo_codigo_nombre        = $rowMSSQL00['tipo_cargo_codigo_nombre'];    
                 }
 
                 $detalle    = array(
@@ -7348,20 +7372,20 @@
                     'tipo_evento_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_dominio']))), 
                     'tipo_evento_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_observacion']))),
 
-                    'tipo_gerencia_codigo'                      => $rowMSSQL00['tipo_gerencia_codigo'],
-                    'tipo_gerencia_codigo_nombre'               => $rowMSSQL00['tipo_gerencia_codigo_nombre'],
-                    'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
-                    'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
+                    'tipo_gerencia_codigo'                      => $tipo_gerencia_codigo,
+                    'tipo_gerencia_codigo_nombre'               => $tipo_gerencia_codigo_nombre,
+                    'tipo_gerencia_codigo_referencia'           => $tipo_gerencia_codigo_referencia,
+                    'tipo_gerencia_nombre'                      => $tipo_gerencia_nombre,
 
                     'tipo_departamento_codigo'                  => $tipo_departamento_codigo,
                     'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
                     'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
                     'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
 
-                    'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
-                    'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
-                    'tipo_cargo_codigo_referencia'              => $rowMSSQL00['tipo_cargo_codigo_referencia'],
-                    'tipo_cargo_nombre'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre'])))
+                    'tipo_cargo_codigo'                         => $tipo_cargo_codigo,
+                    'tipo_cargo_codigo_nombre'                  => $tipo_cargo_codigo_nombre,
+                    'tipo_cargo_codigo_referencia'              => $tipo_cargo_codigo_referencia,
+                    'tipo_cargo_nombre'                         => $tipo_cargo_nombre
                      
                 );
 
@@ -7533,8 +7557,20 @@
                         $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
                     }
 
+                     if ($rowMSSQL00['tipo_gerencia_codigo'] == 0 || $rowMSSQL00['tipo_gerencia_codigo'] == null){
+                        $tipo_gerencia_codigo   = 0;
+                        $tipo_gerencia_nombre   = 'TODOS';
+                        $tipo_gerencia_codigo_referencia = 0;
+                        $tipo_gerencia_codigo_nombre = 0;
+                    }else{
+                        $tipo_gerencia_codigo               = $rowMSSQL00['tipo_gerencia_codigo'];
+                        $tipo_gerencia_nombre               = $rowMSSQL00['tipo_gerencia_nombre'];
+                        $tipo_gerencia_codigo_referencia    = $rowMSSQL00['tipo_gerencia_codigo_referencia'];
+                        $tipo_gerencia_codigo_nombre        = $rowMSSQL00['tipo_gerencia_codigo_nombre'];    
+                    }
+
                     if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
-                        $tipo_departamento_codigo   = 0;   
+                        $tipo_departamento_codigo   = 0;
                         $tipo_departamento_nombre   = 'TODOS';
                         $tipo_departamento_codigo_referencia = 0;
                         $tipo_departamento_codigo_nombre = 0;
@@ -7542,7 +7578,19 @@
                         $tipo_departamento_codigo               = $rowMSSQL00['tipo_departamento_codigo'];
                         $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
                         $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
-                        $tipo_departamento_codigo_nombre        = trim($rowMSSQL00['tipo_departamento_codigo_nombre']);    
+                        $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
+                    }
+
+                    if ($rowMSSQL00['tipo_cargo_codigo'] == 0 || $rowMSSQL00['tipo_cargo_codigo'] == null){
+                        $tipo_cargo_codigo   = 0;
+                        $tipo_cargo_nombre   = 'TODOS';
+                        $tipo_cargo_codigo_referencia = 0;
+                        $tipo_cargo_codigo_nombre = 0;
+                    }else{
+                        $tipo_cargo_codigo               = $rowMSSQL00['tipo_cargo_codigo'];
+                        $tipo_cargo_nombre               = $rowMSSQL00['tipo_cargo_nombre'];
+                        $tipo_cargo_codigo_referencia    = $rowMSSQL00['tipo_cargo_codigo_referencia'];
+                        $tipo_cargo_codigo_nombre        = $rowMSSQL00['tipo_cargo_codigo_nombre'];    
                     }
 
                     $detalle    = array(
@@ -7584,20 +7632,20 @@
                         'tipo_evento_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_dominio']))), 
                         'tipo_evento_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_observacion']))),
 
-                        'tipo_gerencia_codigo'                      => $rowMSSQL00['tipo_gerencia_codigo'],
-                        'tipo_gerencia_codigo_nombre'               => $rowMSSQL00['tipo_gerencia_codigo_nombre'],
-                        'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
-                        'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
-
+                        'tipo_gerencia_codigo'                      => $tipo_gerencia_codigo,
+                        'tipo_gerencia_codigo_nombre'               => $tipo_gerencia_codigo_nombre,
+                        'tipo_gerencia_codigo_referencia'           => $tipo_gerencia_codigo_referencia,
+                        'tipo_gerencia_nombre'                      => $tipo_gerencia_nombre,
+    
                         'tipo_departamento_codigo'                  => $tipo_departamento_codigo,
                         'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
                         'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
                         'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
-
-                        'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
-                        'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
-                        'tipo_cargo_codigo_referencia'              => $rowMSSQL00['tipo_cargo_codigo_referencia'],
-                        'tipo_cargo_nombre'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre'])))
+    
+                        'tipo_cargo_codigo'                         => $tipo_cargo_codigo,
+                        'tipo_cargo_codigo_nombre'                  => $tipo_cargo_codigo_nombre,
+                        'tipo_cargo_codigo_referencia'              => $tipo_cargo_codigo_referencia,
+                        'tipo_cargo_nombre'                         => $tipo_cargo_nombre
                         
                     );
 
@@ -7775,6 +7823,18 @@
                         $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
                     }
 
+                    if ($rowMSSQL00['tipo_gerencia_codigo'] == 0 || $rowMSSQL00['tipo_gerencia_codigo'] == null){
+                        $tipo_gerencia_codigo   = 0;
+                        $tipo_gerencia_nombre   = 'TODOS';
+                        $tipo_gerencia_codigo_referencia = 0;
+                        $tipo_gerencia_codigo_nombre = 0;
+                    }else{
+                        $tipo_gerencia_codigo               = $rowMSSQL00['tipo_gerencia_codigo'];
+                        $tipo_gerencia_nombre               = $rowMSSQL00['tipo_gerencia_nombre'];
+                        $tipo_gerencia_codigo_referencia    = $rowMSSQL00['tipo_gerencia_codigo_referencia'];
+                        $tipo_gerencia_codigo_nombre        = $rowMSSQL00['tipo_gerencia_codigo_nombre'];    
+                    }
+    
                     if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
                         $tipo_departamento_codigo   = 0;
                         $tipo_departamento_nombre   = 'TODOS';
@@ -7786,6 +7846,18 @@
                         $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
                         $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
                     }
+    
+                    if ($rowMSSQL00['tipo_cargo_codigo'] == 0 || $rowMSSQL00['tipo_cargo_codigo'] == null){
+                        $tipo_cargo_codigo   = 0;
+                        $tipo_cargo_nombre   = 'TODOS';
+                        $tipo_cargo_codigo_referencia = 0;
+                        $tipo_cargo_codigo_nombre = 0;
+                    }else{
+                        $tipo_cargo_codigo               = $rowMSSQL00['tipo_cargo_codigo'];
+                        $tipo_cargo_nombre               = $rowMSSQL00['tipo_cargo_nombre'];
+                        $tipo_cargo_codigo_referencia    = $rowMSSQL00['tipo_cargo_codigo_referencia'];
+                        $tipo_cargo_codigo_nombre        = $rowMSSQL00['tipo_cargo_codigo_nombre'];    
+                    }    
 
                     $detalle    = array(
 
@@ -7826,20 +7898,20 @@
                         'tipo_evento_dominio'                       => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_dominio']))), 
                         'tipo_evento_observacion'                   => trim(strtoupper(strtolower($rowMSSQL00['tipo_evento_observacion']))),
 
-                        'tipo_gerencia_codigo'                      => $rowMSSQL00['tipo_gerencia_codigo'],
-                        'tipo_gerencia_codigo_nombre'               => $rowMSSQL00['tipo_gerencia_codigo_nombre'],
-                        'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
-                        'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
-
+                        'tipo_gerencia_codigo'                      => $tipo_gerencia_codigo,
+                        'tipo_gerencia_codigo_nombre'               => $tipo_gerencia_codigo_nombre,
+                        'tipo_gerencia_codigo_referencia'           => $tipo_gerencia_codigo_referencia,
+                        'tipo_gerencia_nombre'                      => $tipo_gerencia_nombre,
+    
                         'tipo_departamento_codigo'                  => $tipo_departamento_codigo,
                         'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
                         'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
                         'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
-
-                        'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
-                        'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
-                        'tipo_cargo_codigo_referencia'              => $rowMSSQL00['tipo_cargo_codigo_referencia'],
-                        'tipo_cargo_nombre'                         => trim(strtoupper(strtolower($rowMSSQL00['tipo_cargo_nombre'])))
+    
+                        'tipo_cargo_codigo'                         => $tipo_cargo_codigo,
+                        'tipo_cargo_codigo_nombre'                  => $tipo_cargo_codigo_nombre,
+                        'tipo_cargo_codigo_referencia'              => $tipo_cargo_codigo_referencia,
+                        'tipo_cargo_nombre'                         => $tipo_cargo_nombre
                         
                     );
 
