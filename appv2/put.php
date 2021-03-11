@@ -716,7 +716,7 @@
                 break;
 
                 case 3:
-                    $sql00  =   "UPDATE [hum].[EVEFIC] SET EVEFICGEC = ?, EVEFICDEC = ?, EVEFICCAC = ?, EVEFICDES = ?, EVEFICFED = ?, EVEFICFEH = ?, EVEFICOBS = ?, EVEFICAUS = ?, EVEFICAFH = GETDATE(), EVEFICAIP = ? WHERE EVEFICCOD = ?";
+                    $sql00  =   "UPDATE [hum].[EVEFIC] SET EVEFICTEC = (SELECT DOMFICCOD FROM adm.DOMFIC WHERE DOMFICVAL = 'PERMISOEVENTOTIPO' AND DOMFICPAR = ?), EVEFICGEC = ?, EVEFICDEC = ?, EVEFICCAC = ?, EVEFICDES = ?, EVEFICFED = ?, EVEFICFEH = ?, EVEFICOBS = ?, EVEFICAUS = ?, EVEFICAFH = GETDATE(), EVEFICAIP = ? WHERE EVEFICCOD = ?";
                 break;
             }
 
@@ -734,7 +734,7 @@
                     break;
 
                     case 3:
-                        $stmtMSSQL00->execute([$val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
+                        $stmtMSSQL00->execute([$val02, $val04, $val05, $val06, $val07, $val08, $val09, $val10, $aud01, $aud03, $val00]);
                     break;
                 }
 
