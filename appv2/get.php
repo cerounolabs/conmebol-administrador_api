@@ -7298,10 +7298,12 @@
                 }
 
                 if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
-                    $tipo_departamento_nombre = 'TODOS';
+                    $tipo_departamento_codigo   = 0;
+                    $tipo_departamento_nombre   = 'TODOS';
                     $tipo_departamento_codigo_referencia = 0;
                     $tipo_departamento_codigo_nombre = 0;
                 }else{
+                    $tipo_departamento_codigo               = $rowMSSQL00['tipo_departamento_codigo'];
                     $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
                     $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
                     $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
@@ -7351,7 +7353,7 @@
                     'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
                     'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
 
-                    'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
+                    'tipo_departamento_codigo'                  => $tipo_departamento_codigo,
                     'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
                     'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
                     'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
@@ -7532,13 +7534,15 @@
                     }
 
                     if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
-                        $tipo_departamento_nombre = 'TODOS';
+                        $tipo_departamento_codigo   = 0;   
+                        $tipo_departamento_nombre   = 'TODOS';
                         $tipo_departamento_codigo_referencia = 0;
                         $tipo_departamento_codigo_nombre = 0;
                     }else{
+                        $tipo_departamento_codigo               = $rowMSSQL00['tipo_departamento_codigo'];
                         $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
                         $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
-                        $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
+                        $tipo_departamento_codigo_nombre        = trim($rowMSSQL00['tipo_departamento_codigo_nombre']);    
                     }
 
                     $detalle    = array(
@@ -7585,7 +7589,7 @@
                         'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
                         'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
 
-                        'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
+                        'tipo_departamento_codigo'                  => $tipo_departamento_codigo,
                         'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
                         'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
                         'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
@@ -7772,10 +7776,12 @@
                     }
 
                     if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
-                        $tipo_departamento_nombre = 'TODOS';
+                        $tipo_departamento_codigo   = 0;
+                        $tipo_departamento_nombre   = 'TODOS';
                         $tipo_departamento_codigo_referencia = 0;
                         $tipo_departamento_codigo_nombre = 0;
                     }else{
+                        $tipo_departamento_codigo               = $rowMSSQL00['tipo_departamento_codigo'];
                         $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
                         $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
                         $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
@@ -7825,7 +7831,7 @@
                         'tipo_gerencia_codigo_referencia'           => $rowMSSQL00['tipo_gerencia_codigo_referencia'],
                         'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
 
-                        'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
+                        'tipo_departamento_codigo'                  => $tipo_departamento_codigo,
                         'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
                         'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
                         'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
