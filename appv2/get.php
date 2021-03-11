@@ -7269,7 +7269,7 @@
             INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
             INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
             INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
-            INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
+            LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
             INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
             
             ORDER BY a.EVEFICCOD DESC";
@@ -7295,6 +7295,16 @@
                 } else {
                     $evento_fecha_hasta_1 = $rowMSSQL00['evento_fecha_hasta'];
                     $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
+                }
+
+                if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
+                    $tipo_departamento_nombre = 'TODOS';
+                    $tipo_departamento_codigo_referencia = 0;
+                    $tipo_departamento_codigo_nombre = 0;
+                }else{
+                    $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
+                    $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
+                    $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
                 }
 
                 $detalle    = array(
@@ -7342,9 +7352,9 @@
                     'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
 
                     'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
-                    'tipo_departamento_codigo_nombre'           => $rowMSSQL00['tipo_departamento_codigo_nombre'],
-                    'tipo_departamento_codigo_referencia'       => $rowMSSQL00['tipo_departamento_codigo_referencia'],
-                    'tipo_departamento_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_departamento_nombre']))),
+                    'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
+                    'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
+                    'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
 
                     'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
                     'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
@@ -7491,7 +7501,7 @@
                 INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
 
                 WHERE a.EVEFICCOD = ?
@@ -7519,6 +7529,16 @@
                     } else {
                         $evento_fecha_hasta_1 = $rowMSSQL00['evento_fecha_hasta'];
                         $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
+                    }
+
+                    if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
+                        $tipo_departamento_nombre = 'TODOS';
+                        $tipo_departamento_codigo_referencia = 0;
+                        $tipo_departamento_codigo_nombre = 0;
+                    }else{
+                        $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
+                        $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
+                        $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
                     }
 
                     $detalle    = array(
@@ -7566,9 +7586,9 @@
                         'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
 
                         'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
-                        'tipo_departamento_codigo_nombre'           => $rowMSSQL00['tipo_departamento_codigo_nombre'],
-                        'tipo_departamento_codigo_referencia'       => $rowMSSQL00['tipo_departamento_codigo_referencia'],
-                        'tipo_departamento_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_departamento_nombre']))),
+                        'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
+                        'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
+                        'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
 
                         'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
                         'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
@@ -7721,7 +7741,7 @@
                 INNER JOIN [adm].[DOMFIC] b ON a.EVEFICEST = b.DOMFICCOD
                 INNER JOIN [adm].[DOMFIC] c ON a.EVEFICTEC = c.DOMFICCOD
                 INNER JOIN [CSF].[dbo].[@A1A_TIGE] d ON a.EVEFICGEC = d.U_CODIGO
-                INNER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
+                LEFT OUTER JOIN [CSF].[dbo].[@A1A_TIDE] e ON a.EVEFICDEC = e.U_CODIGO
                 INNER JOIN [CSF].[dbo].[@A1A_TICA] f ON a.EVEFICCAC = f.U_CODIGO
 
                 WHERE a.EVEFICGEC = ? AND a.EVEFICDEC = ? AND a.EVEFICCAC = ?
@@ -7749,6 +7769,16 @@
                     } else {
                         $evento_fecha_hasta_1 = $rowMSSQL00['evento_fecha_hasta'];
                         $evento_fecha_hasta_2 = date('d/m/Y', strtotime($rowMSSQL00['evento_fecha_hasta']));
+                    }
+
+                    if ($rowMSSQL00['tipo_departamento_codigo'] == 0 || $rowMSSQL00['tipo_departamento_codigo'] == null){
+                        $tipo_departamento_nombre = 'TODOS';
+                        $tipo_departamento_codigo_referencia = 0;
+                        $tipo_departamento_codigo_nombre = 0;
+                    }else{
+                        $tipo_departamento_nombre               = $rowMSSQL00['tipo_departamento_nombre'];
+                        $tipo_departamento_codigo_referencia    = $rowMSSQL00['tipo_departamento_codigo_referencia'];
+                        $tipo_departamento_codigo_nombre        = $rowMSSQL00['tipo_departamento_codigo_nombre'];    
                     }
 
                     $detalle    = array(
@@ -7796,9 +7826,9 @@
                         'tipo_gerencia_nombre'                      => trim(strtoupper(strtolower($rowMSSQL00['tipo_gerencia_nombre']))),
 
                         'tipo_departamento_codigo'                  => $rowMSSQL00['tipo_departamento_codigo'],
-                        'tipo_departamento_codigo_nombre'           => $rowMSSQL00['tipo_departamento_codigo_nombre'],
-                        'tipo_departamento_codigo_referencia'       => $rowMSSQL00['tipo_departamento_codigo_referencia'],
-                        'tipo_departamento_nombre'                  => trim(strtoupper(strtolower($rowMSSQL00['tipo_departamento_nombre']))),
+                        'tipo_departamento_codigo_nombre'           => $tipo_departamento_codigo_nombre,
+                        'tipo_departamento_codigo_referencia'       => $tipo_departamento_codigo_referencia,
+                        'tipo_departamento_nombre'                  => $tipo_departamento_nombre,
 
                         'tipo_cargo_codigo'                         => $rowMSSQL00['tipo_cargo_codigo'],
                         'tipo_cargo_codigo_nombre'                  => $rowMSSQL00['tipo_cargo_codigo_nombre'],
